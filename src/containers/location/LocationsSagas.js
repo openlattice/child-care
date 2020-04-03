@@ -23,12 +23,12 @@ import {
   GET_GEO_OPTIONS,
   GET_LB_LOCATIONS_NEIGHBORS,
   GET_LB_STAY_AWAY_PEOPLE,
-  SEARCH_LB_LOCATIONS,
+  SEARCH_LOCATIONS,
   getGeoOptions,
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
-  searchLBLocations,
-} from './stayaway/LocationsSagas';
+  searchLocations,
+} from './providers/LocationsActions';
 
 import Logger from '../../utils/Logger';
 import * as FQN from '../../edm/DataModelFqns';
@@ -166,7 +166,7 @@ function* getLBLocationsNeighborsWatcher() :Generator<any, any, any> {
   yield takeEvery(GET_LB_LOCATIONS_NEIGHBORS, getLBLocationsNeighborsWorker);
 }
 
-function* searchLBLocationsWorker(action :SequenceAction) :Generator<any, any, any> {
+function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any> {
   const response = {
     data: {}
   };
@@ -178,9 +178,10 @@ function* searchLBLocationsWorker(action :SequenceAction) :Generator<any, any, a
     const latitude :string = searchInputs.getIn(['selectedOption', 'lat']);
     const longitude :string = searchInputs.getIn(['selectedOption', 'lon']);
 
-    yield put(searchLBLocations.request(action.id, searchInputs));
+    yield put(searchLocations.request(action.id, searchInputs));
 
     const app = yield select((state) => state.get('app', Map()));
+
     const entitySetId = getProvidersESID(app);
     const locationCoordinatesPTID = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
 
@@ -212,33 +213,20 @@ function* searchLBLocationsWorker(action :SequenceAction) :Generator<any, any, a
     const locationsByEKID = Map(hits.map((entity) => [getIn(entity, [FQN.OPENLATTICE_ID_FQN, 0]), fromJS(entity)]));
     response.data.hits = fromJS(locationsEKIDs);
     response.data.totalHits = numHits;
-    response.data.stayAwayLocations = locationsByEKID;
+    response.data.providerLocations = locationsByEKID;
 
-    if (locationsEKIDs.length) {
-      const neighborsResponse = yield call(
-        getLBLocationsNeighborsWorker,
-        getLBLocationsNeighbors(locationsEKIDs)
-      );
-
-      if (neighborsResponse.error) throw neighborsResponse.error;
-      response.data = {
-        ...response.data,
-        ...neighborsResponse.data
-      };
-    }
-
-    yield put(searchLBLocations.success(action.id, response.data));
+    yield put(searchLocations.success(action.id, response.data));
   }
   catch (error) {
     LOG.error(action.type, error);
-    yield put(searchLBLocations.failure(action.id));
+    yield put(searchLocations.failure(action.id));
   }
 
   return response;
 }
 
-function* searchLBLocationsWatcher() :Generator<any, any, any> {
-  yield takeEvery(SEARCH_LB_LOCATIONS, searchLBLocationsWorker);
+function* searchLocationsWatcher() :Generator<any, any, any> {
+  yield takeEvery(SEARCH_LOCATIONS, searchLocationsWorker);
 }
 
 export {
@@ -248,6 +236,6 @@ export {
   getLBLocationsNeighborsWorker,
   getLBStayAwayPeopleWatcher,
   getLBStayAwayPeopleWorker,
-  searchLBLocationsWatcher,
-  searchLBLocationsWorker,
+  searchLocationsWatcher,
+  searchLocationsWorker,
 };
