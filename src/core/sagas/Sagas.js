@@ -13,28 +13,12 @@ import {
 
 import * as AuthorizeSagas from './authorize/AuthorizeSagas';
 
-import * as AboutSagas from '../../containers/profile/edit/about/AboutSagas';
-import * as AddressSagas from '../../containers/profile/edit/basicinformation/sagas/AddressSagas';
 import * as AppSagas from '../../containers/app/AppSagas';
-import * as AppearanceSagas from '../../containers/profile/edit/basicinformation/sagas/AppearanceSagas';
-import * as BasicInformationSagas from '../../containers/profile/edit/basicinformation/sagas/BasicInformationSagas';
-import * as ContactsSagas from '../../containers/profile/edit/contacts/ContactsSagas';
-import * as DownloadsSagas from '../../containers/downloads/DownloadsSagas';
-import * as EncampmentSagas from '../../longbeach/location/encampment/EncampmentsSagas';
-import * as IssueSagas from '../../containers/issues/issue/IssueSagas';
-import * as IssuesSagas from '../../containers/issues/IssuesSagas';
-import * as LongBeachLocationsSagas from '../../longbeach/location/stayaway/LongBeachLocationsSagas';
-import * as LongBeachPeopleSagas from '../../longbeach/people/LongBeachPeopleSagas';
-import * as LongBeachProfileSagas from '../../longbeach/profile/LongBeachProfileSagas';
+import * as EncampmentSagas from '../../containers/location/encampment/EncampmentsSagas';
+import * as LocationsSagas from '../../containers/location/providers/LocationsSagas';
 import * as LongBeachProviderSagas from '../../longbeach/provider/LongBeachProviderSagas';
 // eslint-disable-next-line max-len
-import * as OfficerSafetyConcernsSagas from '../../containers/profile/edit/officersafety/sagas/OfficerSafetyConcernsSagas';
-import * as PeopleSagas from '../../containers/people/PeopleSagas';
-import * as PhotosSagas from '../../containers/profile/edit/basicinformation/sagas/PhotosSagas';
-import * as ProfileSagas from '../../containers/profile/ProfileSagas';
-import * as ResponsePlanSagas from '../../containers/profile/edit/responseplan/ResponsePlanSagas';
 import * as RoutingSagas from '../router/RoutingSagas';
-import * as ScarsMarksTattoosSagas from '../../containers/profile/edit/basicinformation/sagas/ScarsMarksTattoosSagas';
 import * as SearchSagas from '../../containers/search/SearchSagas';
 
 export default function* sagas() :Generator<*, *, *> {
@@ -61,10 +45,13 @@ export default function* sagas() :Generator<*, *, *> {
     // AppSagas
     fork(AppSagas.initializeApplicationWatcher),
     fork(AppSagas.loadAppWatcher),
-    fork(AppSagas.switchOrganizationWatcher),
 
     // AuthorizeSagas
     fork(AuthorizeSagas.getAuthorizationWatcher),
+
+    // LocationsSagas
+    fork(LocationsSagas.getGeoOptionsWatcher),
+    fork(LocationsSagas.searchLBLocationsWatcher),
 
     // RoutingSagas
     fork(RoutingSagas.goToRootWatcher),
@@ -74,16 +61,6 @@ export default function* sagas() :Generator<*, *, *> {
     fork(SearchSagas.searchConsumersWatcher),
 
     /* <===== BEGIN LONG BEACH HACK =====> */
-    fork(LongBeachPeopleSagas.searchLBPeopleWatcher),
-    fork(LongBeachPeopleSagas.getLBPeopleStayAwayWatcher),
-    fork(LongBeachPeopleSagas.getLBStayAwayLocationsWatcher),
-    fork(LongBeachPeopleSagas.getLBPeoplePhotosWatcher),
-
-    fork(LongBeachLocationsSagas.getGeoOptionsWatcher),
-    fork(LongBeachLocationsSagas.searchLBLocationsWatcher),
-
-    fork(LongBeachProfileSagas.getLBProfileWatcher),
-    fork(LongBeachProfileSagas.getLBProfileNeighborsWatcher),
 
     fork(LongBeachProviderSagas.getLBProvidersWatcher),
     /* <===== END LONG BEACH HACK =====> */

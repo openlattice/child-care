@@ -22,9 +22,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import LongBeachLocationResult from './LongBeachLocationResult';
+import LocationResult from './LocationResult';
 import StayAwayMap from './StayAwayMap';
-import { getGeoOptions, searchLBLocations } from './LongBeachLocationsActions';
+import { getGeoOptions, searchLBLocations } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -77,7 +77,7 @@ const reducer = (state, action) => {
   }
 };
 
-const LongBeachLocationContainer = () => {
+const LocationContainer = () => {
 
   const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
@@ -215,7 +215,7 @@ const LongBeachLocationContainer = () => {
           <StyledSearchResults
               hasSearched={hasSearched}
               isLoading={isLoading}
-              resultComponent={LongBeachLocationResult}
+              resultComponent={LocationResult}
               results={searchResults} />
           {
             hasSearched && (
@@ -232,4 +232,4 @@ const LongBeachLocationContainer = () => {
   );
 };
 
-export default LongBeachLocationContainer;
+export default LocationContainer;

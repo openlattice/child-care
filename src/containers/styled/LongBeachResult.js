@@ -28,7 +28,6 @@ import {
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
-import { clearLBProfile, selectLBProfile } from '../profile/LongBeachProfileActions';
 import {
   FlexRow,
   ResultDetails,
@@ -53,12 +52,6 @@ const LongBeachResult = ({
   const imageUrl = useMemo(() => getImageDataFromEntity(profilePicture), [profilePicture]);
 
   const handleViewProfile = () => {
-    dispatch(clearLBProfile());
-    dispatch(selectLBProfile({
-      person,
-      stayAwayLocation,
-      profilePicture
-    }));
     goToProfile();
   };
 

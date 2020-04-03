@@ -87,6 +87,7 @@ const StayAwayMap = (props :Props) => {
     searchResults,
     selectedOption
   } = props;
+
   const stayAwayLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'stayAwayLocations']));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);

@@ -47,7 +47,6 @@ import {
 } from '../../../core/router/Routes';
 import { goToPath } from '../../../core/router/RoutingActions';
 import { getAuthorization } from '../../../core/sagas/authorize/AuthorizeActions';
-import { getLBProfile } from '../../../longbeach/profile/LongBeachProfileActions';
 import { getImageDataFromEntity } from '../../../utils/BinaryUtils';
 import { getEntityKeyId } from '../../../utils/DataUtils';
 import { reduceRequestStates } from '../../../utils/StateUtils';
@@ -105,7 +104,6 @@ type Props = {
     getBasicInformation :RequestSequence;
     getIncidentReportsSummary :RequestSequence;
     getContacts :RequestSequence;
-    getLBProfile :RequestSequence;
     getOfficerSafety :RequestSequence;
     getProfileReports :RequestSequence;
     getResponsePlan :RequestSequence;
@@ -185,7 +183,6 @@ const PremiumProfileContainer = (props :Props) => {
   usePeopleRoute(actions.getResponsePlan);
   usePeopleRoute(actions.getProfileReports);
   // usePeopleRoute(actions.getIncidentReportsSummary);
-  usePeopleRoute(actions.getLBProfile);
 
   const settings = useAppSettings();
 
@@ -347,7 +344,6 @@ const mapDispatchToProps = (dispatch :Dispatch<any>) => ({
     getBasicInformation,
     getIncidentReportsSummary,
     getContacts,
-    getLBProfile,
     getOfficerSafety,
     getProfileReports,
     getResponsePlan,

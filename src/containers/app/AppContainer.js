@@ -24,14 +24,7 @@ import {
   initializeApplication,
 } from './AppActions';
 
-import EncampmentsContainer from '../../longbeach/location/encampment/EncampmentsContainer';
-import LongBeachLocationsContainer from '../../longbeach/location/stayaway/LongBeachLocationsContainer';
-import LongBeachProviderContainer from '../../longbeach/provider/LongBeachProviderContainer';
-
-
-import LongBeachHome from '../../longbeach/LongBeachHome';
-import LongBeachPeopleContainer from '../../longbeach/people/LongBeachPeopleContainer';
-import LongBeachProfileContainer from '../../longbeach/profile/LongBeachProfileContainer';
+import LocationsContainer from '../location/providers/LocationsContainer';
 
 import {
   ENCAMPMENTS_PATH,
@@ -120,7 +113,7 @@ class AppContainer extends Component<Props> {
 
     return (
       <Switch>
-        <Route exact strict path={HOME_PATH} component={LongBeachLocationsContainer} />
+        <Route exact strict path={HOME_PATH} component={LocationsContainer} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );

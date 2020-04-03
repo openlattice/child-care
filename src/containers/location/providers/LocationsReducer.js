@@ -7,36 +7,40 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
-  CLEAR_LB_PEOPLE,
-  searchLBPeople,
-} from './LongBeachPeopleActions';
+  CLEAR_LB_LOCATIONS,
+  getGeoOptions,
+  searchLBLocations
+} from './LocationsActions';
 
-import { HOME_PATH } from '../../core/router/Routes';
+import { HOME_PATH } from '../../../core/router/Routes';
 
 const INITIAL_STATE :Map = fromJS({
   fetchState: RequestStates.STANDBY,
   hits: List(),
   totalHits: 0,
+  options: Map({
+    fetchState: RequestStates.STANDBY,
+    data: List()
+  }),
   people: Map(),
   profilePictures: Map(),
   searchInputs: Map({
-    dob: undefined,
-    firstName: '',
-    lastName: '',
+    address: '',
+    currentLocation: false,
   }),
   stayAway: Map(),
   stayAwayLocations: Map(),
 });
 
-const longBeachPeopleReducer = (state :Map = INITIAL_STATE, action :Object) => {
+const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
   switch (action.type) {
 
-    case searchLBPeople.case(action.type): {
-      return searchLBPeople.reducer(state, action, {
+    case searchLBLocations.case(action.type): {
+      return searchLBLocations.reducer(state, action, {
         REQUEST: () => state
           .set('fetchState', RequestStates.PENDING)
-          .merge(action.value),
+          .set('searchInputs', action.value),
         SUCCESS: () => state
           .set('fetchState', RequestStates.SUCCESS)
           .merge(action.value),
@@ -44,7 +48,17 @@ const longBeachPeopleReducer = (state :Map = INITIAL_STATE, action :Object) => {
       });
     }
 
-    case CLEAR_LB_PEOPLE: {
+    case getGeoOptions.case(action.type): {
+      return getGeoOptions.reducer(state, action, {
+        REQUEST: () => state.setIn(['options', 'fetchState'], RequestStates.PENDING),
+        SUCCESS: () => state
+          .setIn(['options', 'fetchState'], RequestStates.SUCCESS)
+          .setIn(['options', 'data'], action.value),
+        FAILURE: () => state.setIn(['options', 'fetchState'], RequestStates.FAILURE),
+      });
+    }
+
+    case CLEAR_LB_LOCATIONS: {
       return INITIAL_STATE;
     }
 
@@ -71,4 +85,4 @@ const longBeachPeopleReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
 };
 
-export default longBeachPeopleReducer;
+export default locationsReducer;

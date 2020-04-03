@@ -28,16 +28,15 @@ import {
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
   searchLBLocations,
-} from './stayaway/LongBeachLocationsActions';
+} from './stayaway/LocationsSagas';
 
 import Logger from '../../utils/Logger';
 import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
-import { getESIDFromApp, getESIDsFromApp } from '../../utils/AppUtils';
+import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors } from '../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
-import { getLBPeoplePhotos } from '../people/LongBeachPeopleActions';
-import { getLBPeoplePhotosWorker } from '../people/LongBeachPeopleSagas';
 
 const { executeSearch, searchEntityNeighborsWithFilter } = SearchApiActions;
 const { executeSearchWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
@@ -50,7 +49,7 @@ const {
   SERVICES_OF_PROCESS_FQN,
 } = APP_TYPES_FQNS;
 
-const LOG = new Logger('LongBeachLocationsSagas');
+const LOG = new Logger('LocationsSagas');
 
 const GEOCODER_URL_PREFIX = 'https://osm.openlattice.com/nominatim/search/';
 const GEOCODER_URL_SUFFIX = '?format=json';
@@ -89,69 +88,6 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
 }
 
 function* getLBStayAwayPeopleWorker(action :SequenceAction) :Generator<any, any, any> {
-  const response :Object = {
-    data: {}
-  };
-  try {
-    const { value: entityKeyIds } = action;
-    if (!isArray(entityKeyIds)) throw ERR_ACTION_VALUE_TYPE;
-    yield put(getLBStayAwayPeople.request(action.id));
-
-    const app :Map = yield select((state) => state.get('app', Map()));
-    const [
-      peopleESID,
-      servedWithESID,
-      serviceOfProcessESID
-    ] = getESIDsFromApp(app, [
-      PEOPLE_FQN,
-      SERVED_WITH_FQN,
-      SERVICES_OF_PROCESS_FQN
-    ]);
-
-    const peopleSearchParams = {
-      entitySetId: serviceOfProcessESID,
-      filter: {
-        entityKeyIds,
-        edgeEntitySetIds: [servedWithESID],
-        destinationEntitySetIds: [],
-        sourceEntitySetIds: [peopleESID],
-      }
-    };
-
-    const peopleResponse = yield call(
-      searchEntityNeighborsWithFilterWorker,
-      searchEntityNeighborsWithFilter(peopleSearchParams)
-    );
-
-    if (peopleResponse.error) throw peopleResponse.error;
-
-    const people = mapFirstEntityDataFromNeighbors(fromJS(peopleResponse.data));
-    const peopleEKIDs = getEKIDsFromEntryValues(people).toJS();
-
-    response.data = {
-      people
-    };
-
-    if (peopleEKIDs.length) {
-      const profilePicturesResponse = yield call(
-        getLBPeoplePhotosWorker,
-        getLBPeoplePhotos(peopleEKIDs)
-      );
-
-      if (profilePicturesResponse.error) throw profilePicturesResponse.error;
-      const { profilePictures } = profilePicturesResponse.data;
-
-      response.data.profilePictures = profilePictures;
-    }
-
-    yield put(getLBStayAwayPeople.success(action.id, response));
-  }
-  catch (error) {
-    LOG.error(action.type, error);
-    yield put(getLBStayAwayPeople.request(action.id));
-  }
-
-  return response;
 }
 
 function* getLBStayAwayPeopleWatcher() :Generator<any, any, any> {
@@ -245,13 +181,12 @@ function* searchLBLocationsWorker(action :SequenceAction) :Generator<any, any, a
     yield put(searchLBLocations.request(action.id, searchInputs));
 
     const app = yield select((state) => state.get('app', Map()));
-    const locationESID = getESIDFromApp(app, STAY_AWAY_LOCATION_FQN);
-    const locationCoordinatesPTID :UUID = yield select((state) => state
-      .getIn(['edm', 'fqnToIdMap', FQN.LOCATION_COORDINATES_FQN]));
+    const entitySetId = getProvidersESID(app);
+    const locationCoordinatesPTID = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
 
     const searchOptions = {
       start,
-      entitySetIds: [locationESID],
+      entitySetIds: [entitySetId],
       maxHits,
       constraints: [{
         constraints: [{

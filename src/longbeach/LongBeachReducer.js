@@ -1,16 +1,11 @@
 // @flow
 import { combineReducers } from 'redux-immutable';
 
-import locations from './location/LocationsReducer';
-// import locations from './location/stayaway/LongBeachLocationsReducer';
-import people from './people/LongBeachPeopleReducer';
-import profile from './profile/LongBeachProfileReducer';
+import locations from '../containers/location/LocationsReducer';
 import providers from './provider/LongBeachProviderReducer';
 
 const subReducers = combineReducers({
   locations,
-  people,
-  profile,
   providers
 });
 

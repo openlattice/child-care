@@ -16,7 +16,7 @@ type Props = {
   result :Map;
 }
 
-const LongBeachLocationResult = (props :Props) => {
+const LocationResult = (props :Props) => {
 
   const { result: locationEKID } = props;
 
@@ -38,4 +38,4 @@ const LongBeachLocationResult = (props :Props) => {
   );
 };
 
-export default React.memo<Props>(LongBeachLocationResult);
+export default React.memo<Props>(LocationResult);
