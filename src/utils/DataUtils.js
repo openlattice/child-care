@@ -292,6 +292,9 @@ const getEKIDsFromEntryValues = (neighborMap :Map) => neighborMap
   .valueSeq()
   .map((neighbor) => neighbor.getIn([OPENLATTICE_ID_FQN, 0]));
 
+export const getValue = (entity, fqn) => entity.getIn([fqn, 0], '');
+export const getValues = (entity, fqn) => entity.get(fqn, List()).join(', ');
+
 export {
   SEARCH_PREFIX,
   formatDataGraphResponse,

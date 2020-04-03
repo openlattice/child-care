@@ -27,6 +27,8 @@ import {
 } from '../../edm/DataModelFqns';
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
+import { getValue, getValues } from '../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import {
   FlexRow,
@@ -42,43 +44,37 @@ type Props = {
 }
 
 const LongBeachResult = ({
-  person,
-  stayAwayLocation,
-  profilePicture,
+  provider,
 } :Props) => {
-  const personEKID = person.getIn([OPENLATTICE_ID_FQN, 0]);
-  const goToProfile = useGoToPath(PROFILE_VIEW_PATH.replace(PROFILE_ID_PATH, personEKID));
+  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
+  const goToProfile = useGoToPath(PROFILE_VIEW_PATH.replace(PROFILE_ID_PATH, providerEKID));
   const dispatch = useDispatch();
-  const imageUrl = useMemo(() => getImageDataFromEntity(profilePicture), [profilePicture]);
 
   const handleViewProfile = () => {
     goToProfile();
   };
 
-  const fullName = getLastFirstMiFromPerson(person, true);
-  const dob :string = getDobFromPerson(person, '---');
-  const sex = person.getIn([PERSON_SEX_FQN, 0]);
-  const race = person.getIn([PERSON_RACE_FQN, 0]);
-  const { name, address } = getAddressFromLocation(stayAwayLocation);
-  let nameAndAddress = address;
-  if (name && address) {
-    nameAndAddress = `${name}\n${address}`;
-  }
-  // TODO: Replace with true radius
-  const radius = '100 yd';
+  const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
+  const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
+  const status = getValues(provider, PROPERTY_TYPES.STATUS);
+  const url = getValue(provider, PROPERTY_TYPES.URL);
+
+  const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
+  const city = getValue(provider, PROPERTY_TYPES.CITY);
+  const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+
+  const address = [street, city, zip].filter(v => v).join(', ');
 
   return (
     <Card onClick={handleViewProfile}>
       <ResultSegment padding="sm" vertical>
-        <ResultName bold uppercase>{fullName}</ResultName>
+        <ResultName bold uppercase>{name}</ResultName>
         <FlexRow>
-          <Portrait imageUrl={imageUrl} height="90" width="72" />
           <ResultDetails>
-            <IconDetail content={dob} icon={faBirthdayCake} />
-            <IconDetail content={race} icon={faUser} />
-            <IconDetail content={sex} icon={faVenusMars} />
-            <IconDetail content={nameAndAddress} icon={faMapMarkerAltSlash} />
-            <IconDetail content={radius} icon={faDraftingCompass} />
+            <IconDetail content={type} icon={faBirthdayCake} />
+            <IconDetail content={status} icon={faUser} />
+            <IconDetail content={url} icon={faVenusMars} />
+            <IconDetail content={address} icon={faMapMarkerAltSlash} />
           </ResultDetails>
         </FlexRow>
       </ResultSegment>
