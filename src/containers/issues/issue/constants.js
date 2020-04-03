@@ -1,0 +1,54 @@
+import {
+  PROFILE_EDIT_PATH,
+  ABOUT_PATH,
+  BASIC_PATH,
+  CONTACTS_PATH,
+  OFFICER_SAFETY_PATH,
+  RESPONSE_PLAN_PATH,
+} from '../../../core/router/Routes';
+
+const PRIORITIES = {
+  HIGHEST: 'Highest',
+  HIGH: 'High',
+  MEDIUM: 'Medium',
+  LOW: 'Low',
+  LOWEST: 'Lowest'
+};
+
+const PRIORITY_VALUES = Object.values(PRIORITIES);
+
+const CATEGORIES = {
+  BASIC_INFORMATION: 'Basic Information',
+  OFFICER_SAFETY: 'Officer Safety',
+  RESPONSE_PLAN: 'Response Plan',
+  CONTACTS: 'Contacts',
+  ABOUT: 'About'
+};
+
+const CATEGORY_VALUES = Object.values(CATEGORIES);
+
+const CATEGORY_PATHS = {
+  [CATEGORIES.ABOUT]: `${PROFILE_EDIT_PATH}${ABOUT_PATH}`,
+  [CATEGORIES.BASIC_INFORMATION]: `${PROFILE_EDIT_PATH}${BASIC_PATH}`,
+  [CATEGORIES.CONTACTS]: `${PROFILE_EDIT_PATH}${CONTACTS_PATH}`,
+  [CATEGORIES.OFFICER_SAFETY]: `${PROFILE_EDIT_PATH}${OFFICER_SAFETY_PATH}`,
+  [CATEGORIES.RESPONSE_PLAN]: `${PROFILE_EDIT_PATH}${RESPONSE_PLAN_PATH}`,
+};
+
+const STATUS = {
+  DECLINED: 'Declined',
+  RESOLVED: 'Resolved',
+  OPEN: 'Open',
+};
+
+const STATUS_VALUES = Object.values(STATUS);
+
+export {
+  CATEGORIES,
+  CATEGORY_PATHS,
+  CATEGORY_VALUES,
+  PRIORITIES,
+  PRIORITY_VALUES,
+  STATUS,
+  STATUS_VALUES,
+};

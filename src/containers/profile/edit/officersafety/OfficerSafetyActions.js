@@ -1,0 +1,30 @@
+// @flow
+import { newRequestSequence } from 'redux-reqseq';
+
+const GET_OFFICER_SAFETY :'GET_OFFICER_SAFETY' = 'GET_OFFICER_SAFETY';
+const getOfficerSafety = newRequestSequence(GET_OFFICER_SAFETY);
+
+const GET_OFFICER_SAFETY_CONCERNS :'GET_OFFICER_SAFETY_CONCERNS' = 'GET_OFFICER_SAFETY_CONCERNS';
+const getOfficerSafetyConcerns = newRequestSequence(GET_OFFICER_SAFETY_CONCERNS);
+
+const SUBMIT_OFFICER_SAFETY_CONCERNS :'SUBMIT_OFFICER_SAFETY_CONCERNS' = 'SUBMIT_OFFICER_SAFETY_CONCERNS';
+const submitOfficerSafetyConcerns = newRequestSequence(SUBMIT_OFFICER_SAFETY_CONCERNS);
+
+const UPDATE_OFFICER_SAFETY_CONCERNS :'UPDATE_OFFICER_SAFETY_CONCERNS' = 'UPDATE_OFFICER_SAFETY_CONCERNS';
+const updateOfficerSafetyConcerns = newRequestSequence(UPDATE_OFFICER_SAFETY_CONCERNS);
+
+const DELETE_OFFICER_SAFETY_CONCERNS :'DELETE_OFFICER_SAFETY_CONCERNS' = 'DELETE_OFFICER_SAFETY_CONCERNS';
+const deleteOfficerSafetyConcerns = newRequestSequence(DELETE_OFFICER_SAFETY_CONCERNS);
+
+export {
+  DELETE_OFFICER_SAFETY_CONCERNS,
+  GET_OFFICER_SAFETY,
+  GET_OFFICER_SAFETY_CONCERNS,
+  SUBMIT_OFFICER_SAFETY_CONCERNS,
+  UPDATE_OFFICER_SAFETY_CONCERNS,
+  deleteOfficerSafetyConcerns,
+  getOfficerSafety,
+  getOfficerSafetyConcerns,
+  submitOfficerSafetyConcerns,
+  updateOfficerSafetyConcerns,
+};

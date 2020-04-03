@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-styled-components"
+  ],
+  "processors": [
+    "stylelint-processor-styled-components"
+  ],
+  "syntax": "scss",
+  "rules": {
+    "value-no-vendor-prefix": [
+      true,
+      "ignoreValues": [
+        "box"
+      ]
+    ],
+    "property-no-vendor-prefix": [
+      true,
+      "ignoreProperties": [
+        "box-orient"
+      ]
+    ],
+  }
+}
