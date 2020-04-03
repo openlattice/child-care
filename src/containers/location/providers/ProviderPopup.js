@@ -30,6 +30,9 @@ import {
   PERSON_SEX_FQN
 } from '../../../edm/DataModelFqns';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
+import { getValue, getValues } from '../../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 
 const ActionBar = styled.div`
@@ -57,41 +60,34 @@ const ProviderPopup = ({
   coordinates,
   isOpen,
   onClose,
-  stayAwayLocation
+  provider
 } :Props) => {
 
-  const locationEKID = stayAwayLocation.getIn([OPENLATTICE_ID_FQN, 0]);
-  const stayAway = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'stayAway', locationEKID])) || Map();
-  const stayAwayEKID = stayAway.getIn([OPENLATTICE_ID_FQN, 0]);
-  const person = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'people', stayAwayEKID])) || Map();
-  const personEKID = person.getIn([OPENLATTICE_ID_FQN, 0]);
+  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
 
-  if (!isOpen) return null;
+  const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
+  const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
+  const status = getValues(provider, PROPERTY_TYPES.STATUS);
+  const url = getValue(provider, PROPERTY_TYPES.URL);
 
-  const fullName = getLastFirstMiFromPerson(person, true);
-  const dob :string = getDobFromPerson(person, '---');
-  const sex = person.getIn([PERSON_SEX_FQN, 0]);
-  const race = person.getIn([PERSON_RACE_FQN, 0]);
-  const { name, address } = getAddressFromLocation(stayAwayLocation);
-  let nameAndAddress = address;
-  if (name && address) {
-    nameAndAddress = `${name}\n${address}`;
-  }
-  // TODO: Replace with true radius
-  const radius = '100 yd';
+  const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
+  const city = getValue(provider, PROPERTY_TYPES.CITY);
+  const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+
+  const address = [street, city, zip].filter(v => v).join(', ');
+
 
   return (
     <Popup coordinates={coordinates}>
       <ActionBar>
-        <strong>{fullName}</strong>
+        <strong>{name}</strong>
         <CloseButton size="sm" mode="subtle" icon={CloseIcon} onClick={onClose} />
       </ActionBar>
-      <IconDetail content={dob} icon={faBirthdayCake} />
-      <IconDetail content={race} icon={faUser} />
-      <IconDetail content={sex} icon={faVenusMars} />
-      <IconDetail content={nameAndAddress} icon={faMapMarkerAltSlash} />
-      <IconDetail content={radius} icon={faDraftingCompass} />
-      <DefaultLink to={PROFILE_VIEW_PATH.replace(PROFILE_ID_PATH, personEKID)}>View Profile</DefaultLink>
+      <IconDetail content={type} icon={faBirthdayCake} />
+      <IconDetail content={status} icon={faUser} />
+      <IconDetail content={url} icon={faVenusMars} />
+      <IconDetail content={address} icon={faMapMarkerAltSlash} />
+      <DefaultLink to={PROFILE_VIEW_PATH.replace(PROFILE_ID_PATH, providerEKID)}>View Provider</DefaultLink>
     </Popup>
   );
 };

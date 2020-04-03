@@ -175,7 +175,7 @@ const ProviderMap = (props :Props) => {
             <ProviderPopup
                 isOpen={isPopupOpen}
                 coordinates={getCoordinates(selectedFeature)}
-                stayAwayLocation={selectedFeature}
+                provider={selectedFeature}
                 onClose={closeFeature} />
           </>
         )
