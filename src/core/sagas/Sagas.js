@@ -15,7 +15,7 @@ import * as AuthorizeSagas from './authorize/AuthorizeSagas';
 
 import * as AppSagas from '../../containers/app/AppSagas';
 import * as EncampmentSagas from '../../containers/location/encampment/EncampmentsSagas';
-import * as LocationsSagas from '../../containers/location/providers/LocationsSagas';
+import * as LocationsSagas from '../../containers/location/LocationsSagas';
 import * as LongBeachProviderSagas from '../../longbeach/provider/LongBeachProviderSagas';
 // eslint-disable-next-line max-len
 import * as RoutingSagas from '../router/RoutingSagas';
@@ -51,7 +51,7 @@ export default function* sagas() :Generator<*, *, *> {
 
     // LocationsSagas
     fork(LocationsSagas.getGeoOptionsWatcher),
-    fork(LocationsSagas.searchLBLocationsWatcher),
+    fork(LocationsSagas.searchLocationsWatcher),
 
     // RoutingSagas
     fork(RoutingSagas.goToRootWatcher),

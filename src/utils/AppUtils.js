@@ -32,5 +32,5 @@ export const getStaffESId = (app :Map) :string => getESIDFromApp(app, STAFF_FQN)
 export const getESIDsFromApp = (app :Map, fqns :Array<FullyQualifiedName>) :string[] => fqns
   .map((fqn :FullyQualifiedName) => getESIDFromApp(app, fqn));
 
-export const getProvidersESID = (state :Map) :string => state.getIn(['app', 'entitySetId']);
-export const getPropertyTypeId = (state :Map, fqn :string) => state.getIn(['app', 'propertyTypesByFqn', fqn, 'id']);
+export const getProvidersESID = (app :Map) :string => app.get('entitySetId');
+export const getPropertyTypeId = (app :Map, fqn :string) => app.getIn(['propertyTypesByFqn', fqn, 'id']);

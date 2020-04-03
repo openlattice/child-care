@@ -23,8 +23,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import LocationResult from './LocationResult';
-import StayAwayMap from './StayAwayMap';
-import { getGeoOptions, searchLBLocations } from './LocationsActions';
+import ProviderMap from './ProviderMap';
+import { getGeoOptions, searchLocations } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -128,7 +128,7 @@ const LocationContainer = () => {
     const hasValues = isPlainObject(selectedOption);
 
     if (hasValues) {
-      dispatch(searchLBLocations({
+      dispatch(searchLocations({
         searchInputs: newSearchInputs,
         start,
         maxHits: MAX_HITS
@@ -172,7 +172,7 @@ const LocationContainer = () => {
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
         <MapWrapper>
-          <StayAwayMap
+          <ProviderMap
               currentPosition={currentPosition}
               selectedOption={selectedOption}
               searchResults={searchResults} />

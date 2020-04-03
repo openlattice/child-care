@@ -15,13 +15,13 @@ const images = ['mapPin', MapPin];
 const layout = { 'icon-image': 'mapPin' };
 
 type Props = {
-  stayAwayLocations :List;
+  providerLocations :List;
   onFeatureClick ? :(data, feature) => void;
 };
 
-const StayAwayLocationLayer = (props :Props) => {
-  const { onFeatureClick, stayAwayLocations } = props;
-  if (stayAwayLocations.isEmpty()) return null;
+const ProviderLocationLayer = (props :Props) => {
+  const { onFeatureClick, providerLocations } = props;
+  if (providerLocations.isEmpty()) return null;
 
   return (
     <Layer
@@ -29,7 +29,7 @@ const StayAwayLocationLayer = (props :Props) => {
         layout={layout}
         images={images}>
       {
-        stayAwayLocations.map((location) => {
+        providerLocations.map((location) => {
           const key = location.getIn([OPENLATTICE_ID_FQN, 0]);
           const coordinates = getCoordinates(location);
           const handleMouseEnter = (payload) => {
@@ -61,8 +61,8 @@ const StayAwayLocationLayer = (props :Props) => {
   );
 };
 
-StayAwayLocationLayer.defaultProps = {
+ProviderLocationLayer.defaultProps = {
   onFeatureClick: () => {}
 };
 
-export default StayAwayLocationLayer;
+export default ProviderLocationLayer;

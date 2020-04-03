@@ -6,8 +6,8 @@ import { List } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import StayAwayLocationLayer from './StayAwayLocationLayer';
-import StayAwayPopup from './StayAwayPopup';
+import ProviderLocationLayer from './ProviderLocationLayer';
+import ProviderPopup from './ProviderPopup';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
@@ -81,14 +81,14 @@ type Props = {
   searchResults ?:List;
 };
 
-const StayAwayMap = (props :Props) => {
+const ProviderMap = (props :Props) => {
   const {
     currentPosition,
     searchResults,
     selectedOption
   } = props;
 
-  const stayAwayLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'stayAwayLocations']));
+  const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
@@ -101,8 +101,8 @@ const StayAwayMap = (props :Props) => {
   } = state;
 
   const stayAwayData = useMemo(() => searchResults
-    .map((resultEKID) => stayAwayLocations.get(resultEKID)),
-  [searchResults, stayAwayLocations]);
+    .map((resultEKID) => providerLocations.get(resultEKID)),
+  [searchResults, providerLocations]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -172,7 +172,7 @@ const StayAwayMap = (props :Props) => {
         selectedFeature && (
           <>
             <RadiusLayer location={selectedFeature} radius={100} unit="yd" />
-            <StayAwayPopup
+            <ProviderPopup
                 isOpen={isPopupOpen}
                 coordinates={getCoordinates(selectedFeature)}
                 stayAwayLocation={selectedFeature}
@@ -180,18 +180,18 @@ const StayAwayMap = (props :Props) => {
           </>
         )
       }
-      <StayAwayLocationLayer
-          stayAwayLocations={stayAwayData}
+      <ProviderLocationLayer
+          providerLocations={stayAwayData}
           onFeatureClick={handleFeatureClick} />
     </Mapbox>
   );
 };
 
-StayAwayMap.defaultProps = {
+ProviderMap.defaultProps = {
   searchResults: List()
 };
 
 export default React.memo<Props>((props :Props) => (
   /* eslint-disable-next-line react/jsx-props-no-spreading */
-  <StayAwayMap {...props} />
+  <ProviderMap {...props} />
 ));

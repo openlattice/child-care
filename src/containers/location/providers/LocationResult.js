@@ -28,7 +28,7 @@ const LocationResult = (props :Props) => {
   const profilePicture = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'profilePictures', personEKID], Map()));
   const stayAwayLocation = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, 'stayAwayLocations', locationEKID], Map()));
+    .getIn([...STAY_AWAY_STORE_PATH, 'providerLocations', locationEKID], Map()));
 
   return (
     <LongBeachResult

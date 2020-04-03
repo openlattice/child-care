@@ -3,10 +3,10 @@ import { List, Map } from 'immutable';
 
 import { UNIT_CONVERSION } from './constants';
 
-import * as FQN from '../../edm/DataModelFqns';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 
 const getCoordinates = (entity :Map) :[number, number] => {
-  const [latStr, lonStr] = entity.getIn([FQN.LOCATION_COORDINATES_FQN, 0], '').split(',');
+  const [latStr, lonStr] = entity.getIn([PROPERTY_TYPES.LOCATION, 0], '').split(',');
   const latitude = Number.parseFloat(latStr);
   const longitude = Number.parseFloat(lonStr);
 

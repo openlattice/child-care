@@ -53,7 +53,7 @@ type Props = {
   onClose :() => void;
 };
 
-const StayAwayPopup = ({
+const ProviderPopup = ({
   coordinates,
   isOpen,
   onClose,
@@ -96,4 +96,4 @@ const StayAwayPopup = ({
   );
 };
 
-export default StayAwayPopup;
+export default ProviderPopup;

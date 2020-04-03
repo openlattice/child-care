@@ -9,7 +9,7 @@ import { RequestStates } from 'redux-reqseq';
 import {
   CLEAR_LB_LOCATIONS,
   getGeoOptions,
-  searchLBLocations
+  searchLocations
 } from './LocationsActions';
 
 import { HOME_PATH } from '../../../core/router/Routes';
@@ -29,15 +29,15 @@ const INITIAL_STATE :Map = fromJS({
     currentLocation: false,
   }),
   stayAway: Map(),
-  stayAwayLocations: Map(),
+  providerLocations: Map(),
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
   switch (action.type) {
 
-    case searchLBLocations.case(action.type): {
-      return searchLBLocations.reducer(state, action, {
+    case searchLocations.case(action.type): {
+      return searchLocations.reducer(state, action, {
         REQUEST: () => state
           .set('fetchState', RequestStates.PENDING)
           .set('searchInputs', action.value),
