@@ -14,7 +14,6 @@ import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
-import Portrait from '../../components/portrait/Portrait';
 import { useGoToPath } from '../../components/hooks';
 import {
   PROFILE_ID_PATH,

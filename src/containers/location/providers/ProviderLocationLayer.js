@@ -43,7 +43,9 @@ const ProviderLocationLayer = (props :Props) => {
           };
 
           const handleClick = (payload) => {
-            onFeatureClick(location, payload);
+            const [lng, lat] = coordinates;
+            const feature = { lngLat: { lng, lat } };
+            onFeatureClick(location, feature);
           };
 
           return (
