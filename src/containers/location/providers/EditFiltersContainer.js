@@ -261,7 +261,7 @@ class EditFiltersContainer extends React.Component {
           <HeaderLabel>Provider Search</HeaderLabel>
           {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
           {renderRow(PROVIDERS.ZIP, zip || 'Any', 'ZIP Code')}
-          {renderRow(PROVIDERS.RADIUS, `${radius} miles`, 'Search Radius')}
+          {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
           <Line />
           <HeaderLabel>Care Profile</HeaderLabel>
           {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}

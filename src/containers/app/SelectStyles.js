@@ -1,13 +1,14 @@
-const orgSelectStyles = {
+import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
+
+const selectStyles = {
   container: (base, state) => {
 
     const { isDisabled } = state;
     return {
       ...base,
       cursor: isDisabled ? 'not-allowed' : 'default',
-      marginLeft: '30px',
       pointerEvents: 'auto',
-      width: '300px'
+      width: `calc(min(100vw, ${APP_CONTAINER_WIDTH}px) - 50px)`
     };
   },
   control: (base, state) => {
@@ -87,4 +88,4 @@ const orgSelectStyles = {
   valueContainer: (base) => ({ ...base, padding: '0 10px' }),
 };
 
-export { orgSelectStyles };
+export { selectStyles };
