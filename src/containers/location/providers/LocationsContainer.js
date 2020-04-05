@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import LocationResult from './LocationResult';
+import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import EditFiltersContainer from './EditFiltersContainer';
 import ProviderMap from './ProviderMap';
@@ -174,8 +175,11 @@ const LocationContainer = () => {
     return <EditFiltersContainer />;
   }
 
+  let providerHeader = null;
+  let providerDetails = null;
   if (selectedProvider) {
-    return <ProviderDetailsContainer />;
+    providerHeader = <ProviderHeaderContainer />;
+    providerDetails = <ProviderDetailsContainer />
   }
 
   const hasSearched = fetchState !== RequestStates.STANDBY;
@@ -215,68 +219,77 @@ const LocationContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
+        {providerHeader}
+        {providerDetails}
         <MapWrapper>
           <ProviderMap
               currentPosition={currentPosition}
               selectedOption={selectedOption}
               searchResults={searchResults} />
         </MapWrapper>
-        <FilterRow>
-          <SortOption>
-            Sort by relevance
-          </SortOption>
-          <FilterButton onClick={editFilters}>Refine Search</FilterButton>
-        </FilterRow>
-        <AbsoluteWrapper>
-          <ContentWrapper>
-            <Card>
-              <ResultSegment vertical>
-                <form>
-                  <div>
-                    <FlexRow>
-                      <Select
-                          autoFocus
-                          filterOption={filterOption}
-                          inputId="address"
-                          inputValue={address}
-                          isLoading={isFetchingOptions}
-                          onChange={handleChange}
-                          onInputChange={setAddress}
-                          options={options.toJS()}
-                          placeholder="Search Locations"
-                          value={selectedOption} />
-                      <MarginButton
-                          disabled={!hasPosition}
-                          icon={hasPosition ? PositionIcon : noPositionIcon}
-                          onClick={handleCurrentPositionClick} />
-                    </FlexRow>
-                  </div>
-                </form>
-              </ResultSegment>
-            </Card>
-          </ContentWrapper>
-        </AbsoluteWrapper>
-        <StyledContentWrapper>
-          {
-            (!hasPosition && !hasSearched) && (
-              <FindingLocationSplash />
-            )
-          }
-          <StyledSearchResults
-              hasSearched={hasSearched}
-              isLoading={isLoading}
-              resultComponent={LocationResult}
-              results={searchResults} />
-          {
-            hasSearched && (
-              <PaginationToolbar
-                  page={page}
-                  count={totalHits}
-                  onPageChange={onPageChange}
-                  rowsPerPage={MAX_HITS} />
-            )
-          }
-        </StyledContentWrapper>
+
+        {
+          providerDetails || (
+            <>
+              <FilterRow>
+                <SortOption>
+                  Sort by relevance
+                </SortOption>
+                <FilterButton onClick={editFilters}>Refine Search</FilterButton>
+              </FilterRow>
+              <AbsoluteWrapper>
+                <ContentWrapper>
+                  <Card>
+                    <ResultSegment vertical>
+                      <form>
+                        <div>
+                          <FlexRow>
+                            <Select
+                                autoFocus
+                                filterOption={filterOption}
+                                inputId="address"
+                                inputValue={address}
+                                isLoading={isFetchingOptions}
+                                onChange={handleChange}
+                                onInputChange={setAddress}
+                                options={options.toJS()}
+                                placeholder="Search Locations"
+                                value={selectedOption} />
+                            <MarginButton
+                                disabled={!hasPosition}
+                                icon={hasPosition ? PositionIcon : noPositionIcon}
+                                onClick={handleCurrentPositionClick} />
+                          </FlexRow>
+                        </div>
+                      </form>
+                    </ResultSegment>
+                  </Card>
+                </ContentWrapper>
+              </AbsoluteWrapper>
+              <StyledContentWrapper>
+                {
+                  (!hasPosition && !hasSearched) && (
+                    <FindingLocationSplash />
+                  )
+                }
+                <StyledSearchResults
+                    hasSearched={hasSearched}
+                    isLoading={isLoading}
+                    resultComponent={LocationResult}
+                    results={searchResults} />
+                {
+                  hasSearched && (
+                    <PaginationToolbar
+                        page={page}
+                        count={totalHits}
+                        onPageChange={onPageChange}
+                        rowsPerPage={MAX_HITS} />
+                  )
+                }
+              </StyledContentWrapper>
+            </>
+          )
+        }
       </ContentWrapper>
     </ContentOuterWrapper>
   );

@@ -9,7 +9,6 @@ import React, {
 import { bindActionCreators } from 'redux';
 
 import styled, { css } from 'styled-components';
-import moment from 'moment';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
@@ -41,21 +40,9 @@ const INITIAL_STATE = {
   selectedOption: undefined
 };
 
-const DAY_PTS = {
-  [DAYS_OF_WEEK.SUNDAY]: [PROPERTY_TYPES.SUNDAY_START, PROPERTY_TYPES.SUNDAY_END],
-  [DAYS_OF_WEEK.MONDAY]: [PROPERTY_TYPES.MONDAY_START, PROPERTY_TYPES.MONDAY_END],
-  [DAYS_OF_WEEK.TUESDAY]: [PROPERTY_TYPES.TUESDAY_START, PROPERTY_TYPES.TUESDAY_END],
-  [DAYS_OF_WEEK.WEDNESDAY]: [PROPERTY_TYPES.WEDNESDAY_START, PROPERTY_TYPES.WEDNESDAY_END],
-  [DAYS_OF_WEEK.THURSDAY]: [PROPERTY_TYPES.THURSDAY_START, PROPERTY_TYPES.THURSDAY_END],
-  [DAYS_OF_WEEK.FRIDAY]: [PROPERTY_TYPES.FRIDAY_START, PROPERTY_TYPES.FRIDAY_END],
-  [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
-};
-
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
  position: fixed;
- bottom: 0;
- min-height: 350px;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -69,14 +56,35 @@ const MiniStyledContentWrapper = styled(StyledContentWrapper)`
   position: relative;
 `;
 
+const BackButton = styled.div`
+  display: flex;
+  flex-direciton: row;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${Colors.PURPLES[1]};
+  text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+
+  span {
+    margin-left: 15px;
+  }
+
+  &:hover {
+    cursor: pointer
+  }
+`;
 
 const HeaderLabel = styled.div`
+  padding-top: 20px;
+  padding-bottom: 10px;
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  margin-bottom: 10px;
 
   color: #555E6F;
 `;
@@ -188,53 +196,7 @@ const SubHeader = styled.div`
   color: #555E6F;
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 8px 0;
-
-
-  font-family: Inter;
-  font-size: 14px;
-  line-height: 19px;
-
-  div {
-    color: #555E6F;
-  }
-`;
-
-const DataRows = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  span {
-    text-align: right;
-    color: #8E929B;
-  }
-`;
-
-const DateRow = styled.article`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  span {
-    color: #8E929B;
-  }
-
-  span:first-child {
-    text-align: left;
-    margin-right: 10px;
-  }
-
-  span:last-child {
-    text-align: right;
-  }
-`;
-
-class ProviderDetailsContainer extends React.Component {
+class ProviderHeaderContainer extends React.Component {
 
   getDistance = () => {
     const { coordinates, provider } = this.props;
@@ -263,8 +225,6 @@ class ProviderDetailsContainer extends React.Component {
     const city = getValue(provider, PROPERTY_TYPES.CITY);
     const zip = getValue(provider, PROPERTY_TYPES.ZIP);
 
-    const pointOfContact = getValues(provider, PROPERTY_TYPES.POINT_OF_CONTACT_NAME);
-
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
     const capacities = [];
@@ -282,75 +242,21 @@ class ProviderDetailsContainer extends React.Component {
 
     const distance = this.getDistance();
 
-    const formatTime = (time) => {
-      if (!time) {
-        return '?';
-      }
-
-      const withDate = moment.utc(`January 1, 2020 ${time}`);
-      if (!withDate.isValid()) {
-        return '?';
-      }
-
-      return withDate.format('hh:mma');
-    }
-
-    const operatingHours = [];
-    Object.values(DAYS_OF_WEEK).forEach((day) => {
-      const [startPT, endPT] = DAY_PTS[day];
-      const start = getValue(provider, startPT);
-      const end = getValue(provider, endPT);
-
-      if (start || end) {
-        operatingHours.push(
-          <DateRow key={day}>
-            <span>{day}</span>
-            <span>{`${formatTime(start)} - ${formatTime(end)}`}</span>
-          </DateRow>
-        )
-        // operatingHours.push(`${day}:  ${formatTime(start)} - ${formatTime(end)}`);
-      }
-    });
-
-    const operatingHoursContent = operatingHours.length ? operatingHours : <span>'Unknown'</span>;
-    //
-    // const operatingHoursContent = operatingHours.length
-    //   ? operatingHours.map((day) => <span key={day}>{day}</span>)
-    //   : <span>'Unknown'</span>;
-
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
-          <HeaderLabel>Contact</HeaderLabel>
+          <BackButton onClick={() => actions.selectProvider(false)}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+            <span>Search Results</span>
+          </BackButton>
+          <Header>
+            <div>{name}</div>
+            <span>{`${distance} mi`}</span>
+          </Header>
 
-          <Row>
-            <div>Point of Contact</div>
-            <DataRows>
-              <span>{pointOfContact || 'Unknown'}</span>
-            </DataRows>
-          </Row>
-
-          <Row>
-            <div>Phone</div>
-            <DataRows>
-              <span>Unknown</span>
-            </DataRows>
-          </Row>
-
-          <Row>
-            <div>Address</div>
-            <DataRows>
-              <span>{street}</span>
-              <span>{`${city}, CA ${zip}`}</span>
-            </DataRows>
-          </Row>
-
-          <Row>
-            <div>Operating Hours</div>
-            <DataRows>
-              {operatingHoursContent}
-            </DataRows>
-          </Row>
+          <SubHeader>{`${city}, CA`}</SubHeader>
+          <SubHeader>{type}</SubHeader>
+          <SubHeader>{capacities.join(', ') || 'Unknown age limitations'}</SubHeader>
 
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
@@ -386,4 +292,4 @@ function mapDispatchToProps(dispatch :Function) :Object {
   };
 }
 
-export default connect<*, *, *, *, *, *>(mapStateToProps, mapDispatchToProps)(ProviderDetailsContainer);
+export default connect<*, *, *, *, *, *>(mapStateToProps, mapDispatchToProps)(ProviderHeaderContainer);

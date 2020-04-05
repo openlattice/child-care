@@ -60,6 +60,7 @@
     "loglevel": "~1.6.0",
     "luxon": "~1.21.0",
     "mapbox-gl": "~1.6.1",
+    "moment": "^2.24.0",
     "papaparse": "~4.6.1",
     "polished": "~3.4.0",
     "query-string": "^5.1.0",
