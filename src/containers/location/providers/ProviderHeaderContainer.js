@@ -21,7 +21,13 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import {
+  APP_CONTAINER_WIDTH,
+  MEDIA_QUERY_TECH_SM,
+  MEDIA_QUERY_MD,
+  MEDIA_QUERY_LG,
+  HEIGHTS
+} from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
@@ -48,6 +54,14 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    padding: 10px 25px;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    padding: 25px;
+  }
 `;
 
 const MiniStyledContentWrapper = styled(StyledContentWrapper)`
@@ -75,18 +89,6 @@ const BackButton = styled.div`
   &:hover {
     cursor: pointer
   }
-`;
-
-const HeaderLabel = styled.div`
-  padding-top: 20px;
-  padding-bottom: 10px;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: #555E6F;
 `;
 
 const FilterRow = styled.div`
@@ -169,16 +171,32 @@ const Header = styled.div`
   font-family: Inter;
   font-style: normal;
   color: #555E6F;
-  padding: 15px 0;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    padding: 10px 0;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    padding: 15px 0;
+  }
 
   div {
+    @media only screen and (min-height: ${HEIGHTS[0]}px) {
+      font-size: 18px;
+      line-height: 14px;
+    }
+
+    @media only screen and (min-height: ${HEIGHTS[1]}px) {
+      font-size: 22px;
+      line-height: 27px;
+    }
+
     font-weight: 600;
-    font-size: 22px;
-    line-height: 27px;
   }
 
 
   span {
+
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;

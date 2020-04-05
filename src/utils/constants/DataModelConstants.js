@@ -16,6 +16,8 @@ export const PROPERTY_TYPES = {
   CAPACITY_OVER_5: 'ecps.capacity_5_and_up',
   LOCATION: 'ecps.locationcoordinates',
 
+  HOURS_UNKNOWN: 'ecps.hours_unknown',
+
   SUNDAY_START: 'ecps.sunday_start',
   SUNDAY_END: 'ecps.sunday_end',
 

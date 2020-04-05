@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { FILTER_HEADERS } from './constants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
@@ -18,6 +18,14 @@ import ZipFilter from './filters/ZipFilter';
 import BasicButton from '../../../components/buttons/BasicButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
+
+const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
+  position: fixed;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  bottom: 0;
+  z-index: 15;
+  background-color: #f5f5f8;
+`;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
@@ -114,7 +122,7 @@ export default class EditFilter extends React.Component {
     const { value } = this.state;
 
     return (
-      <ContentOuterWrapper>
+      <StyledContentOuterWrapper>
         <MiniStyledContentWrapper padding="25px">
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
@@ -128,7 +136,7 @@ export default class EditFilter extends React.Component {
           <SaveFilterButton onClick={() => onSave({ field, value })}>Save</SaveFilterButton>
 
         </MiniStyledContentWrapper>
-      </ContentOuterWrapper>
+      </StyledContentOuterWrapper>
     );
   }
 }

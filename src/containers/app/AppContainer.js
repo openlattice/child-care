@@ -37,6 +37,7 @@ import {
 import {
   APP_CONTAINER_MAX_WIDTH,
   APP_CONTENT_PADDING,
+  HEADER_HEIGHT,
   MEDIA_QUERY_LG,
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
@@ -71,7 +72,12 @@ const AppContentOuterWrapper = styled.main`
   display: flex;
   flex: 1 0 auto;
   justify-content: center;
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  overflow: scroll;
+
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  width: 100vw;
 `;
 
 const AppContentInnerWrapper = styled.div`
@@ -83,7 +89,6 @@ const AppContentInnerWrapper = styled.div`
   padding: ${APP_CONTENT_PADDING}px;
   position: relative;
 `;
-
 
 type Props = {
   actions :{

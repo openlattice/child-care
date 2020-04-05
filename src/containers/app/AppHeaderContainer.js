@@ -1,141 +1,233 @@
-// @flow
-import React, { useCallback } from 'react';
+/*
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import Select from 'react-select';
+import { Map } from 'immutable';
 
 import styled from 'styled-components';
-import {
-  faCampground,
-  faDownload,
-  faFileAlt,
-  faFileExclamation,
-  faHome,
-  faMapMarkedAlt,
-  faQuestionCircle,
-  faSignOut,
-  faUser,
-  faUserChart,
-  faUserNurse
-} from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
-import { AppHeaderWrapper, AppNavigationWrapper } from 'lattice-ui-kit';
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { AuthActions, AuthUtils } from 'lattice-auth';
+import { Button, Colors } from 'lattice-ui-kit';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
-import { useAppSettings, useOrganization } from '../../components/hooks';
+import { selectStyles } from './SelectStyles';
+import * as AppActions from './AppActions';
+import * as Routes from '../../core/router/Routes';
 import {
-  DASHBOARD_PATH,
-  DOWNLOADS_PATH,
-  HOME_PATH,
-  ISSUES_PATH,
-  LOGOUT_PATH,
-  REPORTS_PATH,
-} from '../../core/router/Routes';
-import {
-  ENCAMPMENTS_PATH,
-  LOCATION_PATH,
-  PEOPLE_PATH,
-  PROVIDER_PATH
-} from '../../longbeach/routes';
-import { media } from '../../utils/StyleUtils';
+  APP_CONTAINER_WIDTH,
+  APP_CONTENT_PADDING,
+  HEADER_HEIGHT
+} from '../../core/style/Sizes';
+import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
 
-const StyledAppHeaderWrapper = styled(AppHeaderWrapper)`
-  > div {
-    min-width: 100vw;
+const { NEUTRALS, WHITE } = Colors;
+
+// TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
+const APP_HEADER_BORDER :string = '#e6e6eb';
+
+const AppHeaderOuterWrapper = styled.header`
+  background-color: ${WHITE};
+  border-bottom: 1px solid ${APP_HEADER_BORDER};
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  height: ${HEADER_HEIGHT}px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+`;
+
+const AppHeaderInnerWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: space-between;
+  max-width: ${APP_CONTAINER_WIDTH}px;
+  padding: 0 ${APP_CONTENT_PADDING}px;
+`;
+
+const LeftSideContentWrapper = styled.div`
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+`;
+
+const RightSideContentWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: flex-end;
+`;
+
+const DisplayName = styled.span`
+  margin-right: 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: #2e2e34;
+`;
+
+const LogoTitleWrapperLink = styled(Link)`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 auto;
+  padding: 15px 0;
+  text-decoration: none;
+
+  &:focus {
+    text-decoration: none;
   }
 
-  /* hide app title for smaller screens */
-  .app-nav-root > h1 {
-    ${media.tablet`
-      display: none;
-    `}
+  &:hover {
+    outline: none;
+    text-decoration: none;
   }
 `;
 
-const StyledNavLink = styled(NavLink)`
-  display: ${(props) => (props.hidden ? 'none' : 'block')};
+// 2019-02-19 - Cannot call `styled.img.attrs` because undefined [1] is incompatible with string [2].
+// $FlowFixMe
+const AppLogoIcon = styled.img.attrs({
+  alt: 'OpenLattice Logo Icon',
+  src: OpenLatticeLogo,
+})`
+  height: 26px;
 `;
 
-const NavLabel = styled.span`
-  margin-left: 20px;
+const AppTitle = styled.h1`
+  color: ${NEUTRALS[0]};
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0 0 0 10px;
+`;
+
+const OrgSelectionBar = styled.div`
+  padding: 5px 30px;
+  color: #2e2e34;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const LogoutButton = styled(Button)`
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: 30px;
+  padding: 6px 29px;
 `;
 
 type Props = {
-  organizations :Map;
+  actions :{
+    logout :() => void;
+    switchOrganization :(organizationId :string) => void
+  };
 };
 
-const AppHeaderContainer = (props :Props) => {
-  const { organizations = Map() } = props;
-  const [selectedOrganizationId, isLoading, switchOrganization] = useOrganization();
+class AppHeaderContainer extends Component<Props> {
 
-  /* <===== BEGIN LONG BEACH HACK =====> */
-  const appSettings :Map = useAppSettings();
+  getDisplayName = () => {
+    const userInfo = AuthUtils.getUserInfo();
+    return (userInfo.email && userInfo.email.length > 0) ? userInfo.email : '';
+  };
 
-  const isLongBeach = appSettings.get('longBeach', false);
-  const stayAway = isLongBeach || appSettings.get('stayAway', false);
-  const providers = isLongBeach || appSettings.get('providers', false);
-  const homelessEncampments = isLongBeach || appSettings.get('homelessEncampments', false);
-  /* <===== END LONG BEACH HACK =====> */
+  renderOrgSelection = () => {
 
-  return (
-    <StyledAppHeaderWrapper
-        appIcon={OpenLatticeLogo}
-        appTitle="Child Care">
-      <AppNavigationWrapper drawer>
-        <NavLink to={HOME_PATH} />
-        <NavLink to={HOME_PATH}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faHome} />
-          <NavLabel>Home</NavLabel>
-        </NavLink>
-        <StyledNavLink to={REPORTS_PATH} hidden={isLongBeach}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faFileAlt} />
-          <NavLabel>Reports</NavLabel>
-        </StyledNavLink>
-        {/* <===== BEGIN LONG BEACH HACK =====> */}
-        <StyledNavLink to={PEOPLE_PATH} hidden={!isLongBeach}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faUser} />
-          <NavLabel>People</NavLabel>
-        </StyledNavLink>
-        <StyledNavLink to={LOCATION_PATH} hidden={!stayAway}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faMapMarkedAlt} />
-          <NavLabel>Stay Away Locations</NavLabel>
-        </StyledNavLink>
-        <StyledNavLink to={ENCAMPMENTS_PATH} hidden={!homelessEncampments}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faCampground} />
-          <NavLabel>Encampments</NavLabel>
-        </StyledNavLink>
-        <StyledNavLink to={PROVIDER_PATH} hidden={!providers}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faUserNurse} />
-          <NavLabel>Providers</NavLabel>
-        </StyledNavLink>
-        {/* <===== END LONG BEACH HACK =====> */}
-        <StyledNavLink to={DASHBOARD_PATH} hidden={isLongBeach}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faUserChart} />
-          <NavLabel>Dashboard</NavLabel>
-        </StyledNavLink>
-        <StyledNavLink to={DOWNLOADS_PATH} hidden={isLongBeach}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faDownload} />
-          <NavLabel>Downloads</NavLabel>
-        </StyledNavLink>
-        <hr />
-        <StyledNavLink to={ISSUES_PATH} hidden={isLongBeach}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faFileExclamation} />
-          <NavLabel>Manage Issues</NavLabel>
-        </StyledNavLink>
-        <a
-            href="https://support.openlattice.com/servicedesk/customer/portal/1"
-            rel="noopener noreferrer"
-            target="_blank">
-          <FontAwesomeIcon size="lg" fixedWidth icon={faQuestionCircle} />
-          <NavLabel>Contact Support</NavLabel>
-        </a>
-        <NavLink to={LOGOUT_PATH}>
-          <FontAwesomeIcon size="lg" fixedWidth icon={faSignOut} />
-          <NavLabel>Logout</NavLabel>
-        </NavLink>
-      </AppNavigationWrapper>
-    </StyledAppHeaderWrapper>
-  );
-};
+    const { actions, orgs, selectedOrganizationId } = this.props;
 
-export default AppHeaderContainer;
+    if (!orgs.size) {
+      return null;
+    }
+
+    const organizationOptions = orgs
+      .map((organization :Map<*, *>) => ({
+        label: organization.get('title'),
+        value: organization.get('id'),
+      }))
+      .toJS();
+
+    const handleOnChange = (event) => {
+      const orgId = event.value;
+      if (orgId !== selectedOrganizationId) {
+        actions.switchOrganization(orgId);
+      }
+    };
+
+    return (
+      <OrgSelectionBar>
+        <Select
+            value={organizationOptions.find(option => option.value === selectedOrganizationId)}
+            isClearable={false}
+            isMulti={false}
+            onChange={handleOnChange}
+            options={organizationOptions}
+            placeholder="Select..."
+            styles={orgSelectStyles} />
+      </OrgSelectionBar>
+    );
+  }
+
+  renderLeftSideContent = () => {
+
+    return (
+      <LeftSideContentWrapper>
+        <LogoTitleWrapperLink to={Routes.ROOT}>
+          <AppLogoIcon />
+          <AppTitle>
+            Child Care
+          </AppTitle>
+        </LogoTitleWrapperLink>
+      </LeftSideContentWrapper>
+    );
+  }
+
+  renderRightSideContent = () => {
+
+    const { actions } = this.props;
+    return (
+      <RightSideContentWrapper>
+        {this.renderOrgSelection()}
+        <DisplayName>{this.getDisplayName()}</DisplayName>
+        <LogoutButton onClick={actions.logout}>
+          Log Out
+        </LogoutButton>
+      </RightSideContentWrapper>
+    );
+  }
+
+  render() {
+
+    return (
+      <AppHeaderOuterWrapper>
+        <AppHeaderInnerWrapper>
+          { this.renderLeftSideContent() }
+        </AppHeaderInnerWrapper>
+      </AppHeaderOuterWrapper>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  const app = state.get(STATE.APP);
+
+  return {
+    app
+  };
+}
+
+
+const mapDispatchToProps = (dispatch :Function) :Object => ({
+  actions: bindActionCreators({
+    logout: AuthActions.logout,
+    switchOrganization: AppActions.switchOrganization
+  }, dispatch)
+});
+
+export default withRouter<*>(
+  connect(mapStateToProps, mapDispatchToProps)(AppHeaderContainer)
+);

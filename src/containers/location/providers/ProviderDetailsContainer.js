@@ -22,7 +22,7 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
@@ -55,7 +55,30 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
  position: fixed;
  bottom: 0;
- min-height: 350px;
+
+ @media only screen and (min-height: ${HEIGHTS[0]}px) {
+   min-height: ${HEIGHTS[0] / 3}px;
+ }
+
+ @media only screen and (min-height: 639px) {
+   min-height: 270px;
+ }
+
+ @media only screen and (min-height: ${HEIGHTS[1]}px) {
+   min-height: 350px;
+ }
+
+ @media only screen and (min-height: ${HEIGHTS[2]}px) {
+   min-height: 350px;
+ }
+
+ @media only screen and (min-height: ${HEIGHTS[3]}px) {
+   min-height: 460px;
+ }
+
+ @media only screen and (min-height: ${HEIGHTS[4]}px) {
+   min-height: 630px;
+ }
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -287,7 +310,7 @@ class ProviderDetailsContainer extends React.Component {
         return '?';
       }
 
-      const withDate = moment.utc(`January 1, 2020 ${time}`);
+      const withDate = moment.utc(time);
       if (!withDate.isValid()) {
         return '?';
       }
@@ -296,27 +319,28 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     const operatingHours = [];
-    Object.values(DAYS_OF_WEEK).forEach((day) => {
-      const [startPT, endPT] = DAY_PTS[day];
-      const start = getValue(provider, startPT);
-      const end = getValue(provider, endPT);
 
-      if (start || end) {
-        operatingHours.push(
-          <DateRow key={day}>
-            <span>{day}</span>
-            <span>{`${formatTime(start)} - ${formatTime(end)}`}</span>
-          </DateRow>
-        )
-        // operatingHours.push(`${day}:  ${formatTime(start)} - ${formatTime(end)}`);
-      }
-    });
+    if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+      operatingHours.push(<span>Unknown</span>);
+    }
+    else {
+      Object.values(DAYS_OF_WEEK).forEach((day) => {
+        const [startPT, endPT] = DAY_PTS[day];
+        const start = getValue(provider, startPT);
+        const end = getValue(provider, endPT);
 
-    const operatingHoursContent = operatingHours.length ? operatingHours : <span>'Unknown'</span>;
-    //
-    // const operatingHoursContent = operatingHours.length
-    //   ? operatingHours.map((day) => <span key={day}>{day}</span>)
-    //   : <span>'Unknown'</span>;
+        const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
+
+        if (start || end) {
+          operatingHours.push(
+            <DateRow key={day}>
+              <span>{day}</span>
+              <span>{timeWindowStr}</span>
+            </DateRow>
+          )
+        }
+      });
+    }
 
     return (
       <StyledContentOuterWrapper>
@@ -348,7 +372,7 @@ class ProviderDetailsContainer extends React.Component {
           <Row>
             <div>Operating Hours</div>
             <DataRows>
-              {operatingHoursContent}
+              {operatingHours}
             </DataRows>
           </Row>
 
