@@ -37,6 +37,7 @@ import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
 import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors } from '../../utils/DataUtils';
+import { DAYS_OF_WEEK } from '../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -47,8 +48,6 @@ const { executeSearchWorker, searchEntityNeighborsWithFilterWorker } = SearchApi
 const {
   FILED_FOR_FQN,
   STAY_AWAY_LOCATION_FQN,
-  PEOPLE_FQN,
-  SERVED_WITH_FQN,
   SERVICES_OF_PROCESS_FQN,
 } = APP_TYPES_FQNS;
 
@@ -56,6 +55,15 @@ const LOG = new Logger('LocationsSagas');
 
 const GEOCODER_URL_PREFIX = 'https://osm.openlattice.com/nominatim/search/';
 const GEOCODER_URL_SUFFIX = '?format=json';
+
+const DAY_PTS = {
+  [DAYS_OF_WEEK.SUNDAY]: [PROPERTY_TYPES.SUNDAY_START, PROPERTY_TYPES.SUNDAY_END],
+  [DAYS_OF_WEEK.MONDAY]: [PROPERTY_TYPES.MONDAY_START, PROPERTY_TYPES.MONDAY_END],
+  [DAYS_OF_WEEK.TUESDAY]: [PROPERTY_TYPES.TUESDAY_START, PROPERTY_TYPES.TUESDAY_END],
+  [DAYS_OF_WEEK.WEDNESDAY]: [PROPERTY_TYPES.WEDNESDAY_START, PROPERTY_TYPES.WEDNESDAY_END],
+  [DAYS_OF_WEEK.FRIDAY]: [PROPERTY_TYPES.FRIDAY_START, PROPERTY_TYPES.FRIDAY_END],
+  [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
+};
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
@@ -183,7 +191,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
     const { searchInputs, start = 0, maxHits = 20 } = value;
-    console.log(searchInputs.toJS())
 
     const locationState = yield select((state) => state.getIn(STAY_AWAY_STORE_PATH));
     const getValue = (field) => searchInputs.get(field, locationState.get(field));
@@ -192,11 +199,15 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     if (isEmpty(latLonObj)) latLonObj = searchInputs.getIn([PROVIDERS.ZIP, 1]);
     if (isEmpty(latLonObj)) latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
 
+    const radius = getValue(PROVIDERS.RADIUS);
+    const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);
+    const children = getValue(PROVIDERS.CHILDREN);
+    const daysAndTimes = getValue(PROVIDERS.DAYS);
+
     yield put(searchLocations.request(action.id, searchInputs.set('selectedOption', latLonObj)));
 
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
-    const radius = getValue(PROVIDERS.RADIUS);
 
     const app :Map = yield select((state) => state.get('app', Map()));
     const entitySetId = getProvidersESID(app);
@@ -215,7 +226,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const constraints = [locationConstraint];
 
-    const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);
     if (typeOfCare && typeOfCare.size) {
       const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);
 
@@ -230,7 +240,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       constraints.push(typeOfCareConstraint);
     }
 
-    const children = getValue(PROVIDERS.CHILDREN);
     if (children && children.size) {
 
       const childrenConstraint = {
@@ -245,8 +254,23 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       constraints.push(childrenConstraint);
     }
 
-    const daysAndTimes = getValue(PROVIDERS.DAYS);
     if (daysAndTimes && daysAndTimes.size) {
+
+      const daysAndTimesConstraints = [];
+
+      daysAndTimes.entrySeq().forEach(([day, startAndEnd]) => {
+        const start = startAndEnd.get(0);
+        const end = startAndEnd.get(1);
+
+        if (start) {
+          const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
+          constraints.push({
+            type: 'simple',
+            fuzzy: false,
+            searchTerm: `entity.${propertyTypeId}:`
+          })
+        }
+      });
 
     }
 

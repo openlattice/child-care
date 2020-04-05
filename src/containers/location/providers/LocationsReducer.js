@@ -64,7 +64,8 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
       return searchLocations.reducer(state, action, {
         REQUEST: () => state
           .set('fetchState', RequestStates.PENDING)
-          .set('searchInputs', action.value),
+          .set('searchInputs', action.value)
+          .merge(action.value),
         SUCCESS: () => state
           .set('fetchState', RequestStates.SUCCESS)
           .merge(action.value),
