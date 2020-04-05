@@ -27,6 +27,7 @@ import { RequestStates } from 'redux-reqseq';
 import EditFilter from './EditFilter';
 import { FILTER_HEADERS, STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -229,7 +230,7 @@ class EditFiltersContainer extends React.Component {
       return `${size} type${size === 1 ? '' : 's'} selected`;
     };
 
-    const getListValue = (list) => list.join(', ') || 'Any';
+    const getDays = () => Object.values(DAYS_OF_WEEK).filter(v => days.has(v)).join(', ') || 'Any';
 
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
@@ -265,7 +266,7 @@ class EditFiltersContainer extends React.Component {
           <Line />
           <HeaderLabel>Advanced Search</HeaderLabel>
           {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
-          {renderRow(PROVIDERS.DAYS, getListValue(days.keySeq()), 'Days Needed')}
+          {renderRow(PROVIDERS.DAYS, getDays(), 'Days Needed')}
           <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
         </StyledContentWrapper>
       </ContentOuterWrapper>

@@ -52,8 +52,7 @@ const INITIAL_STATE :Map = fromJS({
   [ZIP]: '',
   [RADIUS]: 10,
   [CHILDREN]: {},
-  [DAYS]: [],
-  [TIMES]: []
+  [DAYS]: {}
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
