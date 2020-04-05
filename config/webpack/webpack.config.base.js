@@ -19,7 +19,7 @@ module.exports = (env) => {
    */
 
   const BABEL_CONFIG = path.resolve(__dirname, '../babel/babel.config.js');
-  const BASE_PATH = `/${env.basePath || 'childcare'}/`;
+  const BASE_PATH = `/${env.basePath || 'child-care'}/`;
   const ENV_DEV = 'development';
   const ENV_PROD = 'production';
 
