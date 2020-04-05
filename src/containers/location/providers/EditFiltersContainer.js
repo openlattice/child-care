@@ -220,6 +220,15 @@ class EditFiltersContainer extends React.Component {
 
     const editFilter = (value) => this.setState({ filterPage: value });
 
+    const getFacilityTypeValue = () => {
+      const { size } = typeOfCare;
+      if (!size) {
+        return 'Any';
+      }
+
+      return `${size} type${size === 1 ? '' : 's'} selected`;
+    };
+
     const getListValue = (list) => list.join(', ') || 'Any';
 
     const renderRow = (field, value, label) => (
@@ -250,7 +259,7 @@ class EditFiltersContainer extends React.Component {
             <span>Back to search results</span>
           </BackButton>
           <HeaderLabel>Provider Search</HeaderLabel>
-          {renderRow(PROVIDERS.TYPE_OF_CARE, getListValue(typeOfCare), 'Type of Care')}
+          {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
           {renderRow(PROVIDERS.ZIP, zip || 'Any', 'ZIP Code')}
           {renderRow(PROVIDERS.RADIUS, `${radius} miles`, 'Search Radius')}
           <Line />
