@@ -14,6 +14,7 @@ import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import RadiusLayer from '../../map/RadiusLayer';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
 declare var __MAPBOX_TOKEN__;
 
@@ -89,6 +90,7 @@ const ProviderMap = (props :Props) => {
   } = props;
 
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
+  const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
@@ -173,7 +175,7 @@ const ProviderMap = (props :Props) => {
           <>
             <RadiusLayer location={selectedFeature} radius={100} unit="yd" />
             <ProviderPopup
-                isOpen={isPopupOpen}
+                isOpen={isPopupOpen && !selectedProvider}
                 coordinates={getCoordinates(selectedFeature)}
                 provider={selectedFeature}
                 onClose={closeFeature} />
