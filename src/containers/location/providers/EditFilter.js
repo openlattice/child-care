@@ -10,8 +10,14 @@ import { Colors } from 'lattice-ui-kit';
 import { FILTER_HEADERS } from './constants';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 
+import ChildrenFilter from './filters/ChildrenFilter';
+import DayAndTimeFilter from './filters/DayAndTimeFilter';
+import RadiusFilter from './filters/RadiusFilter';
+import TypeOfCareFilter from './filters/TypeOfCareFilter';
+import ZipFilter from './filters/ZipFilter';
 import BasicButton from '../../../components/buttons/BasicButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
@@ -72,6 +78,14 @@ const SaveFilterButton = styled(BasicButton)`
   ${fixedBottomButtonStyle}
 `;
 
+const FILTER_COMPONENTS = {
+  [PROVIDERS.CHILDREN]: ChildrenFilter,
+  [PROVIDERS.DAYS]: DayAndTimeFilter,
+  [PROVIDERS.RADIUS]: RadiusFilter,
+  [PROVIDERS.TYPE_OF_CARE]: TypeOfCareFilter,
+  [PROVIDERS.ZIP]: ZipFilter,
+}
+
 export default class EditFilter extends React.Component {
 
   constructor(props) {
@@ -81,11 +95,22 @@ export default class EditFilter extends React.Component {
     };
   }
 
-  render() {
-    const { field, onCancel, onSave } = this.props;
+
+  getContent = () => {
+    const { field } = this.props;
     const { value } = this.state;
 
-    const content = <div>content</div>;
+    const Component = FILTER_COMPONENTS[field];
+
+    if (!Component) {
+      return null;
+    }
+
+    return <Component value={value} onChange={(newValue) => this.setState({ value: newValue })} />;
+  }
+
+  render() {
+    const { field, onCancel, onSave } = this.props;
 
     return (
       <ContentOuterWrapper>
@@ -97,7 +122,7 @@ export default class EditFilter extends React.Component {
 
           <EditFilterHeader>{FILTER_HEADERS[field]}</EditFilterHeader>
 
-          {content}
+          {this.getContent()}
 
           <SaveFilterButton onClick={() => onSave({ field, value })}>Save</SaveFilterButton>
 

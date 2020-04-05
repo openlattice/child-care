@@ -220,9 +220,7 @@ class EditFiltersContainer extends React.Component {
 
     const editFilter = (value) => this.setState({ filterPage: value });
 
-    const getListValue = (list, mappingFn) => list
-      .map(v => (mappingFn ? mappingFn(v) : v))
-      .join(', ') || 'Any';
+    const getListValue = (list) => list.join(', ') || 'Any';
 
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
@@ -258,6 +256,7 @@ class EditFiltersContainer extends React.Component {
           <Line />
           <HeaderLabel>Care Profile</HeaderLabel>
           {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
+          {renderRow(PROVIDERS.DAYS, getListValue(days.keySeq()), 'Days Needed')}
           <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
         </StyledContentWrapper>
       </ContentOuterWrapper>

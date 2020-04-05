@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TypeOfCareFilter = ({ value }) => {
+const TypeOfCareFilter = ({ value, onChange }) => {
 
+  return (
+    <div>type of care!</div>
+  );
 
 }
+
+export default TypeOfCareFilter;
