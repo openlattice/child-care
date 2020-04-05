@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import LocationResult from './LocationResult';
+import ProviderDetailsContainer from './ProviderDetailsContainer';
 import EditFiltersContainer from './EditFiltersContainer';
 import ProviderMap from './ProviderMap';
 import { getGeoOptions, searchLocations, setValue } from './LocationsActions';
@@ -111,6 +112,7 @@ const LocationContainer = () => {
     false
   ));
 
+  const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
   const fetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'fetchState']));
@@ -170,6 +172,10 @@ const LocationContainer = () => {
 
   if (isEditingFilters) {
     return <EditFiltersContainer />;
+  }
+
+  if (selectedProvider) {
+    return <ProviderDetailsContainer />;
   }
 
   const hasSearched = fetchState !== RequestStates.STANDBY;

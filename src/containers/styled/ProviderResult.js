@@ -29,6 +29,8 @@ import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { getValue, getValues } from '../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
+import { selectProvider } from '../location/providers/LocationsActions';
+
 import {
   FlexRow,
   ResultDetails,
@@ -50,7 +52,7 @@ const LongBeachResult = ({
   const dispatch = useDispatch();
 
   const handleViewProfile = () => {
-    goToProfile();
+    dispatch(selectProvider(provider));
   };
 
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);

@@ -28,8 +28,8 @@ export const setValue :RequestSequence = newRequestSequence(SET_VALUE);
 export const SET_VALUES :string = 'SET_VALUES';
 export const setValues :RequestSequence = newRequestSequence(SET_VALUES);
 
-export const EXECUTE_LOCATION_SEARCH :string = 'EXECUTE_LOCATION_SEARCH';
-export const executeLocationSearch :RequestSequence = newRequestSequence(EXECUTE_LOCATION_SEARCH);
+export const SELECT_PROVIDER :string = 'SELECT_PROVIDER';
+export const selectProvider :RequestSequence = newRequestSequence(SELECT_PROVIDER);
 
 export {
   CLEAR_LB_LOCATIONS,
@@ -41,5 +41,5 @@ export {
   getGeoOptions,
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
-  searchLocations,
+  searchLocations
 };

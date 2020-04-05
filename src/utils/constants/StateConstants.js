@@ -15,6 +15,8 @@ export const SUBMIT = {
 };
 
 export const PROVIDERS = {
+  SELECTED_PROVIDER: 'selectedProvider',
+
   IS_EDITING_FILTERS: 'isEditingFilters',
   FILTER_PAGE: 'filterPage',
 
