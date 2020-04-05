@@ -111,6 +111,7 @@ export default class EditFilter extends React.Component {
 
   render() {
     const { field, onCancel, onSave } = this.props;
+    const { value } = this.state;
 
     return (
       <ContentOuterWrapper>
