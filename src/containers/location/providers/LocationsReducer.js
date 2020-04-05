@@ -8,11 +8,26 @@ import { RequestStates } from 'redux-reqseq';
 
 import {
   CLEAR_LB_LOCATIONS,
+  SET_VALUE,
   getGeoOptions,
   searchLocations
 } from './LocationsActions';
 
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
+
 import { HOME_PATH } from '../../../core/router/Routes';
+
+
+const {
+  IS_EDITING_FILTERS,
+  FILTER_PAGE,
+  TYPE_OF_CARE,
+  ZIP,
+  RADIUS,
+  CHILDREN,
+  DAYS,
+  TIMES
+} = PROVIDERS;
 
 const INITIAL_STATE :Map = fromJS({
   fetchState: RequestStates.STANDBY,
@@ -30,6 +45,15 @@ const INITIAL_STATE :Map = fromJS({
   }),
   stayAway: Map(),
   providerLocations: Map(),
+
+  [IS_EDITING_FILTERS]: false,
+  [FILTER_PAGE]: null,
+  [TYPE_OF_CARE]: [],
+  [ZIP]: '',
+  [RADIUS]: 10,
+  [CHILDREN]: {},
+  [DAYS]: [],
+  [TIMES]: []
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
@@ -56,6 +80,11 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
           .setIn(['options', 'data'], action.value),
         FAILURE: () => state.setIn(['options', 'fetchState'], RequestStates.FAILURE),
       });
+    }
+
+    case SET_VALUE: {
+      const { field, value } = action.value;
+      return state.set(field, value);
     }
 
     case CLEAR_LB_LOCATIONS: {

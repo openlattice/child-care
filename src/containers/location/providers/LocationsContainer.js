@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import {
   Card,
+  Colors,
   IconButton,
   PaginationToolbar,
   SearchResults,
@@ -23,9 +24,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import LocationResult from './LocationResult';
+import EditFiltersContainer from './EditFiltersContainer';
 import ProviderMap from './ProviderMap';
-import { getGeoOptions, searchLocations } from './LocationsActions';
+import { getGeoOptions, searchLocations, setValue } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import { usePosition, useTimeout } from '../../../components/hooks';
@@ -59,6 +62,29 @@ const AbsoluteWrapper = styled.div`
   top: 0;
 `;
 
+const FilterRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px 0 30px;
+`;
+
+const FilterButton = styled.div`
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: ${Colors.PURPLES[1]};
+  text-decoration: none;
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+const SortOption = styled.div`
+
+`;
+
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'selectLocation': {
@@ -78,6 +104,11 @@ const reducer = (state, action) => {
 };
 
 const LocationContainer = () => {
+
+  const isEditingFilters = useSelector((store) => store.getIn(
+    [...STAY_AWAY_STORE_PATH, PROVIDERS.IS_EDITING_FILTERS],
+    false
+  ));
 
   const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
@@ -136,12 +167,18 @@ const LocationContainer = () => {
     }
   }, [dispatch, selectedOption, start]);
 
+  if (isEditingFilters) {
+    return <EditFiltersContainer />;
+  }
+
   const hasSearched = fetchState !== RequestStates.STANDBY;
   const isLoading = fetchState === RequestStates.PENDING;
   const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
   const hasPosition = !!currentPosition.coords;
 
   const filterOption = () => true;
+
+  const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
   const handleCurrentPositionClick = () => {
     if (currentPosition.coords) {
@@ -177,6 +214,12 @@ const LocationContainer = () => {
               selectedOption={selectedOption}
               searchResults={searchResults} />
         </MapWrapper>
+        <FilterRow>
+          <SortOption>
+            Sort by relevance
+          </SortOption>
+          <FilterButton onClick={editFilters}>Refine Search</FilterButton>
+        </FilterRow>
         <AbsoluteWrapper>
           <ContentWrapper>
             <Card>

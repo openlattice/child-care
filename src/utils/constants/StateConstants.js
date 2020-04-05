@@ -13,3 +13,16 @@ export const SUBMIT = {
   SUBMITTED: 'submitted',
   ERROR: 'error'
 };
+
+export const PROVIDERS = {
+  IS_EDITING_FILTERS: 'isEditingFilters',
+  FILTER_PAGE: 'filterPage',
+
+  // filters
+  TYPE_OF_CARE: 'typeOfCare',
+  ZIP: 'zip',
+  RADIUS: 'radius',
+  CHILDREN: 'children',
+  DAYS: 'days',
+  TIMES: 'times'
+};

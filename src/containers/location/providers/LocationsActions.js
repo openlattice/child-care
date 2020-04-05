@@ -22,6 +22,9 @@ const getLBLocationsNeighbors :RequestSequence = newRequestSequence(GET_LB_LOCAT
 const GET_LB_STAY_AWAY_PEOPLE :string = 'GET_LB_STAY_AWAY_PEOPLE';
 const getLBStayAwayPeople :RequestSequence = newRequestSequence(GET_LB_STAY_AWAY_PEOPLE);
 
+export const SET_VALUE :string = 'SET_VALUE';
+export const setValue :RequestSequence = newRequestSequence(SET_VALUE);
+
 export {
   CLEAR_LB_LOCATIONS,
   GET_GEO_OPTIONS,

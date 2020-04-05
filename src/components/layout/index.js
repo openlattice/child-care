@@ -17,6 +17,13 @@ const getContentPadding = ({ padding }) => {
   if (padding === 'none') {
     return null;
   }
+
+  if (padding) {
+    return css`
+      padding: ${padding};
+    `;
+  }
+
   return css`
     padding: 30px;
     ${media.phone`
