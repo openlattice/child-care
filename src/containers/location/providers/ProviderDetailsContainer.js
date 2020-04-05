@@ -287,7 +287,7 @@ class ProviderDetailsContainer extends React.Component {
         return '?';
       }
 
-      const withDate = moment.utc(`January 1, 2020 ${time}`);
+      const withDate = moment.utc(time);
       if (!withDate.isValid()) {
         return '?';
       }
@@ -296,27 +296,28 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     const operatingHours = [];
-    Object.values(DAYS_OF_WEEK).forEach((day) => {
-      const [startPT, endPT] = DAY_PTS[day];
-      const start = getValue(provider, startPT);
-      const end = getValue(provider, endPT);
 
-      if (start || end) {
-        operatingHours.push(
-          <DateRow key={day}>
-            <span>{day}</span>
-            <span>{`${formatTime(start)} - ${formatTime(end)}`}</span>
-          </DateRow>
-        )
-        // operatingHours.push(`${day}:  ${formatTime(start)} - ${formatTime(end)}`);
-      }
-    });
+    if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+      operatingHours.push(<span>Unknown</span>);
+    }
+    else {
+      Object.values(DAYS_OF_WEEK).forEach((day) => {
+        const [startPT, endPT] = DAY_PTS[day];
+        const start = getValue(provider, startPT);
+        const end = getValue(provider, endPT);
 
-    const operatingHoursContent = operatingHours.length ? operatingHours : <span>'Unknown'</span>;
-    //
-    // const operatingHoursContent = operatingHours.length
-    //   ? operatingHours.map((day) => <span key={day}>{day}</span>)
-    //   : <span>'Unknown'</span>;
+        const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
+
+        if (start || end) {
+          operatingHours.push(
+            <DateRow key={day}>
+              <span>{day}</span>
+              <span>{timeWindowStr}</span>
+            </DateRow>
+          )
+        }
+      });
+    }
 
     return (
       <StyledContentOuterWrapper>
@@ -348,7 +349,7 @@ class ProviderDetailsContainer extends React.Component {
           <Row>
             <div>Operating Hours</div>
             <DataRows>
-              {operatingHoursContent}
+              {operatingHours}
             </DataRows>
           </Row>
 

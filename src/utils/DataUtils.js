@@ -1,4 +1,5 @@
 // @flow
+import moment from 'moment';
 import {
   List,
   Map,
@@ -318,6 +319,12 @@ export const getDistanceBetweenCoords = (coordinate1, coordinate2) => {
 		return dist;
 	}
 }
+
+const HARDCODED_DATE = 'January 1, 2020';
+
+export const formatTimeAsDateTime = (time) => {
+  return moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
+};
 
 export {
   SEARCH_PREFIX,

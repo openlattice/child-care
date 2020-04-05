@@ -36,7 +36,7 @@ import Logger from '../../utils/Logger';
 import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
 import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
-import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors } from '../../utils/DataUtils';
+import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
 import { DAYS_OF_WEEK } from '../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
@@ -259,18 +259,39 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
       const daysAndTimesConstraints = [];
 
-      daysAndTimes.entrySeq().forEach(([day, startAndEnd]) => {
-        const start = startAndEnd.get(0);
-        const end = startAndEnd.get(1);
+      daysAndTimes.entrySeq().forEach(([day, [start, end]]) => {
 
         if (start) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
-          constraints.push({
+          daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:`
-          })
+            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(start)}]`
+          });
         }
+
+        if (end) {
+          const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][1]);
+          daysAndTimesConstraints.push({
+            type: 'simple',
+            fuzzy: false,
+            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(end)} TO *]`
+          });
+        }
+
+        if (!start && !end) {
+          const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
+          daysAndTimesConstraints.push({
+            type: 'simple',
+            fuzzy: false,
+            searchTerm: `_exists_:entity.${propertyTypeId}`
+          });
+        }
+      });
+
+      constraints.push({
+        constraints: daysAndTimesConstraints,
+        min: daysAndTimesConstraints.length
       });
 
     }
