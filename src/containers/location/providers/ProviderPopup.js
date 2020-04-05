@@ -12,9 +12,9 @@ import {
 } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
-import { IconButton } from 'lattice-ui-kit';
+import { IconButton, Colors } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { STAY_AWAY_STORE_PATH } from './constants';
 
@@ -29,6 +29,7 @@ import {
   PERSON_RACE_FQN,
   PERSON_SEX_FQN
 } from '../../../edm/DataModelFqns';
+import { selectProvider } from './LocationsActions';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
 import { getValue, getValues } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
@@ -48,6 +49,19 @@ const CloseButton = styled(IconButton)`
 `;
 
 const CloseIcon = <FontAwesomeIcon icon={faTimes} fixedWidth />;
+
+const LinkButton = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: ${Colors.PURPLES[1]};
+  text-decoration: none;
+  text-align: center;
+  margin-top: 10px;
+  :hover {
+    text-decoration: underline;
+  }
+`;
 
 type Props = {
   coordinates :[number, number];
@@ -77,6 +91,11 @@ const ProviderPopup = ({
 
   const address = [street, city, zip].filter(v => v).join(', ');
 
+  const dispatch = useDispatch();
+
+  const handleViewProfile = () => {
+    dispatch(selectProvider(provider));
+  };
 
   return (
     <Popup coordinates={coordinates}>
@@ -88,7 +107,7 @@ const ProviderPopup = ({
       <IconDetail content={status} icon={faUser} />
       <IconDetail content={url} icon={faVenusMars} />
       <IconDetail content={address} icon={faMapMarkerAltSlash} />
-      <DefaultLink to={PROFILE_VIEW_PATH.replace(PROFILE_ID_PATH, providerEKID)}>View Provider</DefaultLink>
+      <LinkButton onClick={handleViewProfile}>View Provider</LinkButton>
     </Popup>
   );
 };

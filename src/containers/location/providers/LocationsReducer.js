@@ -8,6 +8,7 @@ import { RequestStates } from 'redux-reqseq';
 
 import {
   CLEAR_LB_LOCATIONS,
+  SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
   getGeoOptions,
@@ -20,6 +21,7 @@ import { HOME_PATH } from '../../../core/router/Routes';
 
 
 const {
+  SELECTED_PROVIDER,
   IS_EDITING_FILTERS,
   FILTER_PAGE,
   TYPE_OF_CARE,
@@ -47,6 +49,7 @@ const INITIAL_STATE :Map = fromJS({
   stayAway: Map(),
   providerLocations: Map(),
 
+  [SELECTED_PROVIDER]: null,
   [IS_EDITING_FILTERS]: false,
   [FILTER_PAGE]: null,
   [TYPE_OF_CARE]: [],
@@ -86,6 +89,10 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     case SET_VALUE: {
       const { field, value } = action.value;
       return state.set(field, value);
+    }
+
+    case SELECT_PROVIDER: {
+      return state.set(SELECTED_PROVIDER, action.value);
     }
 
     case SET_VALUES: {
