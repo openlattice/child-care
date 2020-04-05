@@ -53,7 +53,6 @@ const DayAndTimeFilter = ({ value, onChange }) => {
     const onTimeChange = (time, index) => {
       const arr = [start, end];
       arr[index] = time;
-      console.log(value.set(day, arr).toJS())
       onChange(value.set(day, arr));
     };
 
