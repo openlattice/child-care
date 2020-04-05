@@ -20,3 +20,5 @@ export const MEDIA_QUERY_JUR_MD :number = 900;
 export const MEDIA_QUERY_JUR_LG :number = 1300;
 
 export const HEADER_HEIGHT :number = 56;
+
+export const HEIGHTS = [450, 700, 1080, 1024, 1360]

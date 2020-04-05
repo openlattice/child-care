@@ -1,15 +1,22 @@
 import styled from 'styled-components';
 import { CardSegment, StyleUtils } from 'lattice-ui-kit';
 
-import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
+import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../core/style/Sizes';
 
 const { media } = StyleUtils;
 
 const MapWrapper = styled.div`
   display: flex;
-  min-height: 400px;
-  height: 40vh;
+  height: 50vh;
   max-width: ${APP_CONTAINER_WIDTH}px;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    min-height: 200px;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    min-height: 400px;
+  }
 `;
 
 const SearchTitle = styled.h1`
