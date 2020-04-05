@@ -187,7 +187,7 @@ class EditFiltersContainer extends React.Component {
     const onCancel = () => this.setState({ filterPage: null });
 
     const onSave = ({ field, value }) => {
-      actions.setValue({ field, value });
+      this.setState({ [field]: value });
       onCancel();
     };
 

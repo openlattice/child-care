@@ -219,3 +219,19 @@ export const DAYS_OF_WEEK = {
   FRIDAY: 'Fri',
   SATURDAY: 'Sat'
 };
+
+export const FACILITY_TYPES = [
+  'Day care center (Licensed)',
+  'Day care center (License Exempt)',
+  'Child Care Home (Licensed)',
+  'Family care center (License Exempt)',
+  'Education Department Emergency Care',
+  'Employer Sponsored Emergency Care'
+];
+
+export const FACILITY_STATUSES = {
+  CLOSED: 'Closure',
+  LIMITED: 'Re-Open, limited',
+  NORMAL: 'Re-Open, normal capacity',
+  EXPANDED: 'Re-Open, expanded capcity'
+};
