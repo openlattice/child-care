@@ -11,7 +11,8 @@ import {
 import {
   Map,
   fromJS,
-  getIn
+  getIn,
+  isImmutable
 } from 'immutable';
 import {
   SearchApiActions,
@@ -19,6 +20,7 @@ import {
 } from 'lattice-sagas';
 import type { SequenceAction } from 'redux-reqseq';
 
+import { STAY_AWAY_STORE_PATH } from './providers/constants';
 import {
   GET_GEO_OPTIONS,
   GET_LB_LOCATIONS_NEIGHBORS,
@@ -36,6 +38,7 @@ import { APP_TYPES_FQNS } from '../../shared/Consts';
 import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors } from '../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 
 const { executeSearch, searchEntityNeighborsWithFilter } = SearchApiActions;
@@ -166,6 +169,11 @@ function* getLBLocationsNeighborsWatcher() :Generator<any, any, any> {
   yield takeEvery(GET_LB_LOCATIONS_NEIGHBORS, getLBLocationsNeighborsWorker);
 }
 
+const isEmpty = (map) => {
+  if (!map) return true;
+  return isImmutable(map) ? map.size === 0 : Object.keys(map).length === 0;
+}
+
 function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any> {
   const response = {
     data: {}
@@ -175,30 +183,78 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
     const { searchInputs, start = 0, maxHits = 20 } = value;
-    const latitude :string = searchInputs.getIn(['selectedOption', 'lat']);
-    const longitude :string = searchInputs.getIn(['selectedOption', 'lon']);
+    console.log(searchInputs.toJS())
 
-    yield put(searchLocations.request(action.id, searchInputs));
+    const locationState = yield select((state) => state.getIn(STAY_AWAY_STORE_PATH));
+    const getValue = (field) => searchInputs.get(field, locationState.get(field));
 
-    const app = yield select((state) => state.get('app', Map()));
+    let latLonObj = searchInputs.get('selectedOption');
+    if (isEmpty(latLonObj)) latLonObj = searchInputs.getIn([PROVIDERS.ZIP, 1]);
+    if (isEmpty(latLonObj)) latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
 
+    yield put(searchLocations.request(action.id, searchInputs.set('selectedOption', latLonObj)));
+
+    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
+    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
+    const radius = getValue(PROVIDERS.RADIUS);
+
+    const app :Map = yield select((state) => state.get('app', Map()));
     const entitySetId = getProvidersESID(app);
     const locationCoordinatesPTID = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
+
+    const locationConstraint = {
+      constraints: [{
+        type: 'geoDistance',
+        latitude,
+        longitude,
+        propertyTypeId: locationCoordinatesPTID,
+        radius,
+        unit: 'miles'
+      }]
+    }
+
+    const constraints = [locationConstraint];
+
+    const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);
+    if (typeOfCare && typeOfCare.size) {
+      const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);
+
+      const typeOfCareConstraint = {
+        constraints: typeOfCare.map(value => ({
+          type: 'simple',
+          searchTerm: `entity.${propertyTypeId}:"${value}"`,
+          fuzzy: false
+        })).toJS()
+      };
+
+      constraints.push(typeOfCareConstraint);
+    }
+
+    const children = getValue(PROVIDERS.CHILDREN);
+    if (children && children.size) {
+
+      const childrenConstraint = {
+        constraints: children.entrySeq().map(([fqn, number]) => ({
+          type: 'simple',
+          fuzzy: false,
+          searchTerm: `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`
+        })).toJS(),
+        min: children.size
+      };
+
+      constraints.push(childrenConstraint);
+    }
+
+    const daysAndTimes = getValue(PROVIDERS.DAYS);
+    if (daysAndTimes && daysAndTimes.size) {
+
+    }
 
     const searchOptions = {
       start,
       entitySetIds: [entitySetId],
       maxHits,
-      constraints: [{
-        constraints: [{
-          type: 'geoDistance',
-          latitude,
-          longitude,
-          propertyTypeId: locationCoordinatesPTID,
-          radius: 400,
-          unit: 'yd'
-        }]
-      }],
+      constraints
     };
 
     const { data, error } = yield call(

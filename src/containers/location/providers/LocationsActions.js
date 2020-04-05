@@ -25,6 +25,12 @@ const getLBStayAwayPeople :RequestSequence = newRequestSequence(GET_LB_STAY_AWAY
 export const SET_VALUE :string = 'SET_VALUE';
 export const setValue :RequestSequence = newRequestSequence(SET_VALUE);
 
+export const SET_VALUES :string = 'SET_VALUES';
+export const setValues :RequestSequence = newRequestSequence(SET_VALUES);
+
+export const EXECUTE_LOCATION_SEARCH :string = 'EXECUTE_LOCATION_SEARCH';
+export const executeLocationSearch :RequestSequence = newRequestSequence(EXECUTE_LOCATION_SEARCH);
+
 export {
   CLEAR_LB_LOCATIONS,
   GET_GEO_OPTIONS,

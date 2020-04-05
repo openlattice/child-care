@@ -9,6 +9,7 @@ import { RequestStates } from 'redux-reqseq';
 import {
   CLEAR_LB_LOCATIONS,
   SET_VALUE,
+  SET_VALUES,
   getGeoOptions,
   searchLocations
 } from './LocationsActions';
@@ -49,7 +50,7 @@ const INITIAL_STATE :Map = fromJS({
   [IS_EDITING_FILTERS]: false,
   [FILTER_PAGE]: null,
   [TYPE_OF_CARE]: [],
-  [ZIP]: '',
+  [ZIP]: ['', {}],
   [RADIUS]: 10,
   [CHILDREN]: {},
   [DAYS]: {}
@@ -84,6 +85,11 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     case SET_VALUE: {
       const { field, value } = action.value;
       return state.set(field, value);
+    }
+
+    case SET_VALUES: {
+      const map = action.value;
+      return state.merge(map);
     }
 
     case CLEAR_LB_LOCATIONS: {

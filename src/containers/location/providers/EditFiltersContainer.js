@@ -8,24 +8,15 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 
-import isPlainObject from 'lodash/isPlainObject';
 import styled, { css } from 'styled-components';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { List, Map } from 'immutable';
-import {
-  Card,
-  Colors,
-  IconButton,
-  PaginationToolbar,
-  SearchResults,
-  Select,
-} from 'lattice-ui-kit';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
+import { Map, fromJS } from 'immutable';
+import { Colors } from 'lattice-ui-kit';
+import { connect } from 'react-redux';
 
 import EditFilter from './EditFilter';
-import { FILTER_HEADERS, STAY_AWAY_STORE_PATH } from './constants';
+import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
@@ -39,7 +30,6 @@ import { isNonEmptyString } from '../../../utils/LangUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
 
-const MAX_HITS = 20;
 const INITIAL_STATE = {
   page: 0,
   start: 0,
@@ -248,7 +238,23 @@ class EditFiltersContainer extends React.Component {
     });
 
     const onExecuteSearch = () => {
-      console.log('execute search!');
+      const { state, props } = this;
+      const { actions } = props;
+
+      const searchInputs = fromJS({
+        [PROVIDERS.TYPE_OF_CARE]: state[PROVIDERS.TYPE_OF_CARE],
+        [PROVIDERS.RADIUS]: state[PROVIDERS.RADIUS],
+        [PROVIDERS.CHILDREN]: state[PROVIDERS.CHILDREN],
+        [PROVIDERS.DAYS]: state[PROVIDERS.DAYS],
+        [PROVIDERS.ZIP]: state[PROVIDERS.ZIP]
+      });
+
+      actions.searchLocations({
+        searchInputs,
+        start: 0,
+        maxHits: 20
+      });
+
       backToMap();
     };
 
@@ -261,7 +267,7 @@ class EditFiltersContainer extends React.Component {
           </BackButton>
           <HeaderLabel>Basic Search</HeaderLabel>
           {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
-          {renderRow(PROVIDERS.ZIP, zip || 'Any', 'ZIP Code')}
+          {renderRow(PROVIDERS.ZIP, zip.get(0) || 'Any', 'ZIP Code')}
           {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
           <Line />
           <HeaderLabel>Advanced Search</HeaderLabel>
