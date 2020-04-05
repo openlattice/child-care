@@ -71,12 +71,13 @@ const FilterRow = styled.div`
 `;
 
 const FilterButton = styled.div`
-  font-size: 0.75rem;
+  font-size: 14px;
   font-weight: 600;
   color: ${Colors.PURPLES[1]};
   text-decoration: none;
   :hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
