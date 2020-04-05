@@ -258,12 +258,12 @@ class EditFiltersContainer extends React.Component {
             <FontAwesomeIcon icon={faChevronLeft} />
             <span>Back to search results</span>
           </BackButton>
-          <HeaderLabel>Provider Search</HeaderLabel>
+          <HeaderLabel>Basic Search</HeaderLabel>
           {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
           {renderRow(PROVIDERS.ZIP, zip || 'Any', 'ZIP Code')}
           {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
           <Line />
-          <HeaderLabel>Care Profile</HeaderLabel>
+          <HeaderLabel>Advanced Search</HeaderLabel>
           {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
           {renderRow(PROVIDERS.DAYS, getListValue(days.keySeq()), 'Days Needed')}
           <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
