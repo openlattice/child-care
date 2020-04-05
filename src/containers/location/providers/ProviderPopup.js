@@ -62,6 +62,7 @@ const ProviderPopup = ({
   onClose,
   provider
 } :Props) => {
+  if (!isOpen) return null;
 
   const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
 
