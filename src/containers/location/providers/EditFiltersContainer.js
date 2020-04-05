@@ -24,8 +24,7 @@ import {
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import LocationResult from './LocationResult';
-import ProviderMap from './ProviderMap';
+import EditFilter from './EditFilter';
 import { FILTER_HEADERS, STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
@@ -185,29 +184,19 @@ class EditFiltersContainer extends React.Component {
     const { actions } = this.props;
     const { filterPage } = this.state;
 
-    const content = <div>content</div>;
+    const onCancel = () => this.setState({ filterPage: null });
 
-    const onSaveFilter = (value) => {
-      actions.setValue({ field: filterPage, value });
-      this.setState({ filterPage: null });
+    const onSave = ({ field, value }) => {
+      actions.setValue({ field, value });
+      onCancel();
     };
 
     return (
-      <ContentOuterWrapper>
-        <MiniStyledContentWrapper padding="25px">
-          <BackButton onClick={() => this.setState({ filterPage: null })}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-            <span>Search Parameters</span>
-          </BackButton>
-
-          <EditFilterHeader>{FILTER_HEADERS[filterPage]}</EditFilterHeader>
-
-          {content}
-
-          <SaveFilterButton onClick={onSaveFilter}>Save</SaveFilterButton>
-
-        </MiniStyledContentWrapper>
-      </ContentOuterWrapper>
+      <EditFilter
+          field={filterPage}
+          value={this.state[filterPage]}
+          onCancel={onCancel}
+          onSave={onSave} />
     );
   }
 
