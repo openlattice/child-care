@@ -217,7 +217,11 @@ class EditFiltersContainer extends React.Component {
         return 'Any';
       }
 
-      return `${size} type${size === 1 ? '' : 's'} selected`;
+      if (size === 1) {
+        return typeOfCare.get(0);
+      }
+
+      return `${size} types selected`;
     };
 
     const getDays = () => Object.values(DAYS_OF_WEEK).filter(v => days.has(v)).join(', ') || 'Any';
