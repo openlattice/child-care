@@ -21,6 +21,7 @@ import * as Routes from '../../core/router/Routes';
 import {
   APP_CONTAINER_WIDTH,
   APP_CONTENT_PADDING,
+  HEADER_HEIGHT
 } from '../../core/style/Sizes';
 import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
 
@@ -35,6 +36,10 @@ const AppHeaderOuterWrapper = styled.header`
   display: flex;
   flex: 0 0 auto;
   justify-content: center;
+  height: ${HEADER_HEIGHT}px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
 `;
 
 const AppHeaderInnerWrapper = styled.div`

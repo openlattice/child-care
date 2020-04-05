@@ -171,13 +171,15 @@ const LocationContainer = () => {
     }
   }, [dispatch, selectedOption, start]);
 
-  if (isEditingFilters) {
-    return <EditFiltersContainer />;
-  }
 
+  let editFiltersContent = null;
   let providerHeader = null;
   let providerDetails = null;
-  if (selectedProvider) {
+
+  if (isEditingFilters) {
+    editFiltersContent = <EditFiltersContainer />;
+  }
+  else if (selectedProvider) {
     providerHeader = <ProviderHeaderContainer />;
     providerDetails = <ProviderDetailsContainer />
   }
@@ -219,6 +221,7 @@ const LocationContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
+        {editFiltersContent}
         {providerHeader}
         {providerDetails}
         <MapWrapper>

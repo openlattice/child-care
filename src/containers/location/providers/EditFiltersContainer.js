@@ -19,7 +19,7 @@ import EditFilter from './EditFilter';
 import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
@@ -35,6 +35,13 @@ const INITIAL_STATE = {
   start: 0,
   selectedOption: undefined
 };
+
+const StyledOuterWrapper = styled(ContentOuterWrapper)`
+  position: fixed;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  bottom: 0;
+  z-index: 15;
+`;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
@@ -263,7 +270,7 @@ class EditFiltersContainer extends React.Component {
     };
 
     return (
-      <ContentOuterWrapper>
+      <StyledOuterWrapper>
         <StyledContentWrapper padding="25px">
           <BackButton onClick={backToMap}>
             <FontAwesomeIcon icon={faChevronLeft} />
@@ -279,7 +286,7 @@ class EditFiltersContainer extends React.Component {
           {renderRow(PROVIDERS.DAYS, getDays(), 'Days Needed')}
           <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
         </StyledContentWrapper>
-      </ContentOuterWrapper>
+      </StyledOuterWrapper>
     );
   }
 }

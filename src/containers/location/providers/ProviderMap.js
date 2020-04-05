@@ -166,9 +166,6 @@ const ProviderMap = (props :Props) => {
         fitBoundsOptions={fitBoundsOptions}
         style={MAP_STYLE.DEFAULT}
         zoom={zoom}>
-      <ScaleControl
-          position="bottom-right"
-          measurement="mi" />
       <CurrentPositionLayer position={currentPosition} />
       {
         selectedFeature && (
