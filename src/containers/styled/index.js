@@ -37,7 +37,6 @@ const ResultDetails = styled.div`
   flex-direction: column;
   flex: 1;
   font-size: 16px;
-  margin: 0 10px;
   min-width: 0;
   ${media.phone`
     font-size: 12px;
