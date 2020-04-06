@@ -77,6 +77,7 @@ const AppContentOuterWrapper = styled.main`
   overflow: scroll;
 
   height: calc(100vh - ${HEADER_HEIGHT}px);
+  top: ${HEADER_HEIGHT}px;
   width: 100vw;
 `;
 
