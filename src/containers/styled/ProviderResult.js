@@ -2,13 +2,6 @@
 
 import React, { useMemo } from 'react';
 
-import {
-  faBirthdayCake,
-  faDraftingCompass,
-  faMapMarkerAltSlash,
-  faUser,
-  faVenusMars,
-} from '@fortawesome/pro-solid-svg-icons';
 import { Map } from 'immutable';
 import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
@@ -72,10 +65,10 @@ const LongBeachResult = ({
         <ResultName bold uppercase>{name}</ResultName>
         <FlexRow>
           <ResultDetails>
-            <IconDetail content={type} icon={faBirthdayCake} />
-            <IconDetail content={status} icon={faUser} />
-            <IconDetail content={url} icon={faVenusMars} />
-            <IconDetail content={address} icon={faMapMarkerAltSlash} />
+            <IconDetail content={type} />
+            <IconDetail content={status} />
+            <IconDetail content={url} />
+            <IconDetail content={address} />
           </ResultDetails>
         </FlexRow>
       </ResultSegment>
