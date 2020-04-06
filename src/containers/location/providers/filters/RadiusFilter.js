@@ -26,6 +26,7 @@ const RadiusFilter = ({ value, onChange }) => {
     <Select
         value={RADIUS_OPTIONS.find(option => option.value === value)}
         isClearable={false}
+        isSearchable={false}
         isMulti={false}
         onChange={handleOnChange}
         options={RADIUS_OPTIONS}

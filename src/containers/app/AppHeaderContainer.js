@@ -104,6 +104,7 @@ const AppTitle = styled.h1`
   font-weight: 600;
   line-height: normal;
   margin: 0 0 0 10px;
+  min-width: fit-content;
 `;
 
 const OrgSelectionBar = styled.div`
