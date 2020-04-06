@@ -342,6 +342,10 @@ class ProviderDetailsContainer extends React.Component {
       });
     }
 
+    if (!operatingHours.length) {
+      operatingHours.push(<span>Unknown</span>);
+    }
+
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
