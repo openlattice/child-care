@@ -2,14 +2,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {
-  faBirthdayCake,
-  faDraftingCompass,
-  faMapMarkerAltSlash,
-  faTimes,
-  faUser,
-  faVenusMars
-} from '@fortawesome/pro-solid-svg-icons';
+import { faTimes  } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
 import { IconButton, Colors } from 'lattice-ui-kit';
@@ -103,10 +96,10 @@ const ProviderPopup = ({
         <strong>{name}</strong>
         <CloseButton size="sm" mode="subtle" icon={CloseIcon} onClick={onClose} />
       </ActionBar>
-      <IconDetail content={type} icon={faBirthdayCake} />
-      <IconDetail content={status} icon={faUser} />
-      <IconDetail content={url} icon={faVenusMars} />
-      <IconDetail content={address} icon={faMapMarkerAltSlash} />
+      <IconDetail content={type} />
+      <IconDetail content={status} />
+      <IconDetail content={url} />
+      <IconDetail content={address} />
       <LinkButton onClick={handleViewProfile}>View Provider</LinkButton>
     </Popup>
   );
