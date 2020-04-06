@@ -22,6 +22,7 @@ import { PROVIDERS } from '../../../utils/constants/StateConstants';
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
   position: fixed;
   height: calc(100vh - ${HEADER_HEIGHT}px);
+  top: ${HEADER_HEIGHT}px;
   bottom: 0;
   z-index: 15;
   background-color: #f5f5f8;

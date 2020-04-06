@@ -26,6 +26,7 @@ import {
   MEDIA_QUERY_TECH_SM,
   MEDIA_QUERY_MD,
   MEDIA_QUERY_LG,
+  HEADER_HEIGHT,
   HEIGHTS
 } from '../../../core/style/Sizes';
 
@@ -49,6 +50,7 @@ const INITIAL_STATE = {
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
  position: fixed;
+ top: ${HEADER_HEIGHT}px;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
