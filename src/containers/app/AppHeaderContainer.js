@@ -180,7 +180,7 @@ class AppHeaderContainer extends Component<Props> {
         <LogoTitleWrapperLink to={Routes.ROOT}>
           <AppLogoIcon />
           <AppTitle>
-            Child Care
+            Childcare
           </AppTitle>
         </LogoTitleWrapperLink>
       </LeftSideContentWrapper>
