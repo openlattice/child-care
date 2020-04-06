@@ -80,6 +80,7 @@ const TimePicker = (props :Props) => {
             format={format}
             fullWidth={fullWidth}
             inputVariant="outlined"
+            invalidDateMessage=""
             mask={mask}
             onChange={handleDateChange}
             placeholder={placeholder}

@@ -35,9 +35,11 @@ import {
 import Logger from '../../utils/Logger';
 import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
+
+import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
-import { DAYS_OF_WEEK } from '../../utils/DataConstants';
+import { DAYS_OF_WEEK, CLOSED } from '../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -189,6 +191,9 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
   };
 
   try {
+
+    yield call(refreshAuthTokenIfNecessary);
+
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
     const { searchInputs, start = 0, maxHits = 20 } = value;
@@ -212,20 +217,27 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const app :Map = yield select((state) => state.get('app', Map()));
     const entitySetId = getProvidersESID(app);
-    const locationCoordinatesPTID = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
 
     const locationConstraint = {
       constraints: [{
         type: 'geoDistance',
         latitude,
         longitude,
-        propertyTypeId: locationCoordinatesPTID,
+        propertyTypeId: getPropertyTypeId(app, PROPERTY_TYPES.LOCATION),
         radius,
         unit: 'miles'
       }]
     }
 
-    const constraints = [locationConstraint];
+    const isNotClosedConstraint = {
+      constraints: [{
+        type: 'simple',
+        fuzzy: 'false',
+        searchTerm: `NOT(entity.${getPropertyTypeId(app, PROPERTY_TYPES.STATUS)}:"${CLOSED}")`
+      }]
+    }
+
+    const constraints = [locationConstraint, isNotClosedConstraint];
 
     if (typeOfCare && typeOfCare.size) {
       const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);
