@@ -1,3 +1,4 @@
+
 /* Form Types */
 export const FORM_TYPE = {
   CRISIS_REPORT: 'Crisis Report'
@@ -233,3 +234,6 @@ export const FACILITY_STATUSES = {
   NORMAL: 'Re-Open, normal capacity',
   EXPANDED: 'Re-Open, expanded capcity'
 };
+
+
+export const CLOSED = 'Closure';
