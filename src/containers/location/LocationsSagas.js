@@ -35,6 +35,8 @@ import {
 import Logger from '../../utils/Logger';
 import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
+
+import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
 import { DAYS_OF_WEEK } from '../../utils/DataConstants';
@@ -189,6 +191,9 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
   };
 
   try {
+
+    yield call(refreshAuthTokenIfNecessary);
+
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
     const { searchInputs, start = 0, maxHits = 20 } = value;

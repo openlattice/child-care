@@ -23,7 +23,7 @@ import * as Routes from './core/router/Routes';
 declare var __AUTH0_CLIENT_ID__ :string;
 declare var __AUTH0_DOMAIN__ :string;
 
-const { AuthRoute, AuthUtils } = LatticeAuth;
+const { AuthUtils } = LatticeAuth;
 const { NEUTRALS } = Colors;
 
 /* eslint-disable */
@@ -82,8 +82,7 @@ if (APP_ROOT_NODE) {
     <Provider store={reduxStore}>
       <>
         <ConnectedRouter history={routerHistory}>
-          <Route path={Routes.LOGOUT_PATH} component={Logout} />
-          <AuthRoute path={Routes.ROOT} component={AppContainer} redirectToLogin />
+          <Route path={Routes.ROOT} component={AppContainer} redirectToLogin />
         </ConnectedRouter>
         <NormalizeCSS />
         <GlobalStyle />

@@ -221,13 +221,11 @@ export const DAYS_OF_WEEK = {
 };
 
 export const FACILITY_TYPES = [
-  'Day care center (Licensed)',
-  'Day care center (License Exempt)',
-  'Child Care Home (Licensed)',
-  'Family care center (License Exempt)',
-  'Education Department Emergency Care',
-  'Employer Sponsored Emergency Care'
-];
+  'Day Care Center',
+  'Day Care Center - Ill Center',
+  'Infant Center',
+  'School Age Day Care Center'
+]
 
 export const FACILITY_STATUSES = {
   CLOSED: 'Closure',

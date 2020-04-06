@@ -1,3 +1,4 @@
+
 /*
  * @flow
  */
@@ -10,9 +11,11 @@ import {
   select,
   takeEvery
 } from '@redux-saga/core/effects';
+import { get } from 'axios';
 import { push } from 'connected-react-router';
 import { EntitySetsApi, EntityDataModelApi } from 'lattice';
-import { AccountUtils } from 'lattice-auth';
+import { configure, AccountUtils, AuthUtils } from 'lattice-auth';
+import { DateTime } from 'luxon';
 import type { SequenceAction } from 'redux-reqseq';
 
 import {
@@ -30,6 +33,9 @@ import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
 import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
 import { getCurrentUserStaffMemberDataWorker } from '../staff/StaffSagas';
+
+declare var __AUTH0_CLIENT_ID__;
+declare var __AUTH0_DOMAIN__;
 
 const LOG = new Logger('AppSagas');
 
@@ -53,6 +59,8 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
   const workerResponse :Object = {};
   try {
     yield put(loadApp.request(action.id));
+
+    yield call(refreshAuthTokenIfNecessary);
 
     const [entitySetId, propertyTypes] = yield all([
       call(EntitySetsApi.getEntitySetId, PROVIDERS_ENTITY_SET),
@@ -126,6 +134,28 @@ function* initializeApplicationWorker(action :SequenceAction) :Generator<*, *, *
 function* initializeApplicationWatcher() :Generator<*, *, *> {
 
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
+}
+
+export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
+
+  try {
+    const expiration = AuthUtils.getAuthTokenExpiration();
+    const oneMinuteFromNow = DateTime.local().plus({ 'minutes': 1 }).valueOf();
+
+    if (oneMinuteFromNow > expiration || true) {
+
+      const { data } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+
+      configure({
+        auth0ClientId: __AUTH0_CLIENT_ID__,
+        auth0Domain: __AUTH0_DOMAIN__,
+        authToken: data
+      });
+    }
+  }
+  catch (error) {
+    console.error(error)
+  }
 }
 
 /*
