@@ -1,4 +1,5 @@
 
+
 /* Form Types */
 export const FORM_TYPE = {
   CRISIS_REPORT: 'Crisis Report'
@@ -224,16 +225,15 @@ export const DAYS_OF_WEEK = {
 export const FACILITY_TYPES = [
   'Day Care Center',
   'Day Care Center - Ill Center',
+  'Day Care Center (Preschool)',
   'Infant Center',
-  'School Age Day Care Center'
-]
+  'School Age Day Care Center',
+  'Family Home'
+];
 
 export const FACILITY_STATUSES = {
-  CLOSED: 'Closure',
-  LIMITED: 'Re-Open, limited',
-  NORMAL: 'Re-Open, normal capacity',
-  EXPANDED: 'Re-Open, expanded capcity'
+  CLOSED: 'Closed',
+  OPEN: 'Open'
 };
 
-
-export const CLOSED = 'Closure';
+export const { CLOSED } = FACILITY_STATUSES;
