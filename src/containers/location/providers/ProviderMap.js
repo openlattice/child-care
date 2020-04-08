@@ -38,6 +38,8 @@ const fitBoundsOptions = {
 
 const containerStyle = { flex: 1 };
 
+const LATITUDE_OFFSET = 0.001;
+
 const INITIAL_STATE = {
   bounds: COORDS.BAY_AREA,
   center: undefined,
@@ -119,7 +121,7 @@ const ProviderMap = (props :Props) => {
         stateDispatch({
           type: 'center',
           payload: {
-            center: [parseFloat(lon), parseFloat(lat)],
+            center: [parseFloat(lon), parseFloat(lat) + LATITUDE_OFFSET],
             selectedFeature: undefined,
             isPopupOpen: false
           }
@@ -145,7 +147,7 @@ const ProviderMap = (props :Props) => {
     stateDispatch({
       type: 'center',
       payload: {
-        center: [lng, lat],
+        center: [lng, lat + LATITUDE_OFFSET],
         selectedFeature: location,
         isPopupOpen: true
       }
