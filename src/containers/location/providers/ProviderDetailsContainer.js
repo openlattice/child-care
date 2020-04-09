@@ -22,7 +22,7 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
-import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
+import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -36,16 +36,6 @@ import { getValue, getValues } from '../../../utils/DataUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
-
-const DAY_PTS = {
-  [DAYS_OF_WEEK.SUNDAY]: [PROPERTY_TYPES.SUNDAY_START, PROPERTY_TYPES.SUNDAY_END],
-  [DAYS_OF_WEEK.MONDAY]: [PROPERTY_TYPES.MONDAY_START, PROPERTY_TYPES.MONDAY_END],
-  [DAYS_OF_WEEK.TUESDAY]: [PROPERTY_TYPES.TUESDAY_START, PROPERTY_TYPES.TUESDAY_END],
-  [DAYS_OF_WEEK.WEDNESDAY]: [PROPERTY_TYPES.WEDNESDAY_START, PROPERTY_TYPES.WEDNESDAY_END],
-  [DAYS_OF_WEEK.THURSDAY]: [PROPERTY_TYPES.THURSDAY_START, PROPERTY_TYPES.THURSDAY_END],
-  [DAYS_OF_WEEK.FRIDAY]: [PROPERTY_TYPES.FRIDAY_START, PROPERTY_TYPES.FRIDAY_END],
-  [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
-};
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;

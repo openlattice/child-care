@@ -36,7 +36,7 @@ const ResultDetails = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  font-size: 16px;
+  font-size: 14px;
   min-width: 0;
   ${media.phone`
     font-size: 12px;
@@ -44,13 +44,17 @@ const ResultDetails = styled.div`
 `;
 
 const ResultName = styled.div`
-  font-size: 20px;
+  font-family: Inter;
+  font-style: normal;
   font-weight: 600;
-  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 19px;
+  color: #555E6F;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  margin-bottom: 5px;
   ${media.phone`
     font-size: 16px;
   `}

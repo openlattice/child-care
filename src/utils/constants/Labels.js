@@ -10,170 +10,222 @@ export const { en, es } = LANGUAGES;
 
 export const LABELS = {
   ADDRESS: {
-    [en]: 'Address'
+    [en]: 'Address',
+    [es]: 'Dirección'
   },
   ADVANCED_SEARCH: {
-    [en]: 'Advanced Search'
+    [en]: 'Advanced Search',
+    [es]: 'Búsqueda Avanzada'
   },
   AGE_INFANT: {
-    [en]: 'Infant (0 - 2 yrs)'
+    [en]: 'Infant (0 - 2 yrs)',
+    [es]: 'Bebé (0 - 2 a)'
   },
   AGE_SCHOOL: {
-    [en]: 'School age (6+ yrs)'
+    [en]: 'School age (5+ yrs)',
+    [es]: 'Niño (5+ a)'
   },
   AGE_TODDLER: {
-    [en]: 'Toddler (2 - 5 yrs)'
+    [en]: 'Toddler (2 - 5 yrs)',
+    [es]: 'Niño pequeño (2 - 5 a)'
   },
   ANY: {
-    [en]: 'Any'
+    [en]: 'Any',
+    [es]: 'Alguno'
   },
   APPLY: {
-    [en]: 'Apply'
+    [en]: 'Apply',
+    [es]: 'Confirma'
+  },
+  CLOSED: {
+    [en]: 'Closed',
+    [es]: 'Cerrado'
   },
   BACK_TO_SEARCH_RESULTS: {
-    [en]: 'Back to search results'
+    [en]: 'Back to search results',
+    [es]: 'Atrás'
   },
   BASIC_SEARCH: {
-    [en]: 'Basic Search'
+    [en]: 'Basic Search',
+    [es]: 'Búsqueda Básica'
   },
   CONTACT: {
-    [en]: 'Contact'
+    [en]: 'Contact',
+    [es]: 'Contacto'
   },
   CURRENT_LOCATION: {
-    [en]: 'Current Location'
+    [en]: 'Current Location',
+    [es]: 'Ubicación Actual'
   },
   DAYS_NEEDED: {
-    [en]: 'Days Needed'
+    [en]: 'Days Needed',
+    [es]: 'Días Necesarios'
   },
   NUMBER_OF_CHILDREN: {
-    [en]: 'Number of Children'
+    [en]: 'Number of Children',
+    [es]: 'Numero de niños'
+  },
+  OPEN: {
+    [en]: 'Open',
+    [es]: 'Abierto'
   },
   OPERATING_HOURS: {
-    [en]: 'Operating Hours'
+    [en]: 'Operating Hours',
+    [es]: 'Horario'
   },
   MILE: {
-    [en]: 'mile'
+    [en]: 'mile',
+    [es]: 'milla'
   },
   PHONE: {
-    [en]: 'Phone'
+    [en]: 'Phone',
+    [es]: 'Teléfono'
   },
   POINT_OF_CONTACT: {
-    [en]: 'Point of Contact'
+    [en]: 'Point of Contact',
+    [es]: 'Punto de Contacto'
   },
   REFINE_SEARCH: {
-    [en]: 'Refine Search'
+    [en]: 'Refine Search',
+    [es]: 'Refina Búsqueda'
   },
   SAVE: {
-    [en]: 'Save'
+    [en]: 'Save',
+    [es]: 'Guarda'
   },
   SEARCH_LOCATIONS: {
-    [en]: 'Search Locations'
+    [en]: 'Search Locations',
+    [es]: 'Ubicaciones de Búsqueda'
   },
   SEARCH_PARAMETERS: {
-    [en]: 'Search Parameters'
+    [en]: 'Search Parameters',
+    [es]: 'Parámetros de Búsqueda'
   },
   SEARCH_RADIUS: {
-    [en]: 'Search Radius'
+    [en]: 'Search Radius',
+    [es]: 'Radio de Búsqueda'
   },
   SEARCH_RESULTS: {
-    [en]: 'Search Results'
+    [en]: 'Search Results',
+    [es]: 'Resultados de Búsqueda'
   },
   SELECT: {
-    [en]: 'Select...'
+    [en]: 'Select...',
+    [es]: 'Selecciona...'
   },
   SELECT_ALL: {
-    [en]: 'Select all that apply:'
+    [en]: 'Select all that apply:',
+    [es]: 'Selecciona todos los que correspondan:'
   },
   SORT_BY: {
-    [en]: 'Sort by relevance'
+    [en]: 'Sort by relevance',
+    [es]: 'Ordena por relevancia'
   },
   TYPE_OF_CARE: {
-    [en]: 'Type of Care'
+    [en]: 'Type of Care',
+    [es]: 'Tipo de Cuidado'
   },
   TYPES_SELECTED: {
-    [en]: 'types selected'
+    [en]: 'types selected',
+    [es]: 'tipos seleccionados'
   },
   UNKNOWN: {
-    [en]: 'Unknown'
+    [en]: 'Unknown',
+    [es]: 'Desconocida'
   },
   UNKNOWN_AGE_LIMITATIONS: {
-    [en]: 'Unknown age limitations'
+    [en]: 'Unknown age limitations',
+    [es]: 'Desconocida limitaciones de edad'
   },
   VIEW_PROVIDER: {
-    [en]: 'View Provider'
+    [en]: 'View Provider',
+    [es]: 'Ve Proveedor'
   },
   YR: {
-    [en]: 'yr'
+    [en]: 'yr',
+    [es]: 'a'
   },
   YR_AND_UP: {
-    [en]: 'yr and up'
+    [en]: 'yr and up',
+    [es]: 'a y mayor'
   },
   ZIP_CODE: {
-    [en]: 'ZIP Code'
+    [en]: 'ZIP Code',
+    [es]: 'Código Postal'
   },
 
 
   [DAYS_OF_WEEK.SUNDAY]: {
-    [en]: 'Sun'
+    [en]: 'Sun',
+    [es]: 'dom'
   },
   [DAYS_OF_WEEK.MONDAY]: {
-    [en]: 'Mon'
+    [en]: 'Mon',
+    [es]: 'lun'
   },
   [DAYS_OF_WEEK.TUESDAY]: {
-    [en]: 'Tue'
+    [en]: 'Tue',
+    [es]: 'mar'
   },
   [DAYS_OF_WEEK.WEDNESDAY]: {
-    [en]: 'Wed'
+    [en]: 'Wed',
+    [es]: 'mie'
   },
   [DAYS_OF_WEEK.THURSDAY]: {
-    [en]: 'Thu'
+    [en]: 'Thu',
+    [es]: 'jue'
   },
   [DAYS_OF_WEEK.FRIDAY]: {
-    [en]: 'Fri'
+    [en]: 'Fri',
+    [es]: 'vie'
   },
   [DAYS_OF_WEEK.SATURDAY]: {
-    [en]: 'Sat'
+    [en]: 'Sat',
+    [es]: 'sab'
   }
 };
 
 export const HEADER_LABELS = {
-  [PROVIDERS.TYPE_OF_CARE]: {
-    [en]: 'Type of Care'
-  },
-  [PROVIDERS.ZIP]: {
-    [en]: 'ZIP Code'
-  },
-  [PROVIDERS.RADIUS]: {
-    [en]: 'Search Radius'
-  },
+  [PROVIDERS.TYPE_OF_CARE]: LABELS.TYPE_OF_CARE,
+  [PROVIDERS.ZIP]: LABELS.ZIP_CODE,
+  [PROVIDERS.RADIUS]: LABELS.SEARCH_RADIUS,
   [PROVIDERS.CHILDREN]: {
-    [en]: 'How many children do you need care for?'
+    [en]: 'How many children do you need care for?',
+    [es]: '¿Para cuántos niños necesita cuidado?'
   },
   [PROVIDERS.DAYS]: {
-    [en]: 'When do you need care?'
+    [en]: 'When do you need care?',
+    [es]: '¿Cuándo necesita cuidado?'
   }
 };
 
 export const DAY_OF_WEEK_LABELS = {
   [DAYS_OF_WEEK.SUNDAY]: {
-    [en]: 'Sunday'
+    [en]: 'Sunday',
+    [es]: 'Domingo'
   },
   [DAYS_OF_WEEK.MONDAY]: {
-    [en]: 'Monday'
+    [en]: 'Monday',
+    [es]: 'Lunes'
   },
   [DAYS_OF_WEEK.TUESDAY]: {
-    [en]: 'Tuesday'
+    [en]: 'Tuesday',
+    [es]: 'Martes'
   },
   [DAYS_OF_WEEK.WEDNESDAY]: {
-    [en]: 'Wednesday'
+    [en]: 'Wednesday',
+    [es]: 'Miércoles'
   },
   [DAYS_OF_WEEK.THURSDAY]: {
-    [en]: 'Thursday'
+    [en]: 'Thursday',
+    [es]: 'Jueves'
   },
   [DAYS_OF_WEEK.FRIDAY]: {
-    [en]: 'Friday'
+    [en]: 'Friday',
+    [es]: 'Viernes'
   },
   [DAYS_OF_WEEK.SATURDAY]: {
-    [en]: 'Saturday'
+    [en]: 'Saturday',
+    [es]: 'Sábado'
   }
 };
