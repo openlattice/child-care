@@ -25,7 +25,9 @@ import {
 import { selectProvider } from './LocationsActions';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
 import { getValue, getValues } from '../../../utils/DataUtils';
+import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { LABELS } from '../../../utils/constants/Labels';
 
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 
@@ -56,18 +58,31 @@ const LinkButton = styled.div`
   }
 `;
 
+const OpenClosedTag = styled.div`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 17px;
+
+  text-align: left;
+  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
+`;
+
 type Props = {
   coordinates :[number, number];
   isOpen :boolean;
   stayAwayLocation :Map;
   onClose :() => void;
+  renderText :Function
 };
 
 const ProviderPopup = ({
   coordinates,
   isOpen,
   onClose,
-  provider
+  provider,
+  renderText
 } :Props) => {
   if (!isOpen) return null;
 
@@ -82,6 +97,23 @@ const ProviderPopup = ({
   const city = getValue(provider, PROPERTY_TYPES.CITY);
   const zip = getValue(provider, PROPERTY_TYPES.ZIP);
 
+  const isOperating = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+
+  const capacities = [];
+  const yr = renderText(LABELS.YR);
+  if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
+    capacities.push(`0 ${yr} - 1 ${yr}`);
+  }
+  if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
+    capacities.push(`2 ${yr} - 5 ${yr}`);
+  }
+  if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
+    capacities.push(`6 ${renderText(LABELS.YR_AND_UP)}`);
+  }
+  if (!capacities.length) {
+    capacities.push(renderText(LABELS.UNKNOWN_AGE_LIMITATIONS));
+  }
+
   const address = [street, city, zip].filter(v => v).join(', ');
 
   const dispatch = useDispatch();
@@ -92,15 +124,17 @@ const ProviderPopup = ({
 
   return (
     <Popup coordinates={coordinates}>
+      <OpenClosedTag isOpen={isOperating}>
+        {renderText(isOperating ? LABELS.OPEN : LABELS.CLOSED)}
+      </OpenClosedTag>
       <ActionBar>
         <strong>{name}</strong>
         <CloseButton size="sm" mode="subtle" icon={CloseIcon} onClick={onClose} />
       </ActionBar>
       <IconDetail content={type} />
-      <IconDetail content={status} />
-      <IconDetail content={url} />
-      <IconDetail content={address} />
-      <LinkButton onClick={handleViewProfile}>View Provider</LinkButton>
+      <IconDetail content={`${city}, CA`} />
+      <IconDetail content={capacities.join(', ')} />
+      <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );
 };

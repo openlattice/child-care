@@ -21,7 +21,8 @@ import EditFilter from './EditFilter';
 import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
+import { LABELS } from '../../../utils/constants/Labels';
+import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -31,25 +32,10 @@ import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtil
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { isNonEmptyString } from '../../../utils/LangUtils';
-import { getValue, getValues, getDistanceBetweenCoords } from '../../../utils/DataUtils';
+import { getValue, getValues } from '../../../utils/DataUtils';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
-
-const INITIAL_STATE = {
-  page: 0,
-  start: 0,
-  selectedOption: undefined
-};
-
-const DAY_PTS = {
-  [DAYS_OF_WEEK.SUNDAY]: [PROPERTY_TYPES.SUNDAY_START, PROPERTY_TYPES.SUNDAY_END],
-  [DAYS_OF_WEEK.MONDAY]: [PROPERTY_TYPES.MONDAY_START, PROPERTY_TYPES.MONDAY_END],
-  [DAYS_OF_WEEK.TUESDAY]: [PROPERTY_TYPES.TUESDAY_START, PROPERTY_TYPES.TUESDAY_END],
-  [DAYS_OF_WEEK.WEDNESDAY]: [PROPERTY_TYPES.WEDNESDAY_START, PROPERTY_TYPES.WEDNESDAY_END],
-  [DAYS_OF_WEEK.THURSDAY]: [PROPERTY_TYPES.THURSDAY_START, PROPERTY_TYPES.THURSDAY_END],
-  [DAYS_OF_WEEK.FRIDAY]: [PROPERTY_TYPES.FRIDAY_START, PROPERTY_TYPES.FRIDAY_END],
-  [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
-};
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
@@ -86,13 +72,6 @@ const StyledContentWrapper = styled(ContentWrapper)`
   position: relative;
 `;
 
-const MiniStyledContentWrapper = styled(StyledContentWrapper)`
-  background-color: white;
-  max-height: fit-content;
-  position: relative;
-`;
-
-
 const HeaderLabel = styled.div`
   font-family: Inter;
   font-style: normal;
@@ -100,113 +79,6 @@ const HeaderLabel = styled.div`
   font-size: 14px;
   line-height: 17px;
   margin-bottom: 10px;
-
-  color: #555E6F;
-`;
-
-const FilterRow = styled.div`
-  color: #8E929B;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-
-  div {
-
-  }
-
-  article {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    span {
-      font-weight: 600;
-      color: #555E6F;
-      margin-right: 15px;
-    }
-  }
-
-  &:hover {
-    cursor: pointer
-  }
-`;
-
-const Line = styled.div`
-  height: 1px;
-  background-color: #E6E6EB;
-  margin: 10px -25px 0 -25px;
-`;
-
-const EditFilterHeader = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 27px;
-  margin: 20px 0;
-
-  color: #555E6F;
-`;
-
-const fixedBottomButtonStyle = css`
-  position: fixed;
-  bottom: 30px;
-  border-radius: 3px;
-  border: none;
-  width: calc(min(100vw, ${APP_CONTAINER_WIDTH}px) - 50px);
-  font-family: Inter;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-`;
-
-const ApplyButton = styled(InfoButton)`
-  ${fixedBottomButtonStyle}
-`;
-
-const SaveFilterButton = styled(BasicButton)`
-  ${fixedBottomButtonStyle}
-`;
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-family: Inter;
-  font-style: normal;
-  color: #555E6F;
-  padding: 15px 0;
-
-  div {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 27px;
-  }
-
-
-  span {
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-  }
-`;
-
-const SubHeader = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  margin: 3px 0;
 
   color: #555E6F;
 `;
@@ -259,18 +131,9 @@ const DateRow = styled.article`
 
 class ProviderDetailsContainer extends React.Component {
 
-  getDistance = () => {
-    const { coordinates, provider } = this.props;
-
-    const [lon, lat] = getCoordinates(provider);
-    const miles = getDistanceBetweenCoords(coordinates, [lat, lon]);
-
-    return Math.round(miles * 10) / 10;
-  }
-
   render() {
 
-    const { actions, provider } = this.props;
+    const { renderText, provider } = this.props;
 
     if (!provider) {
       return null;
@@ -302,10 +165,6 @@ class ProviderDetailsContainer extends React.Component {
       capacities.push('6 yr and up');
     }
 
-    const address = [street, city, zip].filter(v => v).join(', ');
-
-    const distance = this.getDistance();
-
     const formatTime = (time) => {
       if (!time) {
         return '?';
@@ -321,8 +180,10 @@ class ProviderDetailsContainer extends React.Component {
 
     const operatingHours = [];
 
+    const unknown = renderText(LABELS.UNKNOWN);
+
     if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
-      operatingHours.push(<span>Unknown</span>);
+      operatingHours.push(<span>{unknown}</span>);
     }
     else {
       Object.values(DAYS_OF_WEEK).forEach((day) => {
@@ -335,10 +196,10 @@ class ProviderDetailsContainer extends React.Component {
         if (start || end) {
           operatingHours.push(
             <DateRow key={day}>
-              <span>{day}</span>
+              <span>{renderText(LABELS[day])}</span>
               <span>{timeWindowStr}</span>
             </DateRow>
-          )
+          );
         }
       });
     }
@@ -350,31 +211,24 @@ class ProviderDetailsContainer extends React.Component {
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
-          <HeaderLabel>Contact</HeaderLabel>
+          <HeaderLabel>{renderText(LABELS.CONTACT)}</HeaderLabel>
 
           <Row>
-            <div>Phone</div>
+            <div>{renderText(LABELS.PHONE)}</div>
             <DataRows>
-              <span>{phone || 'Unknown'}</span>
+              <span>{phone || unknown}</span>
             </DataRows>
           </Row>
 
           <Row>
-            <div>Point of Contact</div>
+            <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
             <DataRows>
-              <span>{pointOfContact || 'Unknown'}</span>
+              <span>{pointOfContact || unknown}</span>
             </DataRows>
           </Row>
 
           <Row>
-            <div>Phone</div>
-            <DataRows>
-              <span>Unknown</span>
-            </DataRows>
-          </Row>
-
-          <Row>
-            <div>Address</div>
+            <div>{renderText(LABELS.ADDRESS)}</div>
             <DataRows>
               <span>{street}</span>
               <span>{`${city}, CA ${zip}`}</span>
@@ -382,7 +236,7 @@ class ProviderDetailsContainer extends React.Component {
           </Row>
 
           <Row>
-            <div>Operating Hours</div>
+            <div>{renderText(LABELS.OPERATING_HOURS)}</div>
             <DataRows>
               {operatingHours}
             </DataRows>
@@ -403,7 +257,8 @@ function mapStateToProps(state :Map<*, *>) :Object {
   return {
     providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
-    coordinates: [lat, lon]
+    coordinates: [lat, lon],
+    renderText: getRenderTextFn(state)
   };
 }
 

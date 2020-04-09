@@ -18,6 +18,7 @@ import ZipFilter from './filters/ZipFilter';
 import BasicButton from '../../../components/buttons/BasicButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
@@ -104,7 +105,7 @@ const FILTER_COMPONENTS = {
   [PROVIDERS.RADIUS]: RadiusFilter,
   [PROVIDERS.TYPE_OF_CARE]: TypeOfCareFilter,
   [PROVIDERS.ZIP]: ZipFilter,
-}
+};
 
 export default class EditFilter extends React.Component {
 
@@ -117,7 +118,7 @@ export default class EditFilter extends React.Component {
 
 
   getContent = () => {
-    const { field } = this.props;
+    const { field, renderText } = this.props;
     const { value } = this.state;
 
     const Component = FILTER_COMPONENTS[field];
@@ -126,11 +127,16 @@ export default class EditFilter extends React.Component {
       return null;
     }
 
-    return <Component value={value} onChange={(newValue) => this.setState({ value: newValue })} />;
+    return <Component value={value} renderText={renderText} onChange={(newValue) => this.setState({ value: newValue })} />;
   }
 
   render() {
-    const { field, onCancel, onSave } = this.props;
+    const {
+      field,
+      renderText,
+      onCancel,
+      onSave
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -138,16 +144,16 @@ export default class EditFilter extends React.Component {
         <StyledContentWrapper padding={`${PADDING}px`}>
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>Search Parameters</span>
+            <span>{renderText(LABELS.SEARCH_PARAMETERS)}</span>
           </BackButton>
 
-          <EditFilterHeader>{FILTER_HEADERS[field]}</EditFilterHeader>
+          <EditFilterHeader>{renderText(HEADER_LABELS[field])}</EditFilterHeader>
 
           {this.getContent()}
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
-          <SaveFilterButton onClick={() => onSave({ field, value })}>Save</SaveFilterButton>
+          <SaveFilterButton onClick={() => onSave({ field, value })}>{renderText(LABELS.SAVE)}</SaveFilterButton>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
     );

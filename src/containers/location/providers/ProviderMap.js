@@ -14,6 +14,8 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import RadiusLayer from '../../map/RadiusLayer';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
+import { getRenderTextFn } from '../../../utils/AppUtils';
+import { LABELS } from '../../../utils/constants/Labels';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
@@ -92,6 +94,7 @@ const ProviderMap = (props :Props) => {
     selectedOption
   } = props;
 
+  const renderText = useSelector(getRenderTextFn);
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
   const hospitals = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS]));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
@@ -186,6 +189,7 @@ const ProviderMap = (props :Props) => {
           <>
             <RadiusLayer location={selectedFeature} radius={100} unit="yd" />
             <ProviderPopup
+                renderText={renderText}
                 isOpen={isPopupOpen && !selectedProvider}
                 coordinates={getCoordinates(selectedFeature)}
                 provider={selectedFeature}

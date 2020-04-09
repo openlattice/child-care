@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import ProviderResult from '../../styled/ProviderResult';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 
 const { OPENLATTICE_ID_FQN } = Constants;
 
@@ -18,13 +19,19 @@ type Props = {
 
 const LocationResult = (props :Props) => {
 
-  const { result: locationEKID } = props;
+  const { coordinates, result: locationEKID } = props;
 
-  const provider = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, 'providerLocations', locationEKID], Map()));
+  const renderText = useSelector(getRenderTextFn);
+
+  const providerState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH], Map()));
+  const provider = providerState.getIn(['providerLocations', locationEKID], Map());
+
+
+  const lat = providerState.getIn(['selectedOption', 'lat']);
+  const lon = providerState.getIn(['selectedOption', 'lon']);
 
   return (
-    <ProviderResult provider={provider} />
+    <ProviderResult provider={provider} coordinates={[lat, lon]} renderText={renderText} />
   );
 };
 

@@ -1,5 +1,10 @@
 // @flow
+import moment from 'moment';
 import { DateTime, Interval } from 'luxon';
+
+import { getValue } from './DataUtils';
+import { DAY_PTS } from './DataConstants';
+import { PROPERTY_TYPES } from './constants/DataModelConstants';
 
 const getAgeFromIsoDate = (dob :string = '', asNumber :boolean = false, invalidValue :any = '') => {
   const dobDT = DateTime.fromISO(dob);
@@ -27,6 +32,32 @@ const isNowValid = (start :string, end :string) => {
   const endDT = DateTime.fromISO(end);
   const now = DateTime.local();
   return (startDT < now) && (now < endDT);
+};
+
+const TIME_FORMAT = 'hh:mm:ss';
+
+export const isOpen = (entity) => {
+  const now = moment();
+  const day = now.format('ddd');
+
+  const [start, end] = DAY_PTS[day];
+
+  if (getValue(entity, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+    return null;
+  }
+
+  const startVal = getValue(entity, start);
+  const endVal = getValue(entity, end);
+
+  if (!startVal || !endVal) {
+    return false;
+  }
+
+  const startTime = moment(startVal).format(TIME_FORMAT);
+  const endTime = moment(endVal).format(TIME_FORMAT);
+  const currentTime = now.format(TIME_FORMAT);
+
+  return currentTime.isBetween(startTime, endTime);
 };
 
 export {

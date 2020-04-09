@@ -14,13 +14,13 @@ import { RequestStates } from 'redux-reqseq';
 import type { SequenceAction } from 'redux-reqseq';
 
 
+import { LANGUAGES } from '../../utils/constants/Labels';
 import { getFqn } from '../../utils/DataUtils';
 import {
+  SWITCH_LANGUAGE,
   initializeApplication,
   loadApp,
 } from './AppActions';
-
-const { FullyQualifiedName } = Models;
 
 const INITIAL_STATE :Map<*, *> = fromJS({
   actions: {
@@ -39,16 +39,9 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   entitySetId: null,
   hospitalsEntitySetId: null,
   propertyTypesById: Map(),
-  propertyTypesByFqn: Map()
+  propertyTypesByFqn: Map(),
+  renderText: (label) => label[LANGUAGES.en]
 });
-
-const getEntityTypePropertyTypes = (edm :Object, entityTypeId :string) :Object => {
-  const propertyTypesMap :Object = {};
-  edm.entityTypes[entityTypeId].properties.forEach((propertyTypeId :string) => {
-    propertyTypesMap[propertyTypeId] = edm.propertyTypes[propertyTypeId];
-  });
-  return propertyTypesMap;
-};
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {
 
@@ -113,6 +106,10 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
             .deleteIn(['actions', 'loadApp', seqAction.id]);
         }
       });
+    }
+
+    case SWITCH_LANGUAGE: {
+      return state.set('renderText', (labels) => labels[action.value]);
     }
 
     default:

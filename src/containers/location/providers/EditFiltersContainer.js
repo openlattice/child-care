@@ -20,6 +20,7 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { LABELS } from '../../../utils/constants/Labels';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
@@ -27,6 +28,7 @@ import InfoButton from '../../../components/buttons/InfoButton';
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { isNonEmptyString } from '../../../utils/LangUtils';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
 
@@ -173,7 +175,7 @@ class EditFiltersContainer extends React.Component {
   }
 
   renderEditFilter = () => {
-    const { actions } = this.props;
+    const { actions, renderText } = this.props;
     const { filterPage } = this.state;
 
     const onCancel = () => this.setState({ filterPage: null });
@@ -185,6 +187,7 @@ class EditFiltersContainer extends React.Component {
 
     return (
       <EditFilter
+          renderText={renderText}
           field={filterPage}
           value={this.state[filterPage]}
           onCancel={onCancel}
@@ -194,7 +197,7 @@ class EditFiltersContainer extends React.Component {
 
   render() {
 
-    const { providerState, actions } = this.props;
+    const { renderText, actions } = this.props;
     const {
       filterPage,
       [PROVIDERS.TYPE_OF_CARE]: typeOfCare,
@@ -212,24 +215,30 @@ class EditFiltersContainer extends React.Component {
 
     const editFilter = (value) => this.setState({ filterPage: value });
 
+    const any = renderText(LABELS.ANY);
+
     const getFacilityTypeValue = () => {
       const { size } = typeOfCare;
       if (!size) {
-        return 'Any';
+        return any;
       }
 
       if (size === 1) {
         return typeOfCare.get(0);
       }
 
-      return `${size} types selected`;
+      return `${size} ${renderText(LABELS.TYPES_SELECTED)}`;
     };
 
-    const getDays = () => Object.values(DAYS_OF_WEEK).filter(v => days.has(v)).join(', ') || 'Any';
+    const getDays = () => Object.values(DAYS_OF_WEEK)
+      .filter(v => days.has(v))
+      .map(v => renderText(LABELS[v]))
+      .join(', ')
+      || any;
 
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
-        <div>{label}</div>
+        <div>{renderText(label)}</div>
         <article>
           <span>{value}</span>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -270,22 +279,22 @@ class EditFiltersContainer extends React.Component {
           <StyledContentWrapper padding={`${PADDING}px`}>
             <BackButton onClick={backToMap}>
               <FontAwesomeIcon icon={faChevronLeft} />
-              <span>Back to search results</span>
+              <span>{renderText(LABELS.BACK_TO_SEARCH_RESULTS)}</span>
             </BackButton>
 
-            <HeaderLabel>Basic Search</HeaderLabel>
-            {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
-            {renderRow(PROVIDERS.ZIP, zip.get(0) || 'Any', 'ZIP Code')}
-            {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
+            <HeaderLabel>{renderText(LABELS.BASIC_SEARCH)}</HeaderLabel>
+            {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), LABELS.TYPE_OF_CARE)}
+            {renderRow(PROVIDERS.ZIP, zip.get(0) || any, LABELS.ZIP_CODE)}
+            {renderRow(PROVIDERS.RADIUS, `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`, LABELS.SEARCH_RADIUS)}
             <Line />
-            <HeaderLabel>Advanced Search</HeaderLabel>
-            {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
-            {renderRow(PROVIDERS.DAYS, getDays(), 'Days Needed')}
+            <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
+            {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
+            {renderRow(PROVIDERS.DAYS, getDays(), LABELS.DAYS_NEEDED)}
 
           </StyledContentWrapper>
         </ScrollContainer>
         <ApplyButtonWrapper>
-          <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
+          <ApplyButton onClick={onExecuteSearch}>{renderText(LABELS.APPLY)}</ApplyButton>
         </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );
@@ -295,7 +304,8 @@ class EditFiltersContainer extends React.Component {
 function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
-    providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map())
+    providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
+    renderText: getRenderTextFn(state)
   };
 }
 

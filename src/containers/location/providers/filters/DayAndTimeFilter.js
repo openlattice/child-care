@@ -5,16 +5,7 @@ import styled from 'styled-components';
 import TimePicker from '../../../../components/controls/TimePicker';
 import StyledCheckbox from '../../../../components/controls/StyledCheckbox';
 import { DAYS_OF_WEEK } from '../../../../utils/DataConstants';
-
-const LABELS = {
-  [DAYS_OF_WEEK.SUNDAY]: 'Sunday',
-  [DAYS_OF_WEEK.MONDAY]: 'Monday',
-  [DAYS_OF_WEEK.TUESDAY]: 'Tuesday',
-  [DAYS_OF_WEEK.WEDNESDAY]: 'Wednesday',
-  [DAYS_OF_WEEK.THURSDAY]: 'Thursday',
-  [DAYS_OF_WEEK.FRIDAY]: 'Friday',
-  [DAYS_OF_WEEK.SATURDAY]: 'Saturday'
-}
+import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/Labels';
 
 const Row = styled.div`
   display: flex;
@@ -42,7 +33,7 @@ const Spacer = styled.div`
   width: 5px;
 `;
 
-const DayAndTimeFilter = ({ value, onChange }) => {
+const DayAndTimeFilter = ({ value, onChange, renderText }) => {
 
   const renderRow = (day) => {
 
@@ -63,13 +54,13 @@ const DayAndTimeFilter = ({ value, onChange }) => {
       else {
         onChange(value.set(day, [undefined, undefined]));
       }
-    }
+    };
 
     return (
       <Row key={day}>
         <SectionWrapper>
           <StyledCheckbox checked={isSelected} onChange={onCheckboxChange} name={day} noMargin />
-          <span>{LABELS[day]}</span>
+          <span>{renderText(DAY_OF_WEEK_LABELS[day])}</span>
         </SectionWrapper>
         <SectionWrapper>
           <TimePicker
@@ -83,11 +74,11 @@ const DayAndTimeFilter = ({ value, onChange }) => {
               onChange={(time) => onTimeChange(time, 1)} />
         </SectionWrapper>
       </Row>
-    )
-  }
+    );
+  };
 
   return Object.values(DAYS_OF_WEEK).map(renderRow);
 
-}
+};
 
 export default DayAndTimeFilter;

@@ -41,7 +41,7 @@ import { APP_TYPES_FQNS } from '../../shared/Consts';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { getPropertyTypeId, getESIDsFromApp, getHospitalsESID, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
-import { DAYS_OF_WEEK, CLOSED } from '../../utils/DataConstants';
+import { DAY_PTS, CLOSED } from '../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -59,16 +59,6 @@ const LOG = new Logger('LocationsSagas');
 
 const GEOCODER_URL_PREFIX = 'https://osm.openlattice.com/nominatim/search/';
 const GEOCODER_URL_SUFFIX = '?format=json';
-
-const DAY_PTS = {
-  [DAYS_OF_WEEK.SUNDAY]: [PROPERTY_TYPES.SUNDAY_START, PROPERTY_TYPES.SUNDAY_END],
-  [DAYS_OF_WEEK.MONDAY]: [PROPERTY_TYPES.MONDAY_START, PROPERTY_TYPES.MONDAY_END],
-  [DAYS_OF_WEEK.TUESDAY]: [PROPERTY_TYPES.TUESDAY_START, PROPERTY_TYPES.TUESDAY_END],
-  [DAYS_OF_WEEK.WEDNESDAY]: [PROPERTY_TYPES.WEDNESDAY_START, PROPERTY_TYPES.WEDNESDAY_END],
-  [DAYS_OF_WEEK.THURSDAY]: [PROPERTY_TYPES.THURSDAY_START, PROPERTY_TYPES.THURSDAY_END],
-  [DAYS_OF_WEEK.FRIDAY]: [PROPERTY_TYPES.FRIDAY_START, PROPERTY_TYPES.FRIDAY_END],
-  [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
-};
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {

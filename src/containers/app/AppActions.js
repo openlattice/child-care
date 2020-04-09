@@ -14,11 +14,16 @@ const switchOrganization :RequestSequence = newRequestSequence(SWITCH_ORGANIZATI
 const INITIALIZE_APPLICATION :'INITIALIZE_APPLICATION' = 'INITIALIZE_APPLICATION';
 const initializeApplication :RequestSequence = newRequestSequence(INITIALIZE_APPLICATION);
 
+const SWITCH_LANGUAGE :'SWITCH_LANGUAGE' = 'SWITCH_LANGUAGE';
+const switchLanguage :RequestSequence = newRequestSequence(SWITCH_LANGUAGE);
+
 export {
   INITIALIZE_APPLICATION,
   LOAD_APP,
+  SWITCH_LANGUAGE,
   SWITCH_ORGANIZATION,
   initializeApplication,
   loadApp,
+  switchLanguage,
   switchOrganization,
 };

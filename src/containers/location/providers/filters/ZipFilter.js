@@ -4,6 +4,7 @@ import { List, Map, fromJS } from 'immutable'
 
 import StyledInput from '../../../../components/controls/StyledInput';
 import { ZIP_CODE_COORDINATES } from '../../../../utils/constants/CAZipCodeCoordinates';
+import { LABELS } from '../../../../utils/constants/Labels';
 
 const CenteredInput = styled(StyledInput)`
   text-align: center;
@@ -20,11 +21,11 @@ export default class ZipFilter extends React.Component {
 
 
   render() {
-    const { value, onChange } = this.props;
+    const { value, onChange, renderText } = this.props;
     const { inputStr } = this.state;
 
     const onInputChange = ({ target }) => {
-      const numeric = target.value.replace(/\D/g,'');
+      const numeric = target.value.replace(/\D/g, '');
       if (numeric.length <= 5) {
         this.setState({ inputStr: numeric });
       }

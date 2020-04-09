@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { selectStyles } from '../../../app/SelectStyles';
 import { isMobile } from '../../../../utils/AppUtils';
+import { LABELS } from '../../../../utils/constants/Labels';
 
 const RADIUS_OPTIONS = [
   1,
@@ -33,7 +34,7 @@ const BasicSelect = styled.select`
 `;
 
 
-const RadiusFilter = ({ value, onChange }) => {
+const RadiusFilter = ({ value, onChange, renderText }) => {
 
   const handleOnChange = ({ value }) => {
     onChange(value);
@@ -46,7 +47,7 @@ const RadiusFilter = ({ value, onChange }) => {
 
   const selectedOption = RADIUS_OPTIONS.find(option => option.value === value);
 
-  const renderVal = (val) => `${val} mile${val === 1 ? '' : 's'}`;
+  const renderVal = (val) => `${val} ${renderText(LABELS.MILE)}${val === 1 ? '' : 's'}`;
 
   if (isMobile()) {
     return (
@@ -57,7 +58,7 @@ const RadiusFilter = ({ value, onChange }) => {
           </option>
         ))}
       </BasicSelect>
-    )
+    );
   }
 
   return (
@@ -69,7 +70,7 @@ const RadiusFilter = ({ value, onChange }) => {
         isMulti={false}
         onChange={handleOnChange}
         options={RADIUS_OPTIONS}
-        placeholder="Select..."
+        placeholder={renderText(LABELS.SELECT)}
         styles={selectStyles} />
   );
 
