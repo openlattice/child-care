@@ -30,11 +30,8 @@ import { isNonEmptyString } from '../../../utils/LangUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
 
-const INITIAL_STATE = {
-  page: 0,
-  start: 0,
-  selectedOption: undefined
-};
+const BOTTOM_BAR_HEIGHT = 70;
+const PADDING = 25;
 
 const StyledOuterWrapper = styled(ContentOuterWrapper)`
   position: fixed;
@@ -47,13 +44,16 @@ const StyledOuterWrapper = styled(ContentOuterWrapper)`
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
+  height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
+  overflow-y: scroll;
+  padding-bottom: 5px;
 `;
 
-const MiniStyledContentWrapper = styled(StyledContentWrapper)`
-  background-color: white;
-  max-height: fit-content;
-  position: relative;
+
+const ScrollContainer = styled.div`
+  overflow: auto;
 `;
+
 
 const BackButton = styled.div`
   display: flex;
@@ -126,37 +126,30 @@ const FilterRow = styled.div`
 const Line = styled.div`
   height: 1px;
   background-color: #E6E6EB;
-  margin: 10px -25px 0 -25px;
-`;
-
-const EditFilterHeader = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 27px;
-  margin: 20px 0;
-
-  color: #555E6F;
+  margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const fixedBottomButtonStyle = css`
-  position: fixed;
-  bottom: 30px;
   border-radius: 3px;
   border: none;
-  width: calc(min(100vw, ${APP_CONTAINER_WIDTH}px) - 50px);
+  width: 100%;
   font-family: Inter;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
 `;
 
-const ApplyButton = styled(InfoButton)`
-  ${fixedBottomButtonStyle}
+const ApplyButtonWrapper = styled.div`
+   position: fixed;
+   padding: 10px ${PADDING}px 30px ${PADDING}px;
+   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+   bottom: 0;
+   height: 70px;
+   background-color: white;
+   z-index: 16;
 `;
 
-const SaveFilterButton = styled(BasicButton)`
+const ApplyButton = styled(InfoButton)`
   ${fixedBottomButtonStyle}
 `;
 
@@ -272,21 +265,28 @@ class EditFiltersContainer extends React.Component {
 
     return (
       <StyledOuterWrapper>
-        <StyledContentWrapper padding="25px">
-          <BackButton onClick={backToMap}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-            <span>Back to search results</span>
-          </BackButton>
-          <HeaderLabel>Basic Search</HeaderLabel>
-          {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
-          {renderRow(PROVIDERS.ZIP, zip.get(0) || 'Any', 'ZIP Code')}
-          {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
-          <Line />
-          <HeaderLabel>Advanced Search</HeaderLabel>
-          {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
-          {renderRow(PROVIDERS.DAYS, getDays(), 'Days Needed')}
+
+        <ScrollContainer>
+          <StyledContentWrapper padding={`${PADDING}px`}>
+            <BackButton onClick={backToMap}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+              <span>Back to search results</span>
+            </BackButton>
+
+            <HeaderLabel>Basic Search</HeaderLabel>
+            {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), 'Type of Care')}
+            {renderRow(PROVIDERS.ZIP, zip.get(0) || 'Any', 'ZIP Code')}
+            {renderRow(PROVIDERS.RADIUS, `${radius} mile${radius === 1 ? '' : 's'}`, 'Search Radius')}
+            <Line />
+            <HeaderLabel>Advanced Search</HeaderLabel>
+            {renderRow(PROVIDERS.CHILDREN, numberOfChildren, 'Number of Children')}
+            {renderRow(PROVIDERS.DAYS, getDays(), 'Days Needed')}
+
+          </StyledContentWrapper>
+        </ScrollContainer>
+        <ApplyButtonWrapper>
           <ApplyButton onClick={onExecuteSearch}>Apply</ApplyButton>
-        </StyledContentWrapper>
+        </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );
   }
