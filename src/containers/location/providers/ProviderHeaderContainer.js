@@ -20,7 +20,7 @@ import EditFilter from './EditFilter';
 import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
+import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
   APP_CONTAINER_WIDTH,
   MEDIA_QUERY_TECH_SM,
@@ -133,6 +133,23 @@ const SubHeader = styled.div`
   color: #555E6F;
 `;
 
+const OpenClosedTag = styled.div`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal !important;
+  font-size: 14px !important;
+  line-height: 17px !important;
+
+  text-align: right;
+  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
+`;
+
+const TwoPartRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 class ProviderHeaderContainer extends React.Component {
 
   getDistance = () => {
@@ -181,6 +198,8 @@ class ProviderHeaderContainer extends React.Component {
 
     const distance = this.getDistance();
 
+    const isOpen = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
@@ -190,12 +209,17 @@ class ProviderHeaderContainer extends React.Component {
           </BackButton>
           <Header>
             <div>{name}</div>
-            <span>{`${distance} mi`}</span>
+            <OpenClosedTag isOpen={isOpen}>
+              {renderText(isOpen ? LABELS.OPEN : LABELS.CLOSED)}
+            </OpenClosedTag>
           </Header>
 
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
-          <SubHeader>{capacities.join(', ')}</SubHeader>
+          <TwoPartRow>
+            <SubHeader>{capacities.join(', ')}</SubHeader>
+            <SubHeader>{`${distance} mi`}</SubHeader>
+          </TwoPartRow>
 
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
