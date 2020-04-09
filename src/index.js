@@ -38,9 +38,9 @@ const GlobalStyle = createGlobalStyle`
     color: ${NEUTRALS[0]};
     line-height: 1.5;
     font-family: 'Open Sans', sans-serif;
-    height: 100%;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
+    height: 100vh;
+    width: 100vw;
+
   }
 
   * {

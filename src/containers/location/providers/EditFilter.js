@@ -19,6 +19,9 @@ import BasicButton from '../../../components/buttons/BasicButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
+const BOTTOM_BAR_HEIGHT = 70;
+const PADDING = 25;
+
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
   position: fixed;
   height: calc(100vh - ${HEADER_HEIGHT}px);
@@ -31,12 +34,12 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
-`;
-
-const MiniStyledContentWrapper = styled(StyledContentWrapper)`
   background-color: white;
   max-height: fit-content;
   position: relative;
+  height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
+  max-height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
+  overflow-y: scroll;
 `;
 
 const BackButton = styled.div`
@@ -72,15 +75,23 @@ const EditFilterHeader = styled.div`
 `;
 
 const fixedBottomButtonStyle = css`
-  position: fixed;
-  bottom: 30px;
   border-radius: 3px;
   border: none;
-  width: calc(min(100vw, ${APP_CONTAINER_WIDTH}px) - 50px);
+  width: 100%;
   font-family: Inter;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
+`;
+
+const ApplyButtonWrapper = styled.div`
+   position: fixed;
+   padding: 10px ${PADDING}px 30px ${PADDING}px;
+   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+   bottom: 0;
+   height: 70px;
+   background-color: white;
+   z-index: 16;
 `;
 
 const SaveFilterButton = styled(BasicButton)`
@@ -124,7 +135,7 @@ export default class EditFilter extends React.Component {
 
     return (
       <StyledContentOuterWrapper>
-        <MiniStyledContentWrapper padding="25px">
+        <StyledContentWrapper padding={`${PADDING}px`}>
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
             <span>Search Parameters</span>
@@ -134,9 +145,10 @@ export default class EditFilter extends React.Component {
 
           {this.getContent()}
 
+        </StyledContentWrapper>
+        <ApplyButtonWrapper>
           <SaveFilterButton onClick={() => onSave({ field, value })}>Save</SaveFilterButton>
-
-        </MiniStyledContentWrapper>
+        </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
     );
   }
