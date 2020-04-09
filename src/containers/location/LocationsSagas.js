@@ -3,6 +3,7 @@ import axios from 'axios';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import {
+  all,
   call,
   put,
   select,
@@ -14,6 +15,7 @@ import {
   getIn,
   isImmutable
 } from 'immutable';
+import { SearchApi } from 'lattice';
 import {
   SearchApiActions,
   SearchApiSagas,
@@ -37,7 +39,7 @@ import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
-import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
+import { getPropertyTypeId, getESIDsFromApp, getHospitalsESID, getProvidersESID } from '../../utils/AppUtils';
 import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
 import { DAYS_OF_WEEK, CLOSED } from '../../utils/DataConstants';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
@@ -315,12 +317,26 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       constraints
     };
 
-    const { data, error } = yield call(
-      executeSearchWorker,
-      executeSearch({ searchOptions })
-    );
+    const hospitalsEntitySetId = getHospitalsESID(app);
 
-    if (error) throw error;
+    const [data, hospitals] = yield all([
+      call(SearchApi.executeSearch, searchOptions),
+      call(SearchApi.executeSearch, {
+        start: 0,
+        maxHits: 10000,
+        entitySetIds: [hospitalsEntitySetId],
+        constraints: [{
+          constraints: [{
+            type: 'geoDistance',
+            latitude,
+            longitude,
+            propertyTypeId: getPropertyTypeId(app, PROPERTY_TYPES.LOCATION),
+            radius: radius * 2,
+            unit: 'miles'
+          }]
+        }]
+      })
+    ]);
 
     const { hits, numHits } = data;
     const locationsEKIDs = hits.map((location) => getIn(location, [FQN.OPENLATTICE_ID_FQN, 0]));
@@ -329,7 +345,10 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     response.data.totalHits = numHits;
     response.data.providerLocations = locationsByEKID;
 
-    yield put(searchLocations.success(action.id, response.data));
+    yield put(searchLocations.success(action.id, {
+      newData: response.data,
+      hospitals
+    }));
   }
   catch (error) {
     LOG.error(action.type, error);

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import ProviderLocationLayer from './ProviderLocationLayer';
+import HospitalsLocationLayer from './HospitalsLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
@@ -92,6 +93,7 @@ const ProviderMap = (props :Props) => {
   } = props;
 
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
+  const hospitals = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS]));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
@@ -142,14 +144,24 @@ const ProviderMap = (props :Props) => {
     selectedOption
   ]);
 
-  const handleFeatureClick = (location, feature) => {
-    const { lng, lat } = feature.lngLat;
+  const showProviderPopup = (location) => {
+    const [lng, lat] = getCoordinates(location);
     stateDispatch({
       type: 'center',
       payload: {
         center: [lng, lat + LATITUDE_OFFSET],
         selectedFeature: location,
         isPopupOpen: true
+      }
+    });
+  };
+
+  const selectHospital = (location) => {
+    const [lng, lat] = getCoordinates(location);
+    stateDispatch({
+      type: 'center',
+      payload: {
+        center: [lng, lat + LATITUDE_OFFSET]
       }
     });
   };
@@ -181,9 +193,12 @@ const ProviderMap = (props :Props) => {
           </>
         )
       }
+      <HospitalsLocationLayer
+          hospitalLocations={hospitals}
+          onFeatureClick={selectHospital} />
       <ProviderLocationLayer
           providerLocations={stayAwayData}
-          onFeatureClick={handleFeatureClick} />
+          onFeatureClick={showProviderPopup} />
     </Mapbox>
   );
 };

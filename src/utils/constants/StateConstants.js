@@ -15,6 +15,8 @@ export const SUBMIT = {
 };
 
 export const PROVIDERS = {
+  HOSPITALS: 'hospitals',
+
   SELECTED_PROVIDER: 'selectedProvider',
 
   IS_EDITING_FILTERS: 'isEditingFilters',
