@@ -205,6 +205,7 @@ class ProviderHeaderContainer extends React.Component {
         <StyledContentWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
+            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
