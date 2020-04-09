@@ -36,7 +36,7 @@ const ChildrenFilter = ({ value, onChange }) => {
   return (
     <Wrapper>
 
-    <Label>Infant (0 - 1 yrs)</Label>
+    <Label>Infant (0 - 2 yrs)</Label>
     {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
 
     <Label>Toddler (2 - 5 yrs)</Label>
