@@ -93,11 +93,18 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
             propertyTypesByFqn = propertyTypesByFqn.set(fqn, propertyType);
           });
 
+          let defaultLanguage = LANGUAGES.en;
+          const { language } = window.navigator;
+          if (language && language.includes('es')) {
+            defaultLanguage = LANGUAGES.es;
+          }
+
           return state
             .set('entitySetId', entitySetId)
             .set('hospitalsEntitySetId', hospitalsEntitySetId)
             .set('propertyTypesById', propertyTypesById)
-            .set('propertyTypesByFqn', propertyTypesByFqn);
+            .set('propertyTypesByFqn', propertyTypesByFqn)
+            .set('renderText', (label) => label[defaultLanguage]);
         },
         FINALLY: () => {
           const seqAction :SequenceAction = action;
