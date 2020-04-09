@@ -195,7 +195,7 @@ export const HEADER_LABELS = {
   },
   [PROVIDERS.DAYS]: {
     [en]: 'When do you need care?',
-    [es]: '¿Cuándo necesita cuidado?'
+    [es]: '¿Cuándo necesitas cuidado?'
   }
 };
 
