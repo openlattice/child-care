@@ -281,6 +281,7 @@ class ProviderDetailsContainer extends React.Component {
     const status = getValues(provider, PROPERTY_TYPES.STATUS);
     const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
     const url = getValue(provider, PROPERTY_TYPES.URL);
+    const phone = getValue(provider, PROPERTY_TYPES.PHONE);
 
     const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
@@ -350,6 +351,13 @@ class ProviderDetailsContainer extends React.Component {
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
           <HeaderLabel>Contact</HeaderLabel>
+
+          <Row>
+            <div>Phone</div>
+            <DataRows>
+              <span>{phone || 'Unknown'}</span>
+            </DataRows>
+          </Row>
 
           <Row>
             <div>Point of Contact</div>
