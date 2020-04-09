@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CheckboxButton from '../../../../components/controls/CheckboxButton';
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
+import { LABELS } from '../../../../utils/constants/Labels';
 
 const Instruction = styled.div`
   font-family: Inter;
@@ -13,7 +14,7 @@ const Instruction = styled.div`
   line-height: 19px;
 `;
 
-const TypeOfCareFilter = ({ value, onChange }) => {
+const TypeOfCareFilter = ({ value, onChange, renderText }) => {
 
   const onCheckboxChange = (newValue) => {
 
@@ -27,7 +28,7 @@ const TypeOfCareFilter = ({ value, onChange }) => {
 
   return (
     <ContentOuterWrapper>
-      <Instruction>Select all that apply:</Instruction>
+      <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
       {FACILITY_TYPES.map((facilityType) => (
         <CheckboxButton
             marginTop="20px"

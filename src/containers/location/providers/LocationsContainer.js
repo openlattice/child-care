@@ -29,8 +29,10 @@ import ProviderDetailsContainer from './ProviderDetailsContainer';
 import EditFiltersContainer from './EditFiltersContainer';
 import ProviderMap from './ProviderMap';
 import { getGeoOptions, searchLocations, setValue } from './LocationsActions';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 import { STAY_AWAY_STORE_PATH } from './constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/Labels';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import { usePosition, useTimeout } from '../../../components/hooks';
@@ -113,6 +115,8 @@ const LocationContainer = () => {
     false
   ));
 
+
+  const renderText = useSelector(getRenderTextFn);
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
@@ -144,7 +148,7 @@ const LocationContainer = () => {
       stateDispatch({
         type: 'selectLocation',
         payload: {
-          label: 'Current Location',
+          label: renderText(LABELS.CURRENT_LOCATION),
           value: `${latitude},${longitude}`,
           lat: latitude,
           lon: longitude
@@ -181,7 +185,7 @@ const LocationContainer = () => {
   }
   else if (selectedProvider) {
     providerHeader = <ProviderHeaderContainer />;
-    providerDetails = <ProviderDetailsContainer />
+    providerDetails = <ProviderDetailsContainer />;
   }
 
   const hasSearched = fetchState !== RequestStates.STANDBY;
@@ -199,7 +203,7 @@ const LocationContainer = () => {
       stateDispatch({
         type: 'selectLocation',
         payload: {
-          label: 'Current Location',
+          label: renderText(LABELS.CURRENT_LOCATION),
           value: `${latitude},${longitude}`,
           lat: latitude,
           lon: longitude
@@ -236,9 +240,9 @@ const LocationContainer = () => {
             <>
               <FilterRow>
                 <SortOption>
-                  Sort by relevance
+                  {renderText(LABELS.SORT_BY)}
                 </SortOption>
-                <FilterButton onClick={editFilters}>Refine Search</FilterButton>
+                <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
               </FilterRow>
               <AbsoluteWrapper>
                 <ContentWrapper>
@@ -256,7 +260,7 @@ const LocationContainer = () => {
                                 onChange={handleChange}
                                 onInputChange={setAddress}
                                 options={options.toJS()}
-                                placeholder="Search Locations"
+                                placeholder={renderText(LABELS.SEARCH_LOCATIONS)}
                                 value={selectedOption} />
                             <MarginButton
                                 disabled={!hasPosition}

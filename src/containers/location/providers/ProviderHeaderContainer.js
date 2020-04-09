@@ -29,6 +29,7 @@ import {
   HEADER_HEIGHT,
   HEIGHTS
 } from '../../../core/style/Sizes';
+import { LABELS } from '../../../utils/constants/Labels';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
@@ -36,7 +37,7 @@ import InfoButton from '../../../components/buttons/InfoButton';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { isNonEmptyString } from '../../../utils/LangUtils';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 import { getValue, getValues, getDistanceBetweenCoords } from '../../../utils/DataUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
@@ -229,7 +230,7 @@ class ProviderHeaderContainer extends React.Component {
 
   render() {
 
-    const { actions, provider } = this.props;
+    const { actions, provider, renderText } = this.props;
 
     if (!provider) {
       return null;
@@ -248,17 +249,16 @@ class ProviderHeaderContainer extends React.Component {
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
     const capacities = [];
+    const yr = renderText(LABELS.YR);
     if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
-      capacities.push('0 yr - 1 yr');
+      capacities.push(`0 ${yr} - 1 ${yr}`);
     }
     if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
-      capacities.push('2 yr - 5 yr');
+      capacities.push(`2 ${yr} - 5 ${yr}`);
     }
     if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
-      capacities.push('6 yr and up');
+      capacities.push(`6 ${renderText(LABELS.YR_AND_UP)}`);
     }
-
-    const address = [street, city, zip].filter(v => v).join(', ');
 
     const distance = this.getDistance();
 
@@ -267,7 +267,7 @@ class ProviderHeaderContainer extends React.Component {
         <StyledContentWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>Search Results</span>
+            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
@@ -276,7 +276,7 @@ class ProviderHeaderContainer extends React.Component {
 
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
-          <SubHeader>{capacities.join(', ') || 'Unknown age limitations'}</SubHeader>
+          <SubHeader>{capacities.join(', ') || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS)}</SubHeader>
 
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
@@ -293,7 +293,8 @@ function mapStateToProps(state :Map<*, *>) :Object {
   return {
     providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
-    coordinates: [lat, lon]
+    coordinates: [lat, lon],
+    renderText: getRenderTextFn(state)
   };
 }
 

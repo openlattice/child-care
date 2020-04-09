@@ -26,6 +26,7 @@ import { selectProvider } from './LocationsActions';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
 import { getValue, getValues } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { LABELS } from '../../../utils/constants/Labels';
 
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 
@@ -61,13 +62,15 @@ type Props = {
   isOpen :boolean;
   stayAwayLocation :Map;
   onClose :() => void;
+  renderText :Function
 };
 
 const ProviderPopup = ({
   coordinates,
   isOpen,
   onClose,
-  provider
+  provider,
+  renderText
 } :Props) => {
   if (!isOpen) return null;
 
@@ -100,7 +103,7 @@ const ProviderPopup = ({
       <IconDetail content={status} />
       <IconDetail content={url} />
       <IconDetail content={address} />
-      <LinkButton onClick={handleViewProfile}>View Provider</LinkButton>
+      <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );
 };
