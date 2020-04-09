@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
 import { selectStyles } from './SelectStyles';
+import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
 import * as Routes from '../../core/router/Routes';
 import {
@@ -23,6 +24,7 @@ import {
   APP_CONTENT_PADDING,
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
+import { OTHER_LANGUAGE, LANGUAGES } from '../../utils/constants/Labels';
 import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRALS, WHITE } = Colors;
@@ -64,11 +66,15 @@ const RightSideContentWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const DisplayName = styled.span`
+const SwitchLanguage = styled.span`
   margin-right: 10px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
-  color: #2e2e34;
+  color: #8E929B;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const LogoTitleWrapperLink = styled(Link)`
@@ -114,13 +120,6 @@ const OrgSelectionBar = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const LogoutButton = styled(Button)`
-  font-size: 12px;
-  line-height: 16px;
-  margin-left: 30px;
-  padding: 6px 29px;
 `;
 
 type Props = {
@@ -189,14 +188,15 @@ class AppHeaderContainer extends Component<Props> {
 
   renderRightSideContent = () => {
 
-    const { actions } = this.props;
+    const { actions, renderText } = this.props;
+
+    const otherLanguage = renderText(OTHER_LANGUAGE);
+
     return (
       <RightSideContentWrapper>
-        {this.renderOrgSelection()}
-        <DisplayName>{this.getDisplayName()}</DisplayName>
-        <LogoutButton onClick={actions.logout}>
-          Log Out
-        </LogoutButton>
+        <SwitchLanguage onClick={() => actions.switchLanguage(otherLanguage)}>
+          {otherLanguage === LANGUAGES.en ? 'English' : 'Español'}
+        </SwitchLanguage>
       </RightSideContentWrapper>
     );
   }
@@ -207,6 +207,7 @@ class AppHeaderContainer extends Component<Props> {
       <AppHeaderOuterWrapper>
         <AppHeaderInnerWrapper>
           { this.renderLeftSideContent() }
+          { this.renderRightSideContent() }
         </AppHeaderInnerWrapper>
       </AppHeaderOuterWrapper>
     );
@@ -217,7 +218,8 @@ function mapStateToProps(state) {
   const app = state.get(STATE.APP);
 
   return {
-    app
+    app,
+    renderText: getRenderTextFn(state)
   };
 }
 
@@ -225,7 +227,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({
     logout: AuthActions.logout,
-    switchOrganization: AppActions.switchOrganization
+    switchOrganization: AppActions.switchOrganization,
+    switchLanguage: AppActions.switchLanguage
   }, dispatch)
 });
 
