@@ -37,6 +37,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   selectedOrganizationSettings: Map(),
   initializeState: RequestStates.STANDBY,
   entitySetId: null,
+  hospitalsEntitySetId: null,
   propertyTypesById: Map(),
   propertyTypesByFqn: Map()
 });
@@ -84,6 +85,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           const {
             entitySetId,
+            hospitalsEntitySetId,
             propertyTypes
           } = value;
 
@@ -100,6 +102,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           return state
             .set('entitySetId', entitySetId)
+            .set('hospitalsEntitySetId', hospitalsEntitySetId)
             .set('propertyTypesById', propertyTypesById)
             .set('propertyTypesByFqn', propertyTypesByFqn);
         },

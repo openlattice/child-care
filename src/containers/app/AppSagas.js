@@ -28,7 +28,7 @@ import {
 
 import Logger from '../../utils/Logger';
 import * as Routes from '../../core/router/Routes';
-import { PROVIDERS_ENTITY_SET } from '../../utils/constants/DataModelConstants';
+import { PROVIDERS_ENTITY_SET, HOSPITALS_ENTITY_SET } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
 import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
@@ -62,12 +62,13 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
 
     yield call(refreshAuthTokenIfNecessary);
 
-    const [entitySetId, propertyTypes] = yield all([
+    const [entitySetId, hospitalsEntitySetId, propertyTypes] = yield all([
       call(EntitySetsApi.getEntitySetId, PROVIDERS_ENTITY_SET),
+      call(EntitySetsApi.getEntitySetId, HOSPITALS_ENTITY_SET),
       call(EntityDataModelApi.getAllPropertyTypes),
     ]);
 
-    yield put(loadApp.success(action.id, { entitySetId, propertyTypes }));
+    yield put(loadApp.success(action.id, { entitySetId, hospitalsEntitySetId, propertyTypes }));
   }
   catch (error) {
     LOG.error(action.type, error);

@@ -226,7 +226,7 @@ export const FACILITY_TYPES = [
   'Day Care Center - Ill Center',
   'Infant Center',
   'School Age Day Care Center'
-]
+];
 
 export const FACILITY_STATUSES = {
   CLOSED: 'Closure',

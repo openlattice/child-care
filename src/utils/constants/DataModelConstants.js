@@ -1,6 +1,8 @@
 // export const PROVIDERS_ENTITY_SET = 'DemoEssentialCareProviderServices';
 export const PROVIDERS_ENTITY_SET = 'DssEssentialCareProviderServices';
 
+export const HOSPITALS_ENTITY_SET = 'EssentialCareProviderServices_Hospitals';
+
 export const PROPERTY_TYPES = {
   FACILITY_TYPE: 'ecps.facility_type',
   IS_POP_UP: 'ecps.pop_up',
