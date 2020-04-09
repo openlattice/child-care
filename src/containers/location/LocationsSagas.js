@@ -228,7 +228,12 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         propertyTypeId: getPropertyTypeId(app, PROPERTY_TYPES.LOCATION),
         radius,
         unit: 'miles'
-      }]
+      }, {
+        type: 'simple',
+        fuzzy: false,
+        searchTerm: `_exists_:entity.${getPropertyTypeId(app, PROPERTY_TYPES.LOCATION)}`
+      }],
+      min: 2
     }
 
     const isNotClosedConstraint = {
@@ -257,16 +262,36 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     if (children && children.size) {
 
-      const childrenConstraint = {
-        constraints: children.entrySeq().map(([fqn, number]) => ({
-          type: 'simple',
-          fuzzy: false,
-          searchTerm: `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`
-        })).toJS(),
-        min: children.size
-      };
+      let totalChildren = 0;
+      children.valueSeq().forEach((count) => {
+        totalChildren += count;
+      });
 
-      constraints.push(childrenConstraint);
+      if (totalChildren > 0) {
+
+        const bucketRequirements = children.entrySeq()
+          .filter(([_, number]) => number > 0)
+          .map(([fqn, number]) => `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`)
+          .join(' AND ');
+
+        const childrenConstraint = {
+          constraints: [
+            {
+              type: 'simple',
+              fuzzy: false,
+              searchTerm: bucketRequirements
+            },
+            {
+              type: 'simple',
+              fuzzy: false,
+              searchTerm: `entity.${getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN)}:[${totalChildren} TO *]`
+            }
+          ]
+        };
+
+        constraints.push(childrenConstraint);
+
+      }
     }
 
     if (daysAndTimes && daysAndTimes.size) {
