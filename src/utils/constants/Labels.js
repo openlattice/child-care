@@ -55,7 +55,7 @@ export const LABELS = {
   },
   CURRENT_LOCATION: {
     [en]: 'Current Location',
-    [es]: 'Ubicación Actual'
+    [es]: 'Ubicación Presente'
   },
   DAYS_NEEDED: {
     [en]: 'Days Needed',
@@ -135,11 +135,11 @@ export const LABELS = {
   },
   UNKNOWN_AGE_LIMITATIONS: {
     [en]: 'Unknown age limitations',
-    [es]: 'Desconocida limitaciones de edad'
+    [es]: 'Limitaciones de edad indisponible'
   },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
-    [es]: 'Ve Proveedor'
+    [es]: 'Ver Proveedor'
   },
   YR: {
     [en]: 'yr',
@@ -191,7 +191,7 @@ export const HEADER_LABELS = {
   [PROVIDERS.RADIUS]: LABELS.SEARCH_RADIUS,
   [PROVIDERS.CHILDREN]: {
     [en]: 'How many children do you need care for?',
-    [es]: '¿Para cuántos niños necesita cuidado?'
+    [es]: '¿Cuantos niños necesitan cuidado?'
   },
   [PROVIDERS.DAYS]: {
     [en]: 'When do you need care?',
@@ -228,4 +228,9 @@ export const DAY_OF_WEEK_LABELS = {
     [en]: 'Saturday',
     [es]: 'Sábado'
   }
+};
+
+export const OTHER_LANGUAGE = {
+  [en]: es,
+  [es]: en
 };
