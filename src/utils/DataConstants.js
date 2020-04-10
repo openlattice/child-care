@@ -233,10 +233,9 @@ export const DAY_PTS = {
 };
 
 export const FACILITY_TYPES = [
+  'Family Home',
   'Day Care Center',
-  'Day Care Center - Ill Center',
-  'Infant Center',
-  'School Age Day Care Center'
+  'Day Care Center (Preschool)'
 ];
 
 export const FACILITY_STATUSES = {

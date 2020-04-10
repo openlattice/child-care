@@ -17,7 +17,7 @@ export const PROPERTY_TYPES = {
   CAPACITY_UNDER_2: 'ecps.capacity_0_to_2',
   CAPACITY_2_to_5: 'ecps.capacity_2_to_5',
   CAPACITY_OVER_5: 'ecps.capacity_5_and_up',
-  CAPACITY_AGE_UNKNOWN: 'ecps.capacity_total',
+  CAPACITY_AGE_UNKNOWN: 'ecps.capacity_age_unknown',
   LOCATION: 'ecps.locationcoordinates',
 
   PHONE: 'ecps.facility_phone',
