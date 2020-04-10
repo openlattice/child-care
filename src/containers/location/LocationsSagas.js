@@ -70,6 +70,8 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
 
+    yield call(refreshAuthTokenIfNecessary);
+
     const token = yield select((state) => state.getIn(['app', 'token']));
     const sessionToken = yield select((state) => state.getIn(['app', 'sessionId']));
 
