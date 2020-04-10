@@ -1,8 +1,8 @@
 // @flow
 
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
+import styled from 'styled-components';
 import { Map } from 'immutable';
 import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
@@ -20,14 +20,13 @@ import {
 } from '../../edm/DataModelFqns';
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
-import { getValue, getValues, getDistanceBetweenCoords } from '../../utils/DataUtils';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
 import { FACILITY_STATUSES } from '../../utils/DataConstants';
+import { getDistanceBetweenCoords, getValue, getValues } from '../../utils/DataUtils';
+import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
-import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { selectProvider } from '../location/providers/LocationsActions';
-
+import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
 import {
   FlexRow,
   ResultDetails,
@@ -37,6 +36,7 @@ import {
 
 type Props = {
   person :Map;
+  provider :Map;
   stayAwayLocation :Map;
   profilePicture :Map;
 }

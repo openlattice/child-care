@@ -41,5 +41,5 @@ export {
   getGeoOptions,
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
-  searchLocations
+  searchLocations,
 };
