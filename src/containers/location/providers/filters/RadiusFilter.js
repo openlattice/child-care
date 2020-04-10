@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 import Select from 'react-select';
@@ -6,17 +7,6 @@ import styled from 'styled-components';
 import { isMobile } from '../../../../utils/AppUtils';
 import { LABELS } from '../../../../utils/constants/Labels';
 import { selectStyles } from '../../../app/SelectStyles';
-
-const RADIUS_OPTIONS = [
-  1,
-  5,
-  10,
-  25,
-  50
-].map((value) => ({
-  value,
-  label: `${value} mile${value === 1 ? '' : 's'}`
-}));
 
 const BasicSelect = styled.select`
   background-color: #f9f9fd;
@@ -37,6 +27,19 @@ const BasicSelect = styled.select`
 
 const RadiusFilter = ({ value, onChange, renderText }) => {
 
+  const renderMiles = (miles) => `${miles} ${renderText(LABELS.MILE)}${miles === 1 ? '' : 's'}`;
+
+  const RADIUS_OPTIONS = [
+    1,
+    5,
+    10,
+    25,
+    50
+  ].map((d) => ({
+    value: d,
+    label: renderMiles(d)
+  }));
+
   const handleOnChange = (payload) => {
     onChange(payload.value);
   };
@@ -48,17 +51,15 @@ const RadiusFilter = ({ value, onChange, renderText }) => {
 
   const selectedOption = RADIUS_OPTIONS.find((option) => option.value === value);
 
-  const renderVal = (val) => `${val} ${renderText(LABELS.MILE)}${val === 1 ? '' : 's'}`;
-
   if (isMobile()) {
     return (
       <BasicSelect value={selectedOption.value} onChange={onBasicSelectChange}>
         {RADIUS_OPTIONS.map((option) => (
           <option
-              key={value}
+              key={option.value}
               label={option.label}
               value={option.value}>
-            {renderVal(value)}
+            {renderMiles(option.value)}
           </option>
         ))}
       </BasicSelect>
