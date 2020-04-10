@@ -2,6 +2,7 @@
  * @flow
  */
 
+import randomUUID from 'uuid/v4';
 import {
   Map,
   fromJS,
@@ -42,7 +43,8 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   propertyTypesById: Map(),
   propertyTypesByFqn: Map(),
   token: null,
-  renderText: (label) => label[LANGUAGES.en]
+  renderText: (label) => label[LANGUAGES.en],
+  sessionId: randomUUID()
 });
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {

@@ -66,6 +66,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     yield put(getGeoOptions.request(action.id));
 
     const token = yield select((state) => state.getIn(['app', 'token']));
+    const sessionToken = yield select((state) => state.getIn(['app', 'sessionId']));
 
     const headers = {
       Authorization: `Bearer ${token}`
@@ -76,7 +77,8 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       url: `${GEOCODING_API}/autocomplete`,
       headers,
       data: {
-        input: action.value
+        input: action.value,
+        sessionToken
       }
     });
 
