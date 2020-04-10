@@ -3,6 +3,8 @@ export const PROVIDERS_ENTITY_SET = 'DssEssentialCareProviderServices';
 
 export const HOSPITALS_ENTITY_SET = 'EssentialCareProviderServices_Hospitals';
 
+export const RR_ENTITY_SET_ID = 'f5c5f870-4274-4c4e-b3b8-1f418b4234c9';
+
 export const PROPERTY_TYPES = {
   FACILITY_TYPE: 'ecps.facility_type',
   IS_POP_UP: 'ecps.pop_up',
@@ -18,6 +20,7 @@ export const PROPERTY_TYPES = {
   CAPACITY_2_to_5: 'ecps.capacity_2_to_5',
   CAPACITY_OVER_5: 'ecps.capacity_5_and_up',
   CAPACITY_AGE_UNKNOWN: 'ecps.capacity_age_unknown',
+  AGES_SERVED: 'ecps.clients_served',
   LOCATION: 'ecps.locationcoordinates',
 
   PHONE: 'ecps.facility_phone',

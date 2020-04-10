@@ -12,7 +12,7 @@ import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
 import styled, { css } from 'styled-components';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map, fromJS } from 'immutable';
+import { Map, List } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,7 +29,7 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
-import { getValue, getValues } from '../../../utils/DataUtils';
+import { getValue, getValues, getEntityKeyId } from '../../../utils/DataUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -252,11 +252,17 @@ function mapStateToProps(state :Map<*, *>) :Object {
   const lat = providerState.getIn(['selectedOption', 'lat']);
   const lon = providerState.getIn(['selectedOption', 'lon']);
 
+  const provider = providerState.get(PROVIDERS.SELECTED_PROVIDER);
+  const selectedProviderId = getEntityKeyId(provider);
+  const rrs = providerState.getIn([PROVIDERS.RRS_BY_ID, selectedProviderId], List())
+    .map(e => e.get('neighborDetails', Map()));
+
   return {
     providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
-    provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
+    provider,
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    renderText: getRenderTextFn(state),
+    rrs
   };
 }
 
