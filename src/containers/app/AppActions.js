@@ -17,13 +17,18 @@ const initializeApplication :RequestSequence = newRequestSequence(INITIALIZE_APP
 const SWITCH_LANGUAGE :'SWITCH_LANGUAGE' = 'SWITCH_LANGUAGE';
 const switchLanguage :RequestSequence = newRequestSequence(SWITCH_LANGUAGE);
 
+const RELOAD_TOKEN :'RELOAD_TOKEN' = 'RELOAD_TOKEN';
+const reloadToken :RequestSequence = newRequestSequence(RELOAD_TOKEN);
+
 export {
   INITIALIZE_APPLICATION,
   LOAD_APP,
+  RELOAD_TOKEN,
   SWITCH_LANGUAGE,
   SWITCH_ORGANIZATION,
   initializeApplication,
   loadApp,
+  reloadToken,
   switchLanguage,
   switchOrganization,
 };
