@@ -6,41 +6,39 @@ import React, {
   useReducer,
   useState
 } from 'react';
-import { bindActionCreators } from 'redux';
 
-import styled, { css } from 'styled-components';
 import moment from 'moment';
+import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
+import styled, { css } from 'styled-components';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
 import { Map, fromJS } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import EditFilter from './EditFilter';
+import * as LocationsActions from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/Labels';
-import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
-import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 
-import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
+import FindingLocationSplash from '../FindingLocationSplash';
 import InfoButton from '../../../components/buttons/InfoButton';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { isNonEmptyString } from '../../../utils/LangUtils';
-import { getValue, getValues } from '../../../utils/DataUtils';
+import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
+import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
+import { getValue, getValues } from '../../../utils/DataUtils';
+import { isNonEmptyString } from '../../../utils/LangUtils';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
-import * as LocationsActions from './LocationsActions';
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
- position: fixed;
- bottom: 0;
 
  @media only screen and (min-height: ${HEIGHTS[0]}px) {
    min-height: ${HEIGHTS[0] / 3}px;
@@ -176,14 +174,14 @@ class ProviderDetailsContainer extends React.Component {
       }
 
       return withDate.format('hh:mma');
-    }
+    };
 
     const operatingHours = [];
 
     const unknown = renderText(LABELS.UNKNOWN);
 
     if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
-      operatingHours.push(<span>{unknown}</span>);
+      operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
     else {
       Object.values(DAYS_OF_WEEK).forEach((day) => {
@@ -205,7 +203,7 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     if (!operatingHours.length) {
-      operatingHours.push(<span>Unknown</span>);
+      operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
 
     return (
