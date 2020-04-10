@@ -53,6 +53,14 @@ export const LABELS = {
     [en]: 'Contact',
     [es]: 'Contacto'
   },
+  COMPLAINTS: {
+    [en]: 'Complaints',
+    [es]: 'Quejas'
+  },
+  COMPLAINTS_DESCRIPTION: {
+    [en]: 'This number represents the total complaints in the last 12 months.',
+    [es]: 'Este número representa el total de quejas en los últimos 12 meses.'
+  },
   CURRENT_LOCATION: {
     [en]: 'Current Location',
     [es]: 'Ubicación Presente'
@@ -64,6 +72,18 @@ export const LABELS = {
   DEVELOPMENTALLY_DISABLED: {
     [en]: 'Developmentally Disabled',
     [es]: 'Discapacidad del Desarrollo'
+  },
+  HEALTH_AND_SAFETY: {
+    [en]: 'Health & Safety',
+    [es]: 'Salud & Seguridad'
+  },
+  LAST_INSPECTION_DATE: {
+    [en]: 'Last Inspection Date',
+    [es]: 'Fecha de Última Inspección'
+  },
+  LICENSE_NUMBER: {
+    [en]: 'License Number',
+    [es]: 'Número de Licencia'
   },
   NUMBER_OF_CHILDREN: {
     [en]: 'Number of Children',

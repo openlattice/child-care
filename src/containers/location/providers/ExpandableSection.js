@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
   width:  100%;
+  padding: 20px 0;
 `;
 
 const TitleRow = styled.div`
@@ -16,7 +17,7 @@ const TitleRow = styled.div`
   justify-content: space-between;
   color: #8E929B;
   width: 100%;
-  padding: 20px 0;
+  padding-bottom: ${(props) => (props.isOpen ? 10 : 0)}px;
 
   span {
     color: #555E6F;
@@ -54,7 +55,7 @@ export default class ExpandableSection extends React.Component<Props, State> {
 
     return (
       <Wrapper>
-        <TitleRow onClick={() => this.setState({ isOpen: !isOpen })}>
+        <TitleRow isOpen={isOpen} onClick={() => this.setState({ isOpen: !isOpen })}>
           <span>{title}</span>
           <FontAwesomeIcon icon={icon} />
         </TitleRow>
