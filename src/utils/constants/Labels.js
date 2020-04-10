@@ -93,6 +93,14 @@ export const LABELS = {
     [en]: 'Refine Search',
     [es]: 'Refina Búsqueda'
   },
+  RESOURCE_AND_REFERRAL: {
+    [en]: 'Resource and Referral',
+    [es]: 'Recurso y Referencia'
+  },
+  RESOURCE_AND_REFERRAL_DESCRIPTION: {
+    [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
+    [es]: 'Si tienes preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
+  },
   SAVE: {
     [en]: 'Save',
     [es]: 'Guarda'

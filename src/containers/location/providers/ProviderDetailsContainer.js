@@ -21,9 +21,10 @@ import EditFilter from './EditFilter';
 import * as LocationsActions from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
+import ExpandableSection from './ExpandableSection';
 import BasicButton from '../../../components/buttons/BasicButton';
-import FindingLocationSplash from '../FindingLocationSplash';
 import InfoButton from '../../../components/buttons/InfoButton';
+import FindingLocationSplash from '../FindingLocationSplash';
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
@@ -36,6 +37,8 @@ import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
+
+const PADDING = 25;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
@@ -95,6 +98,13 @@ const Row = styled.div`
 
   div {
     color: #555E6F;
+    max-width: 70%;
+  }
+
+  a {
+    color: #6124E2;
+    text-decoration: underline;
+    max-width: 70%;
   }
 `;
 
@@ -127,11 +137,51 @@ const DateRow = styled.article`
   }
 `;
 
+const Line = styled.div`
+  height: 1px;
+  background-color: #E6E6EB;
+  margin: ${(props) => props.paddingTop || 0}px -${PADDING}px 0 -${PADDING}px;
+`;
+
+const InfoText = styled.div`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: #8E929B;
+`;
+
+const Spacer = styled.div`
+  height: ${(props) => props.height}px;
+`;
+
 class ProviderDetailsContainer extends React.Component {
+
+  renderRR = (rr) => {
+    const url = getValue(rr, PROPERTY_TYPES.URL);
+    const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
+    const phone = getValue(rr, PROPERTY_TYPES.PHONE);
+
+    let first = <div>{name}</div>;
+    if (url) {
+      first = <a key={name} href={url} target="_blank">{name}</a>;
+    }
+
+    return (
+      <Row>
+        {first}
+        <DataRows>
+          {phone}
+        </DataRows>
+      </Row>
+    )
+  };
 
   render() {
 
-    const { renderText, provider } = this.props;
+    const { renderText, provider, rrs } = this.props;
 
     if (!provider) {
       return null;
@@ -197,7 +247,7 @@ class ProviderDetailsContainer extends React.Component {
 
     return (
       <StyledContentOuterWrapper>
-        <StyledContentWrapper padding="25px">
+        <StyledContentWrapper padding={`${PADDING}px`}>
           <HeaderLabel>{renderText(LABELS.CONTACT)}</HeaderLabel>
 
           <Row>
@@ -228,6 +278,18 @@ class ProviderDetailsContainer extends React.Component {
               {operatingHours}
             </DataRows>
           </Row>
+
+          <Line paddingTop={10} />
+
+          <ExpandableSection title={renderText(LABELS.RESOURCE_AND_REFERRAL)}>
+            <>
+              <InfoText>{renderText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
+              {rrs.map(this.renderRR)}
+              <Spacer height={20} />
+            </>
+          </ExpandableSection>
+
+          <Line />
 
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
