@@ -72,13 +72,27 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       Authorization: `Bearer ${token}`
     };
 
+    const { address, currentPosition } = action.value;
+
+    let currentLocationBias = {};
+    if (currentPosition && currentPosition.coords) {
+      const { latitude, longitude } = currentPosition.coords;
+      currentLocationBias = {
+        location: {
+          lat: latitude,
+          lng: longitude
+        }
+      };
+    }
+
     const { data: suggestions } = yield call(axios, {
       method: 'post',
       url: `${GEOCODING_API}/autocomplete`,
       headers,
       data: {
-        input: action.value,
-        sessionToken
+        input: address,
+        sessionToken,
+        ...currentLocationBias
       }
     });
 

@@ -136,7 +136,7 @@ const LocationContainer = () => {
 
   const fetchGeoOptions = useCallback(() => {
     if (isNonEmptyString(address)) {
-      dispatch(getGeoOptions(address));
+      dispatch(getGeoOptions({ address, currentPosition }));
     }
   }, [dispatch, address]);
 
