@@ -45,6 +45,7 @@ export default function* sagas() :Generator<*, *, *> {
     // AppSagas
     fork(AppSagas.initializeApplicationWatcher),
     fork(AppSagas.loadAppWatcher),
+    fork(AppSagas.reloadTokenWatcher),
 
     // AuthorizeSagas
     fork(AuthorizeSagas.getAuthorizationWatcher),

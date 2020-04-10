@@ -16,6 +16,7 @@ import {
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
+import { AuthUtils } from 'lattice-auth';
 import {
   SearchApiActions,
   SearchApiSagas,
@@ -46,6 +47,7 @@ import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 
+
 const { executeSearch, searchEntityNeighborsWithFilter } = SearchApiActions;
 const { executeSearchWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
 
@@ -57,31 +59,55 @@ const {
 
 const LOG = new Logger('LocationsSagas');
 
-const GEOCODER_URL_PREFIX = 'https://osm.openlattice.com/nominatim/search/';
-const GEOCODER_URL_SUFFIX = '?format=json';
+const GEOCODING_API = 'https://api.openlattice.com/datastore/geocoding';
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
 
-    const response = yield call(axios, {
-      method: 'get',
-      url: `${GEOCODER_URL_PREFIX}${window.encodeURI(action.value)}${GEOCODER_URL_SUFFIX}`
+    const token = yield select((state) => state.getIn(['app', 'token']));
+
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+
+    const { data: suggestions } = yield call(axios, {
+      method: 'post',
+      url: `${GEOCODING_API}/autocomplete`,
+      headers,
+      data: {
+        input: action.value
+      }
     });
 
-    const formattedOptions = response.data.map((option) => {
+    const geocoded = yield all(
+      suggestions.map(({ placeId }) => call(axios, {
+        method: 'post',
+        url: `${GEOCODING_API}/geocode`,
+        headers,
+        data: { placeId, address: '' }
+      }))
+    );
+
+    const formattedOptions = [].concat(...geocoded.map(({ data }) => data)).map((option) => {
       // eslint-disable-next-line camelcase
-      const { display_name, lat, lon } = option;
+      const { formattedAddress, geometry } = option;
+      const { location } = geometry;
+      const { lat, lng: lon } = location;
+
       return {
         ...option,
-        label: display_name,
-        value: `${lat},${lon}`
+        label: formattedAddress,
+        value: `${lat},${lon}`,
+        lat,
+        lon
       };
     });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedOptions)));
   }
   catch (error) {
+    console.error(error)
     yield put(getGeoOptions.failure(action.id, error));
   }
   finally {
@@ -196,6 +222,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     let latLonObj = searchInputs.get('selectedOption');
     if (isEmpty(latLonObj)) latLonObj = searchInputs.getIn([PROVIDERS.ZIP, 1]);
     if (isEmpty(latLonObj)) latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
+    if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
 
     const radius = getValue(PROVIDERS.RADIUS);
     const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);

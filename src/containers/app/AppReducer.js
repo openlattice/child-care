@@ -20,6 +20,7 @@ import {
   SWITCH_LANGUAGE,
   initializeApplication,
   loadApp,
+  reloadToken,
 } from './AppActions';
 
 const INITIAL_STATE :Map<*, *> = fromJS({
@@ -40,6 +41,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   hospitalsEntitySetId: null,
   propertyTypesById: Map(),
   propertyTypesByFqn: Map(),
+  token: null,
   renderText: (label) => label[LANGUAGES.en]
 });
 
@@ -52,6 +54,12 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
         REQUEST: () => state.set('initializeState', RequestStates.PENDING),
         SUCCESS: () => state.set('initializeState', RequestStates.SUCCESS),
         FAILURE: () => state.set('initializeState', RequestStates.FAILURE),
+      });
+    }
+
+    case reloadToken.case(action.type): {
+      return reloadToken.reducer(state, action, {
+        SUCCESS: () => state.set('token', action.value)
       });
     }
 

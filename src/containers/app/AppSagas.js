@@ -9,6 +9,7 @@ import {
   call,
   put,
   select,
+  take,
   takeEvery
 } from '@redux-saga/core/effects';
 import { get } from 'axios';
@@ -21,9 +22,11 @@ import type { SequenceAction } from 'redux-reqseq';
 import {
   INITIALIZE_APPLICATION,
   LOAD_APP,
+  RELOAD_TOKEN,
   SWITCH_ORGANIZATION,
   initializeApplication,
   loadApp,
+  reloadToken
 } from './AppActions';
 
 import Logger from '../../utils/Logger';
@@ -77,6 +80,42 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
   }
   finally {
     yield put(loadApp.finally(action.id));
+  }
+
+  return workerResponse;
+}
+
+/*
+ * reloadToken()
+ */
+
+export function* reloadTokenWatcher() :Generator<*, *, *> {
+
+  yield takeEvery(RELOAD_TOKEN, reloadTokenWorker);
+}
+
+function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
+
+  const workerResponse :Object = {};
+  try {
+    yield put(reloadToken.request(action.id));
+
+    const { data } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+
+    configure({
+      auth0ClientId: __AUTH0_CLIENT_ID__,
+      auth0Domain: __AUTH0_DOMAIN__,
+      authToken: data
+    });
+    yield put(reloadToken.success(action.id, data));
+  }
+  catch (error) {
+    LOG.error(action.type, error);
+    workerResponse.error = error;
+    yield put(reloadToken.failure(action.id, error));
+  }
+  finally {
+    yield put(reloadToken.finally(action.id));
   }
 
   return workerResponse;
@@ -137,25 +176,28 @@ function* initializeApplicationWatcher() :Generator<*, *, *> {
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
 }
 
+
+function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
+  return take(
+    (anAction :Object) => (anAction.type === reqseq.SUCCESS && anAction.id === seqAction.id)
+        || (anAction.type === reqseq.FAILURE && anAction.id === seqAction.id)
+  );
+}
+
 export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
 
   try {
     const expiration = AuthUtils.getAuthTokenExpiration();
-    const oneMinuteFromNow = DateTime.local().plus({ 'minutes': 1 }).valueOf();
+    const oneMinuteFromNow = DateTime.local().plus({ minutes: 1 }).valueOf();
 
-    if (oneMinuteFromNow > expiration || true) {
-
-      const { data } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
-
-      configure({
-        auth0ClientId: __AUTH0_CLIENT_ID__,
-        auth0Domain: __AUTH0_DOMAIN__,
-        authToken: data
-      });
+    if (oneMinuteFromNow > expiration) {
+      const reloadTokenRequest = reloadToken();
+      yield put(reloadTokenRequest);
+      yield takeReqSeqSuccessFailure(reloadToken, reloadTokenRequest);
     }
   }
   catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
