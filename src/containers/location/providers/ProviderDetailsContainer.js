@@ -152,17 +152,6 @@ class ProviderDetailsContainer extends React.Component {
 
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
-    const capacities = [];
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
-      capacities.push('0 yr - 1 yr');
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
-      capacities.push('2 yr - 5 yr');
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
-      capacities.push('6 yr and up');
-    }
-
     const formatTime = (time) => {
       if (!time) {
         return '?';

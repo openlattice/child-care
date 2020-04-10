@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 
 import styled from 'styled-components';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
 
@@ -21,7 +21,7 @@ import {
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { FACILITY_STATUSES } from '../../utils/DataConstants';
-import { getDistanceBetweenCoords, getValue, getValues } from '../../utils/DataUtils';
+import { getDistanceBetweenCoords, getValue, getValues, getAgesServedFromEntity } from '../../utils/DataUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
@@ -85,20 +85,7 @@ const ProviderResult = ({
 
   const isOpen = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
 
-  const capacities = [];
-  const yr = renderText(LABELS.YR);
-  if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
-    capacities.push(`0 ${yr} - 1 ${yr}`);
-  }
-  if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
-    capacities.push(`2 ${yr} - 5 ${yr}`);
-  }
-  if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
-    capacities.push(`6 ${renderText(LABELS.YR_AND_UP)}`);
-  }
-  if (!capacities.length) {
-    capacities.push(renderText(LABELS.UNKNOWN_AGE_LIMITATIONS));
-  }
+  const ages = getAgesServedFromEntity(provider, renderText);
 
   return (
     <Card onClick={handleViewProfile}>
@@ -118,7 +105,7 @@ const ProviderResult = ({
               <IconDetail content={`${city}, CA`} />
 
               <TwoPartRow>
-                <IconDetail content={capacities.join(', ')} />
+                <IconDetail content={ages} />
                 <IconDetail content={`${distance} mi`} />
               </TwoPartRow>
 

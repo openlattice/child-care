@@ -12,6 +12,8 @@ import { Constants, Models } from 'lattice';
 import { DataProcessingUtils } from 'lattice-fabricate';
 
 import { isDefined } from './LangUtils';
+import { PROPERTY_TYPES } from './constants/DataModelConstants';
+import { LABELS, AGES_SERVED_LABELS } from './constants/Labels'
 
 const { getEntityAddressKey } = DataProcessingUtils;
 const { FullyQualifiedName } = Models;
@@ -325,6 +327,11 @@ const HARDCODED_DATE = 'January 1, 2020';
 export const formatTimeAsDateTime = (time) => {
   return moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
 };
+
+export const getAgesServedFromEntity = (provider, renderText) => provider.get(PROPERTY_TYPES.AGES_SERVED, List())
+  .map((age) => renderText(AGES_SERVED_LABELS[age]))
+  .join(', ')
+    || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS);
 
 export {
   SEARCH_PREFIX,
