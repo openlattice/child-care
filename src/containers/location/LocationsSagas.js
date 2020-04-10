@@ -112,15 +112,16 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       }))
     );
 
-    const formattedOptions = [].concat(...geocoded.map(({ data }) => data)).map((option) => {
+    const formattedOptions = [].concat(...geocoded.map(({ data }) => data)).map((option, idx) => {
       // eslint-disable-next-line camelcase
-      const { formattedAddress, geometry } = option;
+      const { geometry } = option;
       const { location } = geometry;
       const { lat, lng: lon } = location;
+      const { description } = suggestions[idx];
 
       return {
         ...option,
-        label: formattedAddress,
+        label: description,
         value: `${lat},${lon}`,
         lat,
         lon
