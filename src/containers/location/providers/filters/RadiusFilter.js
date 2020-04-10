@@ -1,10 +1,11 @@
 import React from 'react';
+
 import Select from 'react-select';
 import styled from 'styled-components';
 
-import { selectStyles } from '../../../app/SelectStyles';
 import { isMobile } from '../../../../utils/AppUtils';
 import { LABELS } from '../../../../utils/constants/Labels';
+import { selectStyles } from '../../../app/SelectStyles';
 
 const RADIUS_OPTIONS = [
   1,
@@ -12,7 +13,7 @@ const RADIUS_OPTIONS = [
   10,
   25,
   50
-].map(value => ({
+].map((value) => ({
   value,
   label: `${value} mile${value === 1 ? '' : 's'}`
 }));
@@ -36,24 +37,27 @@ const BasicSelect = styled.select`
 
 const RadiusFilter = ({ value, onChange, renderText }) => {
 
-  const handleOnChange = ({ value }) => {
-    onChange(value);
-  }
+  const handleOnChange = (payload) => {
+    onChange(payload.value);
+  };
 
   const onBasicSelectChange = ({ target }) => {
     const { selectedIndex } = target;
     handleOnChange(RADIUS_OPTIONS[selectedIndex]);
-  }
+  };
 
-  const selectedOption = RADIUS_OPTIONS.find(option => option.value === value);
+  const selectedOption = RADIUS_OPTIONS.find((option) => option.value === value);
 
   const renderVal = (val) => `${val} ${renderText(LABELS.MILE)}${val === 1 ? '' : 's'}`;
 
   if (isMobile()) {
     return (
       <BasicSelect value={selectedOption.value} onChange={onBasicSelectChange}>
-        {RADIUS_OPTIONS.map(({ label, value }) => (
-          <option key={value} label={label} value={value}>
+        {RADIUS_OPTIONS.map((option) => (
+          <option
+              key={value}
+              label={option.label}
+              value={option.value}>
             {renderVal(value)}
           </option>
         ))}
@@ -63,7 +67,6 @@ const RadiusFilter = ({ value, onChange, renderText }) => {
 
   return (
     <Select
-        autoFocus
         value={selectedOption}
         isClearable={false}
         isSearchable={false}
@@ -74,6 +77,6 @@ const RadiusFilter = ({ value, onChange, renderText }) => {
         styles={selectStyles} />
   );
 
-}
+};
 
 export default RadiusFilter;

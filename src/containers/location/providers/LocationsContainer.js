@@ -23,21 +23,21 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import LocationResult from './LocationResult';
-import ProviderHeaderContainer from './ProviderHeaderContainer';
-import ProviderDetailsContainer from './ProviderDetailsContainer';
 import EditFiltersContainer from './EditFiltersContainer';
+import LocationResult from './LocationResult';
+import ProviderDetailsContainer from './ProviderDetailsContainer';
+import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
 import { getGeoOptions, searchLocations, setValue } from './LocationsActions';
-import { getRenderTextFn } from '../../../utils/AppUtils';
 import { STAY_AWAY_STORE_PATH } from './constants';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { LABELS } from '../../../utils/constants/Labels';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 
 const MAX_HITS = 20;
@@ -227,7 +227,6 @@ const LocationContainer = () => {
       <ContentWrapper padding="none">
         {editFiltersContent}
         {providerHeader}
-        {providerDetails}
         <MapWrapper>
           <ProviderMap
               currentPosition={currentPosition}

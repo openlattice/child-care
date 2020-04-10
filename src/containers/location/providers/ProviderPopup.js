@@ -2,13 +2,14 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { faTimes  } from '@fortawesome/pro-solid-svg-icons';
+import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
-import { IconButton, Colors } from 'lattice-ui-kit';
+import { Colors, IconButton } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
 
+import { selectProvider } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import DefaultLink from '../../../components/links/DefaultLink';
@@ -22,14 +23,12 @@ import {
   PERSON_RACE_FQN,
   PERSON_SEX_FQN
 } from '../../../edm/DataModelFqns';
-import { selectProvider } from './LocationsActions';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
-import { getValue, getValues } from '../../../utils/DataUtils';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
+import { getValue, getValues } from '../../../utils/DataUtils';
+import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
-
-import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 
 const ActionBar = styled.div`
   display: flex;
@@ -72,7 +71,7 @@ const OpenClosedTag = styled.div`
 type Props = {
   coordinates :[number, number];
   isOpen :boolean;
-  stayAwayLocation :Map;
+  provider :Map;
   onClose :() => void;
   renderText :Function
 };
@@ -84,7 +83,6 @@ const ProviderPopup = ({
   provider,
   renderText
 } :Props) => {
-  if (!isOpen) return null;
 
   const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
 
@@ -114,13 +112,15 @@ const ProviderPopup = ({
     capacities.push(renderText(LABELS.UNKNOWN_AGE_LIMITATIONS));
   }
 
-  const address = [street, city, zip].filter(v => v).join(', ');
+  const address = [street, city, zip].filter((v) => v).join(', ');
 
   const dispatch = useDispatch();
 
   const handleViewProfile = () => {
     dispatch(selectProvider(provider));
   };
+
+  if (!isOpen) return null;
 
   return (
     <Popup coordinates={coordinates}>

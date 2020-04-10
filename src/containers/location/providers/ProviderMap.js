@@ -1,23 +1,22 @@
 // @flow
 import React, { useEffect, useMemo, useReducer } from 'react';
 
-import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
+import ReactMapboxGl from 'react-mapbox-gl';
 import { List } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import ProviderLocationLayer from './ProviderLocationLayer';
 import HospitalsLocationLayer from './HospitalsLocationLayer';
+import ProviderLocationLayer from './ProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
+import SelectedProviderMarker from './SelectedProviderMarker';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
-import RadiusLayer from '../../map/RadiusLayer';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/Labels';
-import { COORDS, MAP_STYLE } from '../../map/constants';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
+import { COORDS, MAP_STYLE } from '../../map/constants';
 
 declare var __MAPBOX_TOKEN__;
 
@@ -41,14 +40,14 @@ const fitBoundsOptions = {
 
 const containerStyle = { flex: 1 };
 
-const LATITUDE_OFFSET = 0.001;
+const LATITUDE_OFFSET = 0.0035;
 
 const INITIAL_STATE = {
   bounds: COORDS.BAY_AREA,
   center: undefined,
   isPopupOpen: false,
   selectedFeature: undefined,
-  zoom: [16],
+  zoom: [14],
 };
 
 const reducer = (state, action) => {
@@ -61,7 +60,7 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        zoom: [16],
+        zoom: [14],
       };
     }
     case 'bounds':
@@ -84,7 +83,7 @@ const reducer = (state, action) => {
 type Props = {
   currentPosition :Position;
   selectedOption :Object;
-  searchResults ?:List;
+  searchResults :List;
 };
 
 const ProviderMap = (props :Props) => {
@@ -109,14 +108,26 @@ const ProviderMap = (props :Props) => {
     zoom,
   } = state;
 
-  const stayAwayData = useMemo(() => searchResults
+  const providerData = useMemo(() => searchResults
     .map((resultEKID) => providerLocations.get(resultEKID)),
   [searchResults, providerLocations]);
 
   useEffect(() => {
     if (!isLoading) {
-      // first, use bounds whenever possible
-      const newBounds = getBoundsFromPointsOfInterest(stayAwayData);
+      // first use external selectedProvider whenever possible
+      if (selectedProvider) {
+        const [lng, lat] = getCoordinates(selectedProvider);
+        stateDispatch({
+          type: 'center',
+          payload: {
+            center: [lng, lat + LATITUDE_OFFSET],
+            selectedFeature: selectedProvider,
+            isPopupOpen: false
+          }
+        });
+      }
+      // second, use bounds whenever possible
+      const newBounds = getBoundsFromPointsOfInterest(providerData);
       if (newBounds) {
         stateDispatch({ type: 'bounds', payload: newBounds });
       }
@@ -143,8 +154,9 @@ const ProviderMap = (props :Props) => {
     }
   }, [
     isLoading,
-    stayAwayData,
-    selectedOption
+    providerData,
+    selectedOption,
+    selectedProvider,
   ]);
 
   const showProviderPopup = (location) => {
@@ -185,24 +197,30 @@ const ProviderMap = (props :Props) => {
         zoom={zoom}>
       <CurrentPositionLayer position={currentPosition} />
       {
+        selectedProvider && (
+          <SelectedProviderMarker provider={selectedProvider} />
+        )
+      }
+      {
         selectedFeature && (
-          <>
-            <RadiusLayer location={selectedFeature} radius={100} unit="yd" />
-            <ProviderPopup
-                renderText={renderText}
-                isOpen={isPopupOpen && !selectedProvider}
-                coordinates={getCoordinates(selectedFeature)}
-                provider={selectedFeature}
-                onClose={closeFeature} />
-          </>
+          <ProviderPopup
+              renderText={renderText}
+              isOpen={isPopupOpen && !selectedProvider}
+              coordinates={getCoordinates(selectedFeature)}
+              provider={selectedFeature}
+              onClose={closeFeature} />
         )
       }
       <HospitalsLocationLayer
           hospitalLocations={hospitals}
           onFeatureClick={selectHospital} />
-      <ProviderLocationLayer
-          providerLocations={stayAwayData}
-          onFeatureClick={showProviderPopup} />
+      {
+        !selectedProvider && (
+          <ProviderLocationLayer
+              providerLocations={providerData}
+              onFeatureClick={showProviderPopup} />
+        )
+      }
     </Mapbox>
   );
 };
