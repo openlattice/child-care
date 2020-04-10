@@ -187,10 +187,11 @@ function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAc
 export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
 
   try {
+    const currentToken = AuthUtils.getAuthToken();
     const expiration = AuthUtils.getAuthTokenExpiration();
     const oneMinuteFromNow = DateTime.local().plus({ minutes: 1 }).valueOf();
 
-    if (oneMinuteFromNow > expiration) {
+    if (!currentToken || oneMinuteFromNow > expiration) {
       const reloadTokenRequest = reloadToken();
       yield put(reloadTokenRequest);
       yield takeReqSeqSuccessFailure(reloadToken, reloadTokenRequest);

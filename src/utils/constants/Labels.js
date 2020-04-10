@@ -61,6 +61,10 @@ export const LABELS = {
     [en]: 'Days Needed',
     [es]: 'Días Necesarios'
   },
+  DEVELOPMENTALLY_DISABLED: {
+    [en]: 'Developmentally Disabled',
+    [es]: 'Discapacidad del Desarrollo'
+  },
   NUMBER_OF_CHILDREN: {
     [en]: 'Number of Children',
     [es]: 'Numero de niños'
@@ -236,20 +240,8 @@ export const OTHER_LANGUAGE = {
 };
 
 export const AGES_SERVED_LABELS = {
-  [CLIENTS_SERVED.CHILDREN]: {
-    [en]: 'School age (5+ yrs)',
-    [es]: 'Niño (5+ a)'
-  },
-  [CLIENTS_SERVED.INFANTS]: {
-    [en]: 'Infant (0 - 2 yrs)',
-    [es]: 'Bebé (0 - 2 a)'
-  },
-  [CLIENTS_SERVED.TODDLERS]: {
-    [en]: 'Toddler (2 - 5 yrs)',
-    [es]: 'Niño pequeño (2 - 5 a)'
-  },
-  [CLIENTS_SERVED.DEVELOPMENTALLY_DISABLED]: {
-    [en]: 'Developmentally Disabled',
-    [es]: 'Discapacidad del Desarrollo'
-  }
+  [CLIENTS_SERVED.CHILDREN]: LABELS.AGE_SCHOOL,
+  [CLIENTS_SERVED.INFANTS]: LABELS.AGE_INFANT,
+  [CLIENTS_SERVED.TODDLERS]: LABELS.AGE_TODDLER,
+  [CLIENTS_SERVED.DEVELOPMENTALLY_DISABLED]: LABELS.DEVELOPMENTALLY_DISABLED
 };
