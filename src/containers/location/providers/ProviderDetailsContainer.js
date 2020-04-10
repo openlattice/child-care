@@ -71,17 +71,7 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
-`;
-
-const HeaderLabel = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  margin-bottom: 10px;
-
-  color: #555E6F;
+  padding: 0 ${PADDING}px ${PADDING}px ${PADDING}px !important;
 `;
 
 const Row = styled.div`
@@ -98,13 +88,13 @@ const Row = styled.div`
 
   div {
     color: #555E6F;
-    max-width: 70%;
+    max-width: 65%;
   }
 
   a {
     color: #6124E2;
     text-decoration: underline;
-    max-width: 70%;
+    max-width: 65%;
   }
 `;
 
@@ -151,10 +141,6 @@ const InfoText = styled.div`
   line-height: 19px;
 
   color: #8E929B;
-`;
-
-const Spacer = styled.div`
-  height: ${(props) => props.height}px;
 `;
 
 class ProviderDetailsContainer extends React.Component {
@@ -247,45 +233,46 @@ class ProviderDetailsContainer extends React.Component {
 
     return (
       <StyledContentOuterWrapper>
-        <StyledContentWrapper padding={`${PADDING}px`}>
-          <HeaderLabel>{renderText(LABELS.CONTACT)}</HeaderLabel>
+        <StyledContentWrapper>
+          <ExpandableSection title={renderText(LABELS.CONTACT)}>
+            <>
+              <Row>
+                <div>{renderText(LABELS.PHONE)}</div>
+                <DataRows>
+                  <span>{phone || unknown}</span>
+                </DataRows>
+              </Row>
 
-          <Row>
-            <div>{renderText(LABELS.PHONE)}</div>
-            <DataRows>
-              <span>{phone || unknown}</span>
-            </DataRows>
-          </Row>
+              <Row>
+                <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
+                <DataRows>
+                  <span>{pointOfContact || unknown}</span>
+                </DataRows>
+              </Row>
 
-          <Row>
-            <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
-            <DataRows>
-              <span>{pointOfContact || unknown}</span>
-            </DataRows>
-          </Row>
+              <Row>
+                <div>{renderText(LABELS.ADDRESS)}</div>
+                <DataRows>
+                  <span>{street}</span>
+                  <span>{`${city}, CA ${zip}`}</span>
+                </DataRows>
+              </Row>
 
-          <Row>
-            <div>{renderText(LABELS.ADDRESS)}</div>
-            <DataRows>
-              <span>{street}</span>
-              <span>{`${city}, CA ${zip}`}</span>
-            </DataRows>
-          </Row>
+              <Row>
+                <div>{renderText(LABELS.OPERATING_HOURS)}</div>
+                <DataRows>
+                  {operatingHours}
+                </DataRows>
+              </Row>
+            </>
+          </ExpandableSection>
 
-          <Row>
-            <div>{renderText(LABELS.OPERATING_HOURS)}</div>
-            <DataRows>
-              {operatingHours}
-            </DataRows>
-          </Row>
-
-          <Line paddingTop={10} />
+          <Line />
 
           <ExpandableSection title={renderText(LABELS.RESOURCE_AND_REFERRAL)}>
             <>
               <InfoText>{renderText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
               {rrs.map(this.renderRR)}
-              <Spacer height={20} />
             </>
           </ExpandableSection>
 
