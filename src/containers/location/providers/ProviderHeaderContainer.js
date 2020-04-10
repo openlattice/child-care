@@ -1,46 +1,30 @@
 // @flow
 
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useState
-} from 'react';
-import { bindActionCreators } from 'redux';
+import React from 'react';
 
-import styled, { css } from 'styled-components';
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
+import styled from 'styled-components';
+import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
-import { Map, fromJS } from 'immutable';
+import { Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import EditFilter from './EditFilter';
-import { STAY_AWAY_STORE_PATH } from './constants';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { FACILITY_STATUSES } from '../../../utils/DataConstants';
-import {
-  APP_CONTAINER_WIDTH,
-  MEDIA_QUERY_TECH_SM,
-  MEDIA_QUERY_MD,
-  MEDIA_QUERY_LG,
-  HEADER_HEIGHT,
-  HEIGHTS
-} from '../../../core/style/Sizes';
-import { LABELS } from '../../../utils/constants/Labels';
-
-import FindingLocationSplash from '../FindingLocationSplash';
-import BasicButton from '../../../components/buttons/BasicButton';
-import InfoButton from '../../../components/buttons/InfoButton';
-import { usePosition, useTimeout } from '../../../components/hooks';
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { getRenderTextFn } from '../../../utils/AppUtils';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
-import { getValue, getValues, getDistanceBetweenCoords } from '../../../utils/DataUtils';
-import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
 import * as LocationsActions from './LocationsActions';
+import { STAY_AWAY_STORE_PATH } from './constants';
+
+import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import {
+  HEADER_HEIGHT,
+  HEIGHTS,
+} from '../../../core/style/Sizes';
+import { getRenderTextFn } from '../../../utils/AppUtils';
+import { FACILITY_STATUSES } from '../../../utils/DataConstants';
+import { getDistanceBetweenCoords, getValue, getValues } from '../../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { getCoordinates } from '../../map/MapUtils';
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;

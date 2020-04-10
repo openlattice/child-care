@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 
+import { Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { Feature, Layer } from 'react-mapbox-gl';
 
