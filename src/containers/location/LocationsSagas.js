@@ -41,9 +41,14 @@ import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { getPropertyTypeId, getESIDsFromApp, getHospitalsESID, getProvidersESID } from '../../utils/AppUtils';
-import { getEKIDsFromEntryValues, mapFirstEntityDataFromNeighbors, formatTimeAsDateTime } from '../../utils/DataUtils';
+import {
+  getEntityKeyId,
+  getEKIDsFromEntryValues,
+  mapFirstEntityDataFromNeighbors,
+  formatTimeAsDateTime
+} from '../../utils/DataUtils';
 import { DAY_PTS, CLOSED } from '../../utils/DataConstants';
-import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES, RR_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 
@@ -397,11 +402,19 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     ]);
 
     const { hits, numHits } = data;
-    const locationsEKIDs = hits.map((location) => getIn(location, [FQN.OPENLATTICE_ID_FQN, 0]));
-    const locationsByEKID = Map(hits.map((entity) => [getIn(entity, [FQN.OPENLATTICE_ID_FQN, 0]), fromJS(entity)]));
+    const locationsEKIDs = hits.map(getEntityKeyId);
+    const locationsByEKID = Map(hits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
     response.data.hits = fromJS(locationsEKIDs);
     response.data.totalHits = numHits;
     response.data.providerLocations = locationsByEKID;
+
+    const rrsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
+      entityKeyIds: response.data.hits.toJS(),
+      sourceEntitySetIds: [],
+      destinationEntitySetIds: [RR_ENTITY_SET_ID]
+    });
+
+    response.data.rrsById = fromJS(rrsById);
 
     yield put(searchLocations.success(action.id, {
       newData: response.data,

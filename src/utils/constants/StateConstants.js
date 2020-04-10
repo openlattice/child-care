@@ -16,6 +16,7 @@ export const SUBMIT = {
 
 export const PROVIDERS = {
   HOSPITALS: 'hospitals',
+  RRS_BY_ID: 'rrsById',
 
   SELECTED_PROVIDER: 'selectedProvider',
 

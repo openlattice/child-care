@@ -20,7 +20,7 @@ import {
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
-import { getDistanceBetweenCoords, getValue, getValues } from '../../../utils/DataUtils';
+import { getDistanceBetweenCoords, getValue, getValues, getAgesServedFromEntity } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -165,20 +165,7 @@ class ProviderHeaderContainer extends React.Component {
 
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
-    const capacities = [];
-    const yr = renderText(LABELS.YR);
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
-      capacities.push(`0 ${yr} - 1 ${yr}`);
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
-      capacities.push(`2 ${yr} - 5 ${yr}`);
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
-      capacities.push(`6 ${renderText(LABELS.YR_AND_UP)}`);
-    }
-    if (!capacities.length) {
-      capacities.push(renderText(LABELS.UNKNOWN_AGE_LIMITATIONS));
-    }
+    const ages = getAgesServedFromEntity(provider, renderText);
 
     const distance = this.getDistance();
 
@@ -201,7 +188,7 @@ class ProviderHeaderContainer extends React.Component {
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
           <TwoPartRow>
-            <SubHeader>{capacities.join(', ')}</SubHeader>
+            <SubHeader>{ages}</SubHeader>
             <SubHeader>{`${distance} mi`}</SubHeader>
           </TwoPartRow>
 

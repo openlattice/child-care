@@ -22,6 +22,7 @@ import { HOME_PATH } from '../../../core/router/Routes';
 
 const {
   HOSPITALS,
+  RRS_BY_ID,
   SELECTED_PROVIDER,
   IS_EDITING_FILTERS,
   FILTER_PAGE,
@@ -50,6 +51,7 @@ const INITIAL_STATE :Map = fromJS({
   providerLocations: Map(),
 
   [HOSPITALS]: List(),
+  [RRS_BY_ID]: Map(),
   [SELECTED_PROVIDER]: null,
   [IS_EDITING_FILTERS]: false,
   [FILTER_PAGE]: null,

@@ -12,7 +12,7 @@ import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
 import styled, { css } from 'styled-components';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map, fromJS } from 'immutable';
+import { Map, List } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,7 +29,7 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
-import { getValue, getValues } from '../../../utils/DataUtils';
+import { getValue, getValues, getEntityKeyId } from '../../../utils/DataUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -152,17 +152,6 @@ class ProviderDetailsContainer extends React.Component {
 
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
-    const capacities = [];
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_UNDER_2)) {
-      capacities.push('0 yr - 1 yr');
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_2_to_5)) {
-      capacities.push('2 yr - 5 yr');
-    }
-    if (getValue(provider, PROPERTY_TYPES.CAPACITY_OVER_5)) {
-      capacities.push('6 yr and up');
-    }
-
     const formatTime = (time) => {
       if (!time) {
         return '?';
@@ -252,11 +241,17 @@ function mapStateToProps(state :Map<*, *>) :Object {
   const lat = providerState.getIn(['selectedOption', 'lat']);
   const lon = providerState.getIn(['selectedOption', 'lon']);
 
+  const provider = providerState.get(PROVIDERS.SELECTED_PROVIDER);
+  const selectedProviderId = getEntityKeyId(provider);
+  const rrs = providerState.getIn([PROVIDERS.RRS_BY_ID, selectedProviderId], List())
+    .map(e => e.get('neighborDetails', Map()));
+
   return {
     providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
-    provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
+    provider,
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    renderText: getRenderTextFn(state),
+    rrs
   };
 }
 

@@ -1,4 +1,4 @@
-import { DAYS_OF_WEEK } from '../DataConstants';
+import { DAYS_OF_WEEK, CLIENTS_SERVED } from '../DataConstants';
 import { PROVIDERS } from './StateConstants';
 
 export const LANGUAGES = {
@@ -233,4 +233,23 @@ export const DAY_OF_WEEK_LABELS = {
 export const OTHER_LANGUAGE = {
   [en]: es,
   [es]: en
+};
+
+export const AGES_SERVED_LABELS = {
+  [CLIENTS_SERVED.CHILDREN]: {
+    [en]: 'School age (5+ yrs)',
+    [es]: 'Niño (5+ a)'
+  },
+  [CLIENTS_SERVED.INFANTS]: {
+    [en]: 'Infant (0 - 2 yrs)',
+    [es]: 'Bebé (0 - 2 a)'
+  },
+  [CLIENTS_SERVED.TODDLERS]: {
+    [en]: 'Toddler (2 - 5 yrs)',
+    [es]: 'Niño pequeño (2 - 5 a)'
+  },
+  [CLIENTS_SERVED.DEVELOPMENTALLY_DISABLED]: {
+    [en]: 'Developmentally Disabled',
+    [es]: 'Discapacidad del Desarrollo'
+  }
 };

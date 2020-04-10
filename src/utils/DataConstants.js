@@ -235,13 +235,23 @@ export const DAY_PTS = {
 
 export const FACILITY_TYPES = [
   'Family Home',
-  'Day Care Center',
-  'Day Care Center (Preschool)'
+  'Day Care Center'
 ];
 
 export const FACILITY_STATUSES = {
   CLOSED: 'Closed',
   OPEN: 'Open'
+};
+
+export const LICENSE_TYPES = {
+  LICENSED: 'Licensed'
+};
+
+export const CLIENTS_SERVED = {
+  CHILDREN: 'Children',
+  INFANTS: 'Infants',
+  TODDLERS: 'Toddlers',
+  DEVELOPMENTALLY_DISABLED: 'Developmentally Disabled'
 };
 
 export const { CLOSED } = FACILITY_STATUSES;
