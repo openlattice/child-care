@@ -147,7 +147,7 @@ export const LABELS = {
   },
   UNKNOWN_AGE_LIMITATIONS: {
     [en]: 'Unknown age limitations',
-    [es]: 'Limitaciones de edad indisponible'
+    [es]: 'Limitaciones de edad desconocida'
   },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
