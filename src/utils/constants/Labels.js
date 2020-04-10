@@ -135,7 +135,7 @@ export const LABELS = {
   },
   UNKNOWN: {
     [en]: 'Unknown',
-    [es]: 'Desconocida'
+    [es]: 'Dato Desconocido'
   },
   UNKNOWN_AGE_LIMITATIONS: {
     [en]: 'Unknown age limitations',
