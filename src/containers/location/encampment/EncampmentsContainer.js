@@ -185,7 +185,6 @@ const EncampmentsContainer = () => {
                   <div>
                     <FlexRow>
                       <Select
-                          autoFocus
                           filterOption={filterOption}
                           inputId="address"
                           inputValue={address}
