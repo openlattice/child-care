@@ -227,7 +227,6 @@ const LocationContainer = () => {
       <ContentWrapper padding="none">
         {editFiltersContent}
         {providerHeader}
-        {providerDetails}
         <MapWrapper>
           <ProviderMap
               currentPosition={currentPosition}
