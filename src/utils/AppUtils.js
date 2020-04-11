@@ -33,7 +33,6 @@ export const getESIDsFromApp = (app :Map, fqns :Array<FullyQualifiedName>) :stri
   .map((fqn :FullyQualifiedName) => getESIDFromApp(app, fqn));
 
 export const getProvidersESID = (app :Map) :string => app.get('entitySetId');
-export const getHospitalsESID = (app :Map) :string => app.get('hospitalsEntitySetId');
 export const getPropertyTypeId = (app :Map, fqn :string) => app.getIn(['propertyTypesByFqn', fqn, 'id']);
 
 export const isMobile = () => {

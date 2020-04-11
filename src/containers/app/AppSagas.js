@@ -1,4 +1,6 @@
 
+
+
 /*
  * @flow
  */
@@ -14,7 +16,7 @@ import {
 } from '@redux-saga/core/effects';
 import { get } from 'axios';
 import { push } from 'connected-react-router';
-import { EntitySetsApi, EntityDataModelApi } from 'lattice';
+import { DataApi, EntitySetsApi, EntityDataModelApi } from 'lattice';
 import { configure, AccountUtils, AuthUtils } from 'lattice-auth';
 import { DateTime } from 'luxon';
 import type { SequenceAction } from 'redux-reqseq';
@@ -31,7 +33,7 @@ import {
 
 import Logger from '../../utils/Logger';
 import * as Routes from '../../core/router/Routes';
-import { PROVIDERS_ENTITY_SET, HOSPITALS_ENTITY_SET } from '../../utils/constants/DataModelConstants';
+import { PROVIDERS_ENTITY_SET, HOSPITALS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
 import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
@@ -65,13 +67,13 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
 
     yield call(refreshAuthTokenIfNecessary);
 
-    const [entitySetId, hospitalsEntitySetId, propertyTypes] = yield all([
+    const [entitySetId, propertyTypes, hospitals] = yield all([
       call(EntitySetsApi.getEntitySetId, PROVIDERS_ENTITY_SET),
-      call(EntitySetsApi.getEntitySetId, HOSPITALS_ENTITY_SET),
       call(EntityDataModelApi.getAllPropertyTypes),
+      call(DataApi.getEntitySetData, HOSPITALS_ENTITY_SET_ID)
     ]);
 
-    yield put(loadApp.success(action.id, { entitySetId, hospitalsEntitySetId, propertyTypes }));
+    yield put(loadApp.success(action.id, { entitySetId, hospitals, propertyTypes }));
   }
   catch (error) {
     LOG.error(action.type, error);
