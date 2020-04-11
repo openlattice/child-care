@@ -27,6 +27,10 @@ const TitleRow = styled.div`
     font-size: 14px;
     line-height: 17px;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 type Props = {

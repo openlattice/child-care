@@ -54,6 +54,7 @@ const LinkButton = styled.div`
   margin-top: 10px;
   :hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
