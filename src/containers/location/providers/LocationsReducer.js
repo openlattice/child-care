@@ -21,7 +21,6 @@ import { HOME_PATH } from '../../../core/router/Routes';
 
 
 const {
-  HOSPITALS,
   RRS_BY_ID,
   SELECTED_PROVIDER,
   IS_EDITING_FILTERS,
@@ -50,7 +49,6 @@ const INITIAL_STATE :Map = fromJS({
   stayAway: Map(),
   providerLocations: Map(),
 
-  [HOSPITALS]: List(),
   [RRS_BY_ID]: Map(),
   [SELECTED_PROVIDER]: null,
   [IS_EDITING_FILTERS]: false,
@@ -74,7 +72,6 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
           .merge(action.value),
         SUCCESS: () => state
           .set('fetchState', RequestStates.SUCCESS)
-          .set(HOSPITALS, fromJS(action.value.hospitals.hits))
           .merge(action.value.newData),
         FAILURE: () => state.set('fetchState', RequestStates.FAILURE)
       });

@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useReducer } from 'react';
 
 import ReactMapboxGl from 'react-mapbox-gl';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
@@ -95,7 +95,7 @@ const ProviderMap = (props :Props) => {
 
   const renderText = useSelector(getRenderTextFn);
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
-  const hospitals = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS]));
+  const hospitals = useSelector((store) => store.getIn(['app', 'hospitals'], Map()));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
@@ -212,7 +212,7 @@ const ProviderMap = (props :Props) => {
         )
       }
       <HospitalsLocationLayer
-          hospitalLocations={hospitals}
+          hospitalLocations={hospitals.valueSeq()}
           onFeatureClick={selectHospital} />
       {
         !selectedProvider && (

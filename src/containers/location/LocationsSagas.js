@@ -15,7 +15,7 @@ import {
   getIn,
   isImmutable
 } from 'immutable';
-import { SearchApi } from 'lattice';
+import { DataApi, SearchApi } from 'lattice';
 import { AuthUtils } from 'lattice-auth';
 import {
   SearchApiActions,
@@ -28,10 +28,12 @@ import {
   GET_GEO_OPTIONS,
   GET_LB_LOCATIONS_NEIGHBORS,
   GET_LB_STAY_AWAY_PEOPLE,
+  LOAD_ALL_HOSPITALS,
   SEARCH_LOCATIONS,
   getGeoOptions,
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
+  loadAllHospitals,
   searchLocations,
 } from './providers/LocationsActions';
 
@@ -48,7 +50,7 @@ import {
   formatTimeAsDateTime
 } from '../../utils/DataUtils';
 import { DAY_PTS, CLOSED } from '../../utils/DataConstants';
-import { PROPERTY_TYPES, RR_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES, RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 
@@ -261,21 +263,31 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const app :Map = yield select((state) => state.get('app', Map()));
     const entitySetId = getProvidersESID(app);
 
+    const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
+
+    const sort = {
+      type: 'geoDistance',
+      descending: true,
+      propertyTypeId: locationPropertyTypeId,
+      latitude,
+      longitude
+    };
+
     const locationConstraint = {
       constraints: [{
         type: 'geoDistance',
         latitude,
         longitude,
-        propertyTypeId: getPropertyTypeId(app, PROPERTY_TYPES.LOCATION),
+        propertyTypeId: locationPropertyTypeId,
         radius,
         unit: 'miles'
       }, {
         type: 'simple',
         fuzzy: false,
-        searchTerm: `_exists_:entity.${getPropertyTypeId(app, PROPERTY_TYPES.LOCATION)}`
+        searchTerm: `_exists_:entity.${locationPropertyTypeId}`
       }],
       min: 2
-    }
+    };
 
     const isNotClosedConstraint = {
       constraints: [{
@@ -283,7 +295,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         fuzzy: 'false',
         searchTerm: `NOT(entity.${getPropertyTypeId(app, PROPERTY_TYPES.STATUS)}:"${CLOSED}")`
       }]
-    }
+    };
 
     const constraints = [locationConstraint, isNotClosedConstraint];
 
@@ -380,31 +392,12 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       start,
       entitySetIds: [entitySetId],
       maxHits,
-      constraints
+      constraints,
+      sort
     };
 
-    const hospitalsEntitySetId = getHospitalsESID(app);
+    const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
 
-    const [data, hospitals] = yield all([
-      call(SearchApi.executeSearch, searchOptions),
-      call(SearchApi.executeSearch, {
-        start: 0,
-        maxHits: 10000,
-        entitySetIds: [hospitalsEntitySetId],
-        constraints: [{
-          constraints: [{
-            type: 'geoDistance',
-            latitude,
-            longitude,
-            propertyTypeId: getPropertyTypeId(app, PROPERTY_TYPES.LOCATION),
-            radius: radius * 2,
-            unit: 'miles'
-          }]
-        }]
-      })
-    ]);
-
-    const { hits, numHits } = data;
     const locationsEKIDs = hits.map(getEntityKeyId);
     const locationsByEKID = Map(hits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
     response.data.hits = fromJS(locationsEKIDs);
@@ -420,8 +413,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     response.data.rrsById = fromJS(rrsById);
 
     yield put(searchLocations.success(action.id, {
-      newData: response.data,
-      hospitals
+      newData: response.data
     }));
   }
   catch (error) {

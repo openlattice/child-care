@@ -16,7 +16,8 @@ import type { SequenceAction } from 'redux-reqseq';
 
 
 import { LANGUAGES } from '../../utils/constants/Labels';
-import { getFqn } from '../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { getFqn, getValue } from '../../utils/DataUtils';
 import {
   SWITCH_LANGUAGE,
   initializeApplication,
@@ -39,12 +40,12 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   selectedOrganizationSettings: Map(),
   initializeState: RequestStates.STANDBY,
   entitySetId: null,
-  hospitalsEntitySetId: null,
   propertyTypesById: Map(),
   propertyTypesByFqn: Map(),
   token: null,
   renderText: (label) => label[LANGUAGES.en],
-  sessionId: randomUUID()
+  sessionId: randomUUID(),
+  hospitals: Map()
 });
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {
@@ -88,12 +89,13 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           const {
             entitySetId,
-            hospitalsEntitySetId,
+            hospitals,
             propertyTypes
           } = value;
 
           let propertyTypesById = Map();
           let propertyTypesByFqn = Map();
+          let hospitalsByPlaceId = Map();
 
           fromJS(propertyTypes).forEach((propertyType) => {
             const id = propertyType.get('id');
@@ -101,6 +103,11 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
             propertyTypesById = propertyTypesById.set(id, propertyType);
             propertyTypesByFqn = propertyTypesByFqn.set(fqn, propertyType);
+          });
+
+          fromJS(hospitals).forEach((hospital) => {
+            const hospitalId = getValue(hospital, PROPERTY_TYPES.PLACE_ID);
+            hospitalsByPlaceId = hospitalsByPlaceId.set(hospitalId, hospital);
           });
 
           let defaultLanguage = LANGUAGES.en;
@@ -111,7 +118,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           return state
             .set('entitySetId', entitySetId)
-            .set('hospitalsEntitySetId', hospitalsEntitySetId)
+            .set('hospitals', hospitalsByPlaceId)
             .set('propertyTypesById', propertyTypesById)
             .set('propertyTypesByFqn', propertyTypesByFqn)
             .set('renderText', (label) => label[defaultLanguage]);

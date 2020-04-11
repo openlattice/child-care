@@ -1,8 +1,7 @@
 // export const PROVIDERS_ENTITY_SET = 'DemoEssentialCareProviderServices';
 export const PROVIDERS_ENTITY_SET = 'DssEssentialCareProviderServices';
 
-export const HOSPITALS_ENTITY_SET = 'EssentialCareProviderServices_Hospitals';
-
+export const HOSPITALS_ENTITY_SET_ID = '80d920ac-37fb-4bb6-9f3f-97c62bf84d3a';
 export const RR_ENTITY_SET_ID = 'f5c5f870-4274-4c4e-b3b8-1f418b4234c9';
 
 export const PROPERTY_TYPES = {
@@ -22,6 +21,7 @@ export const PROPERTY_TYPES = {
   CAPACITY_AGE_UNKNOWN: 'ecps.capacity_age_unknown',
   AGES_SERVED: 'ecps.clients_served',
   LOCATION: 'ecps.locationcoordinates',
+  PLACE_ID: 'openlattice.@id', // TODO REPLACE THIS
 
   PHONE: 'ecps.facility_phone',
 
