@@ -49,7 +49,7 @@ import {
   mapFirstEntityDataFromNeighbors,
   formatTimeAsDateTime
 } from '../../utils/DataUtils';
-import { DAY_PTS, CLOSED } from '../../utils/DataConstants';
+import { DAY_PTS, CLOSED, CLIENTS_SERVED } from '../../utils/DataConstants';
 import { PROPERTY_TYPES, RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -63,6 +63,12 @@ const {
   STAY_AWAY_LOCATION_FQN,
   SERVICES_OF_PROCESS_FQN,
 } = APP_TYPES_FQNS;
+
+const AGE_GROUP_BY_FQN = {
+  [PROPERTY_TYPES.CAPACITY_UNDER_2]: CLIENTS_SERVED.INFANTS,
+  [PROPERTY_TYPES.CAPACITY_2_TO_5]: CLIENTS_SERVED.TODDLERS,
+  [PROPERTY_TYPES.CAPACITY_OVER_5]: CLIENTS_SERVED.CHILDREN
+};
 
 const LOG = new Logger('LocationsSagas');
 
@@ -324,35 +330,60 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     if (children && children.size) {
 
       let totalChildren = 0;
-      children.valueSeq().forEach((count) => {
+      const ageBrackets = [];
+      children.entrySeq().forEach(([fqn, count]) => {
         totalChildren += count;
+
+        if (count > 0) {
+          ageBrackets.push(fqn);
+        }
       });
 
       if (totalChildren > 0) {
+        const agesPTID = getPropertyTypeId(app, PROPERTY_TYPES.AGES_SERVED);
+        const capacityAgeUnknownPTID = getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN);
 
-        const bucketRequirements = children.entrySeq()
-          .filter(([_, number]) => number > 0)
-          .map(([fqn, number]) => `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`)
-          .join(' AND ');
+        const searchTerm = ageBrackets.map((fqn) => `entity.${agesPTID}:"${AGE_GROUP_BY_FQN[fqn]}"`).join(' AND ');
 
         const childrenConstraint = {
           constraints: [
             {
               type: 'simple',
               fuzzy: false,
-              searchTerm: bucketRequirements
+              searchTerm
             },
             {
               type: 'simple',
               fuzzy: false,
-              searchTerm: `entity.${getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN)}:[${totalChildren} TO *]`
+              searchTerm: `entity.${capacityAgeUnknownPTID}:[${totalChildren} TO *]`
             }
-          ]
+          ],
+          min: 2
         };
 
+        // const bucketRequirements = children.entrySeq()
+        //   .filter(([_, number]) => number > 0)
+        //   .map(([fqn, number]) => `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`)
+        //   .join(' AND ');
+        //
+        // const childrenConstraint = {
+        //   constraints: [
+        //     {
+        //       type: 'simple',
+        //       fuzzy: false,
+        //       searchTerm: bucketRequirements
+        //     },
+        //     {
+        //       type: 'simple',
+        //       fuzzy: false,
+        //       searchTerm: `entity.${getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN)}:[${totalChildren} TO *]`
+        //     }
+        //   ]
         constraints.push(childrenConstraint);
+        };
 
-      }
+
+
     }
 
     if (daysAndTimes && daysAndTimes.size) {

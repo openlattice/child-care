@@ -16,7 +16,7 @@ export const PROPERTY_TYPES = {
   POINT_OF_CONTACT_NAME: 'ecps.point_of_contact_name',
   PAYMENT_OPTIONS: 'ecps.payment_options',
   CAPACITY_UNDER_2: 'ecps.capacity_0_to_2',
-  CAPACITY_2_to_5: 'ecps.capacity_2_to_5',
+  CAPACITY_2_TO_5: 'ecps.capacity_2_to_5',
   CAPACITY_OVER_5: 'ecps.capacity_5_and_up',
   CAPACITY_AGE_UNKNOWN: 'ecps.capacity_age_unknown',
   AGES_SERVED: 'ecps.clients_served',
