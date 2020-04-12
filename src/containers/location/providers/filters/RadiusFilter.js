@@ -24,60 +24,66 @@ const BasicSelect = styled.select`
   }
 `;
 
+export default class RadiusFilter extends React.Component {
 
-const RadiusFilter = ({ value, onChange, renderText }) => {
+  componentDidMount() {
+    const { setIsValid } = this.props;
+    setIsValid(true);
+  }
 
-  const renderMiles = (miles) => `${miles} ${renderText(LABELS.MILE)}${miles === 1 ? '' : 's'}`;
+  render() {
+    const { value, onChange, renderText } = this.props;
 
-  const RADIUS_OPTIONS = [
-    1,
-    5,
-    10,
-    25,
-    50
-  ].map((d) => ({
-    value: d,
-    label: renderMiles(d)
-  }));
+    const renderMiles = (miles) => `${miles} ${renderText(LABELS.MILE)}${miles === 1 ? '' : 's'}`;
 
-  const handleOnChange = (payload) => {
-    onChange(payload.value);
-  };
+    const RADIUS_OPTIONS = [
+      1,
+      5,
+      10,
+      25,
+      50
+    ].map((d) => ({
+      value: d,
+      label: renderMiles(d)
+    }));
 
-  const onBasicSelectChange = ({ target }) => {
-    const { selectedIndex } = target;
-    handleOnChange(RADIUS_OPTIONS[selectedIndex]);
-  };
+    const handleOnChange = (payload) => {
+      onChange(payload.value);
+    };
 
-  const selectedOption = RADIUS_OPTIONS.find((option) => option.value === value);
+    const onBasicSelectChange = ({ target }) => {
+      const { selectedIndex } = target;
+      handleOnChange(RADIUS_OPTIONS[selectedIndex]);
+    };
 
-  if (isMobile()) {
+    const selectedOption = RADIUS_OPTIONS.find((option) => option.value === value);
+
+    if (isMobile()) {
+      return (
+        <BasicSelect value={selectedOption.value} onChange={onBasicSelectChange}>
+          {RADIUS_OPTIONS.map((option) => (
+            <option
+                key={option.value}
+                label={option.label}
+                value={option.value}>
+              {renderMiles(option.value)}
+            </option>
+          ))}
+        </BasicSelect>
+      );
+    }
+
     return (
-      <BasicSelect value={selectedOption.value} onChange={onBasicSelectChange}>
-        {RADIUS_OPTIONS.map((option) => (
-          <option
-              key={option.value}
-              label={option.label}
-              value={option.value}>
-            {renderMiles(option.value)}
-          </option>
-        ))}
-      </BasicSelect>
+      <Select
+          value={selectedOption}
+          isClearable={false}
+          isSearchable={false}
+          isMulti={false}
+          onChange={handleOnChange}
+          options={RADIUS_OPTIONS}
+          placeholder={renderText(LABELS.SELECT)}
+          styles={selectStyles} />
     );
   }
 
-  return (
-    <Select
-        value={selectedOption}
-        isClearable={false}
-        isSearchable={false}
-        isMulti={false}
-        onChange={handleOnChange}
-        options={RADIUS_OPTIONS}
-        placeholder={renderText(LABELS.SELECT)}
-        styles={selectStyles} />
-  );
-
-};
-
-export default RadiusFilter;
+}

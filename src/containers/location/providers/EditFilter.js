@@ -15,7 +15,7 @@ import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
 import ZipFilter from './filters/ZipFilter';
-import BasicButton from '../../../components/buttons/BasicButton';
+import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
@@ -95,7 +95,7 @@ const ApplyButtonWrapper = styled.div`
    z-index: 16;
 `;
 
-const SaveFilterButton = styled(BasicButton)`
+const SaveFilterButton = styled(InfoButton)`
   ${fixedBottomButtonStyle}
 `;
 
@@ -112,7 +112,8 @@ export default class EditFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value
+      value: props.value,
+      isValid: false
     };
   }
 
@@ -127,7 +128,13 @@ export default class EditFilter extends React.Component {
       return null;
     }
 
-    return <Component value={value} renderText={renderText} onChange={(newValue) => this.setState({ value: newValue })} />;
+    return (
+      <Component
+          value={value}
+          renderText={renderText}
+          onChange={(newValue) => this.setState({ value: newValue })}
+          setIsValid={(isValid) => this.setState({ isValid })} />
+    );
   }
 
   render() {
@@ -137,7 +144,7 @@ export default class EditFilter extends React.Component {
       onCancel,
       onSave
     } = this.props;
-    const { value } = this.state;
+    const { value, isValid } = this.state;
 
     return (
       <StyledContentOuterWrapper>
@@ -153,7 +160,9 @@ export default class EditFilter extends React.Component {
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
-          <SaveFilterButton onClick={() => onSave({ field, value })}>{renderText(LABELS.SAVE)}</SaveFilterButton>
+          <SaveFilterButton disabled={!isValid} onClick={() => onSave({ field, value })}>
+            {renderText(LABELS.SAVE)}
+          </SaveFilterButton>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
     );
