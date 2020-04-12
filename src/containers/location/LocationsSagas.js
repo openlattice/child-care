@@ -268,6 +268,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);
     const children = getValue(PROVIDERS.CHILDREN);
     const daysAndTimes = getValue(PROVIDERS.DAYS);
+    const activeOnly = getValue(PROVIDERS.ACTIVE_ONLY);
 
     yield put(searchLocations.request(action.id, searchInputs.set('selectedOption', latLonObj)));
 
@@ -303,15 +304,20 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       min: 2
     };
 
-    const isNotClosedConstraint = {
-      constraints: [{
-        type: 'simple',
-        fuzzy: 'false',
-        searchTerm: `NOT(entity.${getPropertyTypeId(app, PROPERTY_TYPES.STATUS)}:"${CLOSED}")`
-      }]
-    };
+    const constraints = [locationConstraint];
 
-    const constraints = [locationConstraint, isNotClosedConstraint];
+    if (activeOnly) {
+
+      const isActiveConstraint = {
+        constraints: [{
+          type: 'simple',
+          fuzzy: 'false',
+          searchTerm: `NOT(entity.${getPropertyTypeId(app, PROPERTY_TYPES.STATUS)}:"${CLOSED}")`
+        }]
+      };
+
+      constraints.push(isActiveConstraint);
+    }
 
     if (typeOfCare && typeOfCare.size) {
       const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);

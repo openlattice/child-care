@@ -24,6 +24,7 @@ export const PROVIDERS = {
   FILTER_PAGE: 'filterPage',
 
   // filters
+  ACTIVE_ONLY: 'activeOnly',
   TYPE_OF_CARE: 'typeOfCare',
   ZIP: 'zip',
   RADIUS: 'radius',
