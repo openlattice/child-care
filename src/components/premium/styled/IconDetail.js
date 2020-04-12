@@ -15,6 +15,7 @@ const Content = styled.div`
   flex: 1;
   word-break: break-word;
   white-space: pre-wrap;
+  color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
 `;
 
 const IconWrapper = styled.span`
@@ -27,6 +28,7 @@ type Props = {
   content ? :string;
   icon ? :IconDefinition;
   isLoading ? :boolean;
+  isInactive ? :boolean;
 }
 
 class IconDetail extends Component<Props> {
@@ -34,11 +36,12 @@ class IconDetail extends Component<Props> {
     className: undefined,
     content: '',
     icon: undefined,
-    isLoading: false
+    isLoading: false,
+    isInactive: false
   };
 
   renderContent = () => {
-    const { content, icon } = this.props;
+    const { content, icon, isInactive } = this.props;
     const display = content || '---';
     return (
       <>
@@ -49,7 +52,7 @@ class IconDetail extends Component<Props> {
             </IconWrapper>
           )
         }
-        <Content>
+        <Content isInactive={isInactive}>
           {display}
         </Content>
       </>

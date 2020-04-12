@@ -39,10 +39,10 @@ const ResultDetails = styled.div`
 const ResultName = styled.div`
   font-family: Inter;
   font-style: normal;
-  font-weight: 600;
+  font-weight: ${(props) => (props.isInactive ? 400 : 600)};
   font-size: 16px;
   line-height: 19px;
-  color: #555E6F;
+  color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;

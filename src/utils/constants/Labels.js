@@ -49,6 +49,10 @@ export const LABELS = {
     [en]: 'Basic Search',
     [es]: 'Búsqueda Básica'
   },
+  CLOSED_DURING_COVID: {
+    [en]: 'Closed during COVID-19',
+    [es]: 'Cerrado Durante COVID-19'
+  },
   CONTACT: {
     [en]: 'Contact',
     [es]: 'Contacto'
