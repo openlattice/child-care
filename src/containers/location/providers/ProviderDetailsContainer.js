@@ -156,13 +156,13 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     return (
-      <Row>
+      <Row key={getEntityKeyId(rr)}>
         {first}
         <DataRows>
           {phone}
         </DataRows>
       </Row>
-    )
+    );
   };
 
   render() {

@@ -232,10 +232,10 @@ export const DAY_PTS = {
   [DAYS_OF_WEEK.SATURDAY]: [PROPERTY_TYPES.SATURDAY_START, PROPERTY_TYPES.SATURDAY_END]
 };
 
-export const FACILITY_TYPES = [
-  'Family Home',
-  'Day Care Center'
-];
+export const FACILITY_TYPES = {
+  FAMILY_HOME: 'Family Home',
+  DAY_CARE_CENTER: 'Day Care Center'
+};
 
 export const FACILITY_STATUSES = {
   CLOSED: 'Closed',

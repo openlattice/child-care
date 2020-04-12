@@ -1,4 +1,4 @@
-import { DAYS_OF_WEEK, CLIENTS_SERVED } from '../DataConstants';
+import { DAYS_OF_WEEK, CLIENTS_SERVED, FACILITY_TYPES } from '../DataConstants';
 import { PROVIDERS } from './StateConstants';
 
 export const LANGUAGES = {
@@ -289,4 +289,15 @@ export const AGES_SERVED_LABELS = {
   [CLIENTS_SERVED.INFANTS]: LABELS.AGE_INFANT,
   [CLIENTS_SERVED.TODDLERS]: LABELS.AGE_TODDLER,
   [CLIENTS_SERVED.DEVELOPMENTALLY_DISABLED]: LABELS.DEVELOPMENTALLY_DISABLED
+};
+
+export const FACILITY_TYPE_LABELS = {
+  [FACILITY_TYPES.FAMILY_HOME]: {
+    [en]: 'Family Home',
+    [es]: 'Casa Familiar'
+  },
+  [FACILITY_TYPES.DAY_CARE_CENTER]: {
+    [en]: 'Day Care Center',
+    [es]: 'Guardería'
+  }
 };

@@ -23,7 +23,7 @@ import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { FACILITY_STATUSES } from '../../utils/DataConstants';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
-import { LABELS } from '../../utils/constants/Labels';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { selectProvider } from '../location/providers/LocationsActions';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
 import {
@@ -85,7 +85,8 @@ const ProviderResult = ({
   const distance = Math.round(miles * 10) / 10;
 
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
-  const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
+  const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
+    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 

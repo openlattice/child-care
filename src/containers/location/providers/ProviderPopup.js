@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { Colors, IconButton } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
@@ -33,7 +33,7 @@ import {
 } from '../../../utils/DataUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 
 const ActionBar = styled.div`
   display: flex;
@@ -101,7 +101,8 @@ const ProviderPopup = ({
   const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
 
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
-  const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
+  const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
+    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
   const status = getValues(provider, PROPERTY_TYPES.STATUS);
   const url = getValue(provider, PROPERTY_TYPES.URL);
 
