@@ -68,6 +68,13 @@ const LOG = new Logger('LocationsSagas');
 
 const GEOCODING_API = 'https://api.openlattice.com/datastore/geocoding';
 
+const DEFAULT_AUTOCOMPLETE_COMPONENTS = [
+  {
+    component: 'country',
+    value: 'us'
+  }
+];
+
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
@@ -100,6 +107,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       headers,
       data: {
         input: address,
+        componentFilters: DEFAULT_AUTOCOMPLETE_COMPONENTS,
         sessionToken,
         ...currentLocationBias
       }
