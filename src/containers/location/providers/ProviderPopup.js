@@ -25,7 +25,12 @@ import {
 } from '../../../edm/DataModelFqns';
 import { getAddressFromLocation } from '../../../utils/AddressUtils';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
-import { getValue, getValues, getAgesServedFromEntity } from '../../../utils/DataUtils';
+import {
+  getValue,
+  getValues,
+  getAgesServedFromEntity,
+  isProviderActive
+} from '../../../utils/DataUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -35,6 +40,14 @@ const ActionBar = styled.div`
   flex: 1;
   align-items: center;
   justify-content: space-between;
+
+
+  strong {
+    color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
+    font-weight: ${(props) => (props.isInactive ? 400 : 600)};
+    font-size: 16px;
+  }
+
 `;
 
 const CloseButton = styled(IconButton)`
@@ -100,7 +113,7 @@ const ProviderPopup = ({
 
   const ages = getAgesServedFromEntity(provider, renderText);
 
-  const address = [street, city, zip].filter((v) => v).join(', ');
+  const isInactive = !isProviderActive(provider);
 
   const dispatch = useDispatch();
 
@@ -112,16 +125,16 @@ const ProviderPopup = ({
 
   return (
     <Popup coordinates={coordinates}>
-      <OpenClosedTag isOpen={isOperating}>
-        {renderText(isOperating ? LABELS.OPEN : LABELS.CLOSED)}
-      </OpenClosedTag>
-      <ActionBar>
+      <ActionBar isInactive={isInactive}>
         <strong>{name}</strong>
         <CloseButton size="sm" mode="subtle" icon={CloseIcon} onClick={onClose} />
       </ActionBar>
-      <IconDetail content={type} />
-      <IconDetail content={`${city}, CA`} />
-      <IconDetail content={ages} />
+      <IconDetail content={type} isInactive={isInactive} />
+      <IconDetail content={`${city}, CA`} isInactive={isInactive} />
+      <IconDetail content={ages} isInactive={isInactive} />
+      {isInactive
+        ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+        : null}
       <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );

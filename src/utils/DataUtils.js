@@ -12,6 +12,7 @@ import { Constants, Models } from 'lattice';
 import { DataProcessingUtils } from 'lattice-fabricate';
 
 import { isDefined } from './LangUtils';
+import { FACILITY_STATUSES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
 import { LABELS, AGES_SERVED_LABELS } from './constants/Labels'
 
@@ -332,6 +333,8 @@ export const getAgesServedFromEntity = (provider, renderText) => provider.get(PR
   .map((age) => renderText(AGES_SERVED_LABELS[age]))
   .join(', ')
     || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS);
+
+export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
 
 export {
   SEARCH_PREFIX,

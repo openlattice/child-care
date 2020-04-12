@@ -7,14 +7,16 @@ import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import HospitalsLocationLayer from './HospitalsLocationLayer';
-import ProviderLocationLayer from './ProviderLocationLayer';
+import ActiveProviderLocationLayer from './ActiveProviderLocationLayer';
+import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import HospitalPopup from './HospitalPopup';
-import SelectedProviderMarker from './SelectedProviderMarker';
+import SelectedProviderMarker from './markers/SelectedProviderMarker';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getRenderTextFn } from '../../../utils/AppUtils';
+import { isProviderActive } from '../../../utils/DataUtils';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
@@ -242,8 +244,15 @@ const ProviderMap = (props :Props) => {
           onFeatureClick={selectHospital} />
       {
         !selectedProvider && (
-          <ProviderLocationLayer
-              providerLocations={providerData}
+          <ActiveProviderLocationLayer
+              providerLocations={providerData.filter(isProviderActive)}
+              onFeatureClick={showProviderPopup} />
+        )
+      }
+      {
+        !selectedProvider && (
+          <InactiveProviderLocationLayer
+              providerLocations={providerData.filter((p) => !isProviderActive(p))}
               onFeatureClick={showProviderPopup} />
         )
       }

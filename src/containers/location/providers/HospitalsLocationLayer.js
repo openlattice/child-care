@@ -11,7 +11,7 @@ import { getCoordinates } from '../../map/MapUtils';
 
 const HospitalPin = new Image(12, 16);
 HospitalPin.src = `data:image/svg+xml;utf8,${icon(faMapMarkerPlus, {
-  styles: { color: '6b9eff' }
+  styles: { color: 'black' }
 }).html[0]}`;
 const images = ['hospitalPin', HospitalPin];
 const layout = { 'icon-image': 'hospitalPin' };

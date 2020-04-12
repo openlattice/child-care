@@ -21,12 +21,18 @@ import {
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { FACILITY_STATUSES } from '../../utils/DataConstants';
-import { getDistanceBetweenCoords, getValue, getValues, getAgesServedFromEntity } from '../../utils/DataUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { selectProvider } from '../location/providers/LocationsActions';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
+import {
+  getDistanceBetweenCoords,
+  getValue,
+  getValues,
+  getAgesServedFromEntity,
+  isProviderActive
+} from '../../utils/DataUtils';
 import {
   FlexRow,
   ResultDetails,
@@ -83,7 +89,7 @@ const ProviderResult = ({
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
-  const isInactive = getValue(provider, PROPERTY_TYPES.STATUS) !== FACILITY_STATUSES.OPEN;
+  const isInactive = !isProviderActive(provider);
 
   const ages = getAgesServedFromEntity(provider, renderText);
 
