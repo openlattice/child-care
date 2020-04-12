@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CheckboxButton from '../../../../components/controls/CheckboxButton';
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
-import { LABELS } from '../../../../utils/constants/Labels';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels';
 
 const Instruction = styled.div`
   font-family: Inter;
@@ -38,11 +38,11 @@ export default class TypeOfCareFilter extends React.Component {
     return (
       <ContentOuterWrapper>
         <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
-        {FACILITY_TYPES.map((facilityType) => (
+        {Object.values(FACILITY_TYPES).map((facilityType) => (
           <CheckboxButton
               marginTop="20px"
               key={facilityType}
-              label={facilityType}
+              label={renderText(FACILITY_TYPE_LABELS[facilityType])}
               value={facilityType}
               isSelected={value.includes(facilityType)}
               onChange={onCheckboxChange} />

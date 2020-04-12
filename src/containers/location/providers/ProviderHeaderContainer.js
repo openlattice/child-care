@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -29,7 +29,7 @@ import {
   isProviderActive
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
@@ -161,7 +161,9 @@ class ProviderHeaderContainer extends React.Component {
     }
 
     const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
-    const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
+    const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
+      .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+
     const status = getValues(provider, PROPERTY_TYPES.STATUS);
     const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
     const url = getValue(provider, PROPERTY_TYPES.URL);
