@@ -166,6 +166,7 @@ class EditFiltersContainer extends React.Component {
 
     this.state = {
       filterPage: null,
+      ...getProviderValue(PROVIDERS.ACTIVE_ONLY),
       ...getProviderValue(PROVIDERS.TYPE_OF_CARE),
       ...getProviderValue(PROVIDERS.ZIP),
       ...getProviderValue(PROVIDERS.RADIUS),
@@ -200,6 +201,7 @@ class EditFiltersContainer extends React.Component {
     const { renderText, actions } = this.props;
     const {
       filterPage,
+      [PROVIDERS.ACTIVE_ONLY]: activeOnly,
       [PROVIDERS.TYPE_OF_CARE]: typeOfCare,
       [PROVIDERS.ZIP]: zip,
       [PROVIDERS.RADIUS]: radius,
@@ -256,6 +258,7 @@ class EditFiltersContainer extends React.Component {
       const { actions } = props;
 
       const searchInputs = fromJS({
+        [PROVIDERS.ACTIVE_ONLY]: state[PROVIDERS.ACTIVE_ONLY],
         [PROVIDERS.TYPE_OF_CARE]: state[PROVIDERS.TYPE_OF_CARE],
         [PROVIDERS.RADIUS]: state[PROVIDERS.RADIUS],
         [PROVIDERS.CHILDREN]: state[PROVIDERS.CHILDREN],
@@ -290,6 +293,7 @@ class EditFiltersContainer extends React.Component {
             <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
             {renderRow(PROVIDERS.DAYS, getDays(), LABELS.DAYS_NEEDED)}
+            {renderRow(PROVIDERS.ACTIVE_ONLY, renderText(activeOnly ? LABELS.NO : LABELS.YES), LABELS.SHOW_INACTIVE_FACILITIES)}
 
           </StyledContentWrapper>
         </ScrollContainer>

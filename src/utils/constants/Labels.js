@@ -85,6 +85,10 @@ export const LABELS = {
     [en]: 'License Number',
     [es]: 'Número de Licencia'
   },
+  NO: {
+    [en]: 'No',
+    [es]: 'No'
+  },
   NUMBER_OF_CHILDREN: {
     [en]: 'Number of Children',
     [es]: 'Numero de niños'
@@ -149,6 +153,10 @@ export const LABELS = {
     [en]: 'Select all that apply:',
     [es]: 'Selecciona todos los que correspondan:'
   },
+  SHOW_INACTIVE_FACILITIES: {
+    [en]: 'Show inactive facilities?',
+    [es]: '¿Mostrar instalaciones inactivas?'
+  },
   SORT_BY: {
     [en]: 'Sort by relevance',
     [es]: 'Ordena por relevancia'
@@ -172,6 +180,10 @@ export const LABELS = {
   VIEW_PROVIDER: {
     [en]: 'View Provider',
     [es]: 'Ver Proveedor'
+  },
+  YES: {
+    [en]: 'Yes',
+    [es]: 'Sí'
   },
   YR: {
     [en]: 'yr',
@@ -218,6 +230,7 @@ export const LABELS = {
 };
 
 export const HEADER_LABELS = {
+  [PROVIDERS.ACTIVE_ONLY]: LABELS.SHOW_INACTIVE_FACILITIES,
   [PROVIDERS.TYPE_OF_CARE]: LABELS.TYPE_OF_CARE,
   [PROVIDERS.ZIP]: LABELS.ZIP_CODE,
   [PROVIDERS.RADIUS]: LABELS.SEARCH_RADIUS,

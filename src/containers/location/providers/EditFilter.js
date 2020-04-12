@@ -10,6 +10,7 @@ import { Colors } from 'lattice-ui-kit';
 import { FILTER_HEADERS } from './constants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
+import ActiveOnlyFilter from './filters/ActiveOnlyFilter';
 import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
@@ -100,6 +101,7 @@ const SaveFilterButton = styled(InfoButton)`
 `;
 
 const FILTER_COMPONENTS = {
+  [PROVIDERS.ACTIVE_ONLY]: ActiveOnlyFilter,
   [PROVIDERS.CHILDREN]: ChildrenFilter,
   [PROVIDERS.DAYS]: DayAndTimeFilter,
   [PROVIDERS.RADIUS]: RadiusFilter,
