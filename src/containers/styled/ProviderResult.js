@@ -21,12 +21,18 @@ import {
 import { getAddressFromLocation } from '../../utils/AddressUtils';
 import { getImageDataFromEntity } from '../../utils/BinaryUtils';
 import { FACILITY_STATUSES } from '../../utils/DataConstants';
-import { getDistanceBetweenCoords, getValue, getValues, getAgesServedFromEntity } from '../../utils/DataUtils';
 import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { selectProvider } from '../location/providers/LocationsActions';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
+import {
+  getDistanceBetweenCoords,
+  getValue,
+  getValues,
+  getAgesServedFromEntity,
+  isProviderActive
+} from '../../utils/DataUtils';
 import {
   FlexRow,
   ResultDetails,
@@ -83,31 +89,36 @@ const ProviderResult = ({
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
-  const isOpen = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+  const isInactive = !isProviderActive(provider);
 
   const ages = getAgesServedFromEntity(provider, renderText);
+
+  const openStatus = (
+    <OpenClosedTag isOpen={!isInactive}>
+      {renderText(isInactive ? LABELS.CLOSED : LABELS.OPEN)}
+    </OpenClosedTag>
+  );
 
   return (
     <Card onClick={handleViewProfile}>
       <CardContent>
         <ResultSegment padding="sm" vertical>
           <TwoPartRow>
-            <ResultName bold uppercase>{name}</ResultName>
-            <OpenClosedTag isOpen={isOpen}>
-              {renderText(isOpen ? LABELS.OPEN : LABELS.CLOSED)}
-            </OpenClosedTag>
+            <ResultName isInactive={isInactive} bold uppercase>{name}</ResultName>
+            <IconDetail content={`${distance} mi`} isInactive={isInactive} />
           </TwoPartRow>
           <FlexRow>
             <ResultDetails>
 
-              <IconDetail content={type} />
+              <IconDetail content={type} isInactive={isInactive} />
 
-              <IconDetail content={`${city}, CA`} />
+              <IconDetail content={`${city}, CA`} isInactive={isInactive} />
 
-              <TwoPartRow>
-                <IconDetail content={ages} />
-                <IconDetail content={`${distance} mi`} />
-              </TwoPartRow>
+              <IconDetail content={ages} isInactive={isInactive} />
+
+              {isInactive
+                ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+                : null}
 
             </ResultDetails>
           </FlexRow>

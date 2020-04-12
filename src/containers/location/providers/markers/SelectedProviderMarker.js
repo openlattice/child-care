@@ -7,7 +7,7 @@ import { Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { Marker } from 'react-mapbox-gl';
 
-import { getCoordinates } from '../../map/MapUtils';
+import { getCoordinates } from '../../../map/MapUtils';
 
 const { PURPLES } = Colors;
 

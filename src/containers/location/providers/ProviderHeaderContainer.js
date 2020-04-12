@@ -1,3 +1,4 @@
+
 // @flow
 
 import React from 'react';
@@ -20,7 +21,13 @@ import {
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
-import { getDistanceBetweenCoords, getValue, getValues, getAgesServedFromEntity } from '../../../utils/DataUtils';
+import {
+  getDistanceBetweenCoords,
+  getValue,
+  getValues,
+  getAgesServedFromEntity,
+  isProviderActive
+} from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -99,10 +106,10 @@ const Header = styled.div`
 
 
   span {
-
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
+    min-width: fit-content;
   }
 `;
 
@@ -180,17 +187,12 @@ class ProviderHeaderContainer extends React.Component {
           </BackButton>
           <Header>
             <div>{name}</div>
-            <OpenClosedTag isOpen={isOpen}>
-              {renderText(isOpen ? LABELS.OPEN : LABELS.CLOSED)}
-            </OpenClosedTag>
+            <span>{`${distance} mi`}</span>
           </Header>
 
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
-          <TwoPartRow>
-            <SubHeader>{ages}</SubHeader>
-            <SubHeader>{`${distance} mi`}</SubHeader>
-          </TwoPartRow>
+          <SubHeader>{ages}</SubHeader>
 
         </StyledContentWrapper>
       </StyledContentOuterWrapper>

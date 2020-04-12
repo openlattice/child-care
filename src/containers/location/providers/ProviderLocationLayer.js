@@ -9,18 +9,18 @@ import { Feature, Layer } from 'react-mapbox-gl';
 import { OPENLATTICE_ID_FQN } from '../../../edm/DataModelFqns';
 import { getCoordinates } from '../../map/MapUtils';
 
-const MapPin = new Image(12, 16);
-MapPin.src = `data:image/svg+xml;utf8,${icon(faMapMarkerAlt).html[0]}`;
-const images = ['mapPin', MapPin];
-const layout = { 'icon-image': 'mapPin' };
-
 type Props = {
   providerLocations :List;
   onFeatureClick ? :(data, feature) => void;
 };
 
 const ProviderLocationLayer = (props :Props) => {
-  const { onFeatureClick, providerLocations } = props;
+  const {
+    onFeatureClick,
+    providerLocations,
+    images,
+    layout
+  } = props;
   if (providerLocations.isEmpty()) return null;
 
   return (
