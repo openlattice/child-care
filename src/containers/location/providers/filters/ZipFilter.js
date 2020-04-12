@@ -21,7 +21,7 @@ export default class ZipFilter extends React.Component {
 
 
   render() {
-    const { value, onChange, renderText } = this.props;
+    const { onChange, setIsValid } = this.props;
     const { inputStr } = this.state;
 
     const onInputChange = ({ target }) => {
@@ -41,8 +41,12 @@ export default class ZipFilter extends React.Component {
         };
 
         onChange(fromJS([numeric, searchInput]));
+        setIsValid(true);
       }
-    }
+      else {
+        setIsValid(false);
+      }
+    };
 
     return (
       <CenteredInput value={inputStr} onChange={onInputChange} />

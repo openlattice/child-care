@@ -24,27 +24,34 @@ const Label = styled.div`
   color: #555E6F;
 `;
 
-const ChildrenFilter = ({ value, onChange, renderText }) => {
+export default class ChildrenFilter extends React.Component {
 
-  const renderPlusMinus = (field) => (
-    <PlusMinus value={value.get(field, 0)} onChange={newValue => onChange(value.set(field, newValue))} />
-  );
+  componentDidMount() {
+    const { setIsValid } = this.props;
+    setIsValid(true);
+  }
 
-  return (
-    <Wrapper>
+  render() {
+    const { value, onChange, renderText } = this.props;
 
-      <Label>{renderText(LABELS.AGE_INFANT)}</Label>
-      {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
+    const renderPlusMinus = (field) => (
+      <PlusMinus value={value.get(field, 0)} onChange={newValue => onChange(value.set(field, newValue))} />
+    );
 
-      <Label>{renderText(LABELS.AGE_TODDLER)}</Label>
-      {renderPlusMinus(PROPERTY_TYPES.CAPACITY_2_to_5)}
+    return (
+      <Wrapper>
 
-      <Label>{renderText(LABELS.AGE_SCHOOL)}</Label>
-      {renderPlusMinus(PROPERTY_TYPES.CAPACITY_OVER_5)}
+        <Label>{renderText(LABELS.AGE_INFANT)}</Label>
+        {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
 
-    </Wrapper>
-  );
+        <Label>{renderText(LABELS.AGE_TODDLER)}</Label>
+        {renderPlusMinus(PROPERTY_TYPES.CAPACITY_2_to_5)}
 
-};
+        <Label>{renderText(LABELS.AGE_SCHOOL)}</Label>
+        {renderPlusMinus(PROPERTY_TYPES.CAPACITY_OVER_5)}
 
-export default ChildrenFilter;
+      </Wrapper>
+    );
+  }
+
+}

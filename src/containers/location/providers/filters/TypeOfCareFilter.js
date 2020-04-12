@@ -14,33 +14,41 @@ const Instruction = styled.div`
   line-height: 19px;
 `;
 
-const TypeOfCareFilter = ({ value, onChange, renderText }) => {
+export default class TypeOfCareFilter extends React.Component {
 
-  const onCheckboxChange = (newValue) => {
+  componentDidMount() {
+    const { setIsValid } = this.props;
+    setIsValid(true);
+  }
 
-    if (value.includes(newValue)) {
-      onChange(value.filter((v) => v !== newValue));
-    }
-    else {
-      onChange(value.push(newValue));
-    }
-  };
+  render() {
 
-  return (
-    <ContentOuterWrapper>
-      <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
-      {FACILITY_TYPES.map((facilityType) => (
-        <CheckboxButton
-            marginTop="20px"
-            key={facilityType}
-            label={facilityType}
-            value={facilityType}
-            isSelected={value.includes(facilityType)}
-            onChange={onCheckboxChange} />
-      ))}
-    </ContentOuterWrapper>
-  );
+    const { value, onChange, renderText } = this.props;
+
+    const onCheckboxChange = (newValue) => {
+
+      if (value.includes(newValue)) {
+        onChange(value.filter((v) => v !== newValue));
+      }
+      else {
+        onChange(value.push(newValue));
+      }
+    };
+
+    return (
+      <ContentOuterWrapper>
+        <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
+        {FACILITY_TYPES.map((facilityType) => (
+          <CheckboxButton
+              marginTop="20px"
+              key={facilityType}
+              label={facilityType}
+              value={facilityType}
+              isSelected={value.includes(facilityType)}
+              onChange={onCheckboxChange} />
+        ))}
+      </ContentOuterWrapper>
+    );
+  }
 
 };
-
-export default TypeOfCareFilter;
