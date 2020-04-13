@@ -282,7 +282,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const sort = {
       type: 'geoDistance',
-      descending: true,
+      descending: false,
       propertyTypeId: locationPropertyTypeId,
       latitude,
       longitude
