@@ -10,10 +10,10 @@ import React, {
 import moment from 'moment';
 import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
 import styled, { css } from 'styled-components';
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
+import { faChevronLeft, faChevronRight, faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
+import { Tooltip } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -98,6 +98,14 @@ const Row = styled.div`
   }
 `;
 
+const Group = styled.div`
+  display: flex;
+  flex-direction: row;
+  div {
+    margin-right: 10px;
+  }
+`;
+
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
@@ -165,6 +173,19 @@ class ProviderDetailsContainer extends React.Component {
     );
   };
 
+  renderLicenseElement = () => {
+    const { renderText, provider } = this.props;
+
+    const licenseNumber = getValue(provider, PROPERTY_TYPES.LICENSE_ID);
+    const licenseURL = getValue(provider, PROPERTY_TYPES.LICENSE_URL);
+
+    if (!licenseURL) {
+      return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
+    }
+
+    return <a href={licenseURL} target="_blank">{licenseNumber}</a>;
+  }
+
   render() {
 
     const { renderText, provider, rrs } = this.props;
@@ -187,6 +208,15 @@ class ProviderDetailsContainer extends React.Component {
     const pointOfContact = getValues(provider, PROPERTY_TYPES.POINT_OF_CONTACT_NAME);
 
     const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
+
+    const InfoIcon = React.forwardRef((props, ref) => (
+      <span {...props} ref={ref}>
+        <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
+      </span>
+    ));
+
+    const lastInspectionDate = 'TODO';
+    const numComplaints = 'TODO';
 
     const formatTime = (time) => {
       if (!time) {
@@ -262,6 +292,41 @@ class ProviderDetailsContainer extends React.Component {
                 <div>{renderText(LABELS.OPERATING_HOURS)}</div>
                 <DataRows>
                   {operatingHours}
+                </DataRows>
+              </Row>
+            </>
+          </ExpandableSection>
+
+          <Line />
+
+          <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
+            <>
+{/*
+              <Row>
+                <div>{renderText(LABELS.LAST_INSPECTION_DATE)}</div>
+                <DataRows>
+                  {lastInspectionDate}
+                </DataRows>
+              </Row>
+              <Row>
+                <Group>
+                  <div>{renderText(LABELS.COMPLAINTS)}</div>
+                  <Tooltip
+                      arrow
+                      placement="top"
+                      title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
+                    <InfoIcon />
+                  </Tooltip>
+                </Group>
+                <DataRows>
+                  {numComplaints}
+                </DataRows>
+              </Row>
+              */}  
+              <Row>
+                <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
+                <DataRows>
+                  {this.renderLicenseElement()}
                 </DataRows>
               </Row>
             </>
