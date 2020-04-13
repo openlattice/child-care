@@ -172,10 +172,6 @@ const TitleRow = styled.div`
   span:last-child {
     font-weight: normal;
   }
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 class ProviderDetailsContainer extends React.Component {
