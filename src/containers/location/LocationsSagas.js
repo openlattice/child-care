@@ -10,6 +10,7 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import {
+  List,
   Map,
   fromJS,
   getIn,
@@ -444,19 +445,38 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
 
-    const locationsEKIDs = hits.map(getEntityKeyId);
-    const locationsByEKID = Map(hits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
+    const filteredHits = fromJS(hits).filter(e => getValue(e, PROPERTY_TYPES.LOCATION)).toJS();
+
+    const locationsEKIDs = filteredHits.map(getEntityKeyId);
+    const locationsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
     response.data.hits = fromJS(locationsEKIDs);
     response.data.totalHits = numHits;
     response.data.providerLocations = locationsByEKID;
 
-    const rrsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
+    const neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
       entityKeyIds: response.data.hits.toJS(),
       sourceEntitySetIds: [],
-      destinationEntitySetIds: [RR_ENTITY_SET_ID]
+      destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
     });
 
-    response.data.rrsById = fromJS(rrsById);
+
+    let rrsById = Map();
+    let hospitalsById = Map();
+
+    fromJS(neighborsById).entrySeq().forEach(([entityKeyId, neighborList]) => {
+      neighborList.forEach((neighbor) => {
+        const neighborEntitySetId = neighbor.getIn(['neighborEntitySet', 'id']);
+        if (neighborEntitySetId === RR_ENTITY_SET_ID) {
+          rrsById = rrsById.set(entityKeyId, rrsById.get(entityKeyId, List()).push(neighbor));
+        }
+        if (neighborEntitySetId === HOSPITALS_ENTITY_SET_ID) {
+          hospitalsById = hospitalsById.set(entityKeyId, neighbor);
+        }
+      });
+    });
+
+    response.data.rrsById = rrsById;
+    response.data.hospitalsById = hospitalsById;
 
     yield put(searchLocations.success(action.id, {
       newData: response.data
