@@ -114,6 +114,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       data: {
         input: address,
         componentFilters: DEFAULT_AUTOCOMPLETE_COMPONENTS,
+        radius: 10000,
         sessionToken,
         ...currentLocationBias
       }
