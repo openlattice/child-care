@@ -69,6 +69,10 @@ export const LABELS = {
     [en]: 'Contact',
     [es]: 'Contacto'
   },
+  CONTACT_RR_FOR_INFO: {
+    [en]: 'Exact location can be provided by this facility’s Resource and Referral Affiliate.',
+    [es]: 'El afiliado de Recurso y Referencia de este proveedor puede proporcionar la ubicación exacta.'
+  },
   COMPLAINTS: {
     [en]: 'Complaints',
     [es]: 'Quejas'
