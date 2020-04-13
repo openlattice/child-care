@@ -1,3 +1,4 @@
+
 export const STATE = {
   DISPOSITION: 'disposition',
   NATURE_OF_CRISIS: 'natureOfCrisis',
@@ -17,6 +18,7 @@ export const SUBMIT = {
 export const PROVIDERS = {
   HOSPITALS: 'hospitals',
   RRS_BY_ID: 'rrsById',
+  HOSPITALS_BY_ID: 'hospitalsById',
 
   SELECTED_PROVIDER: 'selectedProvider',
 

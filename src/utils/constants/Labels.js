@@ -105,6 +105,10 @@ export const LABELS = {
     [en]: 'License Number',
     [es]: 'Número de Licencia'
   },
+  NEAREST_HOSPITAL: {
+    [en]: 'Nearest Hospital',
+    [es]: 'Hospital Más Cercano'
+  },
   NO: {
     [en]: 'No',
     [es]: 'No'
