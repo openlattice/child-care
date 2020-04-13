@@ -45,6 +45,18 @@ export const LABELS = {
     [en]: 'Basic Search',
     [es]: 'Búsqueda Básica'
   },
+  CAPACITY: {
+    [en]: 'Capacity',
+    [es]: 'Capacidad'
+  },
+  CHILD: {
+    [en]: 'Child',
+    [es]: 'Niño'
+  },
+  CHILDREN: {
+    [en]: 'Children',
+    [es]: 'Niños'
+  },
   CLOSED: {
     [en]: 'Closed',
     [es]: 'Cerrado'
@@ -168,6 +180,10 @@ export const LABELS = {
   SORT_BY: {
     [en]: 'Sort by distance',
     [es]: 'Ordena por distancia'
+  },
+  SPOT: {
+    [en]: 'Spot',
+    [es]: 'Espacio'
   },
   TYPE_OF_CARE: {
     [en]: 'Type of Care',

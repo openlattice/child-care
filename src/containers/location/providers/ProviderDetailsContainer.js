@@ -151,6 +151,33 @@ const InfoText = styled.div`
   color: #8E929B;
 `;
 
+const TitleRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #8E929B;
+  width: 100%;
+  padding: 20px 0;
+
+  span {
+    color: #555E6F;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  span:last-child {
+    font-weight: normal;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 class ProviderDetailsContainer extends React.Component {
 
   renderRR = (rr) => {
@@ -218,6 +245,18 @@ class ProviderDetailsContainer extends React.Component {
     const lastInspectionDate = 'TODO';
     const numComplaints = 'TODO';
 
+    let capacity = 0;
+    [
+      PROPERTY_TYPES.CAPACITY_UNDER_2,
+      PROPERTY_TYPES.CAPACITY_2_TO_5,
+      PROPERTY_TYPES.CAPACITY_OVER_5,
+      PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN
+    ].forEach((capacityFqn) => {
+      capacity += provider.getIn([capacityFqn, 0], 0);
+    });
+
+    const capacityLabel = capacity === 1 ? LABELS.CHILD : LABELS.CHILDREN;
+
     const formatTime = (time) => {
       if (!time) {
         return '?';
@@ -264,6 +303,13 @@ class ProviderDetailsContainer extends React.Component {
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper>
+          <TitleRow>
+            <span>{renderText(LABELS.CAPACITY)}</span>
+            <span>{`${capacity} ${renderText(capacityLabel)}`}</span>
+          </TitleRow>
+
+          <Line />
+
           <ExpandableSection title={renderText(LABELS.CONTACT)}>
             <>
               <Row>
@@ -322,7 +368,7 @@ class ProviderDetailsContainer extends React.Component {
                   {numComplaints}
                 </DataRows>
               </Row>
-              */}  
+              */}
               <Row>
                 <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
                 <DataRows>
