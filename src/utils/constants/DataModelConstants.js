@@ -21,7 +21,9 @@ export const PROPERTY_TYPES = {
   CAPACITY_AGE_UNKNOWN: 'ecps.capacity_age_unknown',
   AGES_SERVED: 'ecps.clients_served',
   LOCATION: 'ecps.locationcoordinates',
-  PLACE_ID: 'openlattice.@id', // TODO REPLACE THIS
+  PLACE_ID: 'ecps.google_place_id',
+  LICENSE_URL: 'ecps.license_url',
+  LICENSE_ID: 'ecps.license_number',
 
   PHONE: 'ecps.facility_phone',
 

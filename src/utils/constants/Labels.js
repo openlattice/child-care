@@ -37,10 +37,6 @@ export const LABELS = {
     [en]: 'Apply',
     [es]: 'Confirma'
   },
-  CLOSED: {
-    [en]: 'Closed',
-    [es]: 'Cerrado'
-  },
   BACK_TO_SEARCH_RESULTS: {
     [en]: 'Back to search results',
     [es]: 'Atrás'
@@ -48,6 +44,10 @@ export const LABELS = {
   BASIC_SEARCH: {
     [en]: 'Basic Search',
     [es]: 'Búsqueda Básica'
+  },
+  CLOSED: {
+    [en]: 'Closed',
+    [es]: 'Cerrado'
   },
   CLOSED_DURING_COVID: {
     [en]: 'Closed during COVID-19',
@@ -92,6 +92,10 @@ export const LABELS = {
   NO: {
     [en]: 'No',
     [es]: 'No'
+  },
+  NOT_LICENSED: {
+    [en]: 'Not Licensed',
+    [es]: 'No Licenciado'
   },
   NUMBER_OF_CHILDREN: {
     [en]: 'Number of Children',
