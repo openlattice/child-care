@@ -12,12 +12,13 @@ import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import HospitalPopup from './HospitalPopup';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
+import NearestHospitalMarker from './markers/NearestHospitalMarker';
 import FamilyHomeRadius from './markers/FamilyHomeRadius';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { isProviderActive } from '../../../utils/DataUtils';
+import { isProviderActive, getEntityKeyId, isFamilyHome } from '../../../utils/DataUtils';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
@@ -45,6 +46,7 @@ const fitBoundsOptions = {
 const containerStyle = { flex: 1 };
 
 const LATITUDE_OFFSET = 0.0035;
+const EXTRA_LATITUDE_OFFSET = 0.0065;
 
 const INITIAL_STATE = {
   bounds: COORDS.BAY_AREA,
@@ -58,12 +60,15 @@ const INITIAL_STATE = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'center': {
+
       const {
         center,
         isPopupOpen,
         selectedFeature,
-        selectedHospital
+        selectedHospital,
+        zoom
       } = action.payload;
+
       return {
         ...state,
         bounds: undefined,
@@ -71,7 +76,7 @@ const reducer = (state, action) => {
         isPopupOpen,
         selectedFeature,
         selectedHospital,
-        zoom: [14],
+        zoom: [zoom || 14]
       };
     }
     case 'bounds':
@@ -109,6 +114,7 @@ const ProviderMap = (props :Props) => {
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
   const hospitals = useSelector((store) => store.getIn(['app', 'hospitals'], Map()));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
+  const hospitalsById = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS_BY_ID]));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
@@ -133,10 +139,11 @@ const ProviderMap = (props :Props) => {
         stateDispatch({
           type: 'center',
           payload: {
-            center: [lng, lat + LATITUDE_OFFSET],
+            center: [lng, lat + EXTRA_LATITUDE_OFFSET],
             selectedFeature: selectedProvider,
             selectedHospital: undefined,
-            isPopupOpen: false
+            isPopupOpen: false,
+            zoom: [13]
           }
         });
       }
@@ -204,6 +211,24 @@ const ProviderMap = (props :Props) => {
     stateDispatch({ type: 'dismiss' });
   };
 
+  const renderHospitals = () => (
+    <>
+      {
+        selectedHospital && (
+          <HospitalPopup
+              renderText={renderText}
+              isOpen={isPopupOpen && !selectedProvider}
+              coordinates={getCoordinates(selectedHospital)}
+              hospital={selectedHospital}
+              onClose={closeFeature} />
+        )
+      }
+      <HospitalsLocationLayer
+          hospitalLocations={hospitals.valueSeq()}
+          onFeatureClick={selectHospital} />
+    </>
+  );
+
   return (
     <Mapbox
         center={center}
@@ -233,19 +258,6 @@ const ProviderMap = (props :Props) => {
               onClose={closeFeature} />
         )
       }
-      {
-        selectedHospital && (
-          <HospitalPopup
-              renderText={renderText}
-              isOpen={isPopupOpen && !selectedProvider}
-              coordinates={getCoordinates(selectedHospital)}
-              hospital={selectedHospital}
-              onClose={closeFeature} />
-        )
-      }
-      <HospitalsLocationLayer
-          hospitalLocations={hospitals.valueSeq()}
-          onFeatureClick={selectHospital} />
       {
         !selectedProvider && (
           <ActiveProviderLocationLayer

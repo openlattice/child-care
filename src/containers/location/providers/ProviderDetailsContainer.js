@@ -35,7 +35,8 @@ import {
   getValue,
   getValues,
   getEntityKeyId,
-  isFamilyHome
+  isFamilyHome,
+  isProviderActive
 } from '../../../utils/DataUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
@@ -115,6 +116,8 @@ const Group = styled.div`
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
+
+  ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
 
   span {
     text-align: right;
@@ -265,11 +268,15 @@ class ProviderDetailsContainer extends React.Component {
     );
   }
 
+  renderUnknown = () => {
+    const { renderText } = this.props;
+    return renderText(LABELS.UNKNOWN);
+  }
 
   renderContactSection = () => {
     const { renderText, provider } = this.props;
 
-    if (isFamilyHome(provider)) {
+    if (isFamilyHome(provider) || !isProviderActive(provider)) {
       return null;
     }
 
@@ -294,7 +301,7 @@ class ProviderDetailsContainer extends React.Component {
 
     const operatingHours = [];
 
-    const unknown = renderText(LABELS.UNKNOWN);
+    const unknown = this.renderUnknown();
 
     if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
@@ -360,8 +367,11 @@ class ProviderDetailsContainer extends React.Component {
 
 
   renderHealthAndSafetySection = () => {
-    const { renderText, provider } = this.props;
+    const { renderText, provider, hospital } = this.props;
 
+    console.log(hospital.toJS())
+
+    const unknown = this.renderUnknown();
 
     const InfoIcon = React.forwardRef((props, ref) => (
       <span {...props} ref={ref}>
@@ -369,13 +379,15 @@ class ProviderDetailsContainer extends React.Component {
       </span>
     ));
 
-    const lastInspectionDate = 'TODO';
-    const numComplaints = 'TODO'
+    const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
+    const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
+    const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
+
+    const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
         <>
-{/*
           <Row>
             <div>{renderText(LABELS.LAST_INSPECTION_DATE)}</div>
             <DataRows>
@@ -396,13 +408,13 @@ class ProviderDetailsContainer extends React.Component {
               {numComplaints}
             </DataRows>
           </Row>
-          */}
           <Row>
             <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>
               {this.renderLicenseElement()}
             </DataRows>
           </Row>
+
         </>
       </ExpandableSection>
     );
@@ -449,13 +461,16 @@ function mapStateToProps(state :Map<*, *>) :Object {
   const selectedProviderId = getEntityKeyId(provider);
   const rrs = providerState.getIn([PROVIDERS.RRS_BY_ID, selectedProviderId], List())
     .map(e => e.get('neighborDetails', Map()));
+  const hospital = providerState.getIn([PROVIDERS.HOSPITALS_BY_ID, selectedProviderId], Map())
+    .get('neighborDetails', Map());
 
   return {
     providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
     provider,
     coordinates: [lat, lon],
     renderText: getRenderTextFn(state),
-    rrs
+    rrs,
+    hospital
   };
 }
 

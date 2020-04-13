@@ -336,7 +336,7 @@ export const getAgesServedFromEntity = (provider, renderText) => provider.get(PR
 
 export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
 
-export const isFamilyHome = (provider) => getValue(provider, PROPERTY_TYPES.FACILITY_TYPE) === FACILITY_TYPES.FAMILY_HOME;
+export const isFamilyHome = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
 
 export {
   SEARCH_PREFIX,
