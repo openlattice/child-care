@@ -166,8 +166,8 @@ export const LABELS = {
     [es]: '¿Mostrar instalaciones inactivas?'
   },
   SORT_BY: {
-    [en]: 'Sort by relevance',
-    [es]: 'Ordena por relevancia'
+    [en]: 'Sort by distance',
+    [es]: 'Ordena por distancia'
   },
   TYPE_OF_CARE: {
     [en]: 'Type of Care',
