@@ -12,6 +12,7 @@ import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import HospitalPopup from './HospitalPopup';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
+import FamilyHomeRadius from './markers/FamilyHomeRadius';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
@@ -216,7 +217,10 @@ const ProviderMap = (props :Props) => {
       <CurrentPositionLayer position={currentPosition} />
       {
         selectedProvider && (
-          <SelectedProviderMarker provider={selectedProvider} />
+          <>
+            <FamilyHomeRadius provider={selectedProvider} />
+            <SelectedProviderMarker provider={selectedProvider} />
+          </>
         )
       }
       {

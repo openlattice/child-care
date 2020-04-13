@@ -4,7 +4,8 @@ import React, {
   useCallback,
   useEffect,
   useReducer,
-  useState
+  useState,
+  Fragment
 } from 'react';
 
 import moment from 'moment';
@@ -30,7 +31,12 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
-import { getValue, getValues, getEntityKeyId } from '../../../utils/DataUtils';
+import {
+  getValue,
+  getValues,
+  getEntityKeyId,
+  isFamilyHome
+} from '../../../utils/DataUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -196,6 +202,19 @@ class ProviderDetailsContainer extends React.Component {
     );
   };
 
+  renderRRsSection = () => {
+    const { rrs, renderText } = this.props;
+
+    return (
+      <ExpandableSection title={renderText(LABELS.RESOURCE_AND_REFERRAL)}>
+        <>
+          <InfoText>{renderText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
+          {rrs.map(this.renderRR)}
+        </>
+      </ExpandableSection>
+    );
+  };
+
   renderLicenseElement = () => {
     const { renderText, provider } = this.props;
 
@@ -209,37 +228,23 @@ class ProviderDetailsContainer extends React.Component {
     return <a href={licenseURL} target="_blank">{licenseNumber}</a>;
   }
 
-  render() {
+  renderFamilyHomeContactSection = () => {
+    const { provider, renderText } = this.props;
 
-    const { renderText, provider, rrs } = this.props;
-
-    if (!provider) {
+    if (!isFamilyHome(provider)) {
       return null;
     }
 
-    const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
-    const type = getValues(provider, PROPERTY_TYPES.FACILITY_TYPE);
-    const status = getValues(provider, PROPERTY_TYPES.STATUS);
-    const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
-    const url = getValue(provider, PROPERTY_TYPES.URL);
-    const phone = getValue(provider, PROPERTY_TYPES.PHONE);
+    return (
+      <TitleRow>
+        <InfoText>{renderText(LABELS.CONTACT_RR_FOR_INFO)}</InfoText>
+      </TitleRow>
+    );
 
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
-    const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+  }
 
-    const pointOfContact = getValues(provider, PROPERTY_TYPES.POINT_OF_CONTACT_NAME);
-
-    const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
-
-    const InfoIcon = React.forwardRef((props, ref) => (
-      <span {...props} ref={ref}>
-        <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
-      </span>
-    ));
-
-    const lastInspectionDate = 'TODO';
-    const numComplaints = 'TODO';
+  renderCapacitySection = () => {
+    const { provider, renderText } = this.props;
 
     let capacity = 0;
     [
@@ -250,8 +255,29 @@ class ProviderDetailsContainer extends React.Component {
     ].forEach((capacityFqn) => {
       capacity += provider.getIn([capacityFqn, 0], 0);
     });
-
     const capacityLabel = capacity === 1 ? LABELS.CHILD : LABELS.CHILDREN;
+
+    return (
+      <TitleRow>
+        <span>{renderText(LABELS.CAPACITY)}</span>
+        <span>{`${capacity} ${renderText(capacityLabel)}`}</span>
+      </TitleRow>
+    );
+  }
+
+
+  renderContactSection = () => {
+    const { renderText, provider } = this.props;
+
+    if (isFamilyHome(provider)) {
+      return null;
+    }
+
+    const phone = getValue(provider, PROPERTY_TYPES.PHONE);
+    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
+    const city = getValue(provider, PROPERTY_TYPES.CITY);
+    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+    const pointOfContact = getValues(provider, PROPERTY_TYPES.POINT_OF_CONTACT_NAME);
 
     const formatTime = (time) => {
       if (!time) {
@@ -297,94 +323,116 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     return (
+      <ExpandableSection title={renderText(LABELS.CONTACT)}>
+        <>
+          <Row>
+            <div>{renderText(LABELS.PHONE)}</div>
+            <DataRows>
+              <span>{phone || unknown}</span>
+            </DataRows>
+          </Row>
+
+          <Row>
+            <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
+            <DataRows>
+              <span>{pointOfContact || unknown}</span>
+            </DataRows>
+          </Row>
+
+          <Row>
+            <div>{renderText(LABELS.ADDRESS)}</div>
+            <DataRows>
+              <span>{street}</span>
+              <span>{`${city}, CA ${zip}`}</span>
+            </DataRows>
+          </Row>
+
+          <Row>
+            <div>{renderText(LABELS.OPERATING_HOURS)}</div>
+            <DataRows>
+              {operatingHours}
+            </DataRows>
+          </Row>
+        </>
+      </ExpandableSection>
+    );
+  }
+
+
+  renderHealthAndSafetySection = () => {
+    const { renderText, provider } = this.props;
+
+
+    const InfoIcon = React.forwardRef((props, ref) => (
+      <span {...props} ref={ref}>
+        <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
+      </span>
+    ));
+
+    const lastInspectionDate = 'TODO';
+    const numComplaints = 'TODO'
+
+    return (
+      <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
+        <>
+{/*
+          <Row>
+            <div>{renderText(LABELS.LAST_INSPECTION_DATE)}</div>
+            <DataRows>
+              {lastInspectionDate}
+            </DataRows>
+          </Row>
+          <Row>
+            <Group>
+              <div>{renderText(LABELS.COMPLAINTS)}</div>
+              <Tooltip
+                  arrow
+                  placement="top"
+                  title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
+                <InfoIcon />
+              </Tooltip>
+            </Group>
+            <DataRows>
+              {numComplaints}
+            </DataRows>
+          </Row>
+          */}
+          <Row>
+            <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
+            <DataRows>
+              {this.renderLicenseElement()}
+            </DataRows>
+          </Row>
+        </>
+      </ExpandableSection>
+    );
+  }
+
+  render() {
+
+    const { renderText, provider, rrs } = this.props;
+
+    if (!provider) {
+      return null;
+    }
+
+    const sections = [
+      this.renderFamilyHomeContactSection(),
+      this.renderCapacitySection(),
+      this.renderContactSection(),
+      this.renderHealthAndSafetySection(),
+      this.renderRRsSection()
+    ].filter(s => s).map((s, idx) => (
+      <Fragment key={idx}>
+        {s}
+        <Line />
+      </Fragment>
+    ))
+
+    return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper>
-          <TitleRow>
-            <span>{renderText(LABELS.CAPACITY)}</span>
-            <span>{`${capacity} ${renderText(capacityLabel)}`}</span>
-          </TitleRow>
-
-          <Line />
-
-          <ExpandableSection title={renderText(LABELS.CONTACT)}>
-            <>
-              <Row>
-                <div>{renderText(LABELS.PHONE)}</div>
-                <DataRows>
-                  <span>{phone || unknown}</span>
-                </DataRows>
-              </Row>
-
-              <Row>
-                <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
-                <DataRows>
-                  <span>{pointOfContact || unknown}</span>
-                </DataRows>
-              </Row>
-
-              <Row>
-                <div>{renderText(LABELS.ADDRESS)}</div>
-                <DataRows>
-                  <span>{street}</span>
-                  <span>{`${city}, CA ${zip}`}</span>
-                </DataRows>
-              </Row>
-
-              <Row>
-                <div>{renderText(LABELS.OPERATING_HOURS)}</div>
-                <DataRows>
-                  {operatingHours}
-                </DataRows>
-              </Row>
-            </>
-          </ExpandableSection>
-
-          <Line />
-
-          <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
-            <>
-{/*
-              <Row>
-                <div>{renderText(LABELS.LAST_INSPECTION_DATE)}</div>
-                <DataRows>
-                  {lastInspectionDate}
-                </DataRows>
-              </Row>
-              <Row>
-                <Group>
-                  <div>{renderText(LABELS.COMPLAINTS)}</div>
-                  <Tooltip
-                      arrow
-                      placement="top"
-                      title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
-                    <InfoIcon />
-                  </Tooltip>
-                </Group>
-                <DataRows>
-                  {numComplaints}
-                </DataRows>
-              </Row>
-              */}
-              <Row>
-                <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
-                <DataRows>
-                  {this.renderLicenseElement()}
-                </DataRows>
-              </Row>
-            </>
-          </ExpandableSection>
-
-          <Line />
-
-          <ExpandableSection title={renderText(LABELS.RESOURCE_AND_REFERRAL)}>
-            <>
-              <InfoText>{renderText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
-              {rrs.map(this.renderRR)}
-            </>
-          </ExpandableSection>
-
-          <Line />
-
+          {sections}
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
     );
