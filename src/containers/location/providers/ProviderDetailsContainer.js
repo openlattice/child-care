@@ -123,6 +123,10 @@ const DataRows = styled.div`
     text-align: right;
     color: #8E929B;
   }
+
+  a {
+    ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
+  }
 `;
 
 const DateRow = styled.article`
@@ -369,8 +373,6 @@ class ProviderDetailsContainer extends React.Component {
   renderHealthAndSafetySection = () => {
     const { renderText, provider, hospital } = this.props;
 
-    console.log(hospital.toJS())
-
     const unknown = this.renderUnknown();
 
     const InfoIcon = React.forwardRef((props, ref) => (
@@ -384,6 +386,11 @@ class ProviderDetailsContainer extends React.Component {
     const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
 
     const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
+
+    const [fromLat, fromLon] = getCoordinates(provider);
+    const [toLat, toLon] = getCoordinates(hospital);
+
+    const hospitalDirections = `https://www.google.com/maps/dir/${fromLon},${fromLat}/${toLon},${toLat}`;
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
@@ -412,6 +419,14 @@ class ProviderDetailsContainer extends React.Component {
             <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>
               {this.renderLicenseElement()}
+            </DataRows>
+          </Row>
+
+
+          <Row>
+            <div>{renderText(LABELS.NEAREST_HOSPITAL)}</div>
+            <DataRows alignEnd>
+              <a href={hospitalDirections} target="_blank">{hospitalName}</a>
             </DataRows>
           </Row>
 
