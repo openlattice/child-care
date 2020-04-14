@@ -43,6 +43,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   propertyTypesById: Map(),
   propertyTypesByFqn: Map(),
   token: null,
+  tokenExp: -1,
   renderText: (label) => label[LANGUAGES.en],
   sessionId: randomUUID(),
   hospitals: Map()
@@ -62,7 +63,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
     case reloadToken.case(action.type): {
       return reloadToken.reducer(state, action, {
-        SUCCESS: () => state.set('token', action.value)
+        SUCCESS: () => state.set('token', action.value.token).set('tokenExp', action.value.tokenExp)
       });
     }
 
