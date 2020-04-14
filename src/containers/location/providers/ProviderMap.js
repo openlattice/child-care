@@ -11,6 +11,7 @@ import ActiveProviderLocationLayer from './ActiveProviderLocationLayer';
 import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import HospitalPopup from './HospitalPopup';
+import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
 import NearestHospitalMarker from './markers/NearestHospitalMarker';
 import FamilyHomeRadius from './markers/FamilyHomeRadius';
@@ -115,6 +116,7 @@ const ProviderMap = (props :Props) => {
   const hospitals = useSelector((store) => store.getIn(['app', 'hospitals'], Map()));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
   const hospitalsById = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS_BY_ID]));
+  const searchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
@@ -130,6 +132,11 @@ const ProviderMap = (props :Props) => {
   const providerData = useMemo(() => searchResults
     .map((resultEKID) => providerLocations.get(resultEKID)),
   [searchResults, providerLocations]);
+
+  const searchedCoordinates = [
+    searchInputs.getIn(['selectedOption', 'lon']),
+    searchInputs.getIn(['selectedOption', 'lat'])
+  ];
 
   useEffect(() => {
     if (!isLoading) {
@@ -240,6 +247,11 @@ const ProviderMap = (props :Props) => {
         style={MAP_STYLE.DEFAULT}
         zoom={zoom}>
       <CurrentPositionLayer position={currentPosition} />
+      {
+        !selectedProvider && (
+          <SearchCenterMarker coordinates={searchedCoordinates} />
+        )
+      }
       {
         selectedProvider && (
           <>
