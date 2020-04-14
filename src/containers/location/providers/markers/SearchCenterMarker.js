@@ -11,7 +11,6 @@ type Props = {
 };
 
 const SearchCenterMarker = ({ coordinates } :Props) => {
-  console.log(coordinates)
   if (!coordinates[0] || !coordinates[1]) return null;
 
   return (
