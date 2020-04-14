@@ -24,12 +24,9 @@ import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
 import * as Routes from '../../core/router/Routes';
 import {
-  APP_CONTAINER_WIDTH,
-  APP_CONTENT_PADDING,
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
-import { OTHER_LANGUAGE, LANGUAGES } from '../../utils/constants/Labels';
-import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
+import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -43,40 +40,16 @@ const AppHeaderOuterWrapper = styled.header`
   flex: 0 0 auto;
   justify-content: center;
   height: ${HEADER_HEIGHT}px;
-  position: fixed;
   top: 0;
   width: 100vw;
-`;
-
-const AppHeaderInnerWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1 0 auto;
-  justify-content: space-between;
-  max-width: ${APP_CONTAINER_WIDTH}px;
-  padding: 0 ${APP_CONTENT_PADDING}px;
+  position: fixed;
+  z-index: 0;
 `;
 
 const LeftSideContentWrapper = styled.div`
   display: flex;
   flex: 0 0 auto;
   justify-content: flex-start;
-`;
-
-const RightSideContentWrapper = styled.div`
-  width: 100%;
-  position: relative;
-`;
-
-const SwitchLanguage = styled.span`
-  margin-right: 10px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  color: #8E929B;
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const LogoTitleWrapperLink = styled.div`
@@ -114,33 +87,6 @@ const NavigationToggleWrapper = styled.div`
   &:hover {
     color: ${NEUTRALS[0]};
   }
-`;
-
-// 2019-02-19 - Cannot call `styled.img.attrs` because undefined [1] is incompatible with string [2].
-// $FlowFixMe
-const AppLogoIcon = styled.img.attrs({
-  alt: 'OpenLattice Logo Icon',
-  src: OpenLatticeLogo,
-})`
-  height: 26px;
-`;
-
-const AppTitle = styled.h1`
-  color: ${NEUTRALS[0]};
-  font-size: 14px;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0 0 0 10px;
-  min-width: fit-content;
-`;
-
-const OrgSelectionBar = styled.div`
-  padding: 5px 30px;
-  color: #2e2e34;
-  font-weight: 600;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 `;
 
 type Props = {
@@ -195,18 +141,18 @@ class AppHeaderContainer extends Component<Props> {
     const { isNavigationOpen } = this.state;
 
     return (
-      <AppHeaderOuterWrapper>
-        { this.renderLeftSideContent() }
-        <Drawer
-            side="left"
-            isOpen={isNavigationOpen}
-            onClose={this.closeNavigation}>
-          <AppNavigationSidebar onClose={this.closeNavigation} />
-        </Drawer>
-        <AppHeaderInnerWrapper>
-          <LocationsSearchBar />
-        </AppHeaderInnerWrapper>
-      </AppHeaderOuterWrapper>
+      <>
+        <LocationsSearchBar />
+        <AppHeaderOuterWrapper>
+          { this.renderLeftSideContent() }
+          <Drawer
+              side="left"
+              isOpen={isNavigationOpen}
+              onClose={this.closeNavigation}>
+            <AppNavigationSidebar onClose={this.closeNavigation} />
+          </Drawer>
+        </AppHeaderOuterWrapper>
+      </>
     );
   }
 }

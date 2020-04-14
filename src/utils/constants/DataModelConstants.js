@@ -2,6 +2,7 @@
 // export const PROVIDERS_ENTITY_SET = 'DemoEssentialCareProviderServices';
 export const PROVIDERS_ENTITY_SET = 'DssEssentialCareProviderServices';
 
+export const PROVIDERS_ENTITY_SET_ID = '5fcd16f4-99b7-4225-8cad-df96f58c3c22';
 export const HOSPITALS_ENTITY_SET_ID = '80d920ac-37fb-4bb6-9f3f-97c62bf84d3a';
 export const RR_ENTITY_SET_ID = 'f5c5f870-4274-4c4e-b3b8-1f418b4234c9';
 
