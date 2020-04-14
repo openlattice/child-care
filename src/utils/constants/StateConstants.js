@@ -19,6 +19,8 @@ export const PROVIDERS = {
   HOSPITALS: 'hospitals',
   RRS_BY_ID: 'rrsById',
   HOSPITALS_BY_ID: 'hospitalsById',
+  IS_EXECUTING_SEARCH: 'isExecutingSearch',
+  HAS_PERFORMED_INITIAL_SEARCH: 'hasPerformedInitialSearch',
 
   SELECTED_PROVIDER: 'selectedProvider',
 

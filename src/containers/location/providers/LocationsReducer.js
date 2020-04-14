@@ -24,7 +24,9 @@ const {
   RRS_BY_ID,
   HOSPITALS_BY_ID,
   SELECTED_PROVIDER,
+  IS_EXECUTING_SEARCH,
   IS_EDITING_FILTERS,
+  HAS_PERFORMED_INITIAL_SEARCH,
   FILTER_PAGE,
   ACTIVE_ONLY,
   TYPE_OF_CARE,
@@ -51,6 +53,8 @@ const INITIAL_STATE :Map = fromJS({
   stayAway: Map(),
   providerLocations: Map(),
 
+  [HAS_PERFORMED_INITIAL_SEARCH]: false,
+  [IS_EXECUTING_SEARCH]: false,
   [RRS_BY_ID]: Map(),
   [HOSPITALS_BY_ID]: Map(),
   [SELECTED_PROVIDER]: null,
@@ -73,11 +77,17 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
         REQUEST: () => state
           .set('fetchState', RequestStates.PENDING)
           .set('searchInputs', action.value)
+          .set(IS_EXECUTING_SEARCH, true)
+          .set(IS_EDITING_FILTERS, false)
+          .set(FILTER_PAGE, null)
+          .set(SELECTED_PROVIDER, null)
+          .set(HAS_PERFORMED_INITIAL_SEARCH, true)
           .merge(action.value),
         SUCCESS: () => state
           .set('fetchState', RequestStates.SUCCESS)
           .merge(action.value.newData),
-        FAILURE: () => state.set('fetchState', RequestStates.FAILURE)
+        FAILURE: () => state.set('fetchState', RequestStates.FAILURE),
+        FINALLY: () => state.set(IS_EXECUTING_SEARCH, false)
       });
     }
 

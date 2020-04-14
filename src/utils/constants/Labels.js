@@ -342,7 +342,7 @@ export const FACILITY_TYPE_LABELS = {
     [es]: 'Casa Familiar'
   },
   [FACILITY_TYPES.DAY_CARE_CENTER]: {
-    [en]: 'Day Care Center',
+    [en]: 'Child Care Center',
     [es]: 'Guardería'
   }
 };

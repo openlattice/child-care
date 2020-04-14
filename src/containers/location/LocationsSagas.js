@@ -7,6 +7,7 @@ import {
   call,
   put,
   select,
+  take,
   takeEvery
 } from '@redux-saga/core/effects';
 import {
@@ -43,6 +44,7 @@ import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
+import { loadApp } from '../app/AppActions';
 import { getPropertyTypeId, getESIDsFromApp, getHospitalsESID, getProvidersESID } from '../../utils/AppUtils';
 import {
   getEntityKeyId,
@@ -51,7 +53,12 @@ import {
   formatTimeAsDateTime
 } from '../../utils/DataUtils';
 import { DAY_PTS, CLOSED, CLIENTS_SERVED } from '../../utils/DataConstants';
-import { PROPERTY_TYPES, RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
+import {
+  PROPERTY_TYPES,
+  PROVIDERS_ENTITY_SET_ID,
+  RR_ENTITY_SET_ID,
+  HOSPITALS_ENTITY_SET_ID
+} from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 
@@ -245,6 +252,13 @@ const isEmpty = (map) => {
   return isImmutable(map) ? map.size === 0 : Object.keys(map).length === 0;
 }
 
+function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
+  return take(
+    (anAction :Object) => (anAction.type === reqseq.SUCCESS && anAction.id === seqAction.id)
+        || (anAction.type === reqseq.FAILURE && anAction.id === seqAction.id)
+  );
+}
+
 function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any> {
   const response = {
     data: {}
@@ -277,8 +291,17 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
 
-    const app :Map = yield select((state) => state.get('app', Map()));
-    const entitySetId = getProvidersESID(app);
+    let app :Map = yield select((state) => state.get('app', Map()));
+    let entitySetId = getProvidersESID(app);
+
+    if (!entitySetId) {
+      const loadAppRequest = loadApp();
+      yield put(loadAppRequest);
+      yield takeReqSeqSuccessFailure(loadApp, loadAppRequest);
+
+      app = yield select((state) => state.get('app', Map()));
+      entitySetId = getProvidersESID(app);
+    }
 
     const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
 
