@@ -1,16 +1,14 @@
 // @flow
 import React from 'react';
 
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 import { List } from 'immutable';
+
+import inactivePin from '../../../assets/svg/inactiveprovidericon.svg';
 
 import ProviderLocationLayer from './ProviderLocationLayer';
 
 const MapPin = new Image(15, 20);
-MapPin.src = `data:image/svg+xml;utf8,${icon(faMapMarkerAlt, {
-  styles: { color: '979797' }
-}).html[0]}`;
+MapPin.src = inactivePin;
 const images = ['inactiveMapPin', MapPin];
 const layout = { 'icon-image': 'inactiveMapPin' };
 

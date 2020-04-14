@@ -9,6 +9,7 @@ import { Marker } from 'react-mapbox-gl';
 
 import { getCoordinates } from '../../../map/MapUtils';
 import { isFamilyHome } from '../../../../utils/DataUtils';
+import familyHomeIcon from '../../../../assets/svg/familyhomeicon.svg';
 
 const { PURPLES } = Colors;
 
@@ -21,14 +22,14 @@ const SelectedProviderMarker = ({ provider } :Props) => {
 
   const coordinates = getCoordinates(provider);
 
-  const icon = isFamilyHome(provider) ? faHome : faMapMarkerAlt;
+  const icon = isFamilyHome(provider) ? <img src={familyHomeIcon} alt="" /> : <FontAwesomeIcon icon={faMapMarkerAlt} color={PURPLES[1]} size="3x" />;
 
   return (
     <Marker
         anchor="bottom"
         coordinates={coordinates}
         style={{ zIndex: 0 }}>
-      <FontAwesomeIcon icon={icon} color={PURPLES[1]} size="3x" />
+      {icon}
     </Marker>
   );
 };
