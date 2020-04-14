@@ -51,6 +51,7 @@
     "file-saver": "~2.0.2",
     "history": "~4.9.0",
     "immutable": "4.0.0-rc.9",
+    "jwt-decode": "^2.2.0",
     "lattice": "~0.73.0",
     "lattice-auth": "0.18.0",
     "lattice-fabricate": "~0.12.1",

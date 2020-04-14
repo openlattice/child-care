@@ -6,6 +6,7 @@
  */
 
 /* eslint-disable no-use-before-define */
+import decode from 'jwt-decode';
 import {
   all,
   call,
@@ -17,7 +18,7 @@ import {
 import { get } from 'axios';
 import { push } from 'connected-react-router';
 import { DataApi, EntitySetsApi, EntityDataModelApi } from 'lattice';
-import { configure, AccountUtils, AuthUtils } from 'lattice-auth';
+import { configure, AccountUtils } from 'lattice-auth';
 import { DateTime } from 'luxon';
 import type { SequenceAction } from 'redux-reqseq';
 
@@ -102,14 +103,17 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(reloadToken.request(action.id));
 
-    const { data } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+    const { data: token } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+
+    const { exp } = decode(token);
+    const tokenExp = exp * 1000;
 
     configure({
       auth0ClientId: __AUTH0_CLIENT_ID__,
       auth0Domain: __AUTH0_DOMAIN__,
-      authToken: data
+      authToken: token
     });
-    yield put(reloadToken.success(action.id, data));
+    yield put(reloadToken.success(action.id, { token, tokenExp }));
   }
   catch (error) {
     LOG.error(action.type, error);
@@ -190,11 +194,10 @@ export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
 
   try {
     const token = yield select((state) => state.getIn(['app', 'token']));
-    const currentToken = AuthUtils.getAuthToken();
-    const expiration = AuthUtils.getAuthTokenExpiration();
+    const expiration = yield select((state) => state.getIn(['app', 'tokenExp']));
     const oneMinuteFromNow = DateTime.local().plus({ minutes: 1 }).valueOf();
 
-    if (!token || !currentToken || oneMinuteFromNow > expiration) {
+    if (!token || oneMinuteFromNow > expiration) {
       const reloadTokenRequest = reloadToken();
       yield put(reloadTokenRequest);
       yield takeReqSeqSuccessFailure(reloadToken, reloadTokenRequest);
