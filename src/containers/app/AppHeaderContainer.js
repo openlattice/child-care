@@ -8,13 +8,16 @@ import { Map } from 'immutable';
 
 import styled from 'styled-components';
 import { AuthActions, AuthUtils } from 'lattice-auth';
-import { Button, Colors } from 'lattice-ui-kit';
+import { Button, Colors, Drawer } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { faBars } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
+import AppNavigationSidebar from './AppNavigationSidebar';
 import { selectStyles } from './SelectStyles';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
@@ -77,7 +80,7 @@ const SwitchLanguage = styled.span`
   }
 `;
 
-const LogoTitleWrapperLink = styled(Link)`
+const LogoTitleWrapperLink = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -92,6 +95,25 @@ const LogoTitleWrapperLink = styled(Link)`
   &:hover {
     outline: none;
     text-decoration: none;
+  }
+`;
+
+const NavigationToggleWrapper = styled.div`
+  align-items: center;
+  color: ${NEUTRALS[1]};
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  height: 32px;
+  justify-content: center;
+  left: 0;
+  margin-left: 10px; /* the icon is 14px wide, this div is 32px wide, so there's 9px on each side of the icon */
+  position: absolute;
+
+  width: 32px;
+
+  &:hover {
+    color: ${NEUTRALS[0]};
   }
 `;
 
@@ -131,56 +153,40 @@ type Props = {
 
 class AppHeaderContainer extends Component<Props> {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isNavigationOpen: false
+    };
+  }
+
+  closeNavigation = () => {
+
+    const { isNavigationOpen } = this.state;
+    if (isNavigationOpen) {
+      this.setState({ isNavigationOpen: false });
+    }
+  }
+
+  toggleNavigation = () => {
+
+    const { isNavigationOpen } = this.state;
+    this.setState({ isNavigationOpen: !isNavigationOpen });
+  }
+
   getDisplayName = () => {
     const userInfo = AuthUtils.getUserInfo();
     return (userInfo.email && userInfo.email.length > 0) ? userInfo.email : '';
   };
-
-  renderOrgSelection = () => {
-
-    const { actions, orgs, selectedOrganizationId } = this.props;
-
-    if (!orgs.size) {
-      return null;
-    }
-
-    const organizationOptions = orgs
-      .map((organization :Map<*, *>) => ({
-        label: organization.get('title'),
-        value: organization.get('id'),
-      }))
-      .toJS();
-
-    const handleOnChange = (event) => {
-      const orgId = event.value;
-      if (orgId !== selectedOrganizationId) {
-        actions.switchOrganization(orgId);
-      }
-    };
-
-    return (
-      <OrgSelectionBar>
-        <Select
-            value={organizationOptions.find(option => option.value === selectedOrganizationId)}
-            isClearable={false}
-            isMulti={false}
-            onChange={handleOnChange}
-            options={organizationOptions}
-            placeholder="Select..."
-            styles={orgSelectStyles} />
-      </OrgSelectionBar>
-    );
-  }
 
   renderLeftSideContent = () => {
 
     return (
       <LeftSideContentWrapper>
         <LogoTitleWrapperLink to={Routes.ROOT}>
-          <AppLogoIcon />
-          <AppTitle>
-            Childcare
-          </AppTitle>
+          <NavigationToggleWrapper onClick={this.toggleNavigation}>
+            <FontAwesomeIcon icon={faBars} />
+          </NavigationToggleWrapper>
         </LogoTitleWrapperLink>
       </LeftSideContentWrapper>
     );
@@ -194,19 +200,23 @@ class AppHeaderContainer extends Component<Props> {
 
     return (
       <RightSideContentWrapper>
-        <SwitchLanguage onClick={() => actions.switchLanguage(otherLanguage)}>
-          {otherLanguage === LANGUAGES.en ? 'English' : 'Español'}
-        </SwitchLanguage>
       </RightSideContentWrapper>
     );
   }
 
   render() {
+    const { isNavigationOpen } = this.state;
 
     return (
       <AppHeaderOuterWrapper>
+        { this.renderLeftSideContent() }
+        <Drawer
+            side="left"
+            isOpen={isNavigationOpen}
+            onClose={this.closeNavigation}>
+          <AppNavigationSidebar onClose={this.closeNavigation} />
+        </Drawer>
         <AppHeaderInnerWrapper>
-          { this.renderLeftSideContent() }
           { this.renderRightSideContent() }
         </AppHeaderInnerWrapper>
       </AppHeaderOuterWrapper>

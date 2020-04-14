@@ -108,7 +108,7 @@ const reducer = (state, action) => {
   }
 };
 
-const LocationContainer = () => {
+const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
     [...STAY_AWAY_STORE_PATH, PROVIDERS.IS_EDITING_FILTERS],
@@ -300,4 +300,4 @@ const LocationContainer = () => {
   );
 };
 
-export default LocationContainer;
+export default LocationsContainer;

@@ -37,6 +37,10 @@ export const LABELS = {
     [en]: 'Apply',
     [es]: 'Confirma'
   },
+  BACK: {
+    [en]: 'Back',
+    [es]: 'Atrás'
+  },
   BACK_TO_SEARCH_RESULTS: {
     [en]: 'Back to search results',
     [es]: 'Atrás'
@@ -141,6 +145,10 @@ export const LABELS = {
     [en]: 'Point of Contact',
     [es]: 'Punto de Contacto'
   },
+  PRIVACY_POLICY: {
+    [en]: 'Privacy Policy',
+    [es]: 'Política de Privacidad'
+  },
   REFINE_SEARCH: {
     [en]: 'Refine Search',
     [es]: 'Refina Búsqueda'
@@ -192,6 +200,10 @@ export const LABELS = {
   SPOT: {
     [en]: 'Spot',
     [es]: 'Espacio'
+  },
+  TERMS_AND_CONDITIONS: {
+    [en]: 'Terms & Conditions',
+    [es]: 'Términos y Condiciones'
   },
   TYPE_OF_CARE: {
     [en]: 'Type of Care',
@@ -310,6 +322,11 @@ export const DAY_OF_WEEK_LABELS = {
 export const OTHER_LANGUAGE = {
   [en]: es,
   [es]: en
+};
+
+export const CURRENT_LANGUAGE = {
+  [en]: en,
+  [es]: es
 };
 
 export const AGES_SERVED_LABELS = {
