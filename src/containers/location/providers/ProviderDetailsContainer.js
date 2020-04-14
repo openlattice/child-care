@@ -125,6 +125,8 @@ const DataRows = styled.div`
   }
 
   a {
+    text-align: right;
+    min-width: fit-content;
     ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
   }
 `;
@@ -199,11 +201,16 @@ class ProviderDetailsContainer extends React.Component {
       first = <a key={name} href={url} target="_blank">{name}</a>;
     }
 
+    let phoneElem = <span>{phone}</span>;
+    if (phone) {
+      phoneElem = <a href={`tel:${phone}`}>{phone}</a>;
+    }
+
     return (
       <Row key={getEntityKeyId(rr)}>
         {first}
         <DataRows>
-          {phone}
+          {phoneElem}
         </DataRows>
       </Row>
     );
@@ -307,6 +314,11 @@ class ProviderDetailsContainer extends React.Component {
 
     const unknown = this.renderUnknown();
 
+    let phoneElem = <span>{unknown}</span>;
+    if (phone) {
+      phoneElem = <a href={`tel:${phone}`}>{phone}</a>;
+    }
+
     if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
@@ -339,7 +351,7 @@ class ProviderDetailsContainer extends React.Component {
           <Row>
             <div>{renderText(LABELS.PHONE)}</div>
             <DataRows>
-              <span>{phone || unknown}</span>
+              {phoneElem}
             </DataRows>
           </Row>
 
