@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
 import AppNavigationSidebar from './AppNavigationSidebar';
+import LocationsSearchBar from '../location/providers/LocationSearchBar';
 import { selectStyles } from './SelectStyles';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
@@ -63,10 +64,8 @@ const LeftSideContentWrapper = styled.div`
 `;
 
 const RightSideContentWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1 0 auto;
-  justify-content: flex-end;
+  width: 100%;
+  position: relative;
 `;
 
 const SwitchLanguage = styled.span`
@@ -192,18 +191,6 @@ class AppHeaderContainer extends Component<Props> {
     );
   }
 
-  renderRightSideContent = () => {
-
-    const { actions, renderText } = this.props;
-
-    const otherLanguage = renderText(OTHER_LANGUAGE);
-
-    return (
-      <RightSideContentWrapper>
-      </RightSideContentWrapper>
-    );
-  }
-
   render() {
     const { isNavigationOpen } = this.state;
 
@@ -217,7 +204,7 @@ class AppHeaderContainer extends Component<Props> {
           <AppNavigationSidebar onClose={this.closeNavigation} />
         </Drawer>
         <AppHeaderInnerWrapper>
-          { this.renderRightSideContent() }
+          <LocationsSearchBar />
         </AppHeaderInnerWrapper>
       </AppHeaderOuterWrapper>
     );
