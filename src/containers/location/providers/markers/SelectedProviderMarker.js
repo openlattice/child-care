@@ -22,11 +22,16 @@ const SelectedProviderMarker = ({ provider } :Props) => {
 
   const coordinates = getCoordinates(provider);
 
-  const icon = isFamilyHome(provider) ? <img src={familyHomeIcon} alt="" /> : <FontAwesomeIcon icon={faMapMarkerAlt} color={PURPLES[1]} size="3x" />;
+  const familyHome = isFamilyHome(provider);
+
+  const icon = familyHome
+    ? <img src={familyHomeIcon} alt="" />
+    : <FontAwesomeIcon icon={faMapMarkerAlt} color={PURPLES[1]} size="3x" />;
+  const anchor = familyHome ? 'center' : 'bottom';
 
   return (
     <Marker
-        anchor="bottom"
+        anchor={anchor}
         coordinates={coordinates}
         style={{ zIndex: 0 }}>
       {icon}

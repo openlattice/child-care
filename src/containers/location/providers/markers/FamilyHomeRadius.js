@@ -10,7 +10,7 @@ const RADIUS = 500;
 
 export default class familyHomeRadius extends React.Component {
 
-  metersToPixelsAtMaxZoom = (meters, latitude) => meters / 0.075 / Math.cos(latitude * Math.PI / 180);
+  metersToPixelsAtMaxZoom = (meters, latitude) => meters / 0.075 / Math.cos((latitude * Math.PI) / 180);
 
   milesToPixelsAtMaxZoom = (miles, latitude) => this.metersToPixelsAtMaxZoom(miles * 1609.34, latitude);
 
