@@ -78,6 +78,8 @@ const AGE_GROUP_BY_FQN = {
   [PROPERTY_TYPES.CAPACITY_OVER_5]: CLIENTS_SERVED.CHILDREN
 };
 
+const PAGE_SIZE = 20;
+
 const LOG = new Logger('LocationsSagas');
 
 const GEOCODING_API = 'https://api.openlattice.com/datastore/geocoding';
@@ -286,7 +288,10 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const daysAndTimes = getValue(PROVIDERS.DAYS);
     const activeOnly = getValue(PROVIDERS.ACTIVE_ONLY);
 
-    yield put(searchLocations.request(action.id, searchInputs.set('selectedOption', latLonObj)));
+    yield put(searchLocations.request(action.id, {
+      page: start,
+      searchInputs: searchInputs.set('selectedOption', latLonObj)
+    }));
 
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
@@ -459,7 +464,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     }
 
     const searchOptions = {
-      start,
+      start: start * PAGE_SIZE,
       entitySetIds: [entitySetId],
       maxHits,
       constraints,
