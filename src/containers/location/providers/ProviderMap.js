@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useReducer } from 'react';
 
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
-import { List, Map } from 'immutable';
+import { List, Map, isImmutable } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
@@ -160,16 +160,23 @@ const ProviderMap = (props :Props) => {
       }
       // then, try to center to position without bounds
       else if (selectedOption) {
-        const { lat, lon } = selectedOption;
-        stateDispatch({
-          type: 'center',
-          payload: {
-            center: [parseFloat(lon), parseFloat(lat) + LATITUDE_OFFSET],
-            selectedFeature: undefined,
-            selectedHospital: undefined,
-            isPopupOpen: false
-          }
-        });
+        let { lat, lon } = selectedOption;
+        if (isImmutable(selectedOption)) {
+          lat = selectedOption.get('lat');
+          lon = selectedOption.get('lon');
+        }
+
+        if (lat && lon) {
+          stateDispatch({
+            type: 'center',
+            payload: {
+              center: [parseFloat(lon), parseFloat(lat) + LATITUDE_OFFSET],
+              selectedFeature: undefined,
+              selectedHospital: undefined,
+              isPopupOpen: false
+            }
+          });
+        }
       }
       // TODO: fall back to app.settings default bounds
       // fall back to bay area bounds
@@ -189,6 +196,7 @@ const ProviderMap = (props :Props) => {
 
   const showProviderPopup = (location) => {
     const [lng, lat] = getCoordinates(location);
+
     stateDispatch({
       type: 'center',
       payload: {
@@ -202,6 +210,7 @@ const ProviderMap = (props :Props) => {
 
   const selectHospital = (location) => {
     const [lng, lat] = getCoordinates(location);
+
     stateDispatch({
       type: 'center',
       payload: {

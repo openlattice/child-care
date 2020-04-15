@@ -76,11 +76,6 @@ const LocationsSearchBar = () => {
 
   const renderText = useSelector(getRenderTextFn);
   const optionsFetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'fetchState']));
-  const hasPerformedInitialSearch = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HAS_PERFORMED_INITIAL_SEARCH]));
-
-
-  const isAppInitialized = useSelector((store) => store.getIn(['app', 'initializeState']));
 
   const options = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'data']));
   const dispatch = useDispatch();
