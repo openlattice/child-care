@@ -39,6 +39,7 @@ import {
   isProviderActive
 } from '../../../utils/DataUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
+import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -191,13 +192,14 @@ const TitleRow = styled.div`
 
 class ProviderDetailsContainer extends React.Component {
 
-  renderEmailAsLink = (provider) => {
+  renderEmailAsLink = (provider, isRR) => {
     const { renderText } = this.props;
     const email = getValue(provider, PROPERTY_TYPES.EMAIL);
     if (!email) {
       return <span>{renderText(LABELS.UNKNOWN)}</span>;
     }
-    return <a href={`mailto:${email}`}>{email}</a>;
+    const trackClick = () => trackLinkClick(email, `${isRR ? 'R&R' : 'Provider'} Email`);
+    return <a onClick={trackClick()} href={`mailto:${email}`}>{email}</a>;
   };
 
   renderRR = (rr) => {
@@ -206,14 +208,15 @@ class ProviderDetailsContainer extends React.Component {
 
     let first = <div>{name}</div>;
     if (url) {
-      first = <a key={name} href={url} target="_blank">{name}</a>;
+      const trackClick = () => trackLinkClick(name, 'RR Url');
+      first = <a onClick={trackClick} key={name} href={url} target="_blank">{name}</a>;
     }
 
     return (
       <Row key={getEntityKeyId(rr)}>
         {first}
         <DataRows>
-          {this.renderEmailAsLink(rr)}
+          {this.renderEmailAsLink(rr, true)}
         </DataRows>
       </Row>
     );
@@ -242,7 +245,8 @@ class ProviderDetailsContainer extends React.Component {
       return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
     }
 
-    return <a href={licenseURL} target="_blank">{licenseNumber}</a>;
+    const trackClick = () => trackLinkClick(licenseURL, 'Provider License');
+    return <a onClick={trackClick} href={licenseURL} target="_blank">{licenseNumber}</a>;
   }
 
   renderFamilyHomeContactSection = () => {
@@ -298,7 +302,7 @@ class ProviderDetailsContainer extends React.Component {
     const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
     const zip = getValue(provider, PROPERTY_TYPES.ZIP);
-    const email = this.renderEmailAsLink(provider);
+    const email = this.renderEmailAsLink(provider, false);
 
     const formatTime = (time) => {
       if (!time) {
@@ -319,7 +323,8 @@ class ProviderDetailsContainer extends React.Component {
 
     let phoneElem = <span>{unknown}</span>;
     if (phone) {
-      phoneElem = <a href={`tel:${phone}`}>{phone}</a>;
+      const trackClick = () => trackLinkClick(phone, 'Provider Phone Number');
+      phoneElem = <a onClick={trackClick} href={`tel:${phone}`}>{phone}</a>;
     }
 
     if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
@@ -407,6 +412,9 @@ class ProviderDetailsContainer extends React.Component {
 
     const hospitalDirections = `https://www.google.com/maps/dir/${fromLon},${fromLat}/${toLon},${toLat}`;
 
+    const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
+
+
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
         <>
@@ -441,7 +449,7 @@ class ProviderDetailsContainer extends React.Component {
           <Row>
             <div>{renderText(LABELS.NEAREST_HOSPITAL)}</div>
             <DataRows alignEnd>
-              <a href={hospitalDirections} target="_blank">{hospitalName}</a>
+              <a onClick={trackHospitalClicked} href={hospitalDirections} target="_blank">{hospitalName}</a>
             </DataRows>
           </Row>
 

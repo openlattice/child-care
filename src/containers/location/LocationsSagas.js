@@ -1,4 +1,5 @@
 // @flow
+import ReactGA from 'react-ga';
 import axios from 'axios';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
@@ -116,6 +117,12 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
         }
       };
     }
+
+    ReactGA.event({
+      category: 'Search',
+      action: 'Geocode Address',
+      label: address
+    });
 
     const { data: suggestions } = yield call(axios, {
       method: 'post',
@@ -295,6 +302,19 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
+
+    ReactGA.event({
+      category: 'Search',
+      action: 'Execute Search',
+      label: JSON.stringify({
+        coordinates: [latitude, longitude],
+        radius,
+        typeOfCare,
+        children,
+        daysAndTimes,
+        activeOnly
+      })
+    });
 
     let app :Map = yield select((state) => state.get('app', Map()));
     let entitySetId = getProvidersESID(app);

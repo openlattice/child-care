@@ -4,6 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 
 import LatticeAuth from 'lattice-auth';
 import { ConnectedRouter } from 'connected-react-router/immutable';
@@ -70,6 +71,10 @@ LatticeAuth.configure({
   authToken: AuthUtils.getAuthToken(),
   baseUrl: 'production'
 });
+
+
+const trackingId = 'UA-118446829-4';
+ReactGA.initialize(trackingId);
 
 /*
  * // !!! MUST HAPPEN FIRST !!!
