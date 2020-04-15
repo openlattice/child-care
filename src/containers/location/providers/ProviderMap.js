@@ -1,7 +1,7 @@
 // @flow
 import React, { useEffect, useMemo, useReducer } from 'react';
 
-import ReactMapboxGl, { Popup } from 'react-mapbox-gl';
+import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 import { List, Map } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
@@ -13,13 +13,12 @@ import ProviderPopup from './ProviderPopup';
 import HospitalPopup from './HospitalPopup';
 import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
-import NearestHospitalMarker from './markers/NearestHospitalMarker';
 import FamilyHomeRadius from './markers/FamilyHomeRadius';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { isProviderActive, getEntityKeyId, isFamilyHome } from '../../../utils/DataUtils';
+import { isProviderActive } from '../../../utils/DataUtils';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
@@ -246,6 +245,7 @@ const ProviderMap = (props :Props) => {
         fitBoundsOptions={fitBoundsOptions}
         style={MAP_STYLE.DEFAULT}
         zoom={zoom}>
+      <ZoomControl />
       <CurrentPositionLayer position={currentPosition} />
       {
         !selectedProvider && (
