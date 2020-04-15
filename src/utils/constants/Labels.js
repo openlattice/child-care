@@ -1,4 +1,9 @@
-import { DAYS_OF_WEEK, CLIENTS_SERVED, FACILITY_TYPES } from '../DataConstants';
+import {
+  DAYS_OF_WEEK,
+  CLIENTS_SERVED,
+  FACILITY_TYPES,
+  FACILITY_NAME_MASKED
+} from '../DataConstants';
 import { PROVIDERS } from './StateConstants';
 
 export const LANGUAGES = {
@@ -96,6 +101,10 @@ export const LABELS = {
   DEVELOPMENTALLY_DISABLED: {
     [en]: 'Developmentally Disabled',
     [es]: 'Discapacidad del Desarrollo'
+  },
+  FACILITY_NAME_MASKED: {
+    [en]: 'Small Family Home',
+    [es]: 'Pequeño Hogar Familiar'
   },
   HEALTH_AND_SAFETY: {
     [en]: 'Health & Safety',

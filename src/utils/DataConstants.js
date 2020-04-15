@@ -254,4 +254,6 @@ export const CLIENTS_SERVED = {
   DEVELOPMENTALLY_DISABLED: 'Developmentally Disabled'
 };
 
+export const FACILITY_NAME_MASKED = 'Small Family Home';
+
 export const { CLOSED } = FACILITY_STATUSES;
