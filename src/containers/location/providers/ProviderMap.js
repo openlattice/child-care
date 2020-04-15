@@ -262,7 +262,11 @@ const ProviderMap = (props :Props) => {
         fitBoundsOptions={fitBoundsOptions}
         style={MAP_STYLE.DEFAULT}
         zoom={zoom}>
-      <ZoomControl />
+      {
+        !selectedProvider && (
+          <ZoomControl />
+        )
+      }
       <CurrentPositionLayer position={currentPosition} />
       {
         !selectedProvider && (
