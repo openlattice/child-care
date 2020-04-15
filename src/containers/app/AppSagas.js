@@ -112,7 +112,8 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
       auth0ClientId: __AUTH0_CLIENT_ID__,
       auth0Domain: __AUTH0_DOMAIN__,
       authToken: token,
-      baseUrl: 'https://api.childcare.openlattice.com'
+      baseUrl: 'production'
+      // baseUrl: 'https://api.childcare.openlattice.com'
     });
     yield put(reloadToken.success(action.id, { token, tokenExp }));
   }
