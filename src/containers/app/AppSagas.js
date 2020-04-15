@@ -111,7 +111,8 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
     configure({
       auth0ClientId: __AUTH0_CLIENT_ID__,
       auth0Domain: __AUTH0_DOMAIN__,
-      authToken: token
+      authToken: token,
+      baseUrl: 'production'
     });
     yield put(reloadToken.success(action.id, { token, tokenExp }));
   }
