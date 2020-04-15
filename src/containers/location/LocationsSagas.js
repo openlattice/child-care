@@ -307,7 +307,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       category: 'Search',
       action: 'Execute Search',
       label: JSON.stringify({
-        coordinates: [latitude, longitude],
         radius,
         typeOfCare,
         children,
