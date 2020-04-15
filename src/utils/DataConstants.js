@@ -239,8 +239,8 @@ export const FACILITY_TYPES = {
 
 export const FACILITY_STATUSES = {
   CLOSED: 'Temporarily Closed',
-  OPEN: 'Open – Confirmed',
-  OPEN_PENDING: 'Open Pending Confirmation'
+  OPEN: 'Open - Confirmed',
+  OPEN_PENDING: 'Open - Pending Confirmation'
 };
 
 export const LICENSE_TYPES = {
