@@ -203,8 +203,8 @@ export const LABELS = {
     [es]: 'Selecciona todos los que correspondan:'
   },
   SHOW_INACTIVE_FACILITIES: {
-    [en]: 'Show inactive facilities?',
-    [es]: '¿Mostrar instalaciones inactivas?'
+    [en]: 'Show Inactive Facilities',
+    [es]: 'Mostrar Instalaciones Inactivas'
   },
   SORT_BY: {
     [en]: 'Sort by distance',
