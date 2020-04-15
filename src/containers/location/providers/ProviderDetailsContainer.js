@@ -429,6 +429,7 @@ class ProviderDetailsContainer extends React.Component {
               <div>{renderText(LABELS.COMPLAINTS)}</div>
               <Tooltip
                   arrow
+                  enterTouchDelay={0}
                   placement="top"
                   title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
                 <InfoIcon />
