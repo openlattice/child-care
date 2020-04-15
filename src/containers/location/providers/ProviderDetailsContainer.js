@@ -194,23 +194,23 @@ class ProviderDetailsContainer extends React.Component {
   renderRR = (rr) => {
     const url = getValue(rr, PROPERTY_TYPES.URL);
     const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
-    const phone = getValue(rr, PROPERTY_TYPES.PHONE);
+    const email = getValue(rr, PROPERTY_TYPES.EMAIL);
 
     let first = <div>{name}</div>;
     if (url) {
       first = <a key={name} href={url} target="_blank">{name}</a>;
     }
 
-    let phoneElem = <span>{phone}</span>;
-    if (phone) {
-      phoneElem = <a href={`tel:${phone}`}>{phone}</a>;
+    let emailElem = <span>{email}</span>;
+    if (email) {
+      emailElem = <a href={`mailto:${email}`}>{email}</a>;
     }
 
     return (
       <Row key={getEntityKeyId(rr)}>
         {first}
         <DataRows>
-          {phoneElem}
+          {emailElem}
         </DataRows>
       </Row>
     );

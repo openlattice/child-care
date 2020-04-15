@@ -29,6 +29,7 @@ export const PROPERTY_TYPES = {
   LAST_INSPECTION_DATE: 'ecps.license_last_inspection_date',
   NUM_COMPLAINTS: 'ecps.license_complaints',
   SHOULD_HIDE_CONTACT: 'ecps.hide_contact',
+  EMAIL: 'ecps.facility_email',
 
   PHONE: 'ecps.facility_phone',
 
