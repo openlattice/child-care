@@ -12,7 +12,7 @@ import { Constants, Models } from 'lattice';
 import { DataProcessingUtils } from 'lattice-fabricate';
 
 import { isDefined } from './LangUtils';
-import { FACILITY_STATUSES, FACILITY_TYPES } from './DataConstants';
+import { FACILITY_NAME_MASKED, FACILITY_STATUSES, FACILITY_TYPES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
 import { LABELS, AGES_SERVED_LABELS } from './constants/Labels'
 
@@ -337,6 +337,16 @@ export const getAgesServedFromEntity = (provider, renderText) => provider.get(PR
 export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) !== FACILITY_STATUSES.CLOSED;
 
 export const isFamilyHome = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
+
+export const renderFacilityName = (provider, renderText) => {
+  const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
+
+  if (name === FACILITY_NAME_MASKED) {
+    return renderText(LABELS.FACILITY_NAME_MASKED);
+  }
+
+  return name;
+};
 
 export {
   SEARCH_PREFIX,

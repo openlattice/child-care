@@ -26,7 +26,7 @@ import {
   getValue,
   getValues,
   getAgesServedFromEntity,
-  isProviderActive
+  renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
@@ -160,7 +160,7 @@ class ProviderHeaderContainer extends React.Component {
       return null;
     }
 
-    const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
+    const name = renderFacilityName(provider, renderText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
       .map(v => renderText(FACILITY_TYPE_LABELS[v]));
 

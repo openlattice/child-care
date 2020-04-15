@@ -29,7 +29,7 @@ import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
 import {
   getDistanceBetweenCoords,
   getValue,
-  getValues,
+  renderFacilityName,
   getAgesServedFromEntity,
   isProviderActive
 } from '../../utils/DataUtils';
@@ -84,7 +84,7 @@ const ProviderResult = ({
   const miles = getDistanceBetweenCoords(coordinates, [lat, lon]);
   const distance = Math.round(miles * 10) / 10;
 
-  const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
+  const name = renderFacilityName(provider, renderText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
     .map(v => renderText(FACILITY_TYPE_LABELS[v]));
 
