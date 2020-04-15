@@ -334,7 +334,7 @@ export const getAgesServedFromEntity = (provider, renderText) => provider.get(PR
   .join(', ')
     || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS);
 
-export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) !== FACILITY_STATUSES.CLOSED;
 
 export const isFamilyHome = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
 

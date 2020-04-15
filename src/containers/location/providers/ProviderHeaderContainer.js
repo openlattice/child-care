@@ -178,8 +178,6 @@ class ProviderHeaderContainer extends React.Component {
 
     const distance = this.getDistance();
 
-    const isOpen = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
-
     return (
       <StyledContentOuterWrapper>
         <StyledContentWrapper padding="25px">
