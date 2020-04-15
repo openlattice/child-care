@@ -33,7 +33,8 @@ const {
   ZIP,
   RADIUS,
   CHILDREN,
-  DAYS
+  DAYS,
+  SEARCH_PAGE
 } = PROVIDERS;
 
 const INITIAL_STATE :Map = fromJS({
@@ -65,7 +66,8 @@ const INITIAL_STATE :Map = fromJS({
   [ZIP]: ['', {}],
   [RADIUS]: 10,
   [CHILDREN]: {},
-  [DAYS]: {}
+  [DAYS]: {},
+  [SEARCH_PAGE]: 0
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
@@ -74,15 +76,19 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
     case searchLocations.case(action.type): {
       return searchLocations.reducer(state, action, {
-        REQUEST: () => state
-          .set('fetchState', RequestStates.PENDING)
-          .set('searchInputs', action.value)
-          .set(IS_EXECUTING_SEARCH, true)
-          .set(IS_EDITING_FILTERS, false)
-          .set(FILTER_PAGE, null)
-          .set(SELECTED_PROVIDER, null)
-          .set(HAS_PERFORMED_INITIAL_SEARCH, true)
-          .merge(action.value),
+        REQUEST: () => {
+          const { searchInputs, page } = action.value;
+          return state
+            .set('fetchState', RequestStates.PENDING)
+            .set('searchInputs', searchInputs)
+            .set(SEARCH_PAGE, page)
+            .set(IS_EXECUTING_SEARCH, true)
+            .set(IS_EDITING_FILTERS, false)
+            .set(FILTER_PAGE, null)
+            .set(SELECTED_PROVIDER, null)
+            .set(HAS_PERFORMED_INITIAL_SEARCH, true)
+            .merge(searchInputs);
+        },
         SUCCESS: () => state
           .set('fetchState', RequestStates.SUCCESS)
           .merge(action.value.newData),

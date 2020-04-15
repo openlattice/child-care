@@ -26,6 +26,7 @@ export const PROVIDERS = {
 
   IS_EDITING_FILTERS: 'isEditingFilters',
   FILTER_PAGE: 'filterPage',
+  SEARCH_PAGE: 'searchPage',
 
   // filters
   ACTIVE_ONLY: 'activeOnly',

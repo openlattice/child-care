@@ -1,13 +1,7 @@
 // @flow
 
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useState
-} from 'react';
+import React from 'react';
 
-import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
 import {
@@ -20,28 +14,21 @@ import { RequestStates } from 'redux-reqseq';
 
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
-import LocationSearchBar from './LocationSearchBar';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
-import { getGeoOptions, searchLocations, setValue } from './LocationsActions';
+import { searchLocations, setValue } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
-import { usePosition, useTimeout } from '../../../components/hooks';
+import { usePosition } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 
 const MAX_HITS = 20;
-const INITIAL_STATE = {
-  page: 0,
-  start: 0,
-  selectedOption: undefined
-};
 
 const StyledContentWrapper = styled(ContentWrapper)`
   justify-content: space-between;
@@ -74,18 +61,6 @@ const SortOption = styled.div`
 
 `;
 
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'page': {
-      const { page, start } = action.payload;
-      return { ...state, page, start };
-    }
-    default:
-      throw new Error();
-  }
-};
-
 const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
@@ -99,40 +74,12 @@ const LocationsContainer = () => {
   const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
   const fetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'fetchState']));
+  const lastSearchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
+  const page = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SEARCH_PAGE]));
+  const selectedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
   const dispatch = useDispatch();
-  const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const {
-    page,
-    start,
-    selectedOption
-  } = state;
-  const [address] = useState();
   const [currentPosition] = usePosition();
-
-  const fetchGeoOptions = useCallback(() => {
-    if (isNonEmptyString(address)) {
-      dispatch(getGeoOptions({ address, currentPosition }));
-    }
-  }, [dispatch, address]);
-
-  useTimeout(fetchGeoOptions, 300);
-
-  useEffect(() => {
-    const newSearchInputs = Map({
-      selectedOption
-    });
-    const hasValues = isPlainObject(selectedOption);
-
-    if (hasValues) {
-      dispatch(searchLocations({
-        searchInputs: newSearchInputs,
-        start,
-        maxHits: MAX_HITS
-      }));
-    }
-  }, [dispatch, selectedOption, start]);
-
 
   let editFiltersContent = null;
   let providerHeader = null;
@@ -152,12 +99,13 @@ const LocationsContainer = () => {
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
-  const onPageChange = ({ page: newPage, start: startRow }) => {
-    stateDispatch({
-      type: 'page',
-      payload: { page: newPage, start: startRow }
-    });
+  const onPageChange = ({ page: newPage }) => {
+    dispatch(searchLocations({
+      searchInputs: lastSearchInputs,
+      start: newPage
+    }));
   };
+
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
