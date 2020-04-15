@@ -1,6 +1,7 @@
 // @flow
 import React, { useEffect, useMemo, useReducer } from 'react';
 
+import ReactGA from 'react-ga';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 import { List, Map, isImmutable } from 'immutable';
 import { useSelector } from 'react-redux';
@@ -196,6 +197,13 @@ const ProviderMap = (props :Props) => {
 
   const showProviderPopup = (location) => {
     const [lng, lat] = getCoordinates(location);
+
+    if (location) {
+      ReactGA.event({
+        category: 'Map Interaction',
+        action: 'View Provider Popup'
+      });
+    }
 
     stateDispatch({
       type: 'center',

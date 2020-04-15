@@ -1,6 +1,7 @@
 /*
  * @flow
  */
+import ReactGA from 'react-ga';
 
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { List, Map, fromJS } from 'immutable';
@@ -15,9 +16,9 @@ import {
   searchLocations
 } from './LocationsActions';
 
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
-
 import { HOME_PATH } from '../../../core/router/Routes';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { getEntityKeyId } from '../../../utils/DataUtils';
 
 
 const {
@@ -113,6 +114,13 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_PROVIDER: {
+      if (action.value) {
+        ReactGA.event({
+          category: 'Navigation',
+          action: 'View Provider Details',
+          label: getEntityKeyId(action.value)
+        });
+      }
       return state.set(SELECTED_PROVIDER, action.value);
     }
 
