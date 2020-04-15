@@ -292,7 +292,6 @@ class EditFiltersContainer extends React.Component {
             <Line />
             <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
-            {renderRow(PROVIDERS.DAYS, getDays(), LABELS.DAYS_NEEDED)}
             {renderRow(PROVIDERS.ACTIVE_ONLY, renderText(activeOnly ? LABELS.NO : LABELS.YES), LABELS.SHOW_INACTIVE_FACILITIES)}
 
           </StyledContentWrapper>
