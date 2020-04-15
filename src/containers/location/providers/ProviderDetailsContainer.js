@@ -191,26 +191,29 @@ const TitleRow = styled.div`
 
 class ProviderDetailsContainer extends React.Component {
 
+  renderEmailAsLink = (provider) => {
+    const { renderText } = this.props;
+    const email = getValue(provider, PROPERTY_TYPES.EMAIL);
+    if (!email) {
+      return <span>{renderText(LABELS.UNKNOWN)}</span>;
+    }
+    return <a href={`mailto:${email}`}>{email}</a>;
+  };
+
   renderRR = (rr) => {
     const url = getValue(rr, PROPERTY_TYPES.URL);
     const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
-    const email = getValue(rr, PROPERTY_TYPES.EMAIL);
 
     let first = <div>{name}</div>;
     if (url) {
       first = <a key={name} href={url} target="_blank">{name}</a>;
     }
 
-    let emailElem = <span>{email}</span>;
-    if (email) {
-      emailElem = <a href={`mailto:${email}`}>{email}</a>;
-    }
-
     return (
       <Row key={getEntityKeyId(rr)}>
         {first}
         <DataRows>
-          {emailElem}
+          {this.renderEmailAsLink(rr)}
         </DataRows>
       </Row>
     );
@@ -295,7 +298,7 @@ class ProviderDetailsContainer extends React.Component {
     const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
     const zip = getValue(provider, PROPERTY_TYPES.ZIP);
-    const pointOfContact = getValues(provider, PROPERTY_TYPES.POINT_OF_CONTACT_NAME);
+    const email = this.renderEmailAsLink(provider);
 
     const formatTime = (time) => {
       if (!time) {
@@ -356,9 +359,9 @@ class ProviderDetailsContainer extends React.Component {
           </Row>
 
           <Row>
-            <div>{renderText(LABELS.POINT_OF_CONTACT)}</div>
+            <div>{renderText(LABELS.EMAIL)}</div>
             <DataRows>
-              <span>{pointOfContact || unknown}</span>
+              {email}
             </DataRows>
           </Row>
 

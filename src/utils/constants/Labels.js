@@ -102,6 +102,10 @@ export const LABELS = {
     [en]: 'Developmentally Disabled',
     [es]: 'Discapacidad del Desarrollo'
   },
+  EMAIL: {
+    [en]: 'Email',
+    [es]: 'Email'
+  },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
     [es]: 'Pequeño Hogar Familiar'
