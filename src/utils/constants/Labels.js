@@ -154,8 +154,8 @@ export const LABELS = {
     [es]: 'Refina Búsqueda'
   },
   RESOURCE_AND_REFERRAL: {
-    [en]: 'Resource and Referral',
-    [es]: 'Recurso y Referencia'
+    [en]: 'Referral',
+    [es]: 'Referencia'
   },
   RESOURCE_AND_REFERRAL_DESCRIPTION: {
     [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
