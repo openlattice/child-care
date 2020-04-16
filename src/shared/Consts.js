@@ -17,7 +17,6 @@ export const APP_TYPES_FQNS = {
   IDENTIFYING_CHARACTERISTICS_FQN: new FullyQualifiedName('app.identifyingcharacteristics'),
   IMAGE_FQN: new FullyQualifiedName('app.image'),
   INTERACTION_STRATEGY_FQN: new FullyQualifiedName('app.interactionstrategy'),
-  ISSUE_FQN: new FullyQualifiedName('app.issue'),
   IS_EMERGENCY_CONTACT_FOR_FQN: new FullyQualifiedName('app.isemergencycontactfor'),
   IS_PICTURE_OF_FQN: new FullyQualifiedName('app.ispictureof'),
   LOCATED_AT_FQN: new FullyQualifiedName('app.locatedat'),
@@ -30,14 +29,12 @@ export const APP_TYPES_FQNS = {
   PERSON_DETAILS_FQN: new FullyQualifiedName('app.persondetails'),
   PHYSICAL_APPEARANCE_FQN: new FullyQualifiedName('app.physicalappearance'),
   REPORTED_FQN: new FullyQualifiedName('app.reported'),
-  RESPONSE_PLAN_FQN: new FullyQualifiedName('app.responseplan'),
   STAFF_FQN: new FullyQualifiedName('app.staff'),
   STAY_AWAY_LOCATION_FQN: new FullyQualifiedName('app.stayawaylocation'),
   SUBJECT_OF_FQN: new FullyQualifiedName('app.subjectof'),
 
   INCIDENT_FQN: new FullyQualifiedName('app.incident_new'),
   CALL_FOR_SERVICE_FQN: new FullyQualifiedName('app.callforservice'),
-  NATURE_OF_CRISIS_FQN: new FullyQualifiedName('app.natureofcrisis'),
   DIAGNOSIS_FQN: new FullyQualifiedName('app.diagnosis'),
   MEDICATION_STATEMENT_FQN: new FullyQualifiedName('app.medicationstatement'),
   SUBSTANCE_FQN: new FullyQualifiedName('app.substance'),
@@ -51,8 +48,6 @@ export const APP_TYPES_FQNS = {
   INCOME_FQN: new FullyQualifiedName('app.income'),
   INSURANCE_FQN: new FullyQualifiedName('app.insurance'),
   INVOLVED_IN_FQN: new FullyQualifiedName('app.involvedin'),
-  CLINICIAN_REPORT_FQN: new FullyQualifiedName('app.cliniciancrisisreport'),
-  PATROL_REPORT_FQN: new FullyQualifiedName('app.patrolcrisisreport'),
   ENCOUNTER_FQN: new FullyQualifiedName('app.encounters'),
   ENCOUNTER_DETAILS_FQN: new FullyQualifiedName('app.encounterdetails'),
   INVOICE_FQN: new FullyQualifiedName('app.invoice'),
@@ -66,8 +61,6 @@ export const APP_TYPES_FQNS = {
   WARRANTS_FQN: new FullyQualifiedName('app.warrants'),
   /* <===== END LONG BEACH HACK =====> */
   /* <===== BEGIN LIVERMORE HACK =====> */
-  ENCAMPMENT_FQN: new FullyQualifiedName('app.encampment'),
-  ENCAMPMENT_LOCATION_FQN: new FullyQualifiedName('app.encampmentlocation'),
   LIVES_AT_FQN: new FullyQualifiedName('app.livesat_new'),
   /* <===== END LIVERMORE HACK =====> */
 };
@@ -153,44 +146,3 @@ export const STATES = [
 ];
 
 export const DATA_URL_PREFIX = 'data:image/png;base64,';
-
-/* Dashboard Constants */
-
-export const SUMMARY_STATS = {
-  NUM_REPORTS: 'numReports',
-  AVG_AGE: 'avgAge',
-  NUM_HOMELESS: 'numHomeless',
-  NUM_MALE: 'numMale',
-  NUM_VETERANS: 'numVeterans',
-  NUM_USING_SUBSTANCE: 'numUsingSubstance',
-  NUM_USING_ALCOHOL: 'numUsingAlcohol',
-  NUM_USING_DRUGS: 'numUsingDrugs'
-};
-
-export const DASHBOARD_COUNTS = {
-  RACE: 'raceCounts',
-  AGE: 'ageCounts',
-  GENDER: 'genderCounts',
-  REPORTS_BY_DATE: 'reportsByDate',
-  REPORTS_BY_TIME: 'reportsByTime',
-  REPORTS_BY_DAY_OF_WEEK: 'reportsByDayOfWeek',
-
-  EMOTIONAL_STATE: 'emotionalStateCounts',
-  BEHAVIORS: 'observedBehaviorsCounts',
-  SELF_DIAGNOSIS: 'selfDiagnosisCounts',
-  MEDICATION: 'medicationCounts',
-  INJURIES: 'injuryCounts',
-  ARMED: 'armedCounts',
-  ARMED_WEAPON_TYPES: 'armedWeaponTypeCounts',
-  WEAPON_ACCESS: 'weaponAccessCounts',
-  ACCESS_WEAPON_TYPES: 'accessWeaponTypeCounts',
-  SUICIDAL: 'suicidal',
-  SUICIDAL_ACTIONS: 'suicidalalActions',
-  SUICIDE_METHOD: 'suicideMethod',
-
-  DISPOSITIONS: 'dispositions',
-  DEESCALATION: 'deescalationTechniques',
-  RESOURCES: 'resources',
-  DISPOSITIONS_BY_DEESCALATION: 'dispositionsByDeescalationTechnique',
-  CERTIFICATIONS: 'certificationCounts'
-};

@@ -2,9 +2,6 @@
 import LuxonUtils from '@date-io/luxon';
 import type { DateTime, DurationObject } from 'luxon';
 
-// Extend LuxonUtils to start week on Sunday
-// https://github.com/mui-org/material-ui-pickers/issues/1270
-/* eslint-disable class-methods-use-this */
 class LatticeLuxonUtils extends LuxonUtils {
   getWeekdays() {
     return ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];

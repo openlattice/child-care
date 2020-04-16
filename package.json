@@ -76,7 +76,6 @@
     "react-scrolllock": "^5.0.1",
     "react-select": "~3.0.0",
     "react-transition-group": "^4.3.0",
-    "recharts": "~1.7.1",
     "redux": "~4.0.0",
     "redux-immutable": "4.0.0",
     "redux-reqseq": "0.5.0",

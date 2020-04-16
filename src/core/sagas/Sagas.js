@@ -14,7 +14,6 @@ import {
 import * as AuthorizeSagas from './authorize/AuthorizeSagas';
 
 import * as AppSagas from '../../containers/app/AppSagas';
-import * as EncampmentSagas from '../../containers/location/encampment/EncampmentsSagas';
 import * as LocationsSagas from '../../containers/location/LocationsSagas';
 import * as LongBeachProviderSagas from '../../longbeach/provider/LongBeachProviderSagas';
 // eslint-disable-next-line max-len
@@ -29,7 +28,6 @@ export default function* sagas() :Generator<*, *, *> {
     fork(AuthSagas.watchAuthSuccess),
     fork(AuthSagas.watchAuthFailure),
     fork(AuthSagas.watchAuthExpired),
-    fork(AuthSagas.watchLogout),
 
     // "lattice-sagas" sagas
     fork(AppApiSagas.getAppConfigsWatcher),
@@ -66,12 +64,5 @@ export default function* sagas() :Generator<*, *, *> {
     fork(LongBeachProviderSagas.getLBProvidersWatcher),
     /* <===== END LONG BEACH HACK =====> */
 
-    fork(EncampmentSagas.addPersonToEncampmentWatcher),
-    fork(EncampmentSagas.getEncampmentOccupantsWatcher),
-    fork(EncampmentSagas.getEncampmentPeopleOptionsWatcher),
-    fork(EncampmentSagas.getGeoOptionsWatcher),
-    fork(EncampmentSagas.removePersonFromEncampmentWatcher),
-    fork(EncampmentSagas.searchEncampmentLocationsWatcher),
-    fork(EncampmentSagas.submitEncampmentWatcher),
   ]);
 }

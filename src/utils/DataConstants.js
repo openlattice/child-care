@@ -3,7 +3,6 @@ import { PROPERTY_TYPES } from './constants/DataModelConstants';
 
 /* Form Types */
 export const FORM_TYPE = {
-  CRISIS_REPORT: 'Crisis Report'
 };
 
 /* Consumer Constants */
@@ -132,14 +131,12 @@ export const DISPOSITIONS = {
 
 export const DISPOSITIONS_PORTLAND = {
   REFERRED_TO_BHU: 'Referred to BHU',
-  REFERRED_TO_CRISIS: 'Referred to Crisis',
   ARREST: 'Arrest',
   DIVERTED_FROM_ARREST: 'Diverted from Arrest',
   RESISTED_SUPPORT: 'Resisted or Refused Supports'
 };
 
 export const RESOURCES = {
-  BCRI: 'BCRI/Mobile Crisis Response Team',
   CIT: 'CIT Officer',
   CRT: 'CRT Unit',
   ESU: 'ESU',
@@ -150,7 +147,6 @@ export const RESOURCES = {
 
 export const RESOURCES_PORTLAND = {
   BHU: 'Behavioral Health Unit',
-  CRISIS: 'Crisis Team',
   VOLUNTARY: 'Voluntary Transport',
   INVOLUNTARY: 'Involuntary Transport'
 };
@@ -180,12 +176,10 @@ export const CERTIFICATIONS_PORTLAND = {
 
 export const DISPATCH_REASONS = {
   EP: 'Emergency Petition',
-  CRISIS: 'Behavioral Crisis',
   ON_VIEW: 'On View',
   DESTRUCTION_OF_PROPERTY: 'Destruction of Property',
   SUICIDAL: 'Suicidal Person',
   TRESPASSING: 'Trespassing',
-  DOMESTIC_ISSUE: 'Domestic/Family Issue',
   ASSAULT: 'Assault (non-sexual)',
   SEXUAL_ASSAULT: 'Sexual offense/assault',
   OTHER: 'Other'
@@ -193,7 +187,6 @@ export const DISPATCH_REASONS = {
 
 export const CRIME_TYPE = {
   EP: 'Emergency Petition',
-  CRISIS: 'Behavioral Crisis',
   SUICIDAL: 'Suicide Attempt',
   OTHER: 'Other'
 };
