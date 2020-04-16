@@ -286,6 +286,25 @@ class ProviderDetailsContainer extends React.Component {
     );
   }
 
+  renderVacanciesSection = () => {
+    const { provider, renderText } = this.props;
+
+    const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
+
+    if (hasVacancies === '') {
+      return null;
+    }
+
+    const label = hasVacancies ? LABELS.SPOTS_OPEN : LABELS.BOOKED;
+
+    return (
+      <TitleRow>
+        <span>{renderText(LABELS.AVAILABILITY)}</span>
+        <span>{renderText(label)}</span>
+      </TitleRow>
+    );
+  }
+
   renderUnknown = () => {
     const { renderText } = this.props;
     return renderText(LABELS.UNKNOWN);
@@ -469,6 +488,7 @@ class ProviderDetailsContainer extends React.Component {
 
     const sections = [
       this.renderFamilyHomeContactSection(),
+      this.renderVacanciesSection(),
       this.renderCapacitySection(),
       this.renderContactSection(),
       this.renderHealthAndSafetySection(),
