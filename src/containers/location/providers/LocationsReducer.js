@@ -8,7 +8,6 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
-  CLEAR_LB_LOCATIONS,
   SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
@@ -127,10 +126,6 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     case SET_VALUES: {
       const map = action.value;
       return state.merge(map);
-    }
-
-    case CLEAR_LB_LOCATIONS: {
-      return INITIAL_STATE;
     }
 
     case LOCATION_CHANGE: {

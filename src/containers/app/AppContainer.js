@@ -27,15 +27,7 @@ import {
 import LocationsContainer from '../location/providers/LocationsContainer';
 import AboutPage from '../about/AboutPage';
 
-import {
-  HOME_PATH,
-  LOCATION_PATH,
-  PEOPLE_PATH,
-  PROFILE_VIEW_PATH,
-  PROVIDER_PATH,
-} from '../../longbeach/routes';
-
-import { ABOUT_PATH } from '../../core/router/Routes';
+import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
   APP_CONTENT_PADDING,

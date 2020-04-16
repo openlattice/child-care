@@ -8,7 +8,6 @@ import { AuthReducer } from 'lattice-auth';
 import { combineReducers } from 'redux-immutable';
 
 import appReducer from '../../containers/app/AppReducer';
-import authorizeReducer from '../sagas/authorize/AuthorizeReducer';
 
 import longBeachReducer from '../../longbeach/LongBeachReducer';
 import { INITIALIZE_APPLICATION } from '../../containers/app/AppActions';
@@ -18,7 +17,6 @@ export default function reduxReducer(routerHistory :any) {
   const allReducers = combineReducers({
     app: appReducer,
     auth: AuthReducer,
-    authorization: authorizeReducer,
     router: connectRouter(routerHistory),
     longBeach: longBeachReducer,
   });
