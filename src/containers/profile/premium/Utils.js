@@ -44,31 +44,6 @@ const countPropertyOccurrance = (reports :List<Map>, propertyTypeFqn :FullyQuali
     });
   });
 
-const countCrisisCalls = (reports :List<Map>, timeFQN = DATE_TIME_OCCURRED_FQN) => {
-  let total = 0;
-  let recent = 0;
-  reports.forEach((report :Map) => {
-    const occurred = report.getIn([timeFQN, 0], '');
-    const dtOccurred = DateTime.fromISO(occurred);
-    if (dtOccurred.isValid) {
-      const durationInYears = dtOccurred
-        .until(DateTime.local()).toDuration(['years'])
-        .toObject()
-        .years;
-
-      const durationInWeeks = dtOccurred
-        .until(DateTime.local()).toDuration(['weeks'])
-        .toObject()
-        .weeks;
-
-      if (durationInYears <= 1) total += 1;
-      if (durationInWeeks <= 1) recent += 1;
-    }
-  });
-
-  return { recent, total };
-};
-
 const countSafetyIncidents = (reports :List) :Map => Map()
   .withMutations((mutable) => {
     reports.forEach((report) => {
@@ -97,7 +72,6 @@ const countSafetyIncidents = (reports :List) :Map => Map()
   .toArray();
 
 export {
-  countCrisisCalls,
   countPropertyOccurrance,
   countSafetyIncidents,
   incrementValueAtKey,

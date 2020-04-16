@@ -32,15 +32,6 @@ export const OBSERVED_BEHAVIORS = {
   OTHER_DEMEANOR: 'otherDemeanor'
 };
 
-export const CRISIS_NATURE = {
-  NATURE_OF_CRISIS: 'natureOfCrisis',
-  BIOLOGICAL_CAUSES: 'biologicalCauses',
-  CHEMICAL_CAUSES: 'chemicalCauses',
-  ASSISTANCE: 'assistance',
-  OTHER_ASSISTANCE: 'otherAssistance',
-  HOUSING: 'currentHousing'
-};
-
 export const OFFICER_SAFETY = {
   TECHNIQUES: 'techniques',
   HAD_WEAPON: 'hadWeapon',

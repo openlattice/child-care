@@ -35,7 +35,6 @@ export const APP_TYPES_FQNS = {
 
   INCIDENT_FQN: new FullyQualifiedName('app.incident_new'),
   CALL_FOR_SERVICE_FQN: new FullyQualifiedName('app.callforservice'),
-  NATURE_OF_CRISIS_FQN: new FullyQualifiedName('app.natureofcrisis'),
   DIAGNOSIS_FQN: new FullyQualifiedName('app.diagnosis'),
   MEDICATION_STATEMENT_FQN: new FullyQualifiedName('app.medicationstatement'),
   SUBSTANCE_FQN: new FullyQualifiedName('app.substance'),
@@ -49,8 +48,6 @@ export const APP_TYPES_FQNS = {
   INCOME_FQN: new FullyQualifiedName('app.income'),
   INSURANCE_FQN: new FullyQualifiedName('app.insurance'),
   INVOLVED_IN_FQN: new FullyQualifiedName('app.involvedin'),
-  CLINICIAN_REPORT_FQN: new FullyQualifiedName('app.cliniciancrisisreport'),
-  PATROL_REPORT_FQN: new FullyQualifiedName('app.patrolcrisisreport'),
   ENCOUNTER_FQN: new FullyQualifiedName('app.encounters'),
   ENCOUNTER_DETAILS_FQN: new FullyQualifiedName('app.encounterdetails'),
   INVOICE_FQN: new FullyQualifiedName('app.invoice'),
@@ -64,8 +61,6 @@ export const APP_TYPES_FQNS = {
   WARRANTS_FQN: new FullyQualifiedName('app.warrants'),
   /* <===== END LONG BEACH HACK =====> */
   /* <===== BEGIN LIVERMORE HACK =====> */
-  ENCAMPMENT_FQN: new FullyQualifiedName('app.encampment'),
-  ENCAMPMENT_LOCATION_FQN: new FullyQualifiedName('app.encampmentlocation'),
   LIVES_AT_FQN: new FullyQualifiedName('app.livesat_new'),
   /* <===== END LIVERMORE HACK =====> */
 };
