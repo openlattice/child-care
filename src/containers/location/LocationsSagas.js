@@ -498,12 +498,15 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     response.data.totalHits = numHits;
     response.data.providerLocations = locationsByEKID;
 
-    const neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
-      entityKeyIds: response.data.hits.toJS(),
-      sourceEntitySetIds: [],
-      destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
-    });
+    let neighborsById = {};
 
+    if (locationsEKIDs.length) {
+      neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
+        entityKeyIds: response.data.hits.toJS(),
+        sourceEntitySetIds: [],
+        destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
+      });
+    }
 
     let rrsById = Map();
     let hospitalsById = Map();
