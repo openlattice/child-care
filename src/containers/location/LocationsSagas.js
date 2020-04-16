@@ -31,12 +31,10 @@ import {
   GET_GEO_OPTIONS,
   GET_LB_LOCATIONS_NEIGHBORS,
   GET_LB_STAY_AWAY_PEOPLE,
-  LOAD_ALL_HOSPITALS,
   SEARCH_LOCATIONS,
   getGeoOptions,
   getLBLocationsNeighbors,
   getLBStayAwayPeople,
-  loadAllHospitals,
   searchLocations,
 } from './providers/LocationsActions';
 
@@ -46,7 +44,7 @@ import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { loadApp } from '../app/AppActions';
-import { getPropertyTypeId, getESIDsFromApp, getHospitalsESID, getProvidersESID } from '../../utils/AppUtils';
+import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
 import {
   getEntityKeyId,
   getEKIDsFromEntryValues,

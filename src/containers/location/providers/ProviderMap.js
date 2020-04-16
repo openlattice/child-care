@@ -7,11 +7,9 @@ import { List, Map, isImmutable } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import HospitalsLocationLayer from './HospitalsLocationLayer';
 import ActiveProviderLocationLayer from './ActiveProviderLocationLayer';
 import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
-import HospitalPopup from './HospitalPopup';
 import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
 import FamilyHomeRadius from './markers/FamilyHomeRadius';
@@ -113,9 +111,7 @@ const ProviderMap = (props :Props) => {
 
   const renderText = useSelector(getRenderTextFn);
   const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
-  const hospitals = useSelector((store) => store.getIn(['app', 'hospitals'], Map()));
   const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
-  const hospitalsById = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.HOSPITALS_BY_ID]));
   const searchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
   const isLoading = useSelector((store) => store
     .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
@@ -125,7 +121,6 @@ const ProviderMap = (props :Props) => {
     center,
     isPopupOpen,
     selectedFeature,
-    selectedHospital,
     zoom,
   } = state;
 
@@ -233,24 +228,6 @@ const ProviderMap = (props :Props) => {
   const closeFeature = () => {
     stateDispatch({ type: 'dismiss' });
   };
-
-  const renderHospitals = () => (
-    <>
-      {
-        selectedHospital && (
-          <HospitalPopup
-              renderText={renderText}
-              isOpen={isPopupOpen && !selectedProvider}
-              coordinates={getCoordinates(selectedHospital)}
-              hospital={selectedHospital}
-              onClose={closeFeature} />
-        )
-      }
-      <HospitalsLocationLayer
-          hospitalLocations={hospitals.valueSeq()}
-          onFeatureClick={selectHospital} />
-    </>
-  );
 
   return (
     <Mapbox

@@ -45,8 +45,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   token: null,
   tokenExp: -1,
   renderText: (label) => label[LANGUAGES.en],
-  sessionId: randomUUID(),
-  hospitals: Map()
+  sessionId: randomUUID()
 });
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {
@@ -90,13 +89,11 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           const {
             entitySetId,
-            hospitals,
             propertyTypes
           } = value;
 
           let propertyTypesById = Map();
           let propertyTypesByFqn = Map();
-          let hospitalsByPlaceId = Map();
 
           fromJS(propertyTypes).forEach((propertyType) => {
             const id = propertyType.get('id');
@@ -104,11 +101,6 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
             propertyTypesById = propertyTypesById.set(id, propertyType);
             propertyTypesByFqn = propertyTypesByFqn.set(fqn, propertyType);
-          });
-
-          fromJS(hospitals).forEach((hospital) => {
-            const hospitalId = getValue(hospital, PROPERTY_TYPES.PLACE_ID);
-            hospitalsByPlaceId = hospitalsByPlaceId.set(hospitalId, hospital);
           });
 
           let defaultLanguage = LANGUAGES.en;
@@ -119,7 +111,6 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
           return state
             .set('entitySetId', entitySetId)
-            .set('hospitals', hospitalsByPlaceId)
             .set('propertyTypesById', propertyTypesById)
             .set('propertyTypesByFqn', propertyTypesByFqn)
             .set('renderText', (label) => label[defaultLanguage]);

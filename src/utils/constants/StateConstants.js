@@ -16,7 +16,6 @@ export const SUBMIT = {
 };
 
 export const PROVIDERS = {
-  HOSPITALS: 'hospitals',
   RRS_BY_ID: 'rrsById',
   HOSPITALS_BY_ID: 'hospitalsById',
   IS_EXECUTING_SEARCH: 'isExecutingSearch',
