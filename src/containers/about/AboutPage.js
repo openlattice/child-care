@@ -60,7 +60,7 @@ class AboutPage extends React.Component {
             <span>{renderText(ABOUT.POWERED_BY)}</span>
             <a href="https://openlattice.com/#/" target="_blank">OpenLattice</a>
             <span>, </span>
-            <a target="_blank" href="http://cdn.usc.edu/research/">CDN</a>
+            <a target="_blank" href="https://www.datanetwork.org/">CDN</a>
             <span>, </span>
             <a target="_blank" href="https://www.cloudflare.com/">Cloudflare</a>
             <span>{`, ${renderText(ABOUT.AND)} `}</span>
