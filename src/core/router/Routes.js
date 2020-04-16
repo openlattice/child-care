@@ -8,7 +8,6 @@ declare var __BASE_PATH__;
 export const ROOT :string = '/';
 export const LOGIN_PATH :string = '/login';
 
-export const DOWNLOADS_PATH :string = '/downloads';
 export const EDIT_PATH :string = '/edit';
 export const HOME_PATH :string = '/home';
 export const PROFILE_PATH :string = '/profile';

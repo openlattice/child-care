@@ -10,13 +10,7 @@ import { combineReducers } from 'redux-immutable';
 import appReducer from '../../containers/app/AppReducer';
 import authorizeReducer from '../sagas/authorize/AuthorizeReducer';
 
-import downloadsReducer from '../../containers/downloads/DownloadsReducer';
-import edmReducer from '../../edm/EdmReducer';
 import longBeachReducer from '../../longbeach/LongBeachReducer';
-import peopleReducer from '../../containers/people/PeopleReducer';
-import profileReducer from '../../containers/profile/reducers/ProfileReducer';
-import searchReducer from '../../containers/search/SearchReducer';
-import staffReducer from '../../containers/staff/StaffReducer';
 import { INITIALIZE_APPLICATION } from '../../containers/app/AppActions';
 
 export default function reduxReducer(routerHistory :any) {
@@ -25,13 +19,7 @@ export default function reduxReducer(routerHistory :any) {
     app: appReducer,
     auth: AuthReducer,
     authorization: authorizeReducer,
-    downloads: downloadsReducer,
-    edm: edmReducer,
-    people: peopleReducer,
-    profile: profileReducer,
     router: connectRouter(routerHistory),
-    search: searchReducer,
-    staff: staffReducer,
     longBeach: longBeachReducer,
   });
 

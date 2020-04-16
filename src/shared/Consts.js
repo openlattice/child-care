@@ -16,7 +16,6 @@ export const APP_TYPES_FQNS = {
   HOSPITALS_FQN: new FullyQualifiedName('app.hospitals'),
   IDENTIFYING_CHARACTERISTICS_FQN: new FullyQualifiedName('app.identifyingcharacteristics'),
   IMAGE_FQN: new FullyQualifiedName('app.image'),
-  INTERACTION_STRATEGY_FQN: new FullyQualifiedName('app.interactionstrategy'),
   IS_EMERGENCY_CONTACT_FOR_FQN: new FullyQualifiedName('app.isemergencycontactfor'),
   IS_PICTURE_OF_FQN: new FullyQualifiedName('app.ispictureof'),
   LOCATED_AT_FQN: new FullyQualifiedName('app.locatedat'),
@@ -29,7 +28,6 @@ export const APP_TYPES_FQNS = {
   PERSON_DETAILS_FQN: new FullyQualifiedName('app.persondetails'),
   PHYSICAL_APPEARANCE_FQN: new FullyQualifiedName('app.physicalappearance'),
   REPORTED_FQN: new FullyQualifiedName('app.reported'),
-  STAFF_FQN: new FullyQualifiedName('app.staff'),
   STAY_AWAY_LOCATION_FQN: new FullyQualifiedName('app.stayawaylocation'),
   SUBJECT_OF_FQN: new FullyQualifiedName('app.subjectof'),
 

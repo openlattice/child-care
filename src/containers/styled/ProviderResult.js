@@ -8,24 +8,11 @@ import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
-import { useGoToPath } from '../../components/hooks';
-import {
-  PROFILE_ID_PATH,
-  PROFILE_VIEW_PATH,
-} from '../../core/router/Routes';
-import {
-  OPENLATTICE_ID_FQN,
-  PERSON_RACE_FQN,
-  PERSON_SEX_FQN
-} from '../../edm/DataModelFqns';
-import { getAddressFromLocation } from '../../utils/AddressUtils';
-import { getImageDataFromEntity } from '../../utils/BinaryUtils';
-import { FACILITY_STATUSES } from '../../utils/DataConstants';
-import { getDobFromPerson, getLastFirstMiFromPerson } from '../../utils/PersonUtils';
-import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+
+import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { selectProvider } from '../location/providers/LocationsActions';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../map/MapUtils';
+import { getCoordinates } from '../map/MapUtils';
 import {
   getDistanceBetweenCoords,
   getValue,

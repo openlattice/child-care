@@ -37,8 +37,6 @@ import * as Routes from '../../core/router/Routes';
 import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
-import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
-import { getCurrentUserStaffMemberDataWorker } from '../staff/StaffSagas';
 
 declare var __AUTH0_CLIENT_ID__;
 declare var __AUTH0_DOMAIN__;
