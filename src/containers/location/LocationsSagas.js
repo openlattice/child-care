@@ -38,7 +38,6 @@ import {
 } from './providers/LocationsActions';
 
 import Logger from '../../utils/Logger';
-import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';

@@ -10,20 +10,8 @@ import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
 
 import { selectProvider } from './LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './constants';
 
-import DefaultLink from '../../../components/links/DefaultLink';
 import IconDetail from '../../../components/premium/styled/IconDetail';
-import {
-  PROFILE_ID_PATH,
-  PROFILE_VIEW_PATH,
-} from '../../../core/router/Routes';
-import {
-  OPENLATTICE_ID_FQN,
-  PERSON_RACE_FQN,
-  PERSON_SEX_FQN
-} from '../../../edm/DataModelFqns';
-import { getAddressFromLocation } from '../../../utils/AddressUtils';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
   getValue,
@@ -32,8 +20,7 @@ import {
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
-import { getDobFromPerson, getLastFirstMiFromPerson } from '../../../utils/PersonUtils';
-import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 
 const ActionBar = styled.div`

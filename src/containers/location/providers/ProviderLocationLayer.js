@@ -1,12 +1,10 @@
 // @flow
 import React from 'react';
 
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 import { List } from 'immutable';
 import { Feature, Layer } from 'react-mapbox-gl';
 
-import { OPENLATTICE_ID_FQN } from '../../../edm/DataModelFqns';
+import { OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
 type Props = {
