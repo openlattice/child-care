@@ -36,6 +36,7 @@ export const PROPERTY_TYPES = {
   NUM_COMPLAINTS: 'ecps.license_complaints',
   SHOULD_HIDE_CONTACT: 'ecps.hide_contact',
   EMAIL: 'ecps.facility_email',
+  VACANCIES: 'ecps.vacancies',
 
   PHONE: 'ecps.facility_phone',
 

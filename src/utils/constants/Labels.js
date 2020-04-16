@@ -42,6 +42,10 @@ export const LABELS = {
     [en]: 'Apply',
     [es]: 'Confirma'
   },
+  AVAILABILITY: {
+    [en]: 'Availability',
+    [es]: 'Disponibilidad'
+  },
   BACK: {
     [en]: 'Back',
     [es]: 'Atrás'
@@ -53,6 +57,10 @@ export const LABELS = {
   BASIC_SEARCH: {
     [en]: 'Basic Search',
     [es]: 'Búsqueda Básica'
+  },
+  BOOKED: {
+    [en]: 'Booked',
+    [es]: 'Reservado'
   },
   CAPACITY: {
     [en]: 'Capacity',
@@ -213,6 +221,10 @@ export const LABELS = {
   SPOT: {
     [en]: 'Spot',
     [es]: 'Espacio'
+  },
+  SPOTS_OPEN: {
+    [en]: 'Spots Open',
+    [es]: 'Espacio Disponible'
   },
   TERMS_AND_CONDITIONS: {
     [en]: 'Terms & Conditions',

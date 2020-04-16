@@ -2,13 +2,14 @@
 import React, { Component } from 'react';
 
 import isPlainObject from 'lodash/isPlainObject';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Skeleton } from 'lattice-ui-kit';
 
 const IconDetailWrapper = styled.div`
   display: flex;
+  ${(props) => (props.fitContent ? css`min-width: fit-content;` : '')}
 `;
 
 const Content = styled.div`
@@ -29,6 +30,7 @@ type Props = {
   icon ? :IconDefinition;
   isLoading ? :boolean;
   isInactive ? :boolean;
+  fitContent ? :boolean;
 }
 
 class IconDetail extends Component<Props> {
@@ -37,7 +39,8 @@ class IconDetail extends Component<Props> {
     content: '',
     icon: undefined,
     isLoading: false,
-    isInactive: false
+    isInactive: false,
+    fitContent: false
   };
 
   renderContent = () => {
@@ -60,14 +63,14 @@ class IconDetail extends Component<Props> {
   }
 
   render() {
-    const { className, isLoading } = this.props;
+    const { className, isLoading, fitContent } = this.props;
 
     if (isLoading) {
       return <Skeleton />;
     }
 
     return (
-      <IconDetailWrapper className={className}>
+      <IconDetailWrapper className={className} fitContent={fitContent}>
         { this.renderContent() }
       </IconDetailWrapper>
     );
