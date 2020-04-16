@@ -106,7 +106,7 @@ const ProviderResult = ({
         <ResultSegment padding="sm" vertical>
           <TwoPartRow>
             <ResultName isInactive={isInactive} bold uppercase>{name}</ResultName>
-            <IconDetail content={`${distance} mi`} isInactive={isInactive} />
+            <IconDetail content={`${distance} mi`} isInactive={isInactive} fitContent />
           </TwoPartRow>
           <FlexRow>
             <ResultDetails>
