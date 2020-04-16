@@ -9,7 +9,6 @@ import { combineReducers } from 'redux-immutable';
 
 import appReducer from '../../containers/app/AppReducer';
 import authorizeReducer from '../sagas/authorize/AuthorizeReducer';
-import dashboardReducer from '../../containers/dashboard/DashboardReducer';
 // pages
 import dispositionReducer from '../../containers/pages/disposition/Reducer';
 import downloadsReducer from '../../containers/downloads/DownloadsReducer';
@@ -33,7 +32,6 @@ export default function reduxReducer(routerHistory :any) {
     app: appReducer,
     auth: AuthReducer,
     authorization: authorizeReducer,
-    dashboard: dashboardReducer,
     downloads: downloadsReducer,
     edm: edmReducer,
     issues: issuesReducer,

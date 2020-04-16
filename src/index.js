@@ -15,7 +15,6 @@ import { Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 
 import AppContainer from './containers/app/AppContainer';
-import Logout from './core/router/Logout';
 import initializeReduxStore from './core/redux/ReduxStore';
 import initializeRouterHistory from './core/router/RouterHistory';
 import { BASE_URL } from './utils/constants/DataModelConstants';

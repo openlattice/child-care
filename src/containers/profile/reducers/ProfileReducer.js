@@ -10,7 +10,6 @@ import about from '../edit/about/AboutReducer';
 import basicInformation from '../edit/basicinformation/reducers/BasicInformationReducer';
 import contacts from '../edit/contacts/ContactsReducer';
 import officerSafety from '../edit/officersafety/reducers/OfficerSafetyReducer';
-import responsePlan from '../edit/responseplan/ResponsePlanReducer';
 import { CLEAR_PROFILE } from '../ProfileActions';
 
 const subReducers = combineReducers({
@@ -20,7 +19,6 @@ const subReducers = combineReducers({
   officerSafety,
   person,
   physicalAppearance,
-  responsePlan,
 });
 
 const profileReducer = (state :Map, action :Object) => {

@@ -19,7 +19,6 @@ import {
   isImmutable
 } from 'immutable';
 import { DataApi, SearchApi } from 'lattice';
-import { AuthUtils } from 'lattice-auth';
 import {
   SearchApiActions,
   SearchApiSagas,

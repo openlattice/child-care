@@ -9,14 +9,12 @@ import {
   setIn,
 } from 'immutable';
 import { Constants, Models } from 'lattice';
-import { DataProcessingUtils } from 'lattice-fabricate';
 
 import { isDefined } from './LangUtils';
 import { FACILITY_NAME_MASKED, FACILITY_STATUSES, FACILITY_TYPES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
 import { LABELS, AGES_SERVED_LABELS } from './constants/Labels'
 
-const { getEntityAddressKey } = DataProcessingUtils;
 const { FullyQualifiedName } = Models;
 const { OPENLATTICE_ID_FQN } = Constants;
 
@@ -177,7 +175,6 @@ const getFormDataFromEntity = (
     properties.forEach((fqn :FullyQualifiedName) => {
       const value = getIn(entity, [fqn, 0]);
       if (isDefined(value)) {
-        entityMutator.set(getEntityAddressKey(index, esn, fqn), value);
       }
     });
   });
