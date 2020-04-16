@@ -27,6 +27,7 @@ import {
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
 import { STATE } from '../../utils/constants/StateConstants';
+import { HOME_PATH } from '../../longbeach/routes';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -140,9 +141,12 @@ class AppHeaderContainer extends Component<Props> {
   render() {
     const { isNavigationOpen } = this.state;
 
+    const isViewingMap = window.location.hash.includes(HOME_PATH);
+    const searchBar = isViewingMap ? <LocationsSearchBar /> : null;
+
     return (
       <>
-        <LocationsSearchBar />
+        {searchBar}
         <AppHeaderOuterWrapper>
           { this.renderLeftSideContent() }
           <Drawer

@@ -25,15 +25,17 @@ import {
 } from './AppActions';
 
 import LocationsContainer from '../location/providers/LocationsContainer';
+import AboutPage from '../about/AboutPage';
 
 import {
-  ENCAMPMENTS_PATH,
   HOME_PATH,
   LOCATION_PATH,
   PEOPLE_PATH,
   PROFILE_VIEW_PATH,
   PROVIDER_PATH,
 } from '../../longbeach/routes';
+
+import { ABOUT_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
   APP_CONTENT_PADDING,
@@ -120,6 +122,7 @@ class AppContainer extends Component<Props> {
     return (
       <Switch>
         <Route exact strict path={HOME_PATH} component={LocationsContainer} />
+        <Route path={ABOUT_PATH} component={AboutPage} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );
