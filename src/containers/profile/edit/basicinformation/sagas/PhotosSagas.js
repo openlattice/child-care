@@ -38,7 +38,7 @@ import {
 import { getESIDFromApp } from '../../../../../utils/AppUtils';
 import { APP_TYPES_FQNS } from '../../../../../shared/Consts';
 
-const LOG = new Logger('BasicInformationSagas');
+const LOG = new Logger('');
 const { OPENLATTICE_ID_FQN } = Constants;
 const {
   IMAGE_FQN,
