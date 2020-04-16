@@ -1,7 +1,8 @@
 // @flow
-import ReactGA from 'react-ga';
+
 import axios from 'axios';
 import isArray from 'lodash/isArray';
+import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 import {
   all,
@@ -15,18 +16,15 @@ import {
   List,
   Map,
   fromJS,
-  getIn,
   isImmutable
 } from 'immutable';
-import { DataApi, SearchApi } from 'lattice';
-import { AuthUtils } from 'lattice-auth';
+import { SearchApi } from 'lattice';
 import {
   SearchApiActions,
   SearchApiSagas,
 } from 'lattice-sagas';
 import type { SequenceAction } from 'redux-reqseq';
 
-import { STAY_AWAY_STORE_PATH } from './providers/constants';
 import {
   GET_GEO_OPTIONS,
   GET_LB_LOCATIONS_NEIGHBORS,
@@ -37,33 +35,32 @@ import {
   getLBStayAwayPeople,
   searchLocations,
 } from './providers/LocationsActions';
+import { STAY_AWAY_STORE_PATH } from './providers/constants';
 
 import Logger from '../../utils/Logger';
-import * as FQN from '../../edm/DataModelFqns';
 import { APP_TYPES_FQNS } from '../../shared/Consts';
-
-import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
-import { loadApp } from '../app/AppActions';
-import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
+import { getESIDsFromApp, getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
+import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
 import {
-  getEntityKeyId,
+  formatTimeAsDateTime,
   getEKIDsFromEntryValues,
-  mapFirstEntityDataFromNeighbors,
-  formatTimeAsDateTime
+  getEntityKeyId,
+  mapFirstEntityDataFromNeighbors
 } from '../../utils/DataUtils';
-import { DAY_PTS, CLOSED, CLIENTS_SERVED } from '../../utils/DataConstants';
+import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 import {
+  HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
-  PROVIDERS_ENTITY_SET_ID,
-  RR_ENTITY_SET_ID,
-  HOSPITALS_ENTITY_SET_ID
+  RR_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
-import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
+import { loadApp } from '../app/AppActions';
+import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
+declare var gtag :?Function;
 
-const { executeSearch, searchEntityNeighborsWithFilter } = SearchApiActions;
-const { executeSearchWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
+const { searchEntityNeighborsWithFilter } = SearchApiActions;
+const { searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
 
 const {
   FILED_FOR_FQN,
@@ -116,11 +113,12 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       };
     }
 
-    ReactGA.event({
-      category: 'Search',
-      action: 'Geocode Address',
-      label: address
-    });
+    if (isFunction(gtag)) {
+      gtag('event', 'Geocode Address', {
+        event_category: 'Search',
+        event_label: address,
+      });
+    }
 
     const { data: suggestions } = yield call(axios, {
       method: 'post',
@@ -301,17 +299,18 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
 
-    ReactGA.event({
-      category: 'Search',
-      action: 'Execute Search',
-      label: JSON.stringify({
-        radius,
-        typeOfCare,
-        children,
-        daysAndTimes,
-        activeOnly
-      })
-    });
+    if (isFunction(gtag)) {
+      gtag('event', 'Execute Search', {
+        event_category: 'Search',
+        event_label: JSON.stringify({
+          activeOnly,
+          children,
+          daysAndTimes,
+          radius,
+          typeOfCare,
+        }),
+      });
+    }
 
     let app :Map = yield select((state) => state.get('app', Map()));
     let entitySetId = getProvidersESID(app);
