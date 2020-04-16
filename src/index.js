@@ -18,6 +18,7 @@ import AppContainer from './containers/app/AppContainer';
 import Logout from './core/router/Logout';
 import initializeReduxStore from './core/redux/ReduxStore';
 import initializeRouterHistory from './core/router/RouterHistory';
+import { BASE_URL } from './utils/constants/DataModelConstants';
 import * as Routes from './core/router/Routes';
 
 // injected by Webpack.DefinePlugin
@@ -69,8 +70,7 @@ LatticeAuth.configure({
   auth0ClientId: __AUTH0_CLIENT_ID__,
   auth0Domain: __AUTH0_DOMAIN__,
   authToken: AuthUtils.getAuthToken(),
-  baseUrl: 'production'
-  // baseUrl: 'https://api.childcare.openlattice.com'
+  baseUrl: BASE_URL
 });
 
 
