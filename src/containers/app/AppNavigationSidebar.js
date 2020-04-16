@@ -28,6 +28,8 @@ import {
 } from '../../core/style/Sizes';
 import { LABELS, CURRENT_LANGUAGE, LANGUAGES } from '../../utils/constants/Labels';
 import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
+import { ABOUT_PATH } from '../../core/router/Routes';
+import { HOME_PATH } from '../../longbeach/routes';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -76,6 +78,10 @@ const MenuRow = styled.div`${menuRowStyle}`;
 const MenuRowLink = styled.a.attrs({
   target: '_blank'
 })`${menuRowStyle}`;
+
+const MenuRowNavLink = styled(Link)`
+  ${menuRowStyle}
+`;
 
 const NavFooter = styled.div`
   display: flex;
@@ -140,6 +146,12 @@ class AppNavigationSidebar extends Component<Props> {
             <span><FontAwesomeIcon icon={faChevronLeft} /></span>
             {renderText(LABELS.BACK)}
           </MenuRow>
+          <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
+            {renderText(LABELS.FIND_CHILDCARE)}
+          </MenuRowNavLink>
+          <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
+            {renderText(LABELS.ABOUT)}
+          </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
             {renderText(LABELS.TERMS_AND_CONDITIONS)}
           </MenuRowLink>

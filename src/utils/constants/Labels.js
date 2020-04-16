@@ -14,6 +14,10 @@ export const LANGUAGES = {
 export const { en, es } = LANGUAGES;
 
 export const LABELS = {
+  ABOUT: {
+    [en]: 'Learn More',
+    [es]: 'Aprende Más'
+  },
   ADDRESS: {
     [en]: 'Address',
     [es]: 'Dirección'
@@ -117,6 +121,10 @@ export const LABELS = {
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
     [es]: 'Pequeño Hogar Familiar'
+  },
+  FIND_CHILDCARE: {
+    [en]: 'Find Childcare',
+    [es]: 'Encontrar Cuidado'
   },
   HEALTH_AND_SAFETY: {
     [en]: 'Health & Safety',
@@ -369,5 +377,24 @@ export const FACILITY_TYPE_LABELS = {
   [FACILITY_TYPES.DAY_CARE_CENTER]: {
     [en]: 'Child Care Center',
     [es]: 'Guardería'
+  }
+};
+
+export const ABOUT = {
+  INTRO: {
+    [en]: 'This tool is the product of a joint collaboration between ',
+    [es]: 'Esta solución es el producto de una colaboración conjunta entre '
+  },
+  AND: {
+    [en]: 'and',
+    [es]: 'y'
+  },
+  POWERED_BY: {
+    [en]: 'Powered by ',
+    [es]: 'Energizado por '
+  },
+  CRAFTED_WITH_LOVE: {
+    [en]: 'Crafted with love in Redwood City.',
+    [es]: 'Hecho con amor en Redwood City.'
   }
 };
