@@ -27,7 +27,7 @@ export const LABELS = {
     [es]: 'Bebé'
   },
   AGE_SCHOOL: {
-    [en]: 'School age',
+    [en]: 'Child',
     [es]: 'Niño'
   },
   AGE_TODDLER: {
