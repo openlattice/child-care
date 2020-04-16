@@ -54,7 +54,6 @@
     "jwt-decode": "^2.2.0",
     "lattice": "~0.73.0",
     "lattice-auth": "0.18.0",
-    "lattice-fabricate": "~0.12.1",
     "lattice-sagas": "~0.49.0",
     "lattice-ui-kit": "~0.27.0",
     "lodash": "~4.17.10",

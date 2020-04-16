@@ -40,7 +40,7 @@ import { APP_TYPES_FQNS } from '../../../../../shared/Consts';
 import { groupNeighborsByEntitySetIds } from '../../../../../utils/DataUtils';
 import { constructEntityIndexToIdMap, constructFormData } from './utils/AppearanceUtils';
 
-const LOG = new Logger('BasicInformationSagas');
+const LOG = new Logger('');
 const { OPENLATTICE_ID_FQN } = Constants;
 const {
   OBSERVED_IN_FQN,

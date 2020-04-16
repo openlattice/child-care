@@ -1,5 +1,4 @@
 // @flow
-import { DataProcessingUtils } from 'lattice-fabricate';
 import { Map } from 'immutable';
 import { getFormDataFromEntity } from '../../../../../../utils/DataUtils';
 import { APP_TYPES_FQNS } from '../../../../../../shared/Consts';
@@ -8,7 +7,6 @@ import { isValidUuid } from '../../../../../../utils/Utils';
 
 const { PHYSICAL_APPEARANCE_FQN } = APP_TYPES_FQNS;
 
-const { getPageSectionKey } = DataProcessingUtils;
 
 const constructFormData = (appearance :Map) => {
 
@@ -19,15 +17,8 @@ const constructFormData = (appearance :Map) => {
     FQN.WEIGHT_FQN,
   ];
 
-  const appearanceFormData = getFormDataFromEntity(
-    appearance,
-    PHYSICAL_APPEARANCE_FQN,
-    appearanceProperties,
-    0
-  );
 
   return Map().withMutations((mutable) => {
-    if (!appearanceFormData.isEmpty()) mutable.mergeIn([getPageSectionKey(1, 1)], appearanceFormData);
   });
 
 };
