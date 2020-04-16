@@ -17,11 +17,11 @@ import {
 } from '@redux-saga/core/effects';
 import { get } from 'axios';
 import { push } from 'connected-react-router';
-import { DataApi, EntitySetsApi, EntityDataModelApi } from 'lattice';
 import { configure, AccountUtils } from 'lattice-auth';
 import { DateTime } from 'luxon';
 import type { SequenceAction } from 'redux-reqseq';
 
+import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
 import {
   INITIALIZE_APPLICATION,
   LOAD_APP,
@@ -34,7 +34,7 @@ import {
 
 import Logger from '../../utils/Logger';
 import * as Routes from '../../core/router/Routes';
-import { PROVIDERS_ENTITY_SET } from '../../utils/constants/DataModelConstants';
+import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
 import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
@@ -68,10 +68,8 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
 
     yield call(refreshAuthTokenIfNecessary);
 
-    const [entitySetId, propertyTypes] = yield all([
-      call(EntitySetsApi.getEntitySetId, PROVIDERS_ENTITY_SET),
-      call(EntityDataModelApi.getAllPropertyTypes)
-    ]);
+    const propertyTypes = PROPERTY_TYPE_LIST;
+    const entitySetId = PROVIDERS_ENTITY_SET_ID;
 
     yield put(loadApp.success(action.id, { entitySetId, propertyTypes }));
   }
@@ -111,8 +109,7 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
       auth0ClientId: __AUTH0_CLIENT_ID__,
       auth0Domain: __AUTH0_DOMAIN__,
       authToken: token,
-      baseUrl: 'production'
-      // baseUrl: 'https://api.childcare.openlattice.com'
+      baseUrl: BASE_URL
     });
     yield put(reloadToken.success(action.id, { token, tokenExp }));
   }
