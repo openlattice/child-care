@@ -17,7 +17,6 @@ export const APP_TYPES_FQNS = {
   IDENTIFYING_CHARACTERISTICS_FQN: new FullyQualifiedName('app.identifyingcharacteristics'),
   IMAGE_FQN: new FullyQualifiedName('app.image'),
   INTERACTION_STRATEGY_FQN: new FullyQualifiedName('app.interactionstrategy'),
-  ISSUE_FQN: new FullyQualifiedName('app.issue'),
   IS_EMERGENCY_CONTACT_FOR_FQN: new FullyQualifiedName('app.isemergencycontactfor'),
   IS_PICTURE_OF_FQN: new FullyQualifiedName('app.ispictureof'),
   LOCATED_AT_FQN: new FullyQualifiedName('app.locatedat'),

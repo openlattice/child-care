@@ -13,7 +13,6 @@ import authorizeReducer from '../sagas/authorize/AuthorizeReducer';
 import dispositionReducer from '../../containers/pages/disposition/Reducer';
 import downloadsReducer from '../../containers/downloads/DownloadsReducer';
 import edmReducer from '../../edm/EdmReducer';
-import issuesReducer from '../../containers/issues/IssuesReducer';
 import longBeachReducer from '../../longbeach/LongBeachReducer';
 import natureOfCrisisReducer from '../../containers/pages/natureofcrisis/Reducer';
 import observedBehaviorsReducer from '../../containers/pages/observedbehaviors/Reducer';
@@ -34,7 +33,6 @@ export default function reduxReducer(routerHistory :any) {
     authorization: authorizeReducer,
     downloads: downloadsReducer,
     edm: edmReducer,
-    issues: issuesReducer,
     people: peopleReducer,
     profile: profileReducer,
     router: connectRouter(routerHistory),

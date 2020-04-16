@@ -99,7 +99,6 @@ export {
 };
 /* <===== END LONG BEACH HACK =====> */
 
-/* Issue */
 const PRIORITY_FQN = new FullyQualifiedName('ol.priority');
 const STATUS_FQN = new FullyQualifiedName('ol.status');
 const ENTRY_UPDATED_FQN = new FullyQualifiedName('general.entryupdated');

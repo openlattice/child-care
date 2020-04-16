@@ -184,7 +184,6 @@ export const DISPATCH_REASONS = {
   DESTRUCTION_OF_PROPERTY: 'Destruction of Property',
   SUICIDAL: 'Suicidal Person',
   TRESPASSING: 'Trespassing',
-  DOMESTIC_ISSUE: 'Domestic/Family Issue',
   ASSAULT: 'Assault (non-sexual)',
   SEXUAL_ASSAULT: 'Sexual offense/assault',
   OTHER: 'Other'

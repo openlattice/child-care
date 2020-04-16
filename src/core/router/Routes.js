@@ -22,9 +22,6 @@ export const PROFILE_PATH :string = '/profile';
 export const REPORTS_PATH :string = '/reports';
 export const LOCATION_PATH :string = '/location';
 export const PROVIDER_PATH :string = '/provider';
-export const ISSUES_PATH :string = '/issues';
-export const ISSUE_ID_PARAM :string = 'issueId';
-export const ISSUE_PATH :string = `${ISSUES_PATH}/:${ISSUE_ID_PARAM}`;
 
 export const REPORT_ID_PARAM :string = 'reportId';
 export const REPORT_ID_PATH :string = `:${REPORT_ID_PARAM}`;

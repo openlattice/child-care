@@ -38,7 +38,6 @@ export const INJURY_TYPES = [
   'Human Bite',
   'Laceration',
   'Other sickness',
-  'Soft tissue damage',
   'Sprain / strain / twist',
   'Unconscious',
   'No injuries noted or visible',
