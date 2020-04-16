@@ -1,7 +1,6 @@
 // @flow
 import ReactGA from 'react-ga';
 import axios from 'axios';
-import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import {
   all,
@@ -15,59 +14,36 @@ import {
   List,
   Map,
   fromJS,
-  getIn,
   isImmutable
 } from 'immutable';
-import { DataApi, SearchApi } from 'lattice';
-import {
-  SearchApiActions,
-  SearchApiSagas,
-} from 'lattice-sagas';
+import { SearchApi } from 'lattice';
 import type { SequenceAction } from 'redux-reqseq';
 
 import { STAY_AWAY_STORE_PATH } from './providers/constants';
 import {
   GET_GEO_OPTIONS,
-  GET_LB_LOCATIONS_NEIGHBORS,
-  GET_LB_STAY_AWAY_PEOPLE,
   SEARCH_LOCATIONS,
   getGeoOptions,
-  getLBLocationsNeighbors,
-  getLBStayAwayPeople,
   searchLocations,
 } from './providers/LocationsActions';
 
 import Logger from '../../utils/Logger';
-import { APP_TYPES_FQNS } from '../../shared/Consts';
 
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 import { loadApp } from '../app/AppActions';
-import { getPropertyTypeId, getESIDsFromApp, getProvidersESID } from '../../utils/AppUtils';
+import { getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
 import {
   getEntityKeyId,
-  getEKIDsFromEntryValues,
-  mapFirstEntityDataFromNeighbors,
   formatTimeAsDateTime
 } from '../../utils/DataUtils';
 import { DAY_PTS, CLOSED, CLIENTS_SERVED } from '../../utils/DataConstants';
 import {
   PROPERTY_TYPES,
-  PROVIDERS_ENTITY_SET_ID,
   RR_ENTITY_SET_ID,
   HOSPITALS_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
-
-
-const { executeSearch, searchEntityNeighborsWithFilter } = SearchApiActions;
-const { executeSearchWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
-
-const {
-  FILED_FOR_FQN,
-  STAY_AWAY_LOCATION_FQN,
-  SERVICES_OF_PROCESS_FQN,
-} = APP_TYPES_FQNS;
 
 const AGE_GROUP_BY_FQN = {
   [PROPERTY_TYPES.CAPACITY_UNDER_2]: CLIENTS_SERVED.INFANTS,
@@ -173,89 +149,10 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
-function* getLBStayAwayPeopleWorker(action :SequenceAction) :Generator<any, any, any> {
-}
-
-function* getLBStayAwayPeopleWatcher() :Generator<any, any, any> {
-  yield takeEvery(GET_LB_STAY_AWAY_PEOPLE, getLBStayAwayPeopleWorker);
-}
-
-function* getLBLocationsNeighborsWorker(action :SequenceAction) :Generator<any, any, any> {
-  const response :Object = {
-    data: {}
-  };
-
-  try {
-    const { value: entityKeyIds } = action;
-    if (!isArray(entityKeyIds)) throw ERR_ACTION_VALUE_TYPE;
-    yield put(getLBLocationsNeighbors.request(action.id));
-
-    const app :Map = yield select((state) => state.get('app', Map()));
-    const [
-      filedForESID,
-      locationESID,
-      serviceOfProcessESID
-    ] = getESIDsFromApp(app, [
-      FILED_FOR_FQN,
-      STAY_AWAY_LOCATION_FQN,
-      SERVICES_OF_PROCESS_FQN
-    ]);
-
-    const stayAwayParams = {
-      entitySetId: locationESID,
-      filter: {
-        entityKeyIds,
-        edgeEntitySetIds: [filedForESID],
-        destinationEntitySetIds: [],
-        sourceEntitySetIds: [serviceOfProcessESID],
-      }
-    };
-
-    const stayAwayResponse = yield call(
-      searchEntityNeighborsWithFilterWorker,
-      searchEntityNeighborsWithFilter(stayAwayParams)
-    );
-
-    if (stayAwayResponse.error) throw stayAwayResponse.error;
-
-    const stayAway = mapFirstEntityDataFromNeighbors(fromJS(stayAwayResponse.data));
-    const stayAwayEKIDs = getEKIDsFromEntryValues(stayAway).toJS();
-
-    response.data = {
-      stayAway
-    };
-
-    if (stayAwayEKIDs.length) {
-      const peopleResponse = yield call(
-        getLBStayAwayPeopleWorker,
-        getLBStayAwayPeople(stayAwayEKIDs)
-      );
-      if (peopleResponse.error) throw peopleResponse.error;
-
-      response.data = {
-        ...response.data,
-        ...peopleResponse.data
-      };
-    }
-
-    yield put(getLBLocationsNeighbors.success(action.id, response));
-  }
-  catch (error) {
-    LOG.error(action.type, error);
-    yield put(getLBLocationsNeighbors.failure(action.id));
-  }
-
-  return response;
-}
-
-function* getLBLocationsNeighborsWatcher() :Generator<any, any, any> {
-  yield takeEvery(GET_LB_LOCATIONS_NEIGHBORS, getLBLocationsNeighborsWorker);
-}
-
 const isEmpty = (map) => {
   if (!map) return true;
   return isImmutable(map) ? map.size === 0 : Object.keys(map).length === 0;
-}
+};
 
 function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
   return take(
@@ -543,10 +440,6 @@ function* searchLocationsWatcher() :Generator<any, any, any> {
 export {
   getGeoOptionsWatcher,
   getGeoOptionsWorker,
-  getLBLocationsNeighborsWatcher,
-  getLBLocationsNeighborsWorker,
-  getLBStayAwayPeopleWatcher,
-  getLBStayAwayPeopleWorker,
   searchLocationsWatcher,
   searchLocationsWorker,
 };

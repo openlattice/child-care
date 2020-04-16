@@ -26,7 +26,7 @@ import {
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
 import { STATE } from '../../utils/constants/StateConstants';
-import { HOME_PATH } from '../../longbeach/routes';
+import { HOME_PATH } from '../../core/router/Routes';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -91,7 +91,7 @@ const NavigationToggleWrapper = styled.div`
 
 type Props = {
   actions :{
-    switchOrganization :(organizationId :string) => void
+    switchLanguage :(language :string) => void
   };
 };
 
@@ -166,7 +166,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({
-    switchOrganization: AppActions.switchOrganization,
     switchLanguage: AppActions.switchLanguage
   }, dispatch)
 });

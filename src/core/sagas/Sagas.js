@@ -11,13 +11,10 @@ import {
   SearchApiSagas,
 } from 'lattice-sagas';
 
-import * as AuthorizeSagas from './authorize/AuthorizeSagas';
-
 import * as AppSagas from '../../containers/app/AppSagas';
 import * as LocationsSagas from '../../containers/location/LocationsSagas';
 // eslint-disable-next-line max-len
 import * as RoutingSagas from '../router/RoutingSagas';
-import * as SearchSagas from '../../containers/search/SearchSagas';
 
 export default function* sagas() :Generator<*, *, *> {
 
@@ -44,9 +41,6 @@ export default function* sagas() :Generator<*, *, *> {
     fork(AppSagas.loadAppWatcher),
     fork(AppSagas.reloadTokenWatcher),
 
-    // AuthorizeSagas
-    fork(AuthorizeSagas.getAuthorizationWatcher),
-
     // LocationsSagas
     fork(LocationsSagas.getGeoOptionsWatcher),
     fork(LocationsSagas.searchLocationsWatcher),
@@ -54,9 +48,6 @@ export default function* sagas() :Generator<*, *, *> {
     // RoutingSagas
     fork(RoutingSagas.goToRootWatcher),
     fork(RoutingSagas.goToPathWatcher),
-
-    // SearchSagas
-    fork(SearchSagas.searchConsumersWatcher),
 
   ]);
 }
