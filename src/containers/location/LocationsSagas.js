@@ -29,26 +29,14 @@ import {
 import { STAY_AWAY_STORE_PATH } from './providers/constants';
 
 import Logger from '../../utils/Logger';
-
-import { APP_TYPES_FQNS } from '../../shared/Consts';
-import { getESIDsFromApp, getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
-import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
-
-import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
-import { loadApp } from '../app/AppActions';
 import { getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
-import {
-  formatTimeAsDateTime,
-  getEKIDsFromEntryValues,
-  getEntityKeyId,
-  mapFirstEntityDataFromNeighbors
-} from '../../utils/DataUtils';
+import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
+import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 import {
   HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
-  HOSPITALS_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
