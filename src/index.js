@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${NEUTRALS[7]};
     color: ${NEUTRALS[0]};
     line-height: 1.5;
-    font-family: 'Open Sans', sans-serif;
+    font-family: Inter;
     height: 100vh;
     width: 100vw;
 
