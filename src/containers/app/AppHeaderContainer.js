@@ -7,7 +7,7 @@ import Select from 'react-select';
 import { Map } from 'immutable';
 
 import styled from 'styled-components';
-import { Button, Colors, Drawer } from 'lattice-ui-kit';
+import { IconButton, Button, Colors, Drawer } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
@@ -62,9 +62,10 @@ const RightSideContentWrapper = styled.div`
   position: fixed;
 `;
 
-const InvisibleButton = styled(BasicButton)`
-  width: ${BUTTON_WIDTH}px;
+const TargetIcon = <FontAwesomeIcon icon={faLocation} fixedWidth />;
+const TargetButton = styled(IconButton)`
   height: ${BUTTON_WIDTH}px;
+  width: ${BUTTON_WIDTH}px;
   padding: 0;
 `;
 
@@ -157,9 +158,7 @@ class AppHeaderContainer extends Component<Props> {
     const { actions } = this.props;
     return (
       <RightSideContentWrapper>
-        <InvisibleButton onClick={actions.loadCurrentPosition}>
-          <FontAwesomeIcon icon={faLocation} />
-        </InvisibleButton>
+        <TargetButton icon={TargetIcon} mode="subtle" onClick={actions.loadCurrentPosition} />
       </RightSideContentWrapper>
     );
   }
