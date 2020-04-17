@@ -18,6 +18,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
 import AppNavigationSidebar from './AppNavigationSidebar';
 import LocationsSearchBar from '../location/providers/LocationSearchBar';
+
+import * as LocationsActions from '../location/providers/LocationsActions';
+
 import { selectStyles } from './SelectStyles';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
@@ -131,6 +134,14 @@ class AppHeaderContainer extends Component<Props> {
     );
   }
 
+  renderCurrentLocationButton = () => {
+    return (
+      <Button onClick={this.props.actions.loadCurrentPosition}>
+        <FontAwesomeIcon icon={faBars} />
+      </Button>
+    );
+  }
+
   render() {
     const { isNavigationOpen } = this.state;
 
@@ -140,6 +151,7 @@ class AppHeaderContainer extends Component<Props> {
     return (
       <>
         {searchBar}
+        { this.renderCurrentLocationButton() }
         <AppHeaderOuterWrapper>
           { this.renderLeftSideContent() }
           <Drawer
@@ -166,7 +178,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({
-    switchLanguage: AppActions.switchLanguage
+    switchLanguage: AppActions.switchLanguage,
+    loadCurrentPosition: LocationsActions.loadCurrentPosition
   }, dispatch)
 });
 
