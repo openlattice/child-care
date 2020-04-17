@@ -19,6 +19,8 @@ export const PROVIDERS = {
   IS_EXECUTING_SEARCH: 'isExecutingSearch',
   HAS_PERFORMED_INITIAL_SEARCH: 'hasPerformedInitialSearch',
 
+  LAST_SEARCH_TYPE: 'searchType',
+  GEO_LOCATION_UNAVAILABLE: 'unableToLoadLocation',
   CURRENT_POSITION: 'currentPosition',
 
   SELECTED_PROVIDER: 'selectedProvider',

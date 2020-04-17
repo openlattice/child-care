@@ -22,7 +22,6 @@ import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { LABELS } from '../../../utils/constants/Labels';
 
-import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
 import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';

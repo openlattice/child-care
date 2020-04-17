@@ -37,6 +37,8 @@ const {
   CHILDREN,
   DAYS,
   SEARCH_PAGE,
+  LAST_SEARCH_TYPE,
+  GEO_LOCATION_UNAVAILABLE,
   CURRENT_POSITION
 } = PROVIDERS;
 
@@ -71,6 +73,8 @@ const INITIAL_STATE :Map = fromJS({
   [CHILDREN]: {},
   [DAYS]: {},
   [SEARCH_PAGE]: 0,
+  [LAST_SEARCH_TYPE]: null,
+  [GEO_LOCATION_UNAVAILABLE]: false,
   [CURRENT_POSITION]: {}
 });
 
@@ -113,7 +117,11 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
     case loadCurrentPosition.case(action.type): {
       return loadCurrentPosition.reducer(state, action, {
-        SUCCESS: () => state.set(CURRENT_POSITION, action.value)
+        REQUEST: () => state.set(LAST_SEARCH_TYPE, 'geo'),
+        SUCCESS: () => state
+          .set(GEO_LOCATION_UNAVAILABLE, false)
+          .set(CURRENT_POSITION, action.value),
+        FAILURE: () => state.set(GEO_LOCATION_UNAVAILABLE, true),
       });
     }
 

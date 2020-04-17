@@ -166,11 +166,12 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
         error => reject(error)
       )
     })
+
     const location = yield call(getUserLocation)
-    const { latitude, longitude } = location.coords;
 
     yield put(loadCurrentPosition.success(action.id, location));
 
+    const { latitude, longitude } = location.coords;
     yield put(searchLocations({
         searchInputs: Map({
           selectedOption: {

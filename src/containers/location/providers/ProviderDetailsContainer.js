@@ -25,7 +25,6 @@ import { STAY_AWAY_STORE_PATH } from './constants';
 import ExpandableSection from './ExpandableSection';
 import BasicButton from '../../../components/buttons/BasicButton';
 import InfoButton from '../../../components/buttons/InfoButton';
-import FindingLocationSplash from '../FindingLocationSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
