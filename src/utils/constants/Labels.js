@@ -27,16 +27,16 @@ export const LABELS = {
     [es]: 'Búsqueda Avanzada'
   },
   AGE_INFANT: {
-    [en]: 'Infant',
-    [es]: 'Bebé'
+    [en]: 'Infant (0 - 2 yrs)',
+    [es]: 'Bebé (0 - 2 a)'
   },
   AGE_SCHOOL: {
-    [en]: 'Child',
-    [es]: 'Niño'
+    [en]: 'Child (2+ yrs)',
+    [es]: 'Niño (2+ a)'
   },
   AGE_TODDLER: {
-    [en]: 'Toddler',
-    [es]: 'Niño pequeño'
+    [en]: 'Toddler (2 - 5 yrs)',
+    [es]: 'Niño pequeño (2 - 5 a)'
   },
   ANY: {
     [en]: 'Any',
