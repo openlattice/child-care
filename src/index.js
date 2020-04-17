@@ -4,6 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 
 import LatticeAuth from 'lattice-auth';
 import { ConnectedRouter } from 'connected-react-router/immutable';
@@ -16,8 +17,8 @@ import { createGlobalStyle } from 'styled-components';
 import AppContainer from './containers/app/AppContainer';
 import initializeReduxStore from './core/redux/ReduxStore';
 import initializeRouterHistory from './core/router/RouterHistory';
-import * as Routes from './core/router/Routes';
 import { BASE_URL } from './utils/constants/DataModelConstants';
+import * as Routes from './core/router/Routes';
 
 // injected by Webpack.DefinePlugin
 declare var __AUTH0_CLIENT_ID__ :string;
@@ -71,6 +72,10 @@ LatticeAuth.configure({
   baseUrl: BASE_URL
 });
 
+
+const trackingId = 'UA-118446829-4';
+ReactGA.initialize(trackingId);
+
 /*
  * // !!! MUST HAPPEN FIRST !!!
  */
@@ -84,7 +89,7 @@ if (APP_ROOT_NODE) {
     <Provider store={reduxStore}>
       <>
         <ConnectedRouter history={routerHistory}>
-          <Route path={Routes.ROOT} component={AppContainer} />
+          <Route path={Routes.ROOT} component={AppContainer} redirectToLogin />
         </ConnectedRouter>
         <NormalizeCSS />
         <GlobalStyle />

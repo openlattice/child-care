@@ -1,18 +1,18 @@
 // @flow
 import React, { useEffect, useMemo, useReducer } from 'react';
 
-import isFunction from 'lodash/isFunction';
+import ReactGA from 'react-ga';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 import { List, Map, isImmutable } from 'immutable';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
 import ActiveProviderLocationLayer from './ActiveProviderLocationLayer';
-import FamilyHomeRadius from './markers/FamilyHomeRadius';
 import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
+import FamilyHomeRadius from './markers/FamilyHomeRadius';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
@@ -23,7 +23,6 @@ import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtil
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
 declare var __MAPBOX_TOKEN__;
-declare var gtag :?Function;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
@@ -194,9 +193,10 @@ const ProviderMap = (props :Props) => {
   const showProviderPopup = (location) => {
     const [lng, lat] = getCoordinates(location);
 
-    if (location && isFunction(gtag)) {
-      gtag('event', 'View Provider Popup', {
-        event_category: 'Map Interaction',
+    if (location) {
+      ReactGA.event({
+        category: 'Map Interaction',
+        action: 'View Provider Popup'
       });
     }
 
