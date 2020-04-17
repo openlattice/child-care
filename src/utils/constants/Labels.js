@@ -261,7 +261,7 @@ export const LABELS = {
   USE_CURRENT_LOCATION: {
     [en]: 'Use my current location',
     [es]: 'Usar mi ubicación actual'
-  }
+  },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
     [es]: 'Ver Proveedor'
