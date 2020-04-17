@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import { Colors, StyleUtils } from 'lattice-ui-kit';
 
 import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
-import { behaviorItemSkeleton, bulletsSkeleton } from '../skeletons';
 
 const { NEUTRALS } = Colors;
 const { media } = StyleUtils;
@@ -45,7 +44,6 @@ export const ContentWrapper = styled.div`
 
 export const UL = styled.ul`
   padding-inline-start: 20px;
-  ${(props) => (props.isLoading ? bulletsSkeleton : null)};
 `;
 
 export const DashedList = styled.div`
@@ -61,7 +59,6 @@ export const DashedList = styled.div`
     border-bottom: 0;
   }
 
-  ${(props) => (props.isLoading ? behaviorItemSkeleton : null)};
 `;
 
 export const H1 = styled.h1`

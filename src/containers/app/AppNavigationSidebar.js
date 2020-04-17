@@ -9,7 +9,6 @@ import { Map } from 'immutable';
 import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { AuthActions, AuthUtils } from 'lattice-auth';
 import { Button, Colors, Drawer } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,8 +27,7 @@ import {
 } from '../../core/style/Sizes';
 import { LABELS, CURRENT_LANGUAGE, LANGUAGES } from '../../utils/constants/Labels';
 import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
-import { ABOUT_PATH } from '../../core/router/Routes';
-import { HOME_PATH } from '../../longbeach/routes';
+import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -109,7 +107,6 @@ const Lang = styled.div`
 
 type Props = {
   actions :{
-    logout :() => void;
     switchLanguage :Function
   };
 };
@@ -181,8 +178,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({
-    logout: AuthActions.logout,
-    switchOrganization: AppActions.switchOrganization,
     switchLanguage: AppActions.switchLanguage
   }, dispatch)
 });

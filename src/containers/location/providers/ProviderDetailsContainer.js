@@ -291,11 +291,10 @@ class ProviderDetailsContainer extends React.Component {
 
     const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
 
-    if (hasVacancies === '') {
-      return null;
+    let label = LABELS.UNKNOWN;
+    if (hasVacancies !== '') {
+      label = hasVacancies ? LABELS.SPOTS_OPEN : LABELS.BOOKED;
     }
-
-    const label = hasVacancies ? LABELS.SPOTS_OPEN : LABELS.BOOKED;
 
     return (
       <TitleRow>

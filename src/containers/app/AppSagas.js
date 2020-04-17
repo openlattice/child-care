@@ -26,7 +26,6 @@ import {
   INITIALIZE_APPLICATION,
   LOAD_APP,
   RELOAD_TOKEN,
-  SWITCH_ORGANIZATION,
   initializeApplication,
   loadApp,
   reloadToken
@@ -37,8 +36,6 @@ import * as Routes from '../../core/router/Routes';
 import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
-import { getCurrentUserStaffMemberData } from '../staff/StaffActions';
-import { getCurrentUserStaffMemberDataWorker } from '../staff/StaffSagas';
 
 declare var __AUTH0_CLIENT_ID__;
 declare var __AUTH0_DOMAIN__;
@@ -125,32 +122,6 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   return workerResponse;
 }
 
-/*
- * switchOrganization()
- */
-
-function* switchOrganizationWatcher() :Generator<*, *, *> {
-
-  yield takeEvery(SWITCH_ORGANIZATION, switchOrganizationWorker);
-}
-
-function* switchOrganizationWorker(action :Object) :Generator<*, *, *> {
-
-  try {
-    const { value } = action;
-    if (!isValidUuid(value)) throw ERR_ACTION_VALUE_TYPE;
-
-    const currentOrgId = yield select((state) => state.getIn(['app', 'selectedOrganizationId']));
-    if (value !== currentOrgId) {
-      AccountUtils.storeOrganizationId(value);
-      yield put(push(Routes.HOME_PATH));
-      yield put(initializeApplication());
-    }
-  }
-  catch (error) {
-    LOG.error(ERR_WORKER_SAGA, error);
-  }
-}
 
 /*
  * initializeApplication()
@@ -215,5 +186,4 @@ export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
 export {
   initializeApplicationWatcher,
   loadAppWatcher,
-  switchOrganizationWatcher,
 };
