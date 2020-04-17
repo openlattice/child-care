@@ -9,3 +9,9 @@ export const TAG_GRAY = '#dcdce7';
 
 export const INVALID_BACKGROUND = '#fff2f2';
 export const INVALID_TAG = '#fb4d4d';
+
+export const VACANCY_COLORS = {
+  UNKNOWN: '#555E6F',
+  OPEN: '#009D48',
+  CLOSED: '#C61F08'
+};

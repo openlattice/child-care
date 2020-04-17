@@ -11,6 +11,7 @@ import IconDetail from '../../components/premium/styled/IconDetail';
 
 import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
+import { VACANCY_COLORS } from '../../shared/Colors';
 import { selectProvider } from '../location/providers/LocationsActions';
 import { getCoordinates } from '../map/MapUtils';
 import {
@@ -51,8 +52,7 @@ const OpenClosedTag = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  text-align: right;
-  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
+  color: ${(props) => props.color};
 `;
 
 const ProviderResult = ({
@@ -81,11 +81,14 @@ const ProviderResult = ({
 
   const ages = getAgesServedFromEntity(provider, renderText);
 
-  const openStatus = (
-    <OpenClosedTag isOpen={!isInactive}>
-      {renderText(isInactive ? LABELS.CLOSED : LABELS.OPEN)}
-    </OpenClosedTag>
-  );
+  const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
+
+  let vacancyLabel = LABELS.AVAILABILITY_UNKNOWN;
+  let vacancyColor = VACANCY_COLORS.UNKNOWN;
+  if (hasVacancies !== '') {
+    vacancyLabel = hasVacancies ? LABELS.SPOTS_OPEN : LABELS.BOOKED;
+    vacancyColor = hasVacancies ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
+  }
 
   return (
     <Card onClick={handleViewProfile}>
@@ -110,6 +113,13 @@ const ProviderResult = ({
 
             </ResultDetails>
           </FlexRow>
+          {
+            !isInactive && (
+              <OpenClosedTag color={vacancyColor}>
+                {renderText(vacancyLabel)}
+              </OpenClosedTag>
+            )
+          }
         </ResultSegment>
 
       </CardContent>
