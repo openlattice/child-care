@@ -23,7 +23,7 @@ import { RequestStates } from 'redux-reqseq';
 import { getGeoOptions, searchLocations } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
-import { usePosition, useTimeout } from '../../../components/hooks';
+import { useTimeout } from '../../../components/hooks';
 import { ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
@@ -76,6 +76,7 @@ const LocationsSearchBar = () => {
 
   const renderText = useSelector(getRenderTextFn);
   const optionsFetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'fetchState']));
+  const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
 
   const options = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'data']));
   const dispatch = useDispatch();
@@ -86,7 +87,6 @@ const LocationsSearchBar = () => {
     selectedOption
   } = state;
   const [address, setAddress] = useState();
-  const [currentPosition] = usePosition();
 
   const fetchGeoOptions = useCallback(() => {
     if (isNonEmptyString(address)) {

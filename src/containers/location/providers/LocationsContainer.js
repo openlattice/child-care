@@ -26,7 +26,6 @@ import {
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
-import { usePosition } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -83,7 +82,7 @@ const LocationsContainer = () => {
   const lastSearchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
   const page = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SEARCH_PAGE]));
   const selectedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
-  const currentLocation = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
+  const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
   const dispatch = useDispatch();
 
   let editFiltersContent = null;
@@ -100,7 +99,7 @@ const LocationsContainer = () => {
 
   const hasSearched = fetchState !== RequestStates.STANDBY;
   const isLoading = fetchState === RequestStates.PENDING;
-  const hasPosition = !!currentLocation.coords;
+  const hasPosition = !!currentPosition.coords;
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
@@ -122,7 +121,7 @@ const LocationsContainer = () => {
         {providerHeader}
         <MapWrapper>
           <ProviderMap
-              currentPosition={currentLocation}
+              currentPosition={currentPosition}
               selectedOption={selectedOption}
               searchResults={searchResults} />
         </MapWrapper>
