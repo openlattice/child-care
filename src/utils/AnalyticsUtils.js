@@ -1,16 +1,9 @@
-/*
- * @flow
- */
+import ReactGA from 'react-ga';
 
-import isFunction from 'lodash/isFunction';
-
-declare var gtag :?Function;
-
-export const trackLinkClick = (label :string, action :string) => {
-  if (isFunction(gtag)) {
-    gtag('event', action, {
-      event_category: 'Link Clicked',
-      event_label: label,
-    });
-  }
+export const trackLinkClick = (label, action) => {
+  ReactGA.event({
+    category: 'Link Clicked',
+    action,
+    label
+  });
 };

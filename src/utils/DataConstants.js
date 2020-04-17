@@ -1,6 +1,5 @@
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
 
-
 /* Form Types */
 export const FORM_TYPE = {
 };
