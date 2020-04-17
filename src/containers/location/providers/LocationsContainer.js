@@ -19,7 +19,6 @@ import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
 import {
   searchLocations,
-  loadCurrentPosition,
   setValue
 } from './LocationsActions';
 
@@ -103,10 +102,6 @@ const LocationsContainer = () => {
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
-  const onLoadLocation = () => {
-    dispatch(loadCurrentPosition());
-  };
-
   const onPageChange = ({ page: newPage }) => {
     dispatch(searchLocations({
       searchInputs: lastSearchInputs,
@@ -134,7 +129,6 @@ const LocationsContainer = () => {
                   {renderText(LABELS.SORT_BY)}
                 </SortOption>
                 <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
-                <FilterButton onClick={onLoadLocation}>{renderText(LABELS.USE_CURRENT_LOCATION)}</FilterButton>
               </FilterRow>
 
               <StyledContentWrapper>

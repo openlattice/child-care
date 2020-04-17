@@ -118,6 +118,10 @@ export const LABELS = {
     [en]: 'Developmentally Disabled',
     [es]: 'Discapacidad del Desarrollo'
   },
+  ENSURE_LOCATION_DESCRIPTION: {
+    [en]: 'Please ensure location services are enabled to use your current location',
+    [es]: 'Asegúrese de que los servicios de ubicación estén habilitados para usar su ubicación actual'
+  },
   EMAIL: {
     [en]: 'Email',
     [es]: 'Email'
