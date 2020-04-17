@@ -16,6 +16,7 @@ import { faBars, faLocation } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
+import BasicButton from '../../components/buttons/BasicButton';
 import AppNavigationSidebar from './AppNavigationSidebar';
 import LocationsSearchBar from '../location/providers/LocationSearchBar';
 
@@ -27,7 +28,7 @@ import * as AppActions from './AppActions';
 import * as Routes from '../../core/router/Routes';
 import {
   HEADER_HEIGHT,
-  APP_CONTAINER_MAX_WIDTH
+  APP_CONTAINER_WIDTH
 } from '../../core/style/Sizes';
 import { LABELS } from '../../utils/constants/Labels';
 import { STATE } from '../../utils/constants/StateConstants';
@@ -56,13 +57,15 @@ const AppHeaderOuterWrapper = styled.header`
 const RightSideContentWrapper = styled.div`
   align-items: center;
   width: ${BUTTON_WIDTH}px;
-  left: min(calc(100vw - ${BUTTON_WIDTH}px), calc(50vw + ${APP_CONTAINER_MAX_WIDTH/ 2}px));
+  left: min(calc(100vw - ${BUTTON_WIDTH + 10}px), calc(50vw + ${(APP_CONTAINER_WIDTH / 2) + 10}px));
+  top: ${(HEADER_HEIGHT / 2) - (BUTTON_WIDTH / 2)}px;
   position: fixed;
 `;
 
-const InvisibleButton = styled.button`
+const InvisibleButton = styled(BasicButton)`
   width: ${BUTTON_WIDTH}px;
-  border: none;
+  height: ${BUTTON_WIDTH}px;
+  padding: 0;
 `;
 
 const LeftSideContentWrapper = styled.div`
@@ -151,12 +154,13 @@ class AppHeaderContainer extends Component<Props> {
   }
 
   renderCurrentLocationButton = () => {
+    const { actions } = this.props;
     return (
       <RightSideContentWrapper>
-        <InvisibleButton onClick={this.props.actions.loadCurrentPosition}>
+        <InvisibleButton onClick={actions.loadCurrentPosition}>
           <FontAwesomeIcon icon={faLocation} />
         </InvisibleButton>
-      </ RightSideContentWrapper>
+      </RightSideContentWrapper>
     );
   }
 
