@@ -25,7 +25,6 @@ import { LABELS } from '../../../utils/constants/Labels';
 import FindingLocationSplash from '../FindingLocationSplash';
 import BasicButton from '../../../components/buttons/BasicButton';
 import InfoButton from '../../../components/buttons/InfoButton';
-import { usePosition, useTimeout } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
