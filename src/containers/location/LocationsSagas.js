@@ -1,6 +1,7 @@
 // @flow
-import ReactGA from 'react-ga';
+
 import axios from 'axios';
+import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 import {
   all,
@@ -19,31 +20,29 @@ import {
 import { SearchApi } from 'lattice';
 import type { SequenceAction } from 'redux-reqseq';
 
-import { STAY_AWAY_STORE_PATH } from './providers/constants';
 import {
   GET_GEO_OPTIONS,
   SEARCH_LOCATIONS,
   getGeoOptions,
   searchLocations,
 } from './providers/LocationsActions';
+import { STAY_AWAY_STORE_PATH } from './providers/constants';
 
 import Logger from '../../utils/Logger';
-
-import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
-import { loadApp } from '../app/AppActions';
 import { getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
+import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
+import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
+import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 import {
-  getEntityKeyId,
-  formatTimeAsDateTime
-} from '../../utils/DataUtils';
-import { DAY_PTS, CLOSED, CLIENTS_SERVED } from '../../utils/DataConstants';
-import {
+  HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
-  HOSPITALS_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
-import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
+import { loadApp } from '../app/AppActions';
+import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
+
+declare var gtag :?Function;
 
 const AGE_GROUP_BY_FQN = {
   [PROPERTY_TYPES.CAPACITY_UNDER_2]: CLIENTS_SERVED.INFANTS,
@@ -90,11 +89,12 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       };
     }
 
-    ReactGA.event({
-      category: 'Search',
-      action: 'Geocode Address',
-      label: address
-    });
+    if (isFunction(gtag)) {
+      gtag('event', 'Geocode Address', {
+        event_category: 'Search',
+        event_label: address,
+      });
+    }
 
     const { data: suggestions } = yield call(axios, {
       method: 'post',
@@ -196,17 +196,18 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
     const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
 
-    ReactGA.event({
-      category: 'Search',
-      action: 'Execute Search',
-      label: JSON.stringify({
-        radius,
-        typeOfCare,
-        children,
-        daysAndTimes,
-        activeOnly
-      })
-    });
+    if (isFunction(gtag)) {
+      gtag('event', 'Execute Search', {
+        event_category: 'Search',
+        event_label: JSON.stringify({
+          activeOnly,
+          children,
+          daysAndTimes,
+          radius,
+          typeOfCare,
+        }),
+      });
+    }
 
     let app :Map = yield select((state) => state.get('app', Map()));
     let entitySetId = getProvidersESID(app);
