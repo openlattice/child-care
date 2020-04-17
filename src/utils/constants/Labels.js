@@ -271,8 +271,8 @@ export const LABELS = {
     [es]: 'Ver Proveedor'
   },
   WELCOME_TEXT: {
-    [en]: 'Welcome to mychildcare.ca.gov, by Openlattice',
-    [es]: 'Bienvenido a mychildcare.ca.gov, por Openlattice'
+    [en]: 'Welcome to mychildcare.ca.gov, by OpenLattice',
+    [es]: 'Bienvenido a mychildcare.ca.gov, por OpenLattice'
   },
   YES: {
     [en]: 'Yes',
