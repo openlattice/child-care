@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { faBars } from '@fortawesome/pro-solid-svg-icons';
+import { faBars, faLocation } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import OpenLatticeLogo from '../../assets/images/logo_v2.png';
@@ -26,8 +26,10 @@ import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
 import * as Routes from '../../core/router/Routes';
 import {
-  HEADER_HEIGHT
+  HEADER_HEIGHT,
+  APP_CONTAINER_MAX_WIDTH
 } from '../../core/style/Sizes';
+import { LABELS } from '../../utils/constants/Labels';
 import { STATE } from '../../utils/constants/StateConstants';
 import { HOME_PATH } from '../../core/router/Routes';
 
@@ -35,6 +37,8 @@ const { NEUTRALS, WHITE } = Colors;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
 const APP_HEADER_BORDER :string = '#e6e6eb';
+
+const BUTTON_WIDTH = 32;
 
 const AppHeaderOuterWrapper = styled.header`
   background-color: ${WHITE};
@@ -47,6 +51,18 @@ const AppHeaderOuterWrapper = styled.header`
   width: 100vw;
   position: fixed;
   z-index: 0;
+`;
+
+const RightSideContentWrapper = styled.div`
+  align-items: center;
+  width: ${BUTTON_WIDTH}px;
+  left: min(calc(100vw - ${BUTTON_WIDTH}px), calc(50vw + ${APP_CONTAINER_MAX_WIDTH/ 2}px));
+  position: fixed;
+`;
+
+const InvisibleButton = styled.button`
+  width: ${BUTTON_WIDTH}px;
+  border: none;
 `;
 
 const LeftSideContentWrapper = styled.div`
@@ -136,9 +152,11 @@ class AppHeaderContainer extends Component<Props> {
 
   renderCurrentLocationButton = () => {
     return (
-      <Button onClick={this.props.actions.loadCurrentPosition}>
-        <FontAwesomeIcon icon={faBars} />
-      </Button>
+      <RightSideContentWrapper>
+        <InvisibleButton onClick={this.props.actions.loadCurrentPosition}>
+          <FontAwesomeIcon icon={faLocation} />
+        </InvisibleButton>
+      </ RightSideContentWrapper>
     );
   }
 
@@ -151,7 +169,6 @@ class AppHeaderContainer extends Component<Props> {
     return (
       <>
         {searchBar}
-        { this.renderCurrentLocationButton() }
         <AppHeaderOuterWrapper>
           { this.renderLeftSideContent() }
           <Drawer
@@ -160,6 +177,7 @@ class AppHeaderContainer extends Component<Props> {
               onClose={this.closeNavigation}>
             <AppNavigationSidebar onClose={this.closeNavigation} />
           </Drawer>
+        { this.renderCurrentLocationButton() }
         </AppHeaderOuterWrapper>
       </>
     );

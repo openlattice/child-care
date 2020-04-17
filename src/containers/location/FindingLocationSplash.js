@@ -5,6 +5,9 @@ import { faLocationSlash } from '@fortawesome/pro-light-svg-icons';
 import { Hooks, IconSplash } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
+import { getRenderTextFn } from '../../utils/AppUtils';
+import { LABELS } from '../../utils/constants/Labels';
+import { useSelector } from 'react-redux';
 
 const { useBoolean } = Hooks;
 
@@ -17,12 +20,13 @@ const Centered = styled.div`
 `;
 
 const FindingLocationSplash = () => {
+  const renderText = useSelector(getRenderTextFn);
   const [hidden, , reveal] = useBoolean(true);
   useTimeout(reveal, 10);
 
   return (
     <Centered hidden={hidden}>
-      <IconSplash icon={faLocationSlash} caption="Please ensure location services are enabled to use your current location" />
+      <IconSplash icon={faLocationSlash} caption={renderText(LABELS.ENSURE_LOCATION_DESCRIPTION)} />
     </Centered>
   );
 };
