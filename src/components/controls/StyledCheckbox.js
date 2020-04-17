@@ -10,7 +10,7 @@ const Control = styled.label`
   position: relative;
   padding: 0 10px 0 20px;
   margin-bottom: ${props => (props.noMargin ? 0 : 10)}px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Inter;
   font-size: 16px;
   font-weight: normal;
   color: ${props => (props.checked ? '#2e2e34' : '#8e929b')};

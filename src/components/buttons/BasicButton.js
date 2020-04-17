@@ -5,7 +5,7 @@ const BasicButton = styled.button`
   border-radius: 3px;
   background-color: #B6BBC7;
   color: #ffffff;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Inter;
   padding: 12px 35px;
   font-size: 14px;
   justify-content: center;
