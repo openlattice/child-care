@@ -22,7 +22,7 @@ const FindingLocationSplash = () => {
 
   return (
     <Centered hidden={hidden}>
-      <IconSplash icon={faLocationSlash} caption="Finding location. Please ensure location services are enabled" />
+      <IconSplash icon={faLocationSlash} caption="Please ensure location services are enabled to use your current location" />
     </Centered>
   );
 };
