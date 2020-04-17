@@ -20,6 +20,7 @@ export default function* sagas() :Generator<*, *, *> {
     // LocationsSagas
     fork(LocationsSagas.getGeoOptionsWatcher),
     fork(LocationsSagas.searchLocationsWatcher),
+    fork(LocationsSagas.loadCurrentPositionWatcher),
 
     // RoutingSagas
     fork(RoutingSagas.goToRootWatcher),

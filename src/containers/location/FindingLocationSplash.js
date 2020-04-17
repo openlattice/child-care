@@ -18,7 +18,7 @@ const Centered = styled.div`
 
 const FindingLocationSplash = () => {
   const [hidden, , reveal] = useBoolean(true);
-  useTimeout(reveal, 200);
+  useTimeout(reveal, 10);
 
   return (
     <Centered hidden={hidden}>

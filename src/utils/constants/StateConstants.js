@@ -19,6 +19,8 @@ export const PROVIDERS = {
   IS_EXECUTING_SEARCH: 'isExecutingSearch',
   HAS_PERFORMED_INITIAL_SEARCH: 'hasPerformedInitialSearch',
 
+  CURRENT_POSITION: 'currentPosition',
+
   SELECTED_PROVIDER: 'selectedProvider',
 
   IS_EDITING_FILTERS: 'isEditingFilters',

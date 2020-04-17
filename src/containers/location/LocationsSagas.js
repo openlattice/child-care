@@ -23,6 +23,8 @@ import type { SequenceAction } from 'redux-reqseq';
 import {
   GET_GEO_OPTIONS,
   SEARCH_LOCATIONS,
+  LOAD_CURRENT_POSITION,
+  loadCurrentPosition,
   getGeoOptions,
   searchLocations,
 } from './providers/LocationsActions';
@@ -147,6 +149,34 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
 function* getGeoOptionsWatcher() :Generator<*, *, *> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
+}
+
+
+function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+  try {
+    yield put(loadCurrentPosition.request(action.id));
+
+    const getUserLocation = () => new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        location => resolve(location),
+        error => reject(error)
+      )
+    })
+    const location = yield call(getUserLocation)
+
+    yield put(loadCurrentPosition.success(action.id, location));
+  }
+  catch (error) {
+    console.error(error)
+    yield put(loadCurrentPosition.failure(action.id, error));
+  }
+  finally {
+    yield put(loadCurrentPosition.finally(action.id));
+  }
+}
+
+function* loadCurrentPositionWatcher() :Generator<*, *, *> {
+  yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
 }
 
 const isEmpty = (map) => {
@@ -443,4 +473,5 @@ export {
   getGeoOptionsWorker,
   searchLocationsWatcher,
   searchLocationsWorker,
+  loadCurrentPositionWatcher,
 };

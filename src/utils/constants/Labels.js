@@ -258,6 +258,10 @@ export const LABELS = {
     [en]: 'Unknown age limitations',
     [es]: 'Limitaciones de edad desconocida'
   },
+  USE_CURRENT_LOCATION: {
+    [en]: 'Use my current location',
+    [es]: 'Usar mi ubicación actual'
+  }
   VIEW_PROVIDER: {
     [en]: 'View Provider',
     [es]: 'Ver Proveedor'

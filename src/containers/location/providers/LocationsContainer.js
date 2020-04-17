@@ -17,7 +17,12 @@ import LocationResult from './LocationResult';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
-import { searchLocations, setValue } from './LocationsActions';
+import {
+  searchLocations,
+  loadCurrentPosition,
+  setValue
+} from './LocationsActions';
+
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
@@ -25,6 +30,7 @@ import { usePosition } from '../../../components/hooks';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
+import { Button } from 'lattice-ui-kit';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 
@@ -77,9 +83,8 @@ const LocationsContainer = () => {
   const lastSearchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
   const page = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SEARCH_PAGE]));
   const selectedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
+  const currentLocation = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
   const dispatch = useDispatch();
-
-  const [currentPosition] = usePosition();
 
   let editFiltersContent = null;
   let providerHeader = null;
@@ -95,9 +100,13 @@ const LocationsContainer = () => {
 
   const hasSearched = fetchState !== RequestStates.STANDBY;
   const isLoading = fetchState === RequestStates.PENDING;
-  const hasPosition = !!currentPosition.coords;
+  const hasPosition = !!currentLocation.coords;
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
+
+  const onLoadLocation = () => {
+    dispatch(loadCurrentPosition());
+  };
 
   const onPageChange = ({ page: newPage }) => {
     dispatch(searchLocations({
@@ -113,7 +122,7 @@ const LocationsContainer = () => {
         {providerHeader}
         <MapWrapper>
           <ProviderMap
-              currentPosition={currentPosition}
+              currentPosition={currentLocation}
               selectedOption={selectedOption}
               searchResults={searchResults} />
         </MapWrapper>
@@ -131,7 +140,8 @@ const LocationsContainer = () => {
               <StyledContentWrapper>
                 {
                   (!hasPosition && !hasSearched) && (
-                    <FindingLocationSplash />
+                    <Button onClick={onLoadLocation}>{renderText(LABELS.USE_CURRENT_LOCATION)}</Button>
+                      // <FindingLocationSplash />
                   )
                 }
                 <StyledSearchResults

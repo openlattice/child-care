@@ -19,3 +19,6 @@ export const setValues :RequestSequence = newRequestSequence(SET_VALUES);
 
 export const SELECT_PROVIDER :string = 'SELECT_PROVIDER';
 export const selectProvider :RequestSequence = newRequestSequence(SELECT_PROVIDER);
+
+export const LOAD_CURRENT_POSITION :string = 'LOAD_CURRENT_POSITION';
+export const loadCurrentPosition :RequestSequence = newRequestSequence(LOAD_CURRENT_POSITION);
