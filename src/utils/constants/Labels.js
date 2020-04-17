@@ -50,6 +50,10 @@ export const LABELS = {
     [en]: 'Availability',
     [es]: 'Disponibilidad'
   },
+  AVAILABILITY_UNKNOWN: {
+    [en]: 'Availability  Unknown',
+    [es]: 'Disponibilidad Desconocida'
+  },
   BACK: {
     [en]: 'Back',
     [es]: 'Atrás'

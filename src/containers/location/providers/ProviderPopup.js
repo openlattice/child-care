@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 
 import { selectProvider } from './LocationsActions';
 
+import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';
 import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
@@ -63,11 +64,10 @@ const OpenClosedTag = styled.div`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 17px;
 
-  text-align: left;
-  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
+  color: ${(props) => props.color};
 `;
 
 type Props = {
@@ -100,6 +100,14 @@ const ProviderPopup = ({
 
   const isOperating = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
 
+  const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
+  let vacancyLabel = LABELS.AVAILABILITY_UNKNOWN;
+  let vacancyColor = VACANCY_COLORS.UNKNOWN;
+  if (hasVacancies !== '') {
+    vacancyLabel = hasVacancies ? LABELS.SPOTS_OPEN : LABELS.BOOKED;
+    vacancyColor = hasVacancies ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
+  }
+
   const ages = getAgesServedFromEntity(provider, renderText);
 
   const isInactive = !isProviderActive(provider);
@@ -114,6 +122,13 @@ const ProviderPopup = ({
 
   return (
     <Popup coordinates={coordinates}>
+      {
+        !isInactive && (
+          <OpenClosedTag color={vacancyColor}>
+            {renderText(vacancyLabel)}
+          </OpenClosedTag>
+        )
+      }
       <ActionBar isInactive={isInactive}>
         <strong>{name}</strong>
         <CloseButton size="sm" mode="subtle" icon={CloseIcon} onClick={onClose} />
