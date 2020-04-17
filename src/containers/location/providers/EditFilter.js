@@ -15,7 +15,6 @@ import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
-import ZipFilter from './filters/ZipFilter';
 import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -106,7 +105,6 @@ const FILTER_COMPONENTS = {
   [PROVIDERS.DAYS]: DayAndTimeFilter,
   [PROVIDERS.RADIUS]: RadiusFilter,
   [PROVIDERS.TYPE_OF_CARE]: TypeOfCareFilter,
-  [PROVIDERS.ZIP]: ZipFilter,
 };
 
 export default class EditFilter extends React.Component {

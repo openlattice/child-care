@@ -168,7 +168,6 @@ class EditFiltersContainer extends React.Component {
       filterPage: null,
       ...getProviderValue(PROVIDERS.ACTIVE_ONLY),
       ...getProviderValue(PROVIDERS.TYPE_OF_CARE),
-      ...getProviderValue(PROVIDERS.ZIP),
       ...getProviderValue(PROVIDERS.RADIUS),
       ...getProviderValue(PROVIDERS.CHILDREN),
       ...getProviderValue(PROVIDERS.DAYS),
@@ -203,7 +202,6 @@ class EditFiltersContainer extends React.Component {
       filterPage,
       [PROVIDERS.ACTIVE_ONLY]: activeOnly,
       [PROVIDERS.TYPE_OF_CARE]: typeOfCare,
-      [PROVIDERS.ZIP]: zip,
       [PROVIDERS.RADIUS]: radius,
       [PROVIDERS.CHILDREN]: children,
       [PROVIDERS.DAYS]: days,
@@ -262,8 +260,7 @@ class EditFiltersContainer extends React.Component {
         [PROVIDERS.TYPE_OF_CARE]: state[PROVIDERS.TYPE_OF_CARE],
         [PROVIDERS.RADIUS]: state[PROVIDERS.RADIUS],
         [PROVIDERS.CHILDREN]: state[PROVIDERS.CHILDREN],
-        [PROVIDERS.DAYS]: state[PROVIDERS.DAYS],
-        [PROVIDERS.ZIP]: state[PROVIDERS.ZIP]
+        [PROVIDERS.DAYS]: state[PROVIDERS.DAYS]
       });
 
       actions.searchLocations({
@@ -287,7 +284,6 @@ class EditFiltersContainer extends React.Component {
 
             <HeaderLabel>{renderText(LABELS.BASIC_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), LABELS.TYPE_OF_CARE)}
-            {renderRow(PROVIDERS.ZIP, zip.get(0) || any, LABELS.ZIP_CODE)}
             {renderRow(PROVIDERS.RADIUS, `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`, LABELS.SEARCH_RADIUS)}
             <Line />
             <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
