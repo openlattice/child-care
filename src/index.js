@@ -5,7 +5,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LatticeAuth from 'lattice-auth';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { Colors } from 'lattice-ui-kit';
 import { normalize } from 'polished';
@@ -17,13 +16,7 @@ import AppContainer from './containers/app/AppContainer';
 import initializeReduxStore from './core/redux/ReduxStore';
 import initializeRouterHistory from './core/router/RouterHistory';
 import * as Routes from './core/router/Routes';
-import { BASE_URL } from './utils/constants/DataModelConstants';
 
-// injected by Webpack.DefinePlugin
-declare var __AUTH0_CLIENT_ID__ :string;
-declare var __AUTH0_DOMAIN__ :string;
-
-const { AuthUtils } = LatticeAuth;
 const { NEUTRALS } = Colors;
 
 /* eslint-disable */
@@ -60,20 +53,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 /* eslint-enable */
 
-/*
- * // !!! MUST HAPPEN FIRST !!!
- */
-
-LatticeAuth.configure({
-  auth0ClientId: __AUTH0_CLIENT_ID__,
-  auth0Domain: __AUTH0_DOMAIN__,
-  authToken: AuthUtils.getAuthToken(),
-  baseUrl: BASE_URL
-});
-
-/*
- * // !!! MUST HAPPEN FIRST !!!
- */
 
 const routerHistory = initializeRouterHistory();
 const reduxStore = initializeReduxStore(routerHistory);

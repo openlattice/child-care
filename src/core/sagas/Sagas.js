@@ -3,7 +3,6 @@
  */
 
 import { all, fork } from '@redux-saga/core/effects';
-import { AuthSagas } from 'lattice-auth';
 import {
   AppApiSagas,
   DataApiSagas,
@@ -19,11 +18,6 @@ import * as RoutingSagas from '../router/RoutingSagas';
 export default function* sagas() :Generator<*, *, *> {
 
   yield all([
-    // "lattice-auth" sagas
-    fork(AuthSagas.watchAuthAttempt),
-    fork(AuthSagas.watchAuthSuccess),
-    fork(AuthSagas.watchAuthFailure),
-    fork(AuthSagas.watchAuthExpired),
 
     // "lattice-sagas" sagas
     fork(AppApiSagas.getAppConfigsWatcher),
