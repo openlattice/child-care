@@ -1,8 +1,8 @@
 /*
  * @flow
  */
-import ReactGA from 'react-ga';
 
+import isFunction from 'lodash/isFunction';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
@@ -16,9 +16,10 @@ import {
 } from './LocationsActions';
 
 import { HOME_PATH } from '../../../core/router/Routes';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getEntityKeyId } from '../../../utils/DataUtils';
+import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
+declare var gtag :?Function;
 
 const {
   RRS_BY_ID,
@@ -113,11 +114,10 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_PROVIDER: {
-      if (action.value) {
-        ReactGA.event({
-          category: 'Navigation',
-          action: 'View Provider Details',
-          label: getEntityKeyId(action.value)
+      if (action.value && isFunction(gtag)) {
+        gtag('event', 'View Provider Details', {
+          event_category: 'Navigation',
+          event_label: getEntityKeyId(action.value),
         });
       }
       return state.set(SELECTED_PROVIDER, action.value);
