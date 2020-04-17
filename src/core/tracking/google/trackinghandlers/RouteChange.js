@@ -4,7 +4,6 @@
 
 import isFunction from 'lodash/isFunction';
 import { Map } from 'immutable';
-import { AuthUtils } from 'lattice-auth';
 
 import Logger from '../../../../utils/Logger';
 import { GOOGLE_TRACKING_ID } from '../GoogleAnalytics';
@@ -39,14 +38,7 @@ export default function handler(action :Action, prevState :Map, nextState :Map) 
 
     const event :RouteChangeEvent = {};
     event.page_location = url;
-    event.page_path = url.replace(origin, '');
-
-    if (AuthUtils.isAuthenticated()) {
-      const userInfo = AuthUtils.getUserInfo();
-      if (userInfo && userInfo.id) {
-        event.user_id = userInfo.id;
-      }
-    }
+    event.page_path = url.replace(origin, '')
 
     if (isFunction(gtag)) {
       gtag('config', GOOGLE_TRACKING_ID, event);

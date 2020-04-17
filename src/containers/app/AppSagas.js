@@ -16,8 +16,7 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import { get } from 'axios';
-import { push } from 'connected-react-router';
-import { configure, AccountUtils } from 'lattice-auth';
+import { configure } from 'lattice';
 import { DateTime } from 'luxon';
 import type { SequenceAction } from 'redux-reqseq';
 
@@ -36,9 +35,6 @@ import * as Routes from '../../core/router/Routes';
 import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
 import { isValidUuid } from '../../utils/Utils';
-
-declare var __AUTH0_CLIENT_ID__;
-declare var __AUTH0_DOMAIN__;
 
 const LOG = new Logger('AppSagas');
 
@@ -103,8 +99,6 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
     const tokenExp = exp * 1000;
 
     configure({
-      auth0ClientId: __AUTH0_CLIENT_ID__,
-      auth0Domain: __AUTH0_DOMAIN__,
       authToken: token,
       baseUrl: BASE_URL
     });
