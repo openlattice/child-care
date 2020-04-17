@@ -16,7 +16,6 @@
 <PROJECT_ROOT>/build/.*
 <PROJECT_ROOT>/config/.*
 !<PROJECT_ROOT>/node_modules/lattice
-!<PROJECT_ROOT>/node_modules/lattice-sagas
 !<PROJECT_ROOT>/node_modules/redux-reqseq
 .*/node_modules/immutable/.*
 
