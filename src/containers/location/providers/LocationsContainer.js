@@ -134,13 +134,13 @@ const LocationsContainer = () => {
                   {renderText(LABELS.SORT_BY)}
                 </SortOption>
                 <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
+                <FilterButton onClick={onLoadLocation}>{renderText(LABELS.USE_CURRENT_LOCATION)}</FilterButton>
               </FilterRow>
 
               <StyledContentWrapper>
                 {
                   (!hasPosition && !hasSearched) && (
-                    <Button onClick={onLoadLocation}>{renderText(LABELS.USE_CURRENT_LOCATION)}</Button>
-                      // <FindingLocationSplash />
+                    <FindingLocationSplash />
                   )
                 }
                 <StyledSearchResults

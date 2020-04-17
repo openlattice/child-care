@@ -44,6 +44,9 @@ import { PROVIDERS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
+import { getRenderTextFn } from '../../utils/AppUtils';
+import { LABELS } from '../../utils/constants/Labels';
+
 declare var gtag :?Function;
 
 const AGE_GROUP_BY_FQN = {
@@ -151,10 +154,11 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
-
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(loadCurrentPosition.request(action.id));
+
+    const renderText = yield select(getRenderTextFn);
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -163,8 +167,23 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
       )
     })
     const location = yield call(getUserLocation)
+    const { latitude, longitude } = location.coords;
 
     yield put(loadCurrentPosition.success(action.id, location));
+
+    yield put(searchLocations({
+        searchInputs: Map({
+          selectedOption: {
+            label: renderText(LABELS.CURRENT_LOCATION),
+            value: `${latitude},${longitude}`,
+            lat: latitude,
+            lon: longitude
+          }
+        }),
+        start: 0,
+        maxHits: PAGE_SIZE
+      })
+    )
   }
   catch (error) {
     console.error(error)

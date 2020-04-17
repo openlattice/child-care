@@ -113,7 +113,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
     case loadCurrentPosition.case(action.type): {
       return loadCurrentPosition.reducer(state, action, {
-        SUCCESS: () => state.setIn(CURRENT_POSITION, action.value)
+        SUCCESS: () => state.set(CURRENT_POSITION, action.value)
       });
     }
 
