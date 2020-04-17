@@ -44,9 +44,6 @@ export default class ChildrenFilter extends React.Component {
         <Label>{renderText(LABELS.AGE_INFANT)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
 
-        <Label>{renderText(LABELS.AGE_TODDLER)}</Label>
-        {renderPlusMinus(PROPERTY_TYPES.CAPACITY_2_TO_5)}
-
         <Label>{renderText(LABELS.AGE_SCHOOL)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_OVER_5)}
 
