@@ -68,7 +68,7 @@ const AppContentOuterWrapper = styled.main`
   justify-content: center;
   position: fixed;
   bottom: 0;
-  overflow: scroll;
+  overflow: auto;
 
   height: auto;
   top: ${HEADER_HEIGHT}px;
