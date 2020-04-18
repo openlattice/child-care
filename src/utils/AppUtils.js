@@ -19,6 +19,5 @@ export const browserIsIE = () => {
     return true;
   }
 
-  // return false;
-  return true;
+  return false;
 };
