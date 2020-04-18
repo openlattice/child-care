@@ -402,3 +402,14 @@ export const ABOUT = {
     [es]: 'Hecho con amor en Redwood City.'
   }
 };
+
+export const UNSUPPORTED_BROWSER = {
+  HEADER: {
+    [en]: 'It looks like you\'re using an unsupported browser!',
+    [es]: '¡Parece que estás usando un navegador no compatible!'
+  },
+  SUGGESTION: {
+    [en]: 'Try opening MyChildCare.ca.gov in another browser (such as Chrome) to find childcare near you.',
+    [es]: 'Abra MyChildCare.ca.gov en otro navegador (como Chrome) para encontrar cuidado cercano.'
+  }
+};

@@ -19,10 +19,10 @@ import { bindActionCreators } from 'redux';
 import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
+import IEModal from '../../components/modals/IEModal';
 import AppHeaderContainer from './AppHeaderContainer';
-import {
-  initializeApplication,
-} from './AppActions';
+import { initializeApplication } from './AppActions';
+import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
 
 import LocationsContainer from '../location/providers/LocationsContainer';
 import AboutPage from '../about/AboutPage';
@@ -101,6 +101,11 @@ class AppContainer extends Component<Props> {
 
   wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
 
+  renderUnsupportedBrowserModal = () => {
+    const { renderText } = this.props;
+    return (browserIsIE() ? <IEModal renderText={renderText} /> : null);
+  }
+
   renderAppContent = () => {
 
     const {
@@ -127,6 +132,7 @@ class AppContainer extends Component<Props> {
           <AppContainerWrapper>
             <AppHeaderContainer />
             <AppContentOuterWrapper>
+              { this.renderUnsupportedBrowserModal() }
               { this.renderAppContent() }
             </AppContentOuterWrapper>
           </AppContainerWrapper>
@@ -139,7 +145,8 @@ class AppContainer extends Component<Props> {
 function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
-    initializeState: state.getIn(['app', 'initializeState'])
+    initializeState: state.getIn(['app', 'initializeState']),
+    renderText: getRenderTextFn(state)
   };
 }
 
