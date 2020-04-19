@@ -403,20 +403,24 @@ export const FACILITY_TYPE_LABELS = {
 
 export const ABOUT = {
   INTRO: {
-    [en]: 'This tool is the product of a joint collaboration between ',
-    [es]: 'Esta solución es el producto de una colaboración conjunta entre '
+    [en]: 'This tool is a COVID-19 joint collaboration between ',
+    [es]: 'Esta solución es una colaboración conjunta de COVID-19 entre '
   },
   AND: {
     [en]: 'and',
     [es]: 'y'
   },
-  POWERED_BY: {
-    [en]: 'Powered by ',
-    [es]: 'Energizado por '
-  },
   CRAFTED_WITH_LOVE: {
-    [en]: 'Crafted with love in Redwood City.',
-    [es]: 'Hecho con amor en Redwood City.'
+    [en]: 'Crafted with care in Redwood City by:',
+    [es]: 'Hecho con cuidado en Redwood City por:'
+  },
+  DATA_COLLECTION: {
+    [en]: 'Data collection and cleaning provided by:',
+    [es]: 'Recolección de datos y limpieza proporcionados por:'
+  },
+  INFRASTRUCTURE_PARNERS: {
+    [en]: 'A very special thank you to our infrastructure partners:',
+    [es]: 'Un agradecimiento muy especial a nuestros socios de infraestructura:'
   }
 };
 
