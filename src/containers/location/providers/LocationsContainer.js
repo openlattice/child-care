@@ -19,7 +19,8 @@ import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
 import {
   searchLocations,
-  setValue
+  setValue,
+  loadCurrentPosition
 } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
@@ -104,7 +105,7 @@ const LocationsContainer = () => {
 
   const renderSearchResults = () => {
     if (!hasSearched) {
-      return <WelcomeSplash />;
+      return <WelcomeSplash getCurrentPosition={() => dispatch(loadCurrentPosition())} />;
     }
     if (geoLocationUnavailable && wasGeoSearch) {
       return <FindingLocationSplash />;
