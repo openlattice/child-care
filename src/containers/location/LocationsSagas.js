@@ -23,6 +23,8 @@ import type { SequenceAction } from 'redux-reqseq';
 import {
   GET_GEO_OPTIONS,
   SEARCH_LOCATIONS,
+  LOAD_CURRENT_POSITION,
+  loadCurrentPosition,
   getGeoOptions,
   searchLocations,
 } from './providers/LocationsActions';
@@ -38,9 +40,12 @@ import {
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
 } from '../../utils/constants/DataModelConstants';
-import { PROVIDERS } from '../../utils/constants/StateConstants';
+import { PROVIDERS, HAS_LOCAL_STORAGE_GEO_PERMISSIONS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
+
+import { getRenderTextFn } from '../../utils/AppUtils';
+import { LABELS } from '../../utils/constants/Labels';
 
 declare var gtag :?Function;
 
@@ -147,6 +152,62 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
 function* getGeoOptionsWatcher() :Generator<*, *, *> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
+}
+
+function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+  /* check location perms */
+  if ( action.value.shouldSearchIfLocationPerms && localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS) !== 'true' ){
+    return
+  }
+
+  try {
+    yield put(loadCurrentPosition.request(action.id));
+
+    const renderText = yield select(getRenderTextFn);
+
+    const getUserLocation = () => new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'true');
+          return resolve(location)
+        },
+        error => {
+          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'false');
+          return reject(error)
+        }
+      )
+    })
+
+    const location = yield call(getUserLocation)
+
+    yield put(loadCurrentPosition.success(action.id, location));
+
+    const { latitude, longitude } = location.coords;
+    yield put(searchLocations({
+        searchInputs: Map({
+          selectedOption: {
+            label: renderText(LABELS.CURRENT_LOCATION),
+            value: `${latitude},${longitude}`,
+            lat: latitude,
+            lon: longitude
+          }
+        }),
+        start: 0,
+        maxHits: PAGE_SIZE
+      })
+    )
+  }
+  catch (error) {
+    console.error(error)
+    yield put(loadCurrentPosition.failure(action.id, error));
+  }
+  finally {
+    yield put(loadCurrentPosition.finally(action.id));
+  }
+}
+
+function* loadCurrentPositionWatcher() :Generator<*, *, *> {
+  yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
 }
 
 const isEmpty = (map) => {
@@ -330,9 +391,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         //   ]
         constraints.push(childrenConstraint);
         };
-
-
-
     }
 
     if (daysAndTimes && daysAndTimes.size) {
@@ -443,4 +501,5 @@ export {
   getGeoOptionsWorker,
   searchLocationsWatcher,
   searchLocationsWorker,
+  loadCurrentPositionWatcher,
 };

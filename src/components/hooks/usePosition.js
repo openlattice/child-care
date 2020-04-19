@@ -1,6 +1,7 @@
 // @flow
 import { useEffect, useState } from 'react';
 
+/* UNUSED */
 const usePosition = () :[Position, PositionError] => {
   const [position, setPosition] = useState({});
   const [error, setError] = useState(null);

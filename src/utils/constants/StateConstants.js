@@ -6,6 +6,8 @@ export const STATE = {
   SUBMIT: 'submit'
 };
 
+export const HAS_LOCAL_STORAGE_GEO_PERMISSIONS = 'hasLocalStorageGeoPermissions';
+
 export const SUBMIT = {
   SUBMITTING: 'submitting',
   SUCCESS: 'submitSuccess',
@@ -18,6 +20,10 @@ export const PROVIDERS = {
   HOSPITALS_BY_ID: 'hospitalsById',
   IS_EXECUTING_SEARCH: 'isExecutingSearch',
   HAS_PERFORMED_INITIAL_SEARCH: 'hasPerformedInitialSearch',
+
+  LAST_SEARCH_TYPE: 'searchType',
+  GEO_LOCATION_UNAVAILABLE: 'unableToLoadLocation',
+  CURRENT_POSITION: 'currentPosition',
 
   SELECTED_PROVIDER: 'selectedProvider',
 

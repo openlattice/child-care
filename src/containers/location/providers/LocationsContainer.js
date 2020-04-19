@@ -17,14 +17,19 @@ import LocationResult from './LocationResult';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
-import { searchLocations, setValue } from './LocationsActions';
+import {
+  searchLocations,
+  setValue
+} from './LocationsActions';
+
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import FindingLocationSplash from '../FindingLocationSplash';
-import { usePosition } from '../../../components/hooks';
+import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
+import { Button } from 'lattice-ui-kit';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 
@@ -75,9 +80,10 @@ const LocationsContainer = () => {
   const lastSearchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
   const page = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SEARCH_PAGE]));
   const selectedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
+  const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
+  const geoLocationUnavailable = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
+  const lastSearchType = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.LAST_SEARCH_TYPE]));
   const dispatch = useDispatch();
-
-  const [currentPosition] = usePosition();
 
   let editFiltersContent = null;
   let providerHeader = null;
@@ -94,9 +100,25 @@ const LocationsContainer = () => {
   const hasSearched = fetchState !== RequestStates.STANDBY;
   const isLoading = fetchState === RequestStates.PENDING;
   const hasPosition = !!currentPosition.coords;
+  const wasGeoSearch = lastSearchType === 'geo'
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
+  const renderSearchResults = () => {
+    if (geoLocationUnavailable && wasGeoSearch) {
+      return <FindingLocationSplash />;
+    } else if (!hasSearched) {
+       return <WelcomeSplash />;
+    }
+    return (
+     <StyledSearchResults
+         hasSearched={hasSearched}
+         isLoading={isLoading}
+         resultComponent={LocationResult}
+         results={searchResults} />
+         )
+  }
+  
   const onPageChange = ({ page: newPage }) => {
     dispatch(searchLocations({
       searchInputs: lastSearchInputs,
@@ -127,25 +149,15 @@ const LocationsContainer = () => {
               </FilterRow>
 
               <StyledContentWrapper>
-                {
-                  (!hasPosition && !hasSearched) && (
-                    <FindingLocationSplash />
-                  )
-                }
-                <StyledSearchResults
-                    hasSearched={hasSearched}
-                    isLoading={isLoading}
-                    resultComponent={LocationResult}
-                    results={searchResults} />
-                {
-                  hasSearched && (
-                    <PaginationToolbar
-                        page={page}
-                        count={totalHits}
-                        onPageChange={onPageChange}
-                        rowsPerPage={MAX_HITS} />
-                  )
-                }
+              { renderSearchResults() }
+              {
+                hasSearched && (
+                  <PaginationToolbar
+                      page={page}
+                      count={totalHits}
+                      onPageChange={onPageChange}
+                      rowsPerPage={MAX_HITS} />)
+              }
               </StyledContentWrapper>
             </>
           )

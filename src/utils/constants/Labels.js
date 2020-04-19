@@ -118,6 +118,10 @@ export const LABELS = {
     [en]: 'Developmentally Disabled',
     [es]: 'Discapacidad del Desarrollo'
   },
+  ENSURE_LOCATION_DESCRIPTION: {
+    [en]: 'Please ensure location services are enabled to use your current location',
+    [es]: 'Asegúrese de que los servicios de ubicación estén habilitados para usar su ubicación actual'
+  },
   EMAIL: {
     [en]: 'Email',
     [es]: 'Email'
@@ -258,9 +262,17 @@ export const LABELS = {
     [en]: 'Unknown age limitations',
     [es]: 'Limitaciones de edad desconocida'
   },
+  USE_CURRENT_LOCATION: {
+    [en]: 'Use my current location',
+    [es]: 'Usar mi ubicación actual'
+  },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
     [es]: 'Ver Proveedor'
+  },
+  WELCOME_TEXT: {
+    [en]: 'Welcome to MyChildCare.ca.gov',
+    [es]: 'Bienvenido a MyChildCare.ca.gov'
   },
   YES: {
     [en]: 'Yes',
