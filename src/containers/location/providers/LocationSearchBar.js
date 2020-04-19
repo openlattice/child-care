@@ -2,6 +2,7 @@
 
 import React, {
   useCallback,
+  useEffect,
   useState
 } from 'react';
 
@@ -64,6 +65,7 @@ const LocationsSearchBar = () => {
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState();
+  const [selectedOption, setSelectedOption] = useState();
 
   const fetchGeoOptions = useCallback(() => {
     if (isNonEmptyString(address)) {
@@ -72,6 +74,22 @@ const LocationsSearchBar = () => {
   }, [dispatch, address, currentPosition]);
 
   useTimeout(fetchGeoOptions, 300);
+
+  useEffect(() => {
+    if (currentPosition.coords && !selectedOption) {
+      const { latitude, longitude } = currentPosition.coords;
+      setSelectedOption({
+        label: currentLocationText,
+        value: `${latitude},${longitude}`,
+        lat: latitude,
+        lon: longitude
+      });
+    }
+  }, [
+    currentLocationText,
+    currentPosition,
+    selectedOption
+  ]);
 
   const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
 
@@ -94,6 +112,7 @@ const LocationsSearchBar = () => {
         }));
       }
     }
+    setSelectedOption(payload);
   };
 
   const optionsWithMyLocation = options.toJS();
@@ -117,7 +136,8 @@ const LocationsSearchBar = () => {
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
-          placeholder={renderText(LABELS.SEARCH_LOCATIONS)} />
+          placeholder={renderText(LABELS.SEARCH_LOCATIONS)}
+          value={selectedOption} />
     </Wrapper>
   );
 };
