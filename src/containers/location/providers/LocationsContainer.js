@@ -39,9 +39,7 @@ const StyledContentWrapper = styled(ContentWrapper)`
   justify-content: space-between;
 `;
 
-const StyledSearchResults = styled(SearchResults)`
-  margin: auto;
-`;
+const StyledSearchResults = styled(SearchResults)``;
 
 const FilterRow = styled.div`
   display: flex;

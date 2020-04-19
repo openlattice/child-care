@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 
 export const getProvidersESID = (app :Map) :string => app.get('entitySetId');
 export const getPropertyTypeId = (app :Map, fqn :string) => app.getIn(['propertyTypesByFqn', fqn, 'id']);
+export const getRenderTextFn = (state) => state.getIn(['app', 'renderText']);
 
 export const isMobile = () => {
   let check = false;
@@ -10,4 +11,13 @@ export const isMobile = () => {
   return check;
 };
 
-export const getRenderTextFn = (state) => state.getIn(['app', 'renderText']);
+export const browserIsIE = () => {
+  const { userAgent } = window.navigator;
+  const msie = userAgent.indexOf('MSIE ');
+
+  if (msie > 0 || !!userAgent.match(/Trident.*rv:11./)) {
+    return true;
+  }
+
+  return false;
+};

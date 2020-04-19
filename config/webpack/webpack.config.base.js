@@ -29,9 +29,15 @@ module.exports = (env) => {
 
   const BABEL_LOADER = {
     test: /\.js$/,
-    exclude: /node_modules/,
+    exclude: (module) => (
+      /node_modules/.test(module)
+        && !/node_modules\/kdbush/.test(module)
+        && !/node_modules\/supercluster/.test(module)
+    ),
     include: [
       APP_PATHS.ABS.SOURCE,
+      path.resolve(APP_PATHS.ABS.NODE, 'kdbush'),
+      path.resolve(APP_PATHS.ABS.NODE, 'supercluster'),
     ],
     use: {
       loader: 'babel-loader',
