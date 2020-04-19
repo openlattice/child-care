@@ -16,8 +16,8 @@ export const { en, es } = LANGUAGES;
 
 export const LABELS = {
   ABOUT: {
-    [en]: 'Learn More',
-    [es]: 'Aprende Más'
+    [en]: 'About',
+    [es]: 'Sobre'
   },
   ADDRESS: {
     [en]: 'Address',
