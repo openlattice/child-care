@@ -1,13 +1,8 @@
-
 import React from 'react';
 
-import Select from 'react-select';
 import styled from 'styled-components';
 
 import { LABELS } from '../../../../utils/constants/Labels';
-import { APP_CONTAINER_WIDTH } from '../../../../core/style/Sizes';
-import { isMobile } from '../../../../utils/AppUtils';
-import { selectStyles } from '../../../app/SelectStyles';
 
 const Wrapper = styled.div`
   display: flex;
