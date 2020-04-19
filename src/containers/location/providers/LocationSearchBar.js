@@ -2,14 +2,13 @@
 
 import React, {
   useCallback,
-  useEffect,
-  useReducer,
   useState
 } from 'react';
 
 import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
 import {
   Select,
@@ -52,6 +51,7 @@ const Wrapper = styled.div`
 `;
 
 const GroupHeading = () => (<div style={{ borderBottom: '1px solid lightgrey' }} />);
+const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
 
@@ -107,14 +107,15 @@ const LocationsSearchBar = () => {
     <Wrapper>
       <Select
           components={{ GroupHeading }}
-          isClearable
           filterOption={filterOption}
+          hideDropdownIcon
+          inputIcon={SearchIcon}
           inputId="address"
           inputValue={address}
+          isClearable
           isLoading={isFetchingOptions}
           onChange={handleChange}
           onInputChange={setAddress}
-          icon={faSearch}
           options={optionsWithMyLocation}
           placeholder={renderText(LABELS.SEARCH_LOCATIONS)} />
     </Wrapper>
