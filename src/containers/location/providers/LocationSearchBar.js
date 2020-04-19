@@ -9,37 +9,28 @@ import React, {
 
 import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
-import { faLocation, faLocationSlash } from '@fortawesome/pro-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { Map } from 'immutable';
 import {
-  Card,
-  IconButton,
   Select,
+  StyleUtils,
 } from 'lattice-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import { getGeoOptions, searchLocations } from './LocationsActions';
+import { getGeoOptions, loadCurrentPosition, searchLocations } from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import { useTimeout } from '../../../components/hooks';
-import { ContentWrapper } from '../../../components/layout';
+import {
+  APP_CONTAINER_WIDTH
+} from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { FlexRow, ResultSegment } from '../../styled';
-import {
-  APP_CONTAINER_WIDTH
-} from '../../../core/style/Sizes';
 
-const MAX_HITS = 20;
-const INITIAL_STATE = {
-  page: 0,
-  start: 0,
-  selectedOption: undefined
-};
+const { media } = StyleUtils;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,103 +43,80 @@ const Wrapper = styled.div`
   max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
   left: 50%;
   transform: translate(-50%, 0);
+
+  /* fill right side gap for screens smaller than desktop cutoff */
+  ${media.desktop`
+    max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
+    left: calc(50% + 20px);
+  `}
 `;
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'selectLocation': {
-      return {
-        page: 0,
-        selectedOption: action.payload,
-        start: 0
-      };
-    }
-    case 'page': {
-      const { page, start } = action.payload;
-      return { ...state, page, start };
-    }
-    default:
-      throw new Error();
-  }
-};
+const GroupHeading = () => (<div style={{ borderBottom: '1px solid lightgrey' }} />);
 
 const LocationsSearchBar = () => {
 
   const renderText = useSelector(getRenderTextFn);
+  const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'fetchState']));
   const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
 
   const options = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'data']));
   const dispatch = useDispatch();
-  const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const {
-    start,
-    selectedOption
-  } = state;
   const [address, setAddress] = useState();
 
   const fetchGeoOptions = useCallback(() => {
     if (isNonEmptyString(address)) {
       dispatch(getGeoOptions({ address, currentPosition }));
     }
-  }, [dispatch, address]);
+  }, [dispatch, address, currentPosition]);
 
   useTimeout(fetchGeoOptions, 300);
-
-  useEffect(() => {
-    if (currentPosition.coords && !selectedOption) {
-      const { latitude, longitude } = currentPosition.coords;
-      stateDispatch({
-        type: 'selectLocation',
-        payload: {
-          label: renderText(LABELS.CURRENT_LOCATION),
-          value: `${latitude},${longitude}`,
-          lat: latitude,
-          lon: longitude
-        }
-      });
-    }
-  }, [
-    currentPosition,
-    selectedOption
-  ]);
-
-  useEffect(() => {
-    const newSearchInputs = Map({
-      selectedOption
-    });
-    const hasValues = isPlainObject(selectedOption);
-
-    if (hasValues) {
-      dispatch(searchLocations({
-        searchInputs: newSearchInputs,
-        start,
-        maxHits: MAX_HITS
-      }));
-    }
-  }, [dispatch, selectedOption, start]);
 
   const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
 
   const filterOption = () => true;
 
   const handleChange = (payload) => {
-    stateDispatch({ type: 'selectLocation', payload });
+    const newSearchInputs = Map({
+      selectedOption: payload
+    });
+    const hasValues = isPlainObject(payload);
+
+    if (hasValues) {
+
+      if (payload.value === currentLocationText) {
+        dispatch(loadCurrentPosition());
+      }
+      else {
+        dispatch(searchLocations({
+          searchInputs: newSearchInputs,
+        }));
+      }
+    }
   };
+
+  const optionsWithMyLocation = options.toJS();
+  optionsWithMyLocation.push({
+    options: [
+      { label: currentLocationText, value: currentLocationText }
+    ]
+  });
 
   return (
     <Wrapper>
       <Select
+          components={{ GroupHeading }}
+          isClearable
           filterOption={filterOption}
           inputId="address"
           inputValue={address}
           isLoading={isFetchingOptions}
           onChange={handleChange}
           onInputChange={setAddress}
-          options={options.toJS()}
-          placeholder={renderText(LABELS.SEARCH_LOCATIONS)}
-          value={selectedOption} />
+          icon={faSearch}
+          options={optionsWithMyLocation}
+          placeholder={renderText(LABELS.SEARCH_LOCATIONS)} />
     </Wrapper>
   );
 };
