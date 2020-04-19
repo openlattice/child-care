@@ -16,8 +16,8 @@ export const { en, es } = LANGUAGES;
 
 export const LABELS = {
   ABOUT: {
-    [en]: 'Learn More',
-    [es]: 'Aprende Más'
+    [en]: 'About',
+    [es]: 'Sobre'
   },
   ADDRESS: {
     [en]: 'Address',
@@ -429,4 +429,27 @@ export const UNSUPPORTED_BROWSER = {
     [en]: 'Try opening MyChildCare.ca.gov in another browser (such as Chrome) to find childcare near you.',
     [es]: 'Abra MyChildCare.ca.gov en otro navegador (como Chrome) para encontrar cuidado cercano.'
   }
+};
+
+export const WELCOME_SPLASH = {
+  WELCOME: {
+    [en]: 'Welcome to MyChildCare.ca.gov!',
+    [es]: '¡Bienvenido a MyChildCare.ca.gov!'
+  },
+  DETAILS: {
+    [en]: 'Here you can find information on licensed childcare providers that are currently open including location, health and safety details, ages of children served, capacity, and hours of care.',
+    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil con licencia que están abiertos actualmente, incluyendo ubicación, detalles de salud y seguridad, edades de los niños atendidos, capacidad y horas de cuidado.'
+  },
+  INSTRUCTIONS_1: {
+    [en]: 'Enter an address in the search bar or ',
+    [es]: 'Ingrese una dirección en la barra de búsqueda o '
+  },
+  USE_CURRENT_LOCATION_LINK: {
+    [en]: 'use your current location ',
+    [es]: 'seleccione su ubicación actual '
+  },
+  INSTRUCTIONS_2: {
+    [en]: 'to find childcare near you.',
+    [es]: 'para encontrar cuidado de niños cerca de usted.'
+  },
 };
