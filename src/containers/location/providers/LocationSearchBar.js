@@ -10,7 +10,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
+import { Map, toJS } from 'immutable';
 import {
   Select,
   StyleUtils,
@@ -18,7 +18,12 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
-import { getGeoOptions, loadCurrentPosition, searchLocations } from './LocationsActions';
+import {
+  getGeoOptions,
+  loadCurrentPosition,
+  searchLocations,
+  selectLocationOption,
+} from './LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './constants';
 
 import { useTimeout } from '../../../components/hooks';
@@ -51,7 +56,7 @@ const Wrapper = styled.div`
   `}
 `;
 
-const GroupHeading = () => (<div style={{ borderBottom: '1px solid lightgrey' }} />);
+const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} />);
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
@@ -60,12 +65,17 @@ const LocationsSearchBar = () => {
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'fetchState']));
   const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
+  const storedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
+
+  let selectedOption = storedOption;
+  if (Map.isMap(storedOption)) {
+    selectedOption = storedOption.toJS();
+  }
 
   const options = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'data']));
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState();
-  const [selectedOption, setSelectedOption] = useState();
 
   const fetchGeoOptions = useCallback(() => {
     if (isNonEmptyString(address)) {
@@ -74,21 +84,6 @@ const LocationsSearchBar = () => {
   }, [dispatch, address, currentPosition]);
 
   useTimeout(fetchGeoOptions, 300);
-
-  useEffect(() => {
-    if (currentPosition.coords) {
-      const { latitude, longitude } = currentPosition.coords;
-      setSelectedOption({
-        label: currentLocationText,
-        value: `${latitude},${longitude}`,
-        lat: latitude,
-        lon: longitude
-      });
-    }
-  }, [
-    currentLocationText,
-    currentPosition,
-  ]);
 
   const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
 
@@ -111,7 +106,7 @@ const LocationsSearchBar = () => {
         }));
       }
     }
-    setSelectedOption(payload);
+    dispatch(selectLocationOption(payload));
   };
 
   const optionsWithMyLocation = options.toJS();
