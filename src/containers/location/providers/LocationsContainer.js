@@ -110,6 +110,7 @@ const LocationsContainer = () => {
     } else if (!hasSearched) {
        return <WelcomeSplash />;
     }
+    console.log("hasSearched:{hasSearched}")
     return (
      <StyledSearchResults
          hasSearched={hasSearched}
@@ -118,7 +119,7 @@ const LocationsContainer = () => {
          results={searchResults} />
          )
   }
-  
+
   const onPageChange = ({ page: newPage }) => {
     dispatch(searchLocations({
       searchInputs: lastSearchInputs,
