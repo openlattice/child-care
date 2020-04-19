@@ -135,7 +135,7 @@ const LocationsSearchBar = () => {
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
-          placeholder={renderText(LABELS.SEARCH_LOCATIONS)}
+          placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
           value={selectedOption} />
     </Wrapper>
   );
