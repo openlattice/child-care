@@ -19,15 +19,12 @@ import { bindActionCreators } from 'redux';
 import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
-import IEModal from '../../components/modals/IEModal';
 import AppHeaderContainer from './AppHeaderContainer';
 import { initializeApplication } from './AppActions';
-import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
 
-import { loadCurrentPosition } from '../location/providers/LocationsActions';
-import LocationsContainer from '../location/providers/LocationsContainer';
 import AboutPage from '../about/AboutPage';
-
+import IEModal from '../../components/modals/IEModal';
+import LocationsContainer from '../location/providers/LocationsContainer';
 import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
@@ -37,6 +34,8 @@ import {
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
+import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
+import { loadCurrentPosition } from '../location/providers/LocationsActions';
 
 /*
  * styled components
