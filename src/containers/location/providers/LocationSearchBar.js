@@ -76,7 +76,7 @@ const LocationsSearchBar = () => {
   useTimeout(fetchGeoOptions, 300);
 
   useEffect(() => {
-    if (currentPosition.coords && !selectedOption) {
+    if (currentPosition.coords) {
       const { latitude, longitude } = currentPosition.coords;
       setSelectedOption({
         label: currentLocationText,
@@ -88,7 +88,6 @@ const LocationsSearchBar = () => {
   }, [
     currentLocationText,
     currentPosition,
-    selectedOption
   ]);
 
   const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
