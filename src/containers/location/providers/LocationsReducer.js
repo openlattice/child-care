@@ -117,7 +117,9 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
     case loadCurrentPosition.case(action.type): {
       return loadCurrentPosition.reducer(state, action, {
-        REQUEST: () => state.set(LAST_SEARCH_TYPE, 'geo'),
+        REQUEST: () => state
+          .set(LAST_SEARCH_TYPE, 'geo')
+          .set('fetchState', RequestStates.PENDING),
         SUCCESS: () => state
           .set(GEO_LOCATION_UNAVAILABLE, false)
           .set(CURRENT_POSITION, action.value),
