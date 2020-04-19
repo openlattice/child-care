@@ -8,6 +8,7 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
+  SELECT_LOCATION_OPTION,
   SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
@@ -131,6 +132,10 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     case SET_VALUE: {
       const { field, value } = action.value;
       return state.set(field, value);
+    }
+
+    case SELECT_LOCATION_OPTION: {
+      return state.set('selectedOption', action.value);
     }
 
     case SELECT_PROVIDER: {
