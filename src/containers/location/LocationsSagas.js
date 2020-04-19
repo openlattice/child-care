@@ -40,7 +40,7 @@ import {
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
 } from '../../utils/constants/DataModelConstants';
-import { PROVIDERS } from '../../utils/constants/StateConstants';
+import { PROVIDERS, HAS_LOCAL_STORAGE_GEO_PERMISSIONS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
@@ -162,8 +162,14 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        location => resolve(location),
-        error => reject(error)
+        location => {
+          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'true');
+          return resolve(location)
+        },
+        error => {
+          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'false');
+          return reject(error)
+        }
       )
     })
 
@@ -380,9 +386,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         //   ]
         constraints.push(childrenConstraint);
         };
-
-
-
     }
 
     if (daysAndTimes && daysAndTimes.size) {

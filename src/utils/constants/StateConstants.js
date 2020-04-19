@@ -6,6 +6,8 @@ export const STATE = {
   SUBMIT: 'submit'
 };
 
+export const HAS_LOCAL_STORAGE_GEO_PERMISSIONS = 'hasLocalStorageGeoPermissions';
+
 export const SUBMIT = {
   SUBMITTING: 'submitting',
   SUCCESS: 'submitSuccess',
