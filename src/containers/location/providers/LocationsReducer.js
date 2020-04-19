@@ -11,8 +11,8 @@ import {
   SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
-  loadCurrentPosition,
   getGeoOptions,
+  loadCurrentPosition,
   searchLocations
 } from './LocationsActions';
 
@@ -95,6 +95,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(FILTER_PAGE, null)
             .set(SELECTED_PROVIDER, null)
             .set(HAS_PERFORMED_INITIAL_SEARCH, true)
+            .set(GEO_LOCATION_UNAVAILABLE, false)
             .merge(searchInputs);
         },
         SUCCESS: () => state

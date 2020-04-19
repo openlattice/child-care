@@ -3,36 +3,22 @@
  */
 
 import React, { Component } from 'react';
+
 import styled, { css } from 'styled-components';
-import Select from 'react-select';
-import { Map } from 'immutable';
 import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { Button, Colors, Drawer } from 'lattice-ui-kit';
+import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
-import OpenLatticeLogo from '../../assets/images/logo_v2.png';
-import { selectStyles } from './SelectStyles';
-import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
-import * as Routes from '../../core/router/Routes';
-import {
-  APP_CONTAINER_WIDTH,
-  APP_CONTENT_PADDING,
-  HEADER_HEIGHT
-} from '../../core/style/Sizes';
-import { LABELS, CURRENT_LANGUAGE, LANGUAGES } from '../../utils/constants/Labels';
-import { APP, EDM, STATE } from '../../utils/constants/StateConstants';
+
 import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
-
-const { NEUTRALS, WHITE } = Colors;
-
-// TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
-const APP_HEADER_BORDER :string = '#e6e6eb';
+import { getRenderTextFn } from '../../utils/AppUtils';
+import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/Labels';
+import { STATE } from '../../utils/constants/StateConstants';
 
 const DEFAULT_PADDING = css`padding: 20px 24px;`;
 

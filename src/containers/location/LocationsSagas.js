@@ -22,16 +22,17 @@ import type { SequenceAction } from 'redux-reqseq';
 
 import {
   GET_GEO_OPTIONS,
-  SEARCH_LOCATIONS,
   LOAD_CURRENT_POSITION,
-  loadCurrentPosition,
+  SEARCH_LOCATIONS,
   getGeoOptions,
+  loadCurrentPosition,
   searchLocations,
 } from './providers/LocationsActions';
 import { STAY_AWAY_STORE_PATH } from './providers/constants';
 
 import Logger from '../../utils/Logger';
 import { getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
+import { getRenderTextFn } from '../../utils/AppUtils';
 import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
 import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -40,12 +41,10 @@ import {
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
 } from '../../utils/constants/DataModelConstants';
-import { PROVIDERS, HAS_LOCAL_STORAGE_GEO_PERMISSIONS } from '../../utils/constants/StateConstants';
+import { LABELS } from '../../utils/constants/Labels';
+import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
-
-import { getRenderTextFn } from '../../utils/AppUtils';
-import { LABELS } from '../../utils/constants/Labels';
 
 declare var gtag :?Function;
 
@@ -142,7 +141,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     yield put(getGeoOptions.success(action.id, fromJS(formattedOptions)));
   }
   catch (error) {
-    console.error(error)
+    LOG.error(action.type, error);
     yield put(getGeoOptions.failure(action.id, error));
   }
   finally {
@@ -156,8 +155,8 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
 
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
   /* check location perms */
-  if ( action.value.shouldSearchIfLocationPerms && localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS) !== 'true' ){
-    return
+  if (action.value.shouldSearchIfLocationPerms && localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS) !== 'true') {
+    return;
   }
 
   try {
@@ -167,38 +166,37 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        location => {
+        (location) => {
           localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'true');
-          return resolve(location)
+          return resolve(location);
         },
-        error => {
+        (error) => {
           localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'false');
-          return reject(error)
+          return reject(error);
         }
-      )
-    })
+      );
+    });
 
-    const location = yield call(getUserLocation)
+    const location = yield call(getUserLocation);
 
     yield put(loadCurrentPosition.success(action.id, location));
 
     const { latitude, longitude } = location.coords;
     yield put(searchLocations({
-        searchInputs: Map({
-          selectedOption: {
-            label: renderText(LABELS.CURRENT_LOCATION),
-            value: `${latitude},${longitude}`,
-            lat: latitude,
-            lon: longitude
-          }
-        }),
-        start: 0,
-        maxHits: PAGE_SIZE
-      })
-    )
+      searchInputs: Map({
+        selectedOption: {
+          label: renderText(LABELS.CURRENT_LOCATION),
+          value: `${latitude},${longitude}`,
+          lat: latitude,
+          lon: longitude
+        }
+      }),
+      start: 0,
+      maxHits: PAGE_SIZE
+    }));
   }
   catch (error) {
-    console.error(error)
+    LOG.error(action.type, error);
     yield put(loadCurrentPosition.failure(action.id, error));
   }
   finally {
@@ -327,7 +325,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);
 
       const typeOfCareConstraint = {
-        constraints: typeOfCare.map(value => ({
+        constraints: typeOfCare.map((value) => ({
           type: 'simple',
           searchTerm: `entity.${propertyTypeId}:"${value}"`,
           fuzzy: false
