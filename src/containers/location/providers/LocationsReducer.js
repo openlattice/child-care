@@ -8,10 +8,12 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
+  SELECT_LOCATION_OPTION,
   SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
   getGeoOptions,
+  loadCurrentPosition,
   searchLocations
 } from './LocationsActions';
 
@@ -35,7 +37,10 @@ const {
   RADIUS,
   CHILDREN,
   DAYS,
-  SEARCH_PAGE
+  SEARCH_PAGE,
+  LAST_SEARCH_TYPE,
+  GEO_LOCATION_UNAVAILABLE,
+  CURRENT_POSITION
 } = PROVIDERS;
 
 const INITIAL_STATE :Map = fromJS({
@@ -68,7 +73,10 @@ const INITIAL_STATE :Map = fromJS({
   [RADIUS]: 10,
   [CHILDREN]: {},
   [DAYS]: {},
-  [SEARCH_PAGE]: 0
+  [SEARCH_PAGE]: 0,
+  [LAST_SEARCH_TYPE]: null,
+  [GEO_LOCATION_UNAVAILABLE]: false,
+  [CURRENT_POSITION]: {}
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
@@ -88,6 +96,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(FILTER_PAGE, null)
             .set(SELECTED_PROVIDER, null)
             .set(HAS_PERFORMED_INITIAL_SEARCH, true)
+            .set(GEO_LOCATION_UNAVAILABLE, false)
             .merge(searchInputs);
         },
         SUCCESS: () => state
@@ -108,9 +117,25 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
       });
     }
 
+    case loadCurrentPosition.case(action.type): {
+      return loadCurrentPosition.reducer(state, action, {
+        REQUEST: () => state
+          .set(LAST_SEARCH_TYPE, 'geo')
+          .set('fetchState', RequestStates.PENDING),
+        SUCCESS: () => state
+          .set(GEO_LOCATION_UNAVAILABLE, false)
+          .set(CURRENT_POSITION, action.value),
+        FAILURE: () => state.set(GEO_LOCATION_UNAVAILABLE, true),
+      });
+    }
+
     case SET_VALUE: {
       const { field, value } = action.value;
       return state.set(field, value);
+    }
+
+    case SELECT_LOCATION_OPTION: {
+      return state.set('selectedOption', action.value);
     }
 
     case SELECT_PROVIDER: {

@@ -1,12 +1,10 @@
-
 import React from 'react';
 
-import Select from 'react-select';
 import styled from 'styled-components';
+import { Select } from 'lattice-ui-kit';
 
 import { isMobile } from '../../../../utils/AppUtils';
 import { LABELS } from '../../../../utils/constants/Labels';
-import { selectStyles } from '../../../app/SelectStyles';
 
 const BasicSelect = styled.select`
   background-color: #f9f9fd;
@@ -81,8 +79,7 @@ export default class RadiusFilter extends React.Component {
           isMulti={false}
           onChange={handleOnChange}
           options={RADIUS_OPTIONS}
-          placeholder={renderText(LABELS.SELECT)}
-          styles={selectStyles} />
+          placeholder={renderText(LABELS.SELECT)} />
     );
   }
 

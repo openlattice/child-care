@@ -130,7 +130,7 @@ module.exports = (env) => {
       extensions: ['.js', '.css'],
       modules: [
         APP_PATHS.ABS.SOURCE,
-        APP_PATHS.ABS.NODE,
+        'node_modules',
       ],
     },
   };

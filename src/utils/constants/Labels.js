@@ -1,10 +1,11 @@
-import {
-  DAYS_OF_WEEK,
-  CLIENTS_SERVED,
-  FACILITY_TYPES,
-  FACILITY_NAME_MASKED
-} from '../DataConstants';
 import { PROVIDERS } from './StateConstants';
+
+import {
+  CLIENTS_SERVED,
+  DAYS_OF_WEEK,
+  FACILITY_NAME_MASKED,
+  FACILITY_TYPES
+} from '../DataConstants';
 
 export const LANGUAGES = {
   en: 'en',
@@ -121,6 +122,14 @@ export const LABELS = {
   EMAIL: {
     [en]: 'Email',
     [es]: 'Email'
+  },
+  ENSURE_LOCATION_DESCRIPTION: {
+    [en]: 'Please ensure location services are enabled to use your current location',
+    [es]: 'Asegúrese de que los servicios de ubicación estén habilitados para usar su ubicación actual'
+  },
+  ENTER_NAME_ADDRESS_ZIP: {
+    [en]: 'Enter Name, Address, or ZIP',
+    [es]: 'Ingrese Nombre, Dirección o Código Postal'
   },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
@@ -258,9 +267,17 @@ export const LABELS = {
     [en]: 'Unknown age limitations',
     [es]: 'Limitaciones de edad desconocida'
   },
+  USE_CURRENT_LOCATION: {
+    [en]: 'Use my current location',
+    [es]: 'Usar mi ubicación actual'
+  },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
     [es]: 'Ver Proveedor'
+  },
+  WELCOME_TEXT: {
+    [en]: 'Welcome to MyChildCare.ca.gov',
+    [es]: 'Bienvenido a MyChildCare.ca.gov'
   },
   YES: {
     [en]: 'Yes',

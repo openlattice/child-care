@@ -19,14 +19,12 @@ import { bindActionCreators } from 'redux';
 import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
-import IEModal from '../../components/modals/IEModal';
 import AppHeaderContainer from './AppHeaderContainer';
 import { initializeApplication } from './AppActions';
-import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
 
-import LocationsContainer from '../location/providers/LocationsContainer';
 import AboutPage from '../about/AboutPage';
-
+import IEModal from '../../components/modals/IEModal';
+import LocationsContainer from '../location/providers/LocationsContainer';
 import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
@@ -36,6 +34,8 @@ import {
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
+import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
+import { loadCurrentPosition } from '../location/providers/LocationsActions';
 
 /*
  * styled components
@@ -68,7 +68,7 @@ const AppContentOuterWrapper = styled.main`
   justify-content: center;
   position: fixed;
   bottom: 0;
-  overflow: scroll;
+  overflow: auto;
 
   height: auto;
   top: ${HEADER_HEIGHT}px;
@@ -88,6 +88,7 @@ const AppContentInnerWrapper = styled.div`
 type Props = {
   actions :{
     initializeApplication :RequestSequence;
+    loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
 };
@@ -97,6 +98,7 @@ class AppContainer extends Component<Props> {
   componentDidMount() {
     const { actions } = this.props;
     actions.initializeApplication();
+    actions.loadCurrentPosition({ shouldSearchIfLocationPerms: true });
   }
 
   wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
@@ -154,6 +156,7 @@ function mapDispatchToProps(dispatch :Function) :Object {
 
   const actions = {
     initializeApplication,
+    loadCurrentPosition
   };
 
   return {

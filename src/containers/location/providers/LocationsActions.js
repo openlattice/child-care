@@ -19,3 +19,12 @@ export const setValues :RequestSequence = newRequestSequence(SET_VALUES);
 
 export const SELECT_PROVIDER :string = 'SELECT_PROVIDER';
 export const selectProvider :RequestSequence = newRequestSequence(SELECT_PROVIDER);
+
+export const LOAD_CURRENT_POSITION :string = 'LOAD_CURRENT_POSITION';
+export const loadCurrentPosition :RequestSequence = newRequestSequence(LOAD_CURRENT_POSITION);
+
+export const SELECT_LOCATION_OPTION :string = 'SELECT_LOCATION_OPTION';
+export const selectLocationOption = (value :any) => ({
+  type: SELECT_LOCATION_OPTION,
+  value
+});

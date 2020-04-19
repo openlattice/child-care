@@ -3,30 +3,27 @@
  */
 
 import React, { Component } from 'react';
-import Select from 'react-select';
-import { Map } from 'immutable';
 
 import styled from 'styled-components';
-import { Button, Colors, Drawer } from 'lattice-ui-kit';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 import { faBars } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Colors, Drawer } from 'lattice-ui-kit';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
 
-import OpenLatticeLogo from '../../assets/images/logo_v2.png';
 import AppNavigationSidebar from './AppNavigationSidebar';
-import LocationsSearchBar from '../location/providers/LocationSearchBar';
-import { selectStyles } from './SelectStyles';
-import { getRenderTextFn } from '../../utils/AppUtils';
 import * as AppActions from './AppActions';
+
+import LocationsSearchBar from '../location/providers/LocationSearchBar';
+import * as LocationsActions from '../location/providers/LocationsActions';
 import * as Routes from '../../core/router/Routes';
+import { HOME_PATH } from '../../core/router/Routes';
 import {
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
+import { getRenderTextFn } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
-import { HOME_PATH } from '../../core/router/Routes';
 
 const { NEUTRALS, WHITE } = Colors;
 
@@ -166,7 +163,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({
-    switchLanguage: AppActions.switchLanguage
+    switchLanguage: AppActions.switchLanguage,
+    loadCurrentPosition: LocationsActions.loadCurrentPosition
   }, dispatch)
 });
 
