@@ -155,6 +155,11 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
 }
 
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+  /* check location perms */
+  if ( action.value.shouldSearchIfLocationPerms && localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS) !== 'true' ){
+    return
+  }
+
   try {
     yield put(loadCurrentPosition.request(action.id));
 

@@ -24,6 +24,7 @@ import {
   initializeApplication,
 } from './AppActions';
 
+import { loadCurrentPosition } from '../location/providers/LocationsActions';
 import LocationsContainer from '../location/providers/LocationsContainer';
 import AboutPage from '../about/AboutPage';
 
@@ -88,6 +89,7 @@ const AppContentInnerWrapper = styled.div`
 type Props = {
   actions :{
     initializeApplication :RequestSequence;
+    loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
 };
@@ -97,6 +99,7 @@ class AppContainer extends Component<Props> {
   componentDidMount() {
     const { actions } = this.props;
     actions.initializeApplication();
+    actions.loadCurrentPosition({ shouldSearchIfLocationPerms: true });
   }
 
   wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
@@ -147,6 +150,7 @@ function mapDispatchToProps(dispatch :Function) :Object {
 
   const actions = {
     initializeApplication,
+    loadCurrentPosition
   };
 
   return {
