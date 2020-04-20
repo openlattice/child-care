@@ -133,7 +133,7 @@ export const LABELS = {
   },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
-    [es]: 'Hogar Familiar Pequeño'
+    [es]: 'Hogar familiar pequeño'
   },
   FIND_CHILDCARE: {
     [en]: 'Find Childcare',
@@ -141,11 +141,11 @@ export const LABELS = {
   },
   HEALTH_AND_SAFETY: {
     [en]: 'Health & Safety',
-    [es]: 'Salud y Seguridad'
+    [es]: 'Salud y seguridad'
   },
   LAST_INSPECTION_DATE: {
     [en]: 'Last Inspection Date',
-    [es]: 'Fecha de la Última Inspección'
+    [es]: 'Fecha de la ūltima inspección'
   },
   LICENSE_NUMBER: {
     [en]: 'License Number',
@@ -153,7 +153,7 @@ export const LABELS = {
   },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',
-    [es]: 'Hospital Más Cercano'
+    [es]: 'Hospital más cercano'
   },
   NO: {
     [en]: 'No',
@@ -185,11 +185,11 @@ export const LABELS = {
   },
   POINT_OF_CONTACT: {
     [en]: 'Point of Contact',
-    [es]: 'Punto de Contacto'
+    [es]: 'Punto de contacto'
   },
   PRIVACY_POLICY: {
     [en]: 'Privacy Policy',
-    [es]: 'Política de Privacidad'
+    [es]: 'Política de privacidad'
   },
   REFINE_SEARCH: {
     [en]: 'Refine Search',
@@ -213,15 +213,15 @@ export const LABELS = {
   },
   SEARCH_PARAMETERS: {
     [en]: 'Search Parameters',
-    [es]: 'Parámetros de la Búsqueda'
+    [es]: 'Parámetros de la búsqueda'
   },
   SEARCH_RADIUS: {
     [en]: 'Search Radius',
-    [es]: 'Radio de Búsqueda'
+    [es]: 'Radio de búsqueda'
   },
   SEARCH_RESULTS: {
     [en]: 'Search Results',
-    [es]: 'Resultados de la Búsqueda'
+    [es]: 'Resultados de la búsqueda'
   },
   SELECT: {
     [en]: 'Select...',
@@ -233,7 +233,7 @@ export const LABELS = {
   },
   SHOW_INACTIVE_FACILITIES: {
     [en]: 'Show Inactive Facilities',
-    [es]: 'Mostrar Instalaciones Inactivas'
+    [es]: 'Mostrar instalaciones inactivas'
   },
   SORT_BY: {
     [en]: 'Sort by distance',
@@ -245,15 +245,15 @@ export const LABELS = {
   },
   SPOTS_OPEN: {
     [en]: 'Spots Open',
-    [es]: 'Plazas Disponibles'
+    [es]: 'Plazas disponibles'
   },
   TERMS_AND_CONDITIONS: {
     [en]: 'Terms & Conditions',
-    [es]: 'Términos y Condiciones'
+    [es]: 'Términos y condiciones'
   },
   TYPE_OF_CARE: {
     [en]: 'Type of Care',
-    [es]: 'Tipo de Cuidado'
+    [es]: 'Tipo de cuidado'
   },
   TYPES_SELECTED: {
     [en]: 'types selected',
@@ -273,7 +273,7 @@ export const LABELS = {
   },
   VIEW_PROVIDER: {
     [en]: 'View Provider',
-    [es]: 'Ver Proveedor'
+    [es]: 'Ver proveedor'
   },
   WELCOME_TEXT: {
     [en]: 'Welcome to MyChildCare.ca.gov',
@@ -285,15 +285,15 @@ export const LABELS = {
   },
   YR: {
     [en]: 'yr',
-    [es]: 'a'
+    [es]: 'año'
   },
   YR_AND_UP: {
     [en]: 'yr and up',
-    [es]: 'a y mayor'
+    [es]: 'año y mayor'
   },
   ZIP_CODE: {
     [en]: 'ZIP Code',
-    [es]: 'Código Postal'
+    [es]: 'Código postal'
   },
 
 
