@@ -125,7 +125,7 @@ export const LABELS = {
   },
   ENSURE_LOCATION_DESCRIPTION: {
     [en]: 'Please ensure location services are enabled to use your current location',
-    [es]: 'Asegúrese de que los servicios de ubicación estén habilitados para usar su ubicación actual'
+    [es]: 'Asegúrese que los servicios de ubicación estén habilitados para usar su ubicación actual'
   },
   ENTER_NAME_ADDRESS_ZIP: {
     [en]: 'Enter Name, Address, or ZIP',
@@ -442,7 +442,7 @@ export const WELCOME_SPLASH = {
   },
   DETAILS: {
     [en]: 'Here you can find information on licensed childcare providers that are currently open including location, health and safety details, ages of children served, capacity, and hours of care.',
-    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil con licencia que están abiertos actualmente, incluyendo ubicación, detalles de salud y seguridad, edades de los niños atendidos, capacidad y horas de cuidado.'
+    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, incluyendo ubicación, detalles de salud y seguridad, edades de los niños atendidos, capacidad y horas de cuidado.'
   },
   INSTRUCTIONS_1: {
     [en]: 'Enter an address in the search bar or ',
