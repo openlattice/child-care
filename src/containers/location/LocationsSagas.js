@@ -153,9 +153,28 @@ function* getGeoOptionsWatcher() :Generator<*, *, *> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
+const tryReadStoredPermissions = () => {
+  try {
+    return localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS);
+  }
+  catch (error) {
+    console.error(error);
+    return '';
+  }
+};
+
+const trySetStoredPermissions = (bool) => {
+  try {
+    localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, `${bool}`);
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
   /* check location perms */
-  if (action.value.shouldSearchIfLocationPerms && localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS) !== 'true') {
+  if (action.value.shouldSearchIfLocationPerms && tryReadStoredPermissions() !== 'true') {
     return;
   }
 
@@ -167,11 +186,11 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (location) => {
-          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'true');
+          trySetStoredPermissions(true);
           return resolve(location);
         },
         (error) => {
-          localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, 'false');
+          trySetStoredPermissions(true);
           return reject(error);
         }
       );
