@@ -29,23 +29,23 @@ export const LABELS = {
   },
   AGE_INFANT: {
     [en]: 'Infant (0 - 2 yrs)',
-    [es]: 'Bebé (0 - 2 a)'
+    [es]: 'Bebé (0 - 2 años)'
   },
   AGE_SCHOOL: {
     [en]: 'Child (2+ yrs)',
-    [es]: 'Niño (2+ a)'
+    [es]: 'Niño (2+ años)'
   },
   AGE_TODDLER: {
     [en]: 'Toddler (2 - 5 yrs)',
-    [es]: 'Niño pequeño (2 - 5 a)'
+    [es]: 'Niño pequeño (2 - 5 años)'
   },
   ANY: {
     [en]: 'Any',
-    [es]: 'Alguno'
+    [es]: 'Cualquier edad'
   },
   APPLY: {
     [en]: 'Apply',
-    [es]: 'Confirma'
+    [es]: 'Confirmar'
   },
   AVAILABILITY: {
     [en]: 'Availability',
@@ -61,15 +61,15 @@ export const LABELS = {
   },
   BACK_TO_SEARCH_RESULTS: {
     [en]: 'Back to search results',
-    [es]: 'Atrás'
+    [es]: 'Volver a los resultados'
   },
   BASIC_SEARCH: {
     [en]: 'Basic Search',
-    [es]: 'Búsqueda Básica'
+    [es]: 'Búsqueda rápida'
   },
   BOOKED: {
     [en]: 'Booked',
-    [es]: 'Reservado'
+    [es]: 'Lleno'
   },
   CAPACITY: {
     [en]: 'Capacity',
@@ -89,7 +89,7 @@ export const LABELS = {
   },
   CLOSED_DURING_COVID: {
     [en]: 'Closed during COVID-19',
-    [es]: 'Cerrado Durante COVID-19'
+    [es]: 'Cerrado durante la COVID-19'
   },
   CONTACT: {
     [en]: 'Contact',
@@ -97,7 +97,7 @@ export const LABELS = {
   },
   CONTACT_RR_FOR_INFO: {
     [en]: 'Exact location can be provided by this facility’s Resource and Referral Affiliate.',
-    [es]: 'El afiliado de Recurso y Referencia de este proveedor puede proporcionar la ubicación exacta.'
+    [es]: 'El afiliado de Recursos y Referencias de este proveedor puede proporcionar la ubicación exacta.'
   },
   COMPLAINTS: {
     [en]: 'Complaints',
@@ -109,19 +109,19 @@ export const LABELS = {
   },
   CURRENT_LOCATION: {
     [en]: 'Current Location',
-    [es]: 'Ubicación Presente'
+    [es]: 'Ubicación actuale'
   },
   DAYS_NEEDED: {
     [en]: 'Days Needed',
-    [es]: 'Días Necesarios'
+    [es]: 'Días necesarios'
   },
   DEVELOPMENTALLY_DISABLED: {
     [en]: 'Developmentally Disabled',
-    [es]: 'Discapacidad del Desarrollo'
+    [es]: 'Discapacidades del desarrollo'
   },
   EMAIL: {
     [en]: 'Email',
-    [es]: 'Email'
+    [es]: 'Correo electrónico'
   },
   ENSURE_LOCATION_DESCRIPTION: {
     [en]: 'Please ensure location services are enabled to use your current location',
@@ -133,7 +133,7 @@ export const LABELS = {
   },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
-    [es]: 'Pequeño Hogar Familiar'
+    [es]: 'Hogar Familiar Pequeño'
   },
   FIND_CHILDCARE: {
     [en]: 'Find Childcare',
@@ -141,11 +141,11 @@ export const LABELS = {
   },
   HEALTH_AND_SAFETY: {
     [en]: 'Health & Safety',
-    [es]: 'Salud & Seguridad'
+    [es]: 'Salud y Seguridad'
   },
   LAST_INSPECTION_DATE: {
     [en]: 'Last Inspection Date',
-    [es]: 'Fecha de Última Inspección'
+    [es]: 'Fecha de la Última Inspección'
   },
   LICENSE_NUMBER: {
     [en]: 'License Number',
@@ -161,11 +161,11 @@ export const LABELS = {
   },
   NOT_LICENSED: {
     [en]: 'Not Licensed',
-    [es]: 'No Licenciado'
+    [es]: 'No tiene licencia'
   },
   NUMBER_OF_CHILDREN: {
     [en]: 'Number of Children',
-    [es]: 'Numero de niños'
+    [es]: 'Número de niños'
   },
   OPEN: {
     [en]: 'Open',
@@ -193,7 +193,7 @@ export const LABELS = {
   },
   REFINE_SEARCH: {
     [en]: 'Refine Search',
-    [es]: 'Refina Búsqueda'
+    [es]: 'Refinar la búsqueda'
   },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Referral',
@@ -209,11 +209,11 @@ export const LABELS = {
   },
   SEARCH_LOCATIONS: {
     [en]: 'Search Locations',
-    [es]: 'Ubicaciones de Búsqueda'
+    [es]: 'Buscar en una zona específica'
   },
   SEARCH_PARAMETERS: {
     [en]: 'Search Parameters',
-    [es]: 'Parámetros de Búsqueda'
+    [es]: 'Parámetros de la Búsqueda'
   },
   SEARCH_RADIUS: {
     [en]: 'Search Radius',
@@ -221,15 +221,15 @@ export const LABELS = {
   },
   SEARCH_RESULTS: {
     [en]: 'Search Results',
-    [es]: 'Resultados de Búsqueda'
+    [es]: 'Resultados de la Búsqueda'
   },
   SELECT: {
     [en]: 'Select...',
-    [es]: 'Selecciona...'
+    [es]: 'Seleccionar...'
   },
   SELECT_ALL: {
     [en]: 'Select all that apply:',
-    [es]: 'Selecciona todos los que correspondan:'
+    [es]: 'Seleccione todos los que correspondan:'
   },
   SHOW_INACTIVE_FACILITIES: {
     [en]: 'Show Inactive Facilities',
@@ -237,7 +237,7 @@ export const LABELS = {
   },
   SORT_BY: {
     [en]: 'Sort by distance',
-    [es]: 'Ordena por distancia'
+    [es]: 'Ordenar por distancia'
   },
   SPOT: {
     [en]: 'Spot',
@@ -245,7 +245,7 @@ export const LABELS = {
   },
   SPOTS_OPEN: {
     [en]: 'Spots Open',
-    [es]: 'Espacio Disponible'
+    [es]: 'Plazas Disponibles'
   },
   TERMS_AND_CONDITIONS: {
     [en]: 'Terms & Conditions',
@@ -323,7 +323,7 @@ export const LABELS = {
   },
   [DAYS_OF_WEEK.SATURDAY]: {
     [en]: 'Sat',
-    [es]: 'sab'
+    [es]: 'sáb'
   }
 };
 
@@ -334,11 +334,11 @@ export const HEADER_LABELS = {
   [PROVIDERS.RADIUS]: LABELS.SEARCH_RADIUS,
   [PROVIDERS.CHILDREN]: {
     [en]: 'How many children do you need care for?',
-    [es]: '¿Cuantos niños necesitan cuidado?'
+    [es]: '¿Cuántos niños necesitan cuidado?'
   },
   [PROVIDERS.DAYS]: {
     [en]: 'When do you need care?',
-    [es]: '¿Cuándo necesitas cuidado?'
+    [es]: '¿Cuándo necesita cuidado?'
   }
 };
 
@@ -397,7 +397,7 @@ export const FACILITY_TYPE_LABELS = {
   },
   [FACILITY_TYPES.DAY_CARE_CENTER]: {
     [en]: 'Child Care Center',
-    [es]: 'Guardería'
+    [es]: 'Centro de cuidado infantil'
   }
 };
 
@@ -449,11 +449,11 @@ export const WELCOME_SPLASH = {
     [es]: 'Ingrese una dirección en la barra de búsqueda o '
   },
   USE_CURRENT_LOCATION_LINK: {
-    [en]: 'use your current location ',
-    [es]: 'seleccione su ubicación actual '
+    [en]: 'use your current location',
+    [es]: 'seleccione su ubicación actual'
   },
   INSTRUCTIONS_2: {
-    [en]: 'to find childcare near you.',
-    [es]: 'para encontrar cuidado de niños cerca de usted.'
+    [en]: ' to find childcare near you.',
+    [es]: ' para encontrar cuidado de niños cerca de usted.'
   },
 };
