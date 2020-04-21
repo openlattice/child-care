@@ -6,12 +6,10 @@ import { Map } from 'immutable';
 import { Constants } from 'lattice';
 import { useSelector } from 'react-redux';
 
-import { STAY_AWAY_STORE_PATH } from './constants';
+import { STATE } from '../../../utils/constants/StateConstants';
 
 import ProviderResult from '../../styled/ProviderResult';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-
-const { OPENLATTICE_ID_FQN } = Constants;
 
 type Props = {
   result :Map;
@@ -23,7 +21,7 @@ const LocationResult = (props :Props) => {
 
   const renderText = useSelector(getRenderTextFn);
 
-  const providerState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH], Map()));
+  const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
   const provider = providerState.getIn(['providerLocations', locationEKID], Map());
 
 

@@ -1,9 +1,5 @@
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 
-const STAY_AWAY_STORE_PATH = ['longBeach', 'locations', 'stayaway'];
-
-export { STAY_AWAY_STORE_PATH };
-
 export const FILTER_HEADERS = {
   [PROVIDERS.TYPE_OF_CARE]: 'Type of Care',
   [PROVIDERS.ZIP]: 'ZIP Code',

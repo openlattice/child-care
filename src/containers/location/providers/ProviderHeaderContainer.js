@@ -11,8 +11,7 @@ import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as LocationsActions from './LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './constants';
+import * as LocationsActions from '../LocationsActions';
 
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import {
@@ -20,7 +19,6 @@ import {
   HEIGHTS,
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
   getDistanceBetweenCoords,
   getValue,
@@ -30,7 +28,7 @@ import {
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
@@ -201,13 +199,13 @@ class ProviderHeaderContainer extends React.Component {
 }
 
 function mapStateToProps(state :Map<*, *>) :Object {
-  const providerState = state.getIn([...STAY_AWAY_STORE_PATH], Map());
+  const providerState = state.get(STATE.LOCATIONS, Map());
 
   const lat = providerState.getIn(['selectedOption', 'lat']);
   const lon = providerState.getIn(['selectedOption', 'lon']);
 
   return {
-    providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
+    providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
     renderText: getRenderTextFn(state)

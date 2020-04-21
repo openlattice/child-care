@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
@@ -12,7 +12,7 @@ import IconDetail from '../../components/premium/styled/IconDetail';
 import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { VACANCY_COLORS } from '../../shared/Colors';
-import { selectProvider } from '../location/providers/LocationsActions';
+import { selectProvider } from '../location/LocationsActions';
 import { getCoordinates } from '../map/MapUtils';
 import {
   getDistanceBetweenCoords,
@@ -31,7 +31,6 @@ import {
 type Props = {
   person :Map;
   provider :Map;
-  stayAwayLocation :Map;
   profilePicture :Map;
 }
 

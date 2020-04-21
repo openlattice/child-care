@@ -1,48 +1,34 @@
 // @flow
 
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-  Fragment
-} from 'react';
+import React, { Fragment } from 'react';
 
 import moment from 'moment';
-import ReactMapboxGl, { ScaleControl } from 'react-mapbox-gl';
 import styled, { css } from 'styled-components';
-import { faChevronLeft, faChevronRight, faInfoCircle } from '@fortawesome/pro-light-svg-icons';
+import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
 import { Tooltip } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import EditFilter from './EditFilter';
-import * as LocationsActions from './LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './constants';
+import * as LocationsActions from '../LocationsActions';
 
 import ExpandableSection from './ExpandableSection';
-import BasicButton from '../../../components/buttons/BasicButton';
-import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../../core/style/Sizes';
+import { HEIGHTS } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
   getValue,
-  getValues,
   getEntityKeyId,
   isFamilyHome,
   isProviderActive
 } from '../../../utils/DataUtils';
-import { isNonEmptyString } from '../../../utils/LangUtils';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
-import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { getCoordinates } from '../../map/MapUtils';
 
 const PADDING = 25;
 
@@ -508,7 +494,7 @@ class ProviderDetailsContainer extends React.Component {
 }
 
 function mapStateToProps(state :Map<*, *>) :Object {
-  const providerState = state.getIn([...STAY_AWAY_STORE_PATH], Map());
+  const providerState = state.get(STATE.LOCATIONS, Map());
 
   const lat = providerState.getIn(['selectedOption', 'lat']);
   const lon = providerState.getIn(['selectedOption', 'lon']);
@@ -521,7 +507,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     .get('neighborDetails', Map());
 
   return {
-    providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
+    providerState,
     provider,
     coordinates: [lat, lon],
     renderText: getRenderTextFn(state),

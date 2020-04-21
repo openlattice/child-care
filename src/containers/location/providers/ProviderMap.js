@@ -13,12 +13,11 @@ import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
-import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
@@ -107,11 +106,11 @@ const ProviderMap = (props :Props) => {
   } = props;
 
   const renderText = useSelector(getRenderTextFn);
-  const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
-  const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
-  const searchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
+  const providerLocations = useSelector((store) => store.getIn([STATE.LOCATIONS, 'providerLocations']));
+  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
+  const searchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
   const isLoading = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
+    .getIn([STATE.LOCATIONS, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,

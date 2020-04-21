@@ -21,15 +21,14 @@ import {
   searchLocations,
   setValue,
   loadCurrentPosition
-} from './LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './constants';
+} from '../LocationsActions';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 
 const MAX_HITS = 20;
@@ -66,23 +65,23 @@ const SortOption = styled.div`
 const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
-    [...STAY_AWAY_STORE_PATH, PROVIDERS.IS_EDITING_FILTERS],
+    [STATE.LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
     false
   ));
 
 
   const renderText = useSelector(getRenderTextFn);
-  const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
-  const searchResults = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'hits'], List()));
-  const totalHits = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'totalHits'], 0));
-  const fetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'fetchState']));
-  const lastSearchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
-  const page = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SEARCH_PAGE]));
-  const selectedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
-  const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
+  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
+  const searchResults = useSelector((store) => store.getIn([STATE.LOCATIONS, 'hits'], List()));
+  const totalHits = useSelector((store) => store.getIn([STATE.LOCATIONS, 'totalHits'], 0));
+  const fetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'fetchState']));
+  const lastSearchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
+  const page = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SEARCH_PAGE]));
+  const selectedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
+  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
   const geoLocationUnavailable = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
-  const lastSearchType = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.LAST_SEARCH_TYPE]));
+    .getIn([STATE.LOCATIONS, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
+  const lastSearchType = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.LAST_SEARCH_TYPE]));
   const dispatch = useDispatch();
 
   let editFiltersContent = null;
