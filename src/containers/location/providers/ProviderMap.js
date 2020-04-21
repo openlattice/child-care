@@ -53,7 +53,6 @@ const INITIAL_STATE = {
   center: undefined,
   isPopupOpen: false,
   selectedFeature: undefined,
-  selectedHospital: undefined,
   zoom: [14],
 };
 
@@ -65,7 +64,6 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        selectedHospital,
         zoom
       } = action.payload;
 
@@ -75,7 +73,6 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        selectedHospital,
         zoom: [zoom || 14]
       };
     }
@@ -84,7 +81,6 @@ const reducer = (state, action) => {
         ...state,
         bounds: action.payload,
         selectedFeature: undefined,
-        selectedHospital: undefined
       };
     case 'dismiss': {
       return {
@@ -144,7 +140,6 @@ const ProviderMap = (props :Props) => {
           payload: {
             center: [lng, lat + EXTRA_LATITUDE_OFFSET],
             selectedFeature: selectedProvider,
-            selectedHospital: undefined,
             isPopupOpen: false,
             zoom: [13]
           }
@@ -169,7 +164,6 @@ const ProviderMap = (props :Props) => {
             payload: {
               center: [parseFloat(lon), parseFloat(lat) + LATITUDE_OFFSET],
               selectedFeature: undefined,
-              selectedHospital: undefined,
               isPopupOpen: false
             }
           });
@@ -205,21 +199,6 @@ const ProviderMap = (props :Props) => {
       payload: {
         center: [lng, lat + LATITUDE_OFFSET],
         selectedFeature: location,
-        selectedHospital: undefined,
-        isPopupOpen: true
-      }
-    });
-  };
-
-  const selectHospital = (location) => {
-    const [lng, lat] = getCoordinates(location);
-
-    stateDispatch({
-      type: 'center',
-      payload: {
-        center: [lng, lat + LATITUDE_OFFSET],
-        selectedFeature: undefined,
-        selectedHospital: location,
         isPopupOpen: true
       }
     });
