@@ -13,6 +13,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
+import { RequestStates } from 'redux-reqseq';
 import { connect } from 'react-redux';
 
 import EditFilter from './EditFilter';
@@ -247,21 +248,24 @@ class EditFiltersContainer extends React.Component {
 
     const onExecuteSearch = () => {
       const { state, props } = this;
-      const { actions } = props;
+      const { actions, hasSearched } = props;
 
-      const searchInputs = fromJS({
-        [PROVIDERS.ACTIVE_ONLY]: state[PROVIDERS.ACTIVE_ONLY],
-        [PROVIDERS.TYPE_OF_CARE]: state[PROVIDERS.TYPE_OF_CARE],
-        [PROVIDERS.RADIUS]: state[PROVIDERS.RADIUS],
-        [PROVIDERS.CHILDREN]: state[PROVIDERS.CHILDREN],
-        [PROVIDERS.DAYS]: state[PROVIDERS.DAYS]
-      });
+      if (hasSearched) {
 
-      actions.searchLocations({
-        searchInputs,
-        start: 0,
-        maxHits: 20
-      });
+        const searchInputs = fromJS({
+          [PROVIDERS.ACTIVE_ONLY]: state[PROVIDERS.ACTIVE_ONLY],
+          [PROVIDERS.TYPE_OF_CARE]: state[PROVIDERS.TYPE_OF_CARE],
+          [PROVIDERS.RADIUS]: state[PROVIDERS.RADIUS],
+          [PROVIDERS.CHILDREN]: state[PROVIDERS.CHILDREN],
+          [PROVIDERS.DAYS]: state[PROVIDERS.DAYS]
+        });
+
+        actions.searchLocations({
+          searchInputs,
+          start: 0,
+          maxHits: 20
+        });
+      }
 
       backToMap();
     };
@@ -295,10 +299,12 @@ class EditFiltersContainer extends React.Component {
 }
 
 function mapStateToProps(state :Map<*, *>) :Object {
+  const providerState = state.get(STATE.LOCATIONS, Map());
 
   return {
-    providerState: state.get(STATE.LOCATIONS, Map()),
-    renderText: getRenderTextFn(state)
+    providerState,
+    renderText: getRenderTextFn(state),
+    hasSearched: providerState.get('fetchState') !== RequestStates.STANDBY
   };
 }
 
