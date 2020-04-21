@@ -9,7 +9,7 @@ import { Colors, IconButton } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
 
-import { selectProvider } from './LocationsActions';
+import { selectProvider } from '../LocationsActions';
 
 import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';

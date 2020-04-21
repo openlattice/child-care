@@ -16,7 +16,7 @@ import AppNavigationSidebar from './AppNavigationSidebar';
 import * as AppActions from './AppActions';
 
 import LocationsSearchBar from '../location/providers/LocationSearchBar';
-import * as LocationsActions from '../location/providers/LocationsActions';
+import * as LocationsActions from '../location/LocationsActions';
 import * as Routes from '../../core/router/Routes';
 import { HOME_PATH } from '../../core/router/Routes';
 import {

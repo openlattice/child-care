@@ -2,7 +2,6 @@
 
 import React, {
   useCallback,
-  useEffect,
   useState
 } from 'react';
 
@@ -10,7 +9,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map, toJS } from 'immutable';
+import { Map } from 'immutable';
 import {
   Select,
   StyleUtils,
@@ -23,8 +22,7 @@ import {
   loadCurrentPosition,
   searchLocations,
   selectLocationOption,
-} from './LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './constants';
+} from '../LocationsActions';
 
 import { useTimeout } from '../../../components/hooks';
 import {
@@ -33,7 +31,7 @@ import {
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
 const { media } = StyleUtils;
 
@@ -63,16 +61,16 @@ const LocationsSearchBar = () => {
 
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
-  const optionsFetchState = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'fetchState']));
-  const currentPosition = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.CURRENT_POSITION]));
-  const storedOption = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'selectedOption']));
+  const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
+  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
+  const storedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
 
   let selectedOption = storedOption;
   if (Map.isMap(storedOption)) {
     selectedOption = storedOption.toJS();
   }
 
-  const options = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'options', 'data']));
+  const options = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'data']));
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState();

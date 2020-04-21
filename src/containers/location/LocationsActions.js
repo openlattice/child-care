@@ -8,7 +8,7 @@ import type { RequestSequence } from 'redux-reqseq';
 export const SEARCH_LOCATIONS :string = 'SEARCH_LOCATIONS';
 export const searchLocations :RequestSequence = newRequestSequence(SEARCH_LOCATIONS);
 
-export const GET_GEO_OPTIONS :string = 'GET_STAY_AWAY_GEO_OPTIONS';
+export const GET_GEO_OPTIONS :string = 'GET_GEO_OPTIONS';
 export const getGeoOptions :RequestSequence = newRequestSequence(GET_GEO_OPTIONS);
 
 export const SET_VALUE :string = 'SET_VALUE';

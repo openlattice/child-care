@@ -1,9 +1,6 @@
 
 export const STATE = {
-  DISPOSITION: 'disposition',
-  OFFICER_SAFETY: 'officerSafety',
-  SUBJECT_INFORMATION: 'subjectInformation',
-  SUBMIT: 'submit'
+  LOCATIONS: 'locations'
 };
 
 export const HAS_LOCAL_STORAGE_GEO_PERMISSIONS = 'hasLocalStorageGeoPermissions';

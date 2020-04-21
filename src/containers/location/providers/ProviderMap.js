@@ -13,12 +13,11 @@ import InactiveProviderLocationLayer from './InactiveProviderLocationLayer';
 import ProviderPopup from './ProviderPopup';
 import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
-import { STAY_AWAY_STORE_PATH } from './constants';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
@@ -53,7 +52,6 @@ const INITIAL_STATE = {
   center: undefined,
   isPopupOpen: false,
   selectedFeature: undefined,
-  selectedHospital: undefined,
   zoom: [14],
 };
 
@@ -65,7 +63,6 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        selectedHospital,
         zoom
       } = action.payload;
 
@@ -75,7 +72,6 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        selectedHospital,
         zoom: [zoom || 14]
       };
     }
@@ -84,7 +80,6 @@ const reducer = (state, action) => {
         ...state,
         bounds: action.payload,
         selectedFeature: undefined,
-        selectedHospital: undefined
       };
     case 'dismiss': {
       return {
@@ -111,11 +106,11 @@ const ProviderMap = (props :Props) => {
   } = props;
 
   const renderText = useSelector(getRenderTextFn);
-  const providerLocations = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'providerLocations']));
-  const selectedProvider = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, PROVIDERS.SELECTED_PROVIDER]));
-  const searchInputs = useSelector((store) => store.getIn([...STAY_AWAY_STORE_PATH, 'searchInputs'], Map()));
+  const providerLocations = useSelector((store) => store.getIn([STATE.LOCATIONS, 'providerLocations']));
+  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
+  const searchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
   const isLoading = useSelector((store) => store
-    .getIn([...STAY_AWAY_STORE_PATH, 'fetchState']) === RequestStates.PENDING);
+    .getIn([STATE.LOCATIONS, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,
@@ -144,7 +139,6 @@ const ProviderMap = (props :Props) => {
           payload: {
             center: [lng, lat + EXTRA_LATITUDE_OFFSET],
             selectedFeature: selectedProvider,
-            selectedHospital: undefined,
             isPopupOpen: false,
             zoom: [13]
           }
@@ -169,7 +163,6 @@ const ProviderMap = (props :Props) => {
             payload: {
               center: [parseFloat(lon), parseFloat(lat) + LATITUDE_OFFSET],
               selectedFeature: undefined,
-              selectedHospital: undefined,
               isPopupOpen: false
             }
           });
@@ -205,21 +198,6 @@ const ProviderMap = (props :Props) => {
       payload: {
         center: [lng, lat + LATITUDE_OFFSET],
         selectedFeature: location,
-        selectedHospital: undefined,
-        isPopupOpen: true
-      }
-    });
-  };
-
-  const selectHospital = (location) => {
-    const [lng, lat] = getCoordinates(location);
-
-    stateDispatch({
-      type: 'center',
-      payload: {
-        center: [lng, lat + LATITUDE_OFFSET],
-        selectedFeature: undefined,
-        selectedHospital: location,
         isPopupOpen: true
       }
     });

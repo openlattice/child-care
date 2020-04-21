@@ -35,7 +35,7 @@ import {
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
 import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
-import { loadCurrentPosition } from '../location/providers/LocationsActions';
+import { loadCurrentPosition } from '../location/LocationsActions';
 
 /*
  * styled components

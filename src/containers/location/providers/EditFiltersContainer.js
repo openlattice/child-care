@@ -16,19 +16,15 @@ import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 
 import EditFilter from './EditFilter';
-import { STAY_AWAY_STORE_PATH } from './constants';
-import { PROVIDERS } from '../../../utils/constants/StateConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { LABELS } from '../../../utils/constants/Labels';
 
-import BasicButton from '../../../components/buttons/BasicButton';
 import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { isNonEmptyString } from '../../../utils/LangUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { FlexRow, MapWrapper, ResultSegment } from '../../styled';
-import * as LocationsActions from './LocationsActions';
+import * as LocationsActions from '../LocationsActions';
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
@@ -301,7 +297,7 @@ class EditFiltersContainer extends React.Component {
 function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
-    providerState: state.getIn([...STAY_AWAY_STORE_PATH], Map()),
+    providerState: state.get(STATE.LOCATIONS, Map()),
     renderText: getRenderTextFn(state)
   };
 }

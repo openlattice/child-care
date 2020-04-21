@@ -27,12 +27,10 @@ import {
   getGeoOptions,
   loadCurrentPosition,
   searchLocations,
-} from './providers/LocationsActions';
-import { STAY_AWAY_STORE_PATH } from './providers/constants';
+} from './LocationsActions';
 
 import Logger from '../../utils/Logger';
-import { getPropertyTypeId, getProvidersESID } from '../../utils/AppUtils';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getPropertyTypeId, getProvidersESID, getRenderTextFn } from '../../utils/AppUtils';
 import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
 import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -42,7 +40,7 @@ import {
   RR_ENTITY_SET_ID,
 } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
-import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
+import { STATE, HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
@@ -252,7 +250,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
     const { searchInputs, start = 0, maxHits = 20 } = value;
 
-    const locationState = yield select((state) => state.getIn(STAY_AWAY_STORE_PATH));
+    const locationState = yield select((state) => state.get(STATE.LOCATIONS));
     const getValue = (field) => searchInputs.get(field, locationState.get(field));
 
     let latLonObj = searchInputs.get('selectedOption');
