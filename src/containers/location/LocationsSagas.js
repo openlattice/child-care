@@ -40,6 +40,7 @@ import {
   HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID,
+  BASE_URL
 } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { STATE, HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
@@ -58,7 +59,7 @@ const PAGE_SIZE = 20;
 
 const LOG = new Logger('LocationsSagas');
 
-const GEOCODING_API = 'https://api.openlattice.com/datastore/geocoding';
+const GEOCODING_API = `${BASE_URL}/datastore/geocoding`;
 
 const DEFAULT_AUTOCOMPLETE_COMPONENTS = [
   {
