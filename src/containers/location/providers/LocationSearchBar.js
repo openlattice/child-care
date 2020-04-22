@@ -20,8 +20,8 @@ import { RequestStates } from 'redux-reqseq';
 import {
   getGeoOptions,
   loadCurrentPosition,
-  searchLocations,
   selectLocationOption,
+  geocodePlace
 } from '../LocationsActions';
 
 import { useTimeout } from '../../../components/hooks';
@@ -88,9 +88,6 @@ const LocationsSearchBar = () => {
   const filterOption = () => true;
 
   const handleChange = (payload) => {
-    const newSearchInputs = Map({
-      selectedOption: payload
-    });
     const hasValues = isPlainObject(payload);
 
     if (hasValues) {
@@ -99,9 +96,7 @@ const LocationsSearchBar = () => {
         dispatch(loadCurrentPosition());
       }
       else {
-        dispatch(searchLocations({
-          searchInputs: newSearchInputs,
-        }));
+        dispatch(geocodePlace(payload));
       }
     }
     dispatch(selectLocationOption(payload));
