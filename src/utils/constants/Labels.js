@@ -29,15 +29,15 @@ export const LABELS = {
   },
   AGE_INFANT: {
     [en]: 'Infant (0 - 2 yrs)',
-    [es]: 'Bebé (0 - 2 años)'
+    [es]: 'Bebés (0 - 2 años)'
   },
   AGE_SCHOOL: {
     [en]: 'Child (2+ yrs)',
-    [es]: 'Niño (2+ años)'
+    [es]: 'Niños (2+ años)'
   },
   AGE_TODDLER: {
     [en]: 'Toddler (2 - 5 yrs)',
-    [es]: 'Niño pequeño (2 - 5 años)'
+    [es]: 'Niños pequeños (2 - 5 años)'
   },
   ANY: {
     [en]: 'Any',
