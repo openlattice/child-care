@@ -221,10 +221,9 @@ function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
     const headers = yield call(getDefaultHeaders);
 
     const { data } = yield call(axios, {
-      method: 'post',
-      url: `${GEOCODING_API}/geocode`,
-      headers,
-      data: { placeId, address: '' }
+      method: 'get',
+      url: `${GEOCODING_API}/place/${placeId}`,
+      headers
     });
 
     const { geometry } = data[0];
