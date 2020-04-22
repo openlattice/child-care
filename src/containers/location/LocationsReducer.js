@@ -12,6 +12,7 @@ import {
   SELECT_PROVIDER,
   SET_VALUE,
   SET_VALUES,
+  geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
   searchLocations
@@ -116,6 +117,17 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
       });
     }
 
+    case geocodePlace.case(action.type): {
+      return geocodePlace.reducer(state, action, {
+        REQUEST: () => state
+          .set('fetchState', RequestStates.PENDING),
+        SUCCESS: () => state
+          .set('selectedOption', action.value),
+        FAILURE: () => state
+          .set('fetchState', RequestStates.FAILURE)
+      });
+    }
+
     case loadCurrentPosition.case(action.type): {
       return loadCurrentPosition.reducer(state, action, {
         REQUEST: () => state
@@ -124,7 +136,9 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
         SUCCESS: () => state
           .set(GEO_LOCATION_UNAVAILABLE, false)
           .set(CURRENT_POSITION, action.value),
-        FAILURE: () => state.set(GEO_LOCATION_UNAVAILABLE, true),
+        FAILURE: () => state
+          .set(GEO_LOCATION_UNAVAILABLE, true)
+          .set('fetchState', RequestStates.FAILURE)
       });
     }
 

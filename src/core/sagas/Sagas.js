@@ -18,6 +18,7 @@ export default function* sagas() :Generator<*, *, *> {
     fork(AppSagas.reloadTokenWatcher),
 
     // LocationsSagas
+    fork(LocationsSagas.geocodePlaceWatcher),
     fork(LocationsSagas.getGeoOptionsWatcher),
     fork(LocationsSagas.searchLocationsWatcher),
     fork(LocationsSagas.loadCurrentPositionWatcher),

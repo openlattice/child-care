@@ -21,9 +21,11 @@ import { SearchApi } from 'lattice';
 import type { SequenceAction } from 'redux-reqseq';
 
 import {
+  GEOCODE_PLACE,
   GET_GEO_OPTIONS,
   LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
+  geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
   searchLocations,
@@ -65,18 +67,23 @@ const DEFAULT_AUTOCOMPLETE_COMPONENTS = [
   }
 ];
 
+function* getDefaultHeaders() {
+  const token = yield select((state) => state.getIn(['app', 'token']));
+
+  return {
+    Authorization: `Bearer ${token}`
+  };
+}
+
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
 
     yield call(refreshAuthTokenIfNecessary);
 
-    const token = yield select((state) => state.getIn(['app', 'token']));
     const sessionToken = yield select((state) => state.getIn(['app', 'sessionId']));
 
-    const headers = {
-      Authorization: `Bearer ${token}`
-    };
+    const headers = yield call(getDefaultHeaders);
 
     const { address, currentPosition } = action.value;
 
@@ -111,32 +118,12 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       }
     });
 
-    const geocoded = yield all(
-      suggestions.map(({ placeId }) => call(axios, {
-        method: 'post',
-        url: `${GEOCODING_API}/geocode`,
-        headers,
-        data: { placeId, address: '' }
-      }))
-    );
+    const formattedSuggestions = suggestions.map((sugg) => {
+      const { description } = sugg;
+      return { ...sugg, label: description, value: description };
+    })
 
-    const formattedOptions = [].concat(...geocoded.map(({ data }) => data)).map((option, idx) => {
-      // eslint-disable-next-line camelcase
-      const { geometry } = option;
-      const { location } = geometry;
-      const { lat, lng: lon } = location;
-      const { description } = suggestions[idx];
-
-      return {
-        ...option,
-        label: description,
-        value: `${lat},${lon}`,
-        lat,
-        lon
-      };
-    });
-
-    yield put(getGeoOptions.success(action.id, fromJS(formattedOptions)));
+    yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
   }
   catch (error) {
     LOG.error(action.type, error);
@@ -223,6 +210,54 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
 
 function* loadCurrentPositionWatcher() :Generator<*, *, *> {
   yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
+}
+
+function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
+  try {
+    yield put(geocodePlace.request(action.id));
+
+    const { placeId, description } = action.value;
+
+    const headers = yield call(getDefaultHeaders);
+
+    const { data } = yield call(axios, {
+      method: 'post',
+      url: `${GEOCODING_API}/geocode`,
+      headers,
+      data: { placeId, address: '' }
+    });
+
+    const { geometry } = data[0];
+    const { location } = geometry;
+    const { lat, lng: lon } = location;
+
+    const selectedOption = {
+      ...data,
+      label: description,
+      value: `${lat},${lon}`,
+      lat,
+      lon
+    };
+
+    yield put(geocodePlace.success(action.id, selectedOption));
+
+    yield put(searchLocations({
+      searchInputs: Map({ selectedOption }),
+      start: 0,
+      maxHits: PAGE_SIZE
+    }));
+  }
+  catch (error) {
+    LOG.error(action.type, error);
+    yield put(geocodePlace.failure(action.id, error));
+  }
+  finally {
+    yield put(geocodePlace.finally(action.id));
+  }
+}
+
+export function* geocodePlaceWatcher() :Generator<*, *, *> {
+  yield takeEvery(GEOCODE_PLACE, geocodePlaceWorker);
 }
 
 const isEmpty = (map) => {

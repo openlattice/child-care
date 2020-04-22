@@ -11,6 +11,9 @@ export const searchLocations :RequestSequence = newRequestSequence(SEARCH_LOCATI
 export const GET_GEO_OPTIONS :string = 'GET_GEO_OPTIONS';
 export const getGeoOptions :RequestSequence = newRequestSequence(GET_GEO_OPTIONS);
 
+export const GEOCODE_PLACE :string = 'GEOCODE_PLACE';
+export const geocodePlace :RequestSequence = newRequestSequence(GEOCODE_PLACE);
+
 export const SET_VALUE :string = 'SET_VALUE';
 export const setValue :RequestSequence = newRequestSequence(SET_VALUE);
 
