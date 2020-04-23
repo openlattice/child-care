@@ -112,9 +112,8 @@ const LogoLink = styled.a.attrs({
 const CaImg = styled.img.attrs({
   src: caForAll
 })`
-  max-height: 70px;
-  max-width: 70px;
-  padding-right: 10px;
+  max-height: 100px;
+  max-width: 100px;
 `;
 
 
@@ -144,9 +143,7 @@ class AboutPage extends React.Component {
         <Wrapper>
           <Header>{renderText(LABELS.ABOUT)}</Header>
 
-          <IntroSection>
-            <CaImg />
-
+          <TextSection>
             <Text>
               <span>{renderText(ABOUT.INTRO)}</span>
               <TextLink href={URLS.CDSS}>California Department of Social Services</TextLink>
@@ -156,7 +153,8 @@ class AboutPage extends React.Component {
               <TextLink href={URLS.RR}>California Child Care Resource and Referral Network</TextLink>
               <span>.</span>
             </Text>
-          </IntroSection>
+            <CaImg />
+          </TextSection>
 
           <TextSection>
             <Text>{renderText(ABOUT.CRAFTED_WITH_LOVE)}</Text>
