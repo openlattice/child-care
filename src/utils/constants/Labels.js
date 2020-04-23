@@ -97,7 +97,7 @@ export const LABELS = {
   },
   CONTACT_RR_FOR_INFO: {
     [en]: 'Exact location can be provided by this facility’s Resource and Referral Affiliate.',
-    [es]: 'El afiliado de Recursos y Referencias de este proveedor puede proporcionar la ubicación exacta.'
+    [es]: 'El afiliado de recursos y derivaciones de este establecimiento puede proporcionar la ubicación exacta.'
   },
   COMPLAINTS: {
     [en]: 'Complaints',
@@ -197,7 +197,7 @@ export const LABELS = {
   },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Resource & Referral Agency',
-    [es]: 'Agencia de Recursos y Referencias'
+    [es]: 'Oficina de recursos y derivaciones'
   },
   RESOURCE_AND_REFERRAL_DESCRIPTION: {
     [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
