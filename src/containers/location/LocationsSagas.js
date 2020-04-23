@@ -96,8 +96,16 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     });
 
     const formattedSuggestions = suggestions.features.map((sugg) => {
-      const { place_name } = sugg;
-      return { ...sugg, label: place_name, value: place_name };
+      const { place_name, geometry } = sugg;
+      const { coordinates } = geometry;
+      const [lon, lat] = coordinates;
+      return {
+        ...sugg,
+        label: place_name,
+        value: place_name,
+        lon,
+        lat
+      };
     });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
