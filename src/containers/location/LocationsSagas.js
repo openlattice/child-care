@@ -1,6 +1,7 @@
 // @flow
 
 import axios from 'axios';
+import qs from 'query-string';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 import {
@@ -48,6 +49,7 @@ import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
 declare var gtag :?Function;
+declare var __MAPBOX_TOKEN__;
 
 const AGE_GROUP_BY_FQN = {
   [PROPERTY_TYPES.CAPACITY_UNDER_2]: CLIENTS_SERVED.INFANTS,
@@ -59,22 +61,7 @@ const PAGE_SIZE = 20;
 
 const LOG = new Logger('LocationsSagas');
 
-const GEOCODING_API = `${BASE_URL}/datastore/geocoding`;
-
-const DEFAULT_AUTOCOMPLETE_COMPONENTS = [
-  {
-    component: 'country',
-    value: 'us'
-  }
-];
-
-function* getDefaultHeaders() {
-  const token = yield select((state) => state.getIn(['app', 'token']));
-
-  return {
-    Authorization: `Bearer ${token}`
-  };
-}
+const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
@@ -82,22 +69,19 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
     yield call(refreshAuthTokenIfNecessary);
 
-    const sessionToken = yield select((state) => state.getIn(['app', 'sessionId']));
-
-    const headers = yield call(getDefaultHeaders);
-
     const { address, currentPosition } = action.value;
 
-    let currentLocationBias = {};
+    const params = {
+      access_token: __MAPBOX_TOKEN__,
+      autocomplete: true,
+    };
+
     if (currentPosition && currentPosition.coords) {
       const { latitude, longitude } = currentPosition.coords;
-      currentLocationBias = {
-        location: {
-          lat: latitude,
-          lng: longitude
-        }
-      };
+      params.proximity = `${longitude},${latitude}`;
     }
+
+    const queryString = qs.stringify(params);
 
     if (isFunction(gtag)) {
       gtag('event', 'Geocode Address', {
@@ -107,22 +91,14 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     }
 
     const { data: suggestions } = yield call(axios, {
-      method: 'post',
-      url: `${GEOCODING_API}/autocomplete`,
-      headers,
-      data: {
-        input: address,
-        componentFilters: DEFAULT_AUTOCOMPLETE_COMPONENTS,
-        radius: 10000,
-        sessionToken,
-        ...currentLocationBias
-      }
+      method: 'get',
+      url: `${GEOCODING_API}/${window.encodeURI(address)}.json?${queryString}`,
     });
 
-    const formattedSuggestions = suggestions.map((sugg) => {
-      const { description } = sugg;
-      return { ...sugg, label: description, value: description };
-    })
+    const formattedSuggestions = suggestions.features.map((sugg) => {
+      const { place_name } = sugg;
+      return { ...sugg, label: place_name, value: place_name };
+    });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
   }
@@ -217,23 +193,15 @@ function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(geocodePlace.request(action.id));
 
-    const { placeId, description } = action.value;
+    const data = action.value;
 
-    const headers = yield call(getDefaultHeaders);
-
-    const { data } = yield call(axios, {
-      method: 'get',
-      url: `${GEOCODING_API}/place/${placeId}`,
-      headers
-    });
-
-    const { geometry } = data[0];
-    const { location } = geometry;
-    const { lat, lng: lon } = location;
+    const { geometry, label } = data;
+    const { coordinates } = geometry;
+    const [lon, lat] = coordinates;
 
     const selectedOption = {
       ...data,
-      label: description,
+      label,
       value: `${lat},${lon}`,
       lat,
       lon
