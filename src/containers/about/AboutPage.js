@@ -112,8 +112,8 @@ const LogoLink = styled.a.attrs({
 const CaImg = styled.img.attrs({
   src: caForAll
 })`
-  max-height: 100px;
-  max-width: 100px;
+  max-height: 125px;
+  max-width: 125px;
   margin-top: 10px;
 `;
 
