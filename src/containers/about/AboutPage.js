@@ -114,6 +114,7 @@ const CaImg = styled.img.attrs({
 })`
   max-height: 100px;
   max-width: 100px;
+  margin-top: 10px;
 `;
 
 
