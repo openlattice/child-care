@@ -9,7 +9,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Map } from 'immutable';
+import { Map, isImmutable } from 'immutable';
 import {
   Select,
   StyleUtils,
@@ -109,6 +109,14 @@ const LocationsSearchBar = () => {
     ]
   });
 
+  let value = null;
+  if (selectedOption) {
+    const label = isImmutable(selectedOption) ? selectedOption.get('label') : selectedOption.label;
+    if (label) {
+      value = selectedOption;
+    }
+  }
+
   return (
     <Wrapper>
       <Select
@@ -124,7 +132,7 @@ const LocationsSearchBar = () => {
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
-          value={selectedOption} />
+          value={value} />
     </Wrapper>
   );
 };

@@ -148,6 +148,11 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_LOCATION_OPTION: {
+      if (!action.value) {
+        return state
+          .setIn(['selectedOption', 'label'], undefined)
+          .setIn(['options', 'data'], List());
+      }
       return state.set('selectedOption', action.value);
     }
 
