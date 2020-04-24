@@ -17,7 +17,7 @@ export const { en, es } = LANGUAGES;
 export const LABELS = {
   ABOUT: {
     [en]: 'About',
-    [es]: 'Sobre'
+    [es]: 'Acerca de esta herramienta'
   },
   ADDRESS: {
     [en]: 'Address',
@@ -52,8 +52,8 @@ export const LABELS = {
     [es]: 'Disponibilidad'
   },
   AVAILABILITY_UNKNOWN: {
-    [en]: 'Availability  Unknown',
-    [es]: 'Disponibilidad Desconocida'
+    [en]: 'Availability Unknown',
+    [es]: 'Disponibilidad desconocida'
   },
   BACK: {
     [en]: 'Back',
@@ -125,7 +125,7 @@ export const LABELS = {
   },
   ENSURE_LOCATION_DESCRIPTION: {
     [en]: 'Please ensure location services are enabled to use your current location',
-    [es]: 'Asegúrese que los servicios de ubicación estén habilitados para usar su ubicación actual'
+    [es]: 'Asegúrese de que los servicios de localización estén habilitados para usar su ubicación actual'
   },
   ENTER_NAME_ADDRESS_ZIP: {
     [en]: 'Enter Name, Address, or ZIP',
@@ -137,7 +137,7 @@ export const LABELS = {
   },
   FIND_CHILDCARE: {
     [en]: 'Find Childcare',
-    [es]: 'Encontrar Cuidado'
+    [es]: 'Encontrar cuidado infantil'
   },
   HEALTH_AND_SAFETY: {
     [en]: 'Health & Safety',
@@ -404,7 +404,7 @@ export const FACILITY_TYPE_LABELS = {
 export const ABOUT = {
   INTRO: {
     [en]: 'This tool is a COVID-19 joint collaboration between ',
-    [es]: 'Esta solución es una colaboración conjunta de COVID-19 entre '
+    [es]: 'Esta herramienta es el resultado de una colaboración entre '
   },
   AND: {
     [en]: 'and',
@@ -427,11 +427,11 @@ export const ABOUT = {
 export const UNSUPPORTED_BROWSER = {
   HEADER: {
     [en]: 'It looks like you\'re using an unsupported browser!',
-    [es]: '¡Parece que estás usando un navegador no compatible!'
+    [es]: '¡Parece que está usando un navegador incompatible!'
   },
   SUGGESTION: {
     [en]: 'Try opening MyChildCare.ca.gov in another browser (such as Chrome) to find childcare near you.',
-    [es]: 'Abra MyChildCare.ca.gov en otro navegador (como Chrome) para encontrar cuidado cercano.'
+    [es]: 'Abra MyChildCare.ca.gov en otro navegador (como Chrome) para encontrar cuidado infantil cercano.'
   }
 };
 
@@ -442,7 +442,7 @@ export const WELCOME_SPLASH = {
   },
   DETAILS: {
     [en]: 'Here you can find information on licensed childcare providers that are currently open including location, health and safety details, ages of children served, capacity, and hours of care.',
-    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, incluyendo ubicación, detalles de salud y seguridad, edades de los niños atendidos, capacidad y horas de cuidado.'
+    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, incluyendo su ubicación, detalles de salud y seguridad, las edades de los niños bajo cuidado, su capacidad y las horas de cuidado.'
   },
   INSTRUCTIONS_1: {
     [en]: 'Enter an address in the search bar or ',
@@ -454,6 +454,6 @@ export const WELCOME_SPLASH = {
   },
   INSTRUCTIONS_2: {
     [en]: ' to find childcare near you.',
-    [es]: ' para encontrar cuidado de niños cerca de usted.'
+    [es]: ' para encontrar cuidado infantil cerca de usted.'
   },
 };
