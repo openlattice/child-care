@@ -129,7 +129,7 @@ export const LABELS = {
   },
   ENTER_NAME_ADDRESS_ZIP: {
     [en]: 'Enter Name, Address, or ZIP',
-    [es]: 'Nombre, Dirección o Código Postal'
+    [es]: 'Nombre, dirección o código postal'
   },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
