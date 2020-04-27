@@ -81,7 +81,7 @@ export const LABELS = {
   },
   CHILDREN: {
     [en]: 'Children',
-    [es]: 'Niños'
+    [es]: 'niños'
   },
   CLOSED: {
     [en]: 'Closed',
@@ -145,11 +145,11 @@ export const LABELS = {
   },
   LAST_INSPECTION_DATE: {
     [en]: 'Last Inspection Date',
-    [es]: 'Fecha de la ūltima inspección'
+    [es]: 'Fecha de la última inspección'
   },
   LICENSE_NUMBER: {
     [en]: 'License Number',
-    [es]: 'Número de Licencia'
+    [es]: 'Número de licencia'
   },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',
@@ -201,11 +201,11 @@ export const LABELS = {
   },
   RESOURCE_AND_REFERRAL_DESCRIPTION: {
     [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
-    [es]: 'Si tienes preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
+    [es]: 'Si tiene preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
   },
   SAVE: {
     [en]: 'Save',
-    [es]: 'Guarda'
+    [es]: 'Guardar'
   },
   SEARCH_LOCATIONS: {
     [en]: 'Search Locations',
@@ -261,7 +261,7 @@ export const LABELS = {
   },
   UNKNOWN: {
     [en]: 'Unknown',
-    [es]: 'Dato Desconocido'
+    [es]: 'Dato desconocido'
   },
   UNKNOWN_AGE_LIMITATIONS: {
     [en]: 'Unknown age limitations',
@@ -393,7 +393,7 @@ export const AGES_SERVED_LABELS = {
 export const FACILITY_TYPE_LABELS = {
   [FACILITY_TYPES.FAMILY_HOME]: {
     [en]: 'Family Home',
-    [es]: 'Casa Familiar'
+    [es]: 'Casa familiar'
   },
   [FACILITY_TYPES.DAY_CARE_CENTER]: {
     [en]: 'Child Care Center',
