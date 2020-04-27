@@ -109,7 +109,7 @@ export const LABELS = {
   },
   CURRENT_LOCATION: {
     [en]: 'Current Location',
-    [es]: 'Ubicación actuale'
+    [es]: 'Ubicación actual'
   },
   DAYS_NEEDED: {
     [en]: 'Days Needed',
