@@ -416,7 +416,7 @@ export const ABOUT = {
   },
   DATA_COLLECTION: {
     [en]: 'Data collection and cleaning provided by:',
-    [es]: 'Recolección de datos y limpieza proporcionados por:'
+    [es]: 'Recolección y limpieza de datos proporcionadas por:'
   },
   INFRASTRUCTURE_PARNERS: {
     [en]: 'A very special thank you to our infrastructure partners:',
