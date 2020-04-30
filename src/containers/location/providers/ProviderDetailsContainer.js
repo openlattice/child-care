@@ -22,6 +22,7 @@ import {
   getValue,
   getEntityKeyId,
   shouldHideContact,
+  shouldHideLocation,
   isProviderActive
 } from '../../../utils/DataUtils';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
@@ -233,10 +234,10 @@ class ProviderDetailsContainer extends React.Component {
     return <a onClick={trackClick} href={licenseURL} target="_blank">{licenseNumber}</a>;
   }
 
-  renderFamilyHomeContactSection = () => {
+  renderFamilyHomeLocationSection = () => {
     const { provider, renderText } = this.props;
 
-    if (!shouldHideContact(provider)) {
+    if (!shouldHideLocation(provider)) {
       return null;
     }
 
@@ -470,7 +471,7 @@ class ProviderDetailsContainer extends React.Component {
     }
 
     const sections = [
-      this.renderFamilyHomeContactSection(),
+      this.renderFamilyHomeLocationSection(),
       this.renderVacanciesSection(),
       this.renderCapacitySection(),
       this.renderContactSection(),
