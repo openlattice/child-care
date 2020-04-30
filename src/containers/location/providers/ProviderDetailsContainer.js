@@ -21,7 +21,7 @@ import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
   getValue,
   getEntityKeyId,
-  isFamilyHome,
+  shouldHideContact,
   isProviderActive
 } from '../../../utils/DataUtils';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
@@ -236,7 +236,7 @@ class ProviderDetailsContainer extends React.Component {
   renderFamilyHomeContactSection = () => {
     const { provider, renderText } = this.props;
 
-    if (!isFamilyHome(provider)) {
+    if (!shouldHideContact(provider)) {
       return null;
     }
 
@@ -296,7 +296,7 @@ class ProviderDetailsContainer extends React.Component {
   renderContactSection = () => {
     const { renderText, provider } = this.props;
 
-    if (isFamilyHome(provider) || !isProviderActive(provider)) {
+    if (shouldHideContact(provider) || !isProviderActive(provider)) {
       return null;
     }
 

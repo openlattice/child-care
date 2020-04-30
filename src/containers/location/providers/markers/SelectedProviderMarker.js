@@ -8,7 +8,7 @@ import { Colors } from 'lattice-ui-kit';
 import { Marker } from 'react-mapbox-gl';
 
 import { getCoordinates } from '../../../map/MapUtils';
-import { isFamilyHome } from '../../../../utils/DataUtils';
+import { shouldHideLocation } from '../../../../utils/DataUtils';
 import familyHomeIcon from '../../../../assets/svg/familyhomeicon.svg';
 
 const { PURPLES } = Colors;
@@ -22,7 +22,7 @@ const SelectedProviderMarker = ({ provider } :Props) => {
 
   const coordinates = getCoordinates(provider);
 
-  const familyHome = isFamilyHome(provider);
+  const familyHome = shouldHideLocation(provider);
 
   const icon = familyHome
     ? <img src={familyHomeIcon} alt="" />
