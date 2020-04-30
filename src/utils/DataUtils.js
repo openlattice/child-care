@@ -334,8 +334,7 @@ export const getAgesServedFromEntity = (provider, renderText) => provider.get(PR
 export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) !== FACILITY_STATUSES.CLOSED;
 
 export const shouldHideContact = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
-export const shouldHideLocation = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT); // TODO switch back to SHOULD_HIDE_LOCATION
-// export const shouldHideLocation = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
+export const shouldHideLocation = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
 
 export const renderFacilityName = (provider, renderText) => {
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
