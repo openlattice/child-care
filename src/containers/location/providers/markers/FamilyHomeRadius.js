@@ -4,7 +4,7 @@ import { Feature, Layer } from 'react-mapbox-gl';
 import { Map } from 'immutable';
 
 import { getCoordinates } from '../../../map/MapUtils';
-import { isFamilyHome } from '../../../../utils/DataUtils';
+import { shouldHideLocation } from '../../../../utils/DataUtils';
 
 const RADIUS = 500;
 
@@ -17,7 +17,7 @@ export default class familyHomeRadius extends React.Component {
   render() {
     const { provider } = this.props;
 
-    if (!isFamilyHome(provider)) {
+    if (!shouldHideLocation(provider)) {
       return null;
     }
 
