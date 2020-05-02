@@ -417,6 +417,24 @@ class ProviderDetailsContainer extends React.Component {
 
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
 
+    const complaints = null;
+    // const complaints = (
+    //   <Row>
+    //     <Group>
+    //       <div>{renderText(LABELS.COMPLAINTS)}</div>
+    //       <Tooltip
+    //           arrow
+    //           enterTouchDelay={0}
+    //           placement="top"
+    //           title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
+    //         <InfoIcon />
+    //       </Tooltip>
+    //     </Group>
+    //     <DataRows>
+    //       {numComplaints}
+    //     </DataRows>
+    //   </Row>
+    // )
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
@@ -427,21 +445,7 @@ class ProviderDetailsContainer extends React.Component {
               {lastInspectionDate}
             </DataRows>
           </Row>
-          <Row>
-            <Group>
-              <div>{renderText(LABELS.COMPLAINTS)}</div>
-              <Tooltip
-                  arrow
-                  enterTouchDelay={0}
-                  placement="top"
-                  title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
-                <InfoIcon />
-              </Tooltip>
-            </Group>
-            <DataRows>
-              {numComplaints}
-            </DataRows>
-          </Row>
+          {complaints}
           <Row>
             <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>
