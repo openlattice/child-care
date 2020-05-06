@@ -231,6 +231,14 @@ export const LABELS = {
     [en]: 'Select all that apply:',
     [es]: 'Seleccione todos los que correspondan:'
   },
+  SEND_FEEDBACK: {
+    [en]: 'Send Feedback',
+    [es]: 'Envíenos sus comentarios'
+  },
+  SEND_FEEDBACK_SUBJECT: {
+    [en]: 'MyChildCare.ca.gov user feedback',
+    [es]: 'Comentarios del usuario acerca de MyChildCare.ca.gov'
+  },
   SHOW_INACTIVE_FACILITIES: {
     [en]: 'Show Inactive Facilities',
     [es]: 'Mostrar instalaciones inactivas'
