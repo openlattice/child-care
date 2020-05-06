@@ -63,6 +63,10 @@ const MenuRowLink = styled.a.attrs({
   target: '_blank'
 })`${menuRowStyle}`;
 
+const MenuRowMailtoLink = styled.a`
+  ${menuRowStyle}
+`
+
 const MenuRowNavLink = styled(Link)`
   ${menuRowStyle}
 `;
@@ -99,6 +103,7 @@ type Props = {
 
 const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
 const CONDITIONS_OF_USE_URL = 'https://cdss.ca.gov/conditions-of-use';
+const FEEDBACK_EMAIL = 'mychildcare@dss.ca.gov';
 
 class AppNavigationSidebar extends Component<Props> {
 
@@ -121,6 +126,8 @@ class AppNavigationSidebar extends Component<Props> {
 
     const { onClose, renderText } = this.props;
 
+    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${renderText(LABELS.SEND_FEEDBACK_SUBJECT)}`
+
     return (
       <Wrapper>
         <NavMenuWrapper>
@@ -141,6 +148,9 @@ class AppNavigationSidebar extends Component<Props> {
           <MenuRowLink href={PRIVACY_POLICY_URL}>
             {renderText(LABELS.PRIVACY_POLICY)}
           </MenuRowLink>
+          <MenuRowMailtoLink href={feedbackLink}>
+            {renderText(LABELS.SEND_FEEDBACK)}
+          </MenuRowMailtoLink>
         </NavMenuWrapper>
 
         <NavFooter>
