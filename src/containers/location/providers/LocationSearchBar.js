@@ -120,6 +120,7 @@ const LocationsSearchBar = () => {
   return (
     <Wrapper>
       <Select
+          aria-label="address"
           components={{ GroupHeading }}
           filterOption={filterOption}
           hideDropdownIcon
