@@ -35,6 +35,15 @@ import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
 const { media } = StyleUtils;
 
+/* placeholder color needs to be darker to provide more contrast between text and background */
+const getPlaceholderTheme = (theme) => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
+    neutral50: '#555E6F'
+  },
+});
+
 const Wrapper = styled.div`
   width: 100%;
   top: 0;
@@ -133,6 +142,7 @@ const LocationsSearchBar = () => {
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          theme={getPlaceholderTheme}
           value={value} />
     </Wrapper>
   );
