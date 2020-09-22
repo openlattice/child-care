@@ -70,8 +70,6 @@ const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
 
-  const inputElement = document.getElementById('address');
-
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
