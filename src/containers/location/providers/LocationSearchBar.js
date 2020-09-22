@@ -11,6 +11,7 @@ import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, isImmutable } from 'immutable';
 import {
+  Colors,
   Select,
   StyleUtils,
 } from 'lattice-ui-kit';
@@ -33,14 +34,15 @@ import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
+const { NEUTRALS } = Colors;
 const { media } = StyleUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
-const getPlaceholderTheme = (theme) => ({
+const getTheme = (theme) => ({
   ...theme,
   colors: {
     ...theme.colors,
-    neutral50: '#555E6F'
+    neutral50: NEUTRALS.N700
   },
 });
 
@@ -67,6 +69,8 @@ const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} /
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
+
+  const inputElement = document.getElementById('address');
 
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
@@ -142,7 +146,7 @@ const LocationsSearchBar = () => {
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
-          theme={getPlaceholderTheme}
+          theme={getTheme}
           value={value} />
     </Wrapper>
   );
