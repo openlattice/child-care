@@ -34,7 +34,7 @@ import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
-const { NEUTRALS } = Colors;
+const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
@@ -42,7 +42,7 @@ const getTheme = (theme) => ({
   ...theme,
   colors: {
     ...theme.colors,
-    neutral50: NEUTRALS.N700
+    neutral50: NEUTRAL.N700
   },
 });
 
