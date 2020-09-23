@@ -20,6 +20,10 @@
     {
       "name": "Hristo Oskov",
       "email": "hristo@openlattice.com"
+    },
+    {
+      "name": "Todd Bergman",
+      "email": "todd@openlattice.com"
     }
   ],
   "repository": {
@@ -50,7 +54,7 @@
     "immutable": "4.0.0-rc.9",
     "jwt-decode": "~2.2.0",
     "lattice": "~0.73.0",
-    "lattice-ui-kit": "~0.30.1",
+    "lattice-ui-kit": "~0.38.0",
     "lodash": "~4.17.10",
     "loglevel": "~1.6.0",
     "luxon": "~1.21.0",
