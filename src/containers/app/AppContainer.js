@@ -12,6 +12,7 @@ import {
   Spinner,
   ThemeProvider,
   lightTheme,
+  StylesProvider
 } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -131,13 +132,15 @@ class AppContainer extends Component<Props> {
     return (
       <ThemeProvider theme={lightTheme}>
         <MuiPickersUtilsProvider utils={LatticeLuxonUtils}>
-          <AppContainerWrapper>
-            <AppHeaderContainer />
-            <AppContentOuterWrapper>
-              { this.renderUnsupportedBrowserModal() }
-              { this.renderAppContent() }
-            </AppContentOuterWrapper>
-          </AppContainerWrapper>
+          <StylesProvider injectFirst>
+            <AppContainerWrapper>
+              <AppHeaderContainer />
+              <AppContentOuterWrapper>
+                { this.renderUnsupportedBrowserModal() }
+                { this.renderAppContent() }
+              </AppContentOuterWrapper>
+            </AppContainerWrapper>
+          </StylesProvider>
         </MuiPickersUtilsProvider>
       </ThemeProvider>
     );
