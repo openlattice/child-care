@@ -2,6 +2,7 @@
 
 import React, {
   useCallback,
+  useEffect,
   useRef,
   useState
 } from 'react';
@@ -70,14 +71,17 @@ const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} /
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
+
   /* 'aria-autocomplete' should be set to none because it is not a valid label for Role 'textbox' */
   const refInput = useRef(null);
-  if (refInput.current) {
-    const inputElement :HTMLInputElement = refInput.current.querySelector('input');
-    if (inputElement && inputElement.ariaAutoComplete === 'list') {
-      inputElement.setAttribute('aria-autocomplete', 'none');
+  useEffect(() => {
+    if (refInput.current) {
+      const inputElement :HTMLInputElement = refInput.current.querySelector('input');
+      if (inputElement && inputElement.ariaAutoComplete === 'list') {
+        inputElement.setAttribute('aria-autocomplete', 'none');
+      }
     }
-  }
+  }, []);
 
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
