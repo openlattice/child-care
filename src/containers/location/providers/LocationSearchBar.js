@@ -2,6 +2,7 @@
 
 import React, {
   useCallback,
+  useRef,
   useState
 } from 'react';
 
@@ -70,6 +71,14 @@ const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
 
+  const refInput = useRef(null);
+  if (refInput.current) {
+    const inputElement :HTMLInputElement = refInput.current.querySelector('input');
+    if (inputElement && inputElement.ariaAutoComplete === 'list') {
+      inputElement.setAttribute('aria-autocomplete', 'none');
+    }
+  }
+
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
@@ -129,7 +138,7 @@ const LocationsSearchBar = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={refInput}>
       <Select
           aria-label="address"
           components={{ GroupHeading }}
