@@ -1,28 +1,21 @@
 // @flow
 
-import React, {
-  useCallback,
-  useEffect,
-  useReducer,
-  useState
-} from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 
-import styled, { css } from 'styled-components';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
+import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
+import { Button, Colors } from 'lattice-ui-kit';
 import { RequestStates } from 'redux-reqseq';
 import { connect } from 'react-redux';
 
 import EditFilter from './EditFilter';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { DAYS_OF_WEEK } from '../../../utils/DataConstants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { LABELS } from '../../../utils/constants/Labels';
 
-import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import * as LocationsActions from '../LocationsActions';
@@ -46,11 +39,9 @@ const StyledContentWrapper = styled(ContentWrapper)`
   padding-bottom: 5px;
 `;
 
-
 const ScrollContainer = styled.div`
   overflow: auto;
 `;
-
 
 const BackButton = styled.div`
   display: flex;
@@ -126,16 +117,6 @@ const Line = styled.div`
   margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 
-const fixedBottomButtonStyle = css`
-  border-radius: 3px;
-  border: none;
-  width: 100%;
-  font-family: Inter;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-`;
-
 const ApplyButtonWrapper = styled.div`
    position: fixed;
    padding: 10px ${PADDING}px 30px ${PADDING}px;
@@ -144,10 +125,10 @@ const ApplyButtonWrapper = styled.div`
    height: 70px;
    background-color: white;
    z-index: 16;
-`;
 
-const ApplyButton = styled(InfoButton)`
-  ${fixedBottomButtonStyle}
+   button {
+     width: 100%;
+   }
 `;
 
 class EditFiltersContainer extends React.Component {
@@ -170,8 +151,9 @@ class EditFiltersContainer extends React.Component {
   }
 
   renderEditFilter = () => {
-    const { actions, renderText } = this.props;
-    const { filterPage } = this.state;
+    const { props, state } = this;
+    const { renderText } = props;
+    const { filterPage } = state;
 
     const onCancel = () => this.setState({ filterPage: null });
 
@@ -184,22 +166,21 @@ class EditFiltersContainer extends React.Component {
       <EditFilter
           renderText={renderText}
           field={filterPage}
-          value={this.state[filterPage]}
+          value={state[filterPage]}
           onCancel={onCancel}
           onSave={onSave} />
     );
   }
 
   render() {
-
-    const { renderText, actions } = this.props;
+    const { state } = this;
+    const { actions, hasSearched, renderText } = this.props;
     const {
       filterPage,
       [PROVIDERS.ACTIVE_ONLY]: activeOnly,
       [PROVIDERS.TYPE_OF_CARE]: typeOfCare,
       [PROVIDERS.RADIUS]: radius,
-      [PROVIDERS.CHILDREN]: children,
-      [PROVIDERS.DAYS]: days,
+      [PROVIDERS.CHILDREN]: children
     } = this.state;
 
     if (filterPage) {
@@ -225,12 +206,6 @@ class EditFiltersContainer extends React.Component {
       return `${size} ${renderText(LABELS.TYPES_SELECTED)}`;
     };
 
-    const getDays = () => Object.values(DAYS_OF_WEEK)
-      .filter(v => days.has(v))
-      .map(v => renderText(LABELS[v]))
-      .join(', ')
-      || any;
-
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
         <div>{renderText(label)}</div>
@@ -247,8 +222,6 @@ class EditFiltersContainer extends React.Component {
     });
 
     const onExecuteSearch = () => {
-      const { state, props } = this;
-      const { actions, hasSearched } = props;
 
       if (hasSearched) {
 
@@ -282,16 +255,28 @@ class EditFiltersContainer extends React.Component {
 
             <HeaderLabel>{renderText(LABELS.BASIC_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), LABELS.TYPE_OF_CARE)}
-            {renderRow(PROVIDERS.RADIUS, `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`, LABELS.SEARCH_RADIUS)}
+            {
+              renderRow(
+                PROVIDERS.RADIUS,
+                `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`,
+                LABELS.SEARCH_RADIUS
+              )
+            }
             <Line />
             <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
-            {renderRow(PROVIDERS.ACTIVE_ONLY, renderText(activeOnly ? LABELS.NO : LABELS.YES), LABELS.SHOW_INACTIVE_FACILITIES)}
+            {
+              renderRow(
+                PROVIDERS.ACTIVE_ONLY,
+                renderText(activeOnly ? LABELS.NO : LABELS.YES),
+                LABELS.SHOW_INACTIVE_FACILITIES
+              )
+            }
 
           </StyledContentWrapper>
         </ScrollContainer>
         <ApplyButtonWrapper>
-          <ApplyButton onClick={onExecuteSearch}>{renderText(LABELS.APPLY)}</ApplyButton>
+          <Button color="primary" onClick={onExecuteSearch}>{renderText(LABELS.APPLY)}</Button>
         </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );
