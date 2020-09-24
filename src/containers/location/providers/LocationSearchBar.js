@@ -2,6 +2,8 @@
 
 import React, {
   useCallback,
+  useEffect,
+  useRef,
   useState
 } from 'react';
 
@@ -11,6 +13,7 @@ import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, isImmutable } from 'immutable';
 import {
+  Colors,
   Select,
   StyleUtils,
 } from 'lattice-ui-kit';
@@ -33,7 +36,17 @@ import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
+const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
+
+/* placeholder color needs to be darker to provide more contrast between text and background */
+const getTheme = (theme) => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
+    neutral50: NEUTRAL.N700
+  },
+});
 
 const Wrapper = styled.div`
   width: 100%;
@@ -58,6 +71,17 @@ const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} /
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
+
+  /* 'aria-autocomplete' should be set to none because it is not a valid label for Role 'textbox' */
+  const refInput = useRef(null);
+  useEffect(() => {
+    if (refInput.current) {
+      const inputElement :HTMLInputElement = refInput.current.querySelector('input');
+      if (inputElement && inputElement.ariaAutoComplete === 'list') {
+        inputElement.setAttribute('aria-autocomplete', 'none');
+      }
+    }
+  }, []);
 
   const renderText = useSelector(getRenderTextFn);
   const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
@@ -118,8 +142,9 @@ const LocationsSearchBar = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={refInput}>
       <Select
+          aria-label="address"
           components={{ GroupHeading }}
           filterOption={filterOption}
           hideDropdownIcon
@@ -132,6 +157,7 @@ const LocationsSearchBar = () => {
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          theme={getTheme}
           value={value} />
     </Wrapper>
   );

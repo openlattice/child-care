@@ -1,13 +1,10 @@
 // @flow
 
 import React from 'react';
-
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { List, Map } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
-import { FILTER_HEADERS } from './constants';
+import { Button, Colors } from 'lattice-ui-kit';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import ActiveOnlyFilter from './filters/ActiveOnlyFilter';
@@ -15,7 +12,6 @@ import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
-import InfoButton from '../../../components/buttons/InfoButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
@@ -75,16 +71,6 @@ const EditFilterHeader = styled.div`
   color: #555E6F;
 `;
 
-const fixedBottomButtonStyle = css`
-  border-radius: 3px;
-  border: none;
-  width: 100%;
-  font-family: Inter;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-`;
-
 const ApplyButtonWrapper = styled.div`
    position: fixed;
    padding: 10px ${PADDING}px 30px ${PADDING}px;
@@ -93,10 +79,10 @@ const ApplyButtonWrapper = styled.div`
    height: 70px;
    background-color: white;
    z-index: 16;
-`;
 
-const SaveFilterButton = styled(InfoButton)`
-  ${fixedBottomButtonStyle}
+   button {
+     width: 100%;
+   }
 `;
 
 const FILTER_COMPONENTS = {
@@ -160,9 +146,9 @@ export default class EditFilter extends React.Component {
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
-          <SaveFilterButton disabled={!isValid} onClick={() => onSave({ field, value })}>
+          <Button color="primary" disabled={!isValid} onClick={() => onSave({ field, value })}>
             {renderText(LABELS.SAVE)}
-          </SaveFilterButton>
+          </Button>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
     );

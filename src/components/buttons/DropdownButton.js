@@ -14,12 +14,6 @@ const DropdownButtonWrapper = styled.div`
   position: relative;
 `;
 
-const BaseButton = styled(Button)`
-  svg {
-    margin-left: 10px;
-  }
-`;
-
 const MenuContainer = styled.div`
   background-color: white;
   border-radius: 3px;
@@ -101,14 +95,14 @@ class DropdownButton extends Component<Props, State> {
 
     return (
       <DropdownButtonWrapper>
-        <BaseButton
+        <Button
+            endIcon={<FontAwesomeIcon icon={faChevronDown} fixedWidth />}
             isLoading={isLoading}
             onBlur={this.closeDropdown}
             onClick={this.toggleDropdown}
             size={size}>
           {title}
-          <FontAwesomeIcon icon={faChevronDown} fixedWidth />
-        </BaseButton>
+        </Button>
         { open && (
           <MenuContainer offset={size}>
             {options.map((option) => (
