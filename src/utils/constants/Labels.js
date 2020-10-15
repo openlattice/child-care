@@ -195,6 +195,10 @@ export const LABELS = {
     [en]: 'Refine Search',
     [es]: 'Refinar la búsqueda'
   },
+  RESOURCES: {
+    [en]: 'Resources',
+    [es]: 'Recursos'
+  },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Resource & Referral Agency',
     [es]: 'Oficina de recursos y derivaciones'
