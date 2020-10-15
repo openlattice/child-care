@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 
 import * as AppActions from './AppActions';
 
-import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
+import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/Labels';
 import { STATE } from '../../utils/constants/StateConstants';
@@ -99,6 +99,8 @@ type Props = {
   actions :{
     switchLanguage :Function
   };
+  onClose :() => void;
+  renderText :(currentLanguage :string) => void;
 };
 
 const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
@@ -131,7 +133,6 @@ class AppNavigationSidebar extends Component<Props> {
     return (
       <Wrapper>
         <NavMenuWrapper>
-
           <MenuRow isBack onClick={onClose}>
             <span><FontAwesomeIcon icon={faChevronLeft} /></span>
             {renderText(LABELS.BACK)}
@@ -141,6 +142,9 @@ class AppNavigationSidebar extends Component<Props> {
           </MenuRowNavLink>
           <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
             {renderText(LABELS.ABOUT)}
+          </MenuRowNavLink>
+          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
+            {renderText(LABELS.RESOURCES)}
           </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
             {renderText(LABELS.TERMS_AND_CONDITIONS)}
