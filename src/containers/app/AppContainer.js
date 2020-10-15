@@ -24,9 +24,10 @@ import AppHeaderContainer from './AppHeaderContainer';
 import { initializeApplication } from './AppActions';
 
 import AboutPage from '../about/AboutPage';
+import ResourcesPage from '../resources/ResourcesPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
-import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
+import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
   APP_CONTENT_PADDING,
@@ -92,6 +93,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
+  renderText :(currentLanguage :string) => string;
 };
 
 class AppContainer extends Component<Props> {
@@ -123,6 +125,7 @@ class AppContainer extends Component<Props> {
       <Switch>
         <Route exact strict path={HOME_PATH} component={LocationsContainer} />
         <Route path={ABOUT_PATH} component={AboutPage} />
+        <Route path={RESOURCES_PATH} component={ResourcesPage} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );
