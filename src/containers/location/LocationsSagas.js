@@ -63,6 +63,8 @@ const LOG = new Logger('LocationsSagas');
 
 const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
+const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
+
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
@@ -92,7 +94,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
     const { data: suggestions } = yield call(axios, {
       method: 'get',
-      url: `${GEOCODING_API}/${window.encodeURI(address)}.json?${queryString}`,
+      url: `${GEOCODING_API}/${window.encodeURI(address)}.json?bbox=${CA_BOUNDARY_BOX}&${queryString}`,
     });
 
     const formattedSuggestions = suggestions.features.map((sugg) => {
