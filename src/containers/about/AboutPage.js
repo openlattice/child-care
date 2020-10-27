@@ -124,7 +124,7 @@ class AboutPage extends React.Component {
       <LogoRow>
         {logoUrls.map((url) => (
           <LogoLink href={url} key={url} width={width} height={IMG_HEIGHT[url] || 40}>
-            <img src={URL_TO_IMG[url]} />
+            <img alt={URL_TO_IMG[url]} src={URL_TO_IMG[url]} />
           </LogoLink>
         ))}
       </LogoRow>
