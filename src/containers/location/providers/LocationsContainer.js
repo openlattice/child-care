@@ -149,14 +149,14 @@ const LocationsContainer = () => {
               <StyledContentWrapper>
                 { renderSearchResults() }
                 {
-                  hasSearched &&
-                  (
-                    <PaginationToolbar
-                        page={page}
-                        count={totalHits}
-                        onPageChange={onPageChange}
-                        rowsPerPage={MAX_HITS} />
-                  )
+                  hasSearched
+                    && (
+                      <PaginationToolbar
+                          page={page}
+                          count={totalHits}
+                          onPageChange={onPageChange}
+                          rowsPerPage={MAX_HITS} />
+                    )
                 }
               </StyledContentWrapper>
             </>
