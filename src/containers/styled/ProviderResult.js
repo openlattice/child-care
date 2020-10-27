@@ -29,9 +29,7 @@ import {
 } from '.';
 
 type Props = {
-  person :Map;
   provider :Map;
-  profilePicture :Map;
 }
 
 const TwoPartRow = styled.div`
