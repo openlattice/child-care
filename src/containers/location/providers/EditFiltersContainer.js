@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import type { RequestSequence } from 'redux-reqseq';
 import { bindActionCreators } from 'redux';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
@@ -133,9 +134,23 @@ const ApplyButtonWrapper = styled.div`
    }
 `;
 
-class EditFiltersContainer extends React.Component {
+type Props = {
+  actions :{
+    searchLocations :RequestSequence;
+    setValue :({ field :string, value :any }) => void;
+  };
+  hasSearched :boolean;
+  providerState :Map;
+  renderText :(labels :Object) => string;
+}
 
-  constructor(props) {
+type State = {
+  filterPage :string | null;
+}
+
+class EditFiltersContainer extends React.Component<Props, State> {
+
+  constructor(props :Props) {
     super(props);
 
     const { providerState } = props;

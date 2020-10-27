@@ -92,6 +92,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
+  renderText :(labels :Object) => string;
 };
 
 class AppContainer extends Component<Props> {

@@ -77,7 +77,7 @@ type Props = {
   isOpen :boolean;
   provider :Map;
   onClose :() => void;
-  renderText :Function
+  renderText :(labels :Object) => string;
 };
 
 const ProviderPopup = ({

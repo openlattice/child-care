@@ -47,7 +47,7 @@ type State = {
 
 export default class ExpandableSection extends React.Component<Props, State> {
 
-  constructor(props) {
+  constructor(props :Props) {
     super(props);
     this.state = {
       isOpen: false

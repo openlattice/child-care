@@ -169,9 +169,16 @@ const TitleRow = styled.div`
   }
 `;
 
-class ProviderDetailsContainer extends React.Component {
+type Props = {
+  hospital :Map;
+  provider :Map;
+  renderText :(labels :Object) => string;
+  rrs :Map;
+};
 
-  renderEmailAsLink = (provider, isRR) => {
+class ProviderDetailsContainer extends React.Component<Props> {
+
+  renderEmailAsLink = (provider :Map, isRR :boolean) => {
     const { renderText } = this.props;
     const email = getValue(provider, PROPERTY_TYPES.EMAIL);
     if (!email) {
@@ -181,7 +188,7 @@ class ProviderDetailsContainer extends React.Component {
     return <a onClick={trackClick()} href={`mailto:${email}`}>{email}</a>;
   };
 
-  renderRR = (rr) => {
+  renderRR = (rr :Map) => {
     const url = getValue(rr, PROPERTY_TYPES.URL);
     const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
 
@@ -446,8 +453,6 @@ class ProviderDetailsContainer extends React.Component {
               {this.renderLicenseElement()}
             </DataRows>
           </Row>
-
-
           <Row>
             <div>{renderText(LABELS.NEAREST_HOSPITAL)}</div>
             <DataRows alignEnd>
@@ -462,7 +467,7 @@ class ProviderDetailsContainer extends React.Component {
 
   render() {
 
-    const { renderText, provider, rrs } = this.props;
+    const { provider } = this.props;
 
     if (!provider) {
       return null;
@@ -475,12 +480,12 @@ class ProviderDetailsContainer extends React.Component {
       this.renderContactSection(),
       this.renderHealthAndSafetySection(),
       this.renderRRsSection()
-    ].filter(s => s).map((s, idx) => (
+    ].filter((s) => s).map((s, idx) => (
       <Fragment key={idx}>
         {s}
         <Line />
       </Fragment>
-    ))
+    ));
 
     return (
       <StyledContentOuterWrapper>
@@ -501,7 +506,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
   const provider = providerState.get(PROVIDERS.SELECTED_PROVIDER);
   const selectedProviderId = getEntityKeyId(provider);
   const rrs = providerState.getIn([PROVIDERS.RRS_BY_ID, selectedProviderId], List())
-    .map(e => e.get('neighborDetails', Map()));
+    .map((entity) => entity.get('neighborDetails', Map()));
   const hospital = providerState.getIn([PROVIDERS.HOSPITALS_BY_ID, selectedProviderId], Map())
     .get('neighborDetails', Map());
 
