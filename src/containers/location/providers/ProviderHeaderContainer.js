@@ -1,4 +1,3 @@
-
 // @flow
 
 import React from 'react';
@@ -31,6 +30,8 @@ import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
  z-index: 1;
  position: fixed;
@@ -56,7 +57,7 @@ const BackButton = styled.div`
   align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
+  color: ${PURPLE.P300};
   text-decoration: none;
   :hover {
     text-decoration: underline;
@@ -78,7 +79,7 @@ const Header = styled.div`
   justify-content: space-between;
   font-family: Inter;
   font-style: normal;
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 
   @media only screen and (min-height: ${HEIGHTS[0]}px) {
     padding: 10px 0;
@@ -119,24 +120,7 @@ const SubHeader = styled.div`
   line-height: 17px;
   margin: 3px 0;
 
-  color: #555E6F;
-`;
-
-const OpenClosedTag = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal !important;
-  font-size: 14px !important;
-  line-height: 17px !important;
-
-  text-align: right;
-  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
-`;
-
-const TwoPartRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  color: ${NEUTRAL.N700};
 `;
 
 class ProviderHeaderContainer extends React.Component {

@@ -1,9 +1,16 @@
+/*
+ * @flow
+ */
 import React from 'react';
 import styled from 'styled-components';
+import { Map } from 'immutable';
+import { Colors } from 'lattice-ui-kit';
 
 import PlusMinus from '../../../../components/controls/PlusMinus';
 import { PROPERTY_TYPES } from '../../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../../utils/constants/Labels';
+
+const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,10 +28,17 @@ const Label = styled.div`
   line-height: 19px;
   text-align: center;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
-export default class ChildrenFilter extends React.Component {
+type Props = {
+  setIsValid :(isValid :boolean) => void;
+  value :Map;
+  onChange :(nextValues :Map) => void;
+  renderText :(labels :Object) => string;
+}
+
+export default class ChildrenFilter extends React.Component<Props> {
 
   componentDidMount() {
     const { setIsValid } = this.props;

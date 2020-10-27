@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components';
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
-import { Tooltip } from 'lattice-ui-kit';
+import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -30,6 +30,8 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+
+const { NEUTRAL, PURPLE } = Colors;
 
 const PADDING = 25;
 
@@ -80,22 +82,14 @@ const Row = styled.div`
   line-height: 19px;
 
   div {
-    color: #555E6F;
+    color: ${NEUTRAL.N700};
     max-width: 65%;
   }
 
   a {
-    color: #6124E2;
+    color: ${PURPLE.P300};
     text-decoration: underline;
     max-width: 65%;
-  }
-`;
-
-const Group = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    margin-right: 10px;
   }
 `;
 
@@ -107,7 +101,7 @@ const DataRows = styled.div`
 
   span {
     text-align: right;
-    color: #8E929B;
+    color: ${NEUTRAL.N600};
   }
 
   a {
@@ -123,7 +117,7 @@ const DateRow = styled.article`
   justify-content: space-between;
 
   span {
-    color: #8E929B;
+    color: ${NEUTRAL.N600};
   }
 
   span:first-child {
@@ -138,7 +132,7 @@ const DateRow = styled.article`
 
 const Line = styled.div`
   height: 1px;
-  background-color: #E6E6EB;
+  background-color: ${NEUTRAL.N100};
   margin: ${(props) => props.paddingTop || 0}px -${PADDING}px 0 -${PADDING}px;
 `;
 
@@ -149,7 +143,7 @@ const InfoText = styled.div`
   font-size: 14px;
   line-height: 19px;
 
-  color: #8E929B;
+  color: ${NEUTRAL.N600};
 `;
 
 const TitleRow = styled.div`
@@ -157,12 +151,12 @@ const TitleRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  color: #8E929B;
+  color: ${NEUTRAL.N600};
   width: 100%;
   padding: 20px 0;
 
   span {
-    color: #555E6F;
+    color: ${NEUTRAL.N700};
     font-family: Inter;
     font-style: normal;
     font-weight: 600;

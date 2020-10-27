@@ -20,6 +20,8 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import * as LocationsActions from '../LocationsActions';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
@@ -49,7 +51,7 @@ const BackButton = styled.div`
   align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
+  color: ${PURPLE.P300};
   text-decoration: none;
   :hover {
     text-decoration: underline;
@@ -73,11 +75,11 @@ const HeaderLabel = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
 const FilterRow = styled.div`
-  color: #8E929B;
+  color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -101,7 +103,7 @@ const FilterRow = styled.div`
 
     span {
       font-weight: 600;
-      color: #555E6F;
+      color: ${NEUTRAL.N700};
       margin-right: 15px;
     }
   }
@@ -113,7 +115,7 @@ const FilterRow = styled.div`
 
 const Line = styled.div`
   height: 1px;
-  background-color: #E6E6EB;
+  background-color: ${NEUTRAL.N100};
   margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 

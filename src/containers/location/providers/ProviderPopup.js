@@ -24,6 +24,8 @@ import {
 import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const ActionBar = styled.div`
   display: flex;
   flex: 1;
@@ -32,7 +34,7 @@ const ActionBar = styled.div`
 
 
   strong {
-    color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
+    color: ${(props) => (props.isInactive ? NEUTRAL.N500 : NEUTRAL.N700)};
     font-weight: ${(props) => (props.isInactive ? 400 : 600)};
     font-size: 16px;
   }
@@ -50,7 +52,7 @@ const LinkButton = styled.div`
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
-  color: ${Colors.PURPLES[1]};
+  color: ${PURPLE.P300};
   text-decoration: none;
   text-align: center;
   margin-top: 10px;

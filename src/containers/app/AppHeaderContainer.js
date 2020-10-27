@@ -3,11 +3,11 @@
  */
 
 import React, { Component } from 'react';
-
 import styled from 'styled-components';
+import { Colors, Drawer } from 'lattice-ui-kit';
+
 import { faBars } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Colors, Drawer } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -25,13 +25,13 @@ import {
 import { getRenderTextFn } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
 
-const { NEUTRALS, WHITE } = Colors;
+const { NEUTRAL } = Colors;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
-const APP_HEADER_BORDER :string = '#e6e6eb';
+const APP_HEADER_BORDER :string = NEUTRAL.N100;
 
 const AppHeaderOuterWrapper = styled.header`
-  background-color: ${WHITE};
+  background-color: white;
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;
@@ -69,7 +69,7 @@ const LogoTitleWrapperLink = styled.div`
 
 const NavigationToggleWrapper = styled.div`
   align-items: center;
-  color: ${NEUTRALS[1]};
+  color: ${NEUTRAL.N700};
   cursor: pointer;
   display: flex;
   font-size: 16px;
@@ -82,7 +82,7 @@ const NavigationToggleWrapper = styled.div`
   width: 32px;
 
   &:hover {
-    color: ${NEUTRALS[0]};
+    color: ${NEUTRAL.N700};
   }
 `;
 
@@ -159,7 +159,6 @@ function mapStateToProps(state) {
     renderText: getRenderTextFn(state)
   };
 }
-
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({

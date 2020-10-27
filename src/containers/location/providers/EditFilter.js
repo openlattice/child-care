@@ -16,6 +16,8 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
@@ -25,7 +27,7 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
   top: ${HEADER_HEIGHT}px;
   bottom: 0;
   z-index: 15;
-  background-color: #f5f5f8;
+  background-color: ${NEUTRAL.N50};
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -45,7 +47,7 @@ const BackButton = styled.div`
   align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
+  color: ${PURPLE.P300};
   text-decoration: none;
   :hover {
     text-decoration: underline;
@@ -68,7 +70,7 @@ const EditFilterHeader = styled.div`
   line-height: 27px;
   margin: 20px 0;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
 const ApplyButtonWrapper = styled.div`

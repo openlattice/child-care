@@ -20,6 +20,8 @@ import { getRenderTextFn } from '../../utils/AppUtils';
 import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/Labels';
 import { STATE } from '../../utils/constants/StateConstants';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const DEFAULT_PADDING = css`padding: 20px 24px;`;
 
 const Wrapper = styled.div`
@@ -38,7 +40,7 @@ const menuRowStyle = css`
   display: flex;
   flex-direction: row;
   ${DEFAULT_PADDING}
-  border-bottom: 1px solid #E6E6EB;
+  border-bottom: 1px solid ${NEUTRAL.N100};
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
@@ -46,7 +48,7 @@ const menuRowStyle = css`
   line-height: 17px;
   text-decoration: none;
 
-  color: ${(props) => (props.isBack ? Colors.PURPLES[1] : '#555E6F')};
+  color: ${(props) => (props.isBack ? PURPLE.P300 : NEUTRAL.N700)};
 
   span {
     margin-right: 10px;
@@ -55,7 +57,7 @@ const menuRowStyle = css`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 const MenuRow = styled.div`${menuRowStyle}`;
 
@@ -65,7 +67,7 @@ const MenuRowLink = styled.a.attrs({
 
 const MenuRowMailtoLink = styled.a`
   ${menuRowStyle}
-`
+`;
 
 const MenuRowNavLink = styled(Link)`
   ${menuRowStyle}
@@ -84,7 +86,7 @@ const Lang = styled.div`
   line-height: 17px;
 
   font-weight: ${(props) => (props.isSelected ? 600 : 400)};
-  color: ${(props) => (props.isSelected ? '#6124E2' : '#555E6F')};
+  color: ${(props) => (props.isSelected ? PURPLE.P300 : NEUTRAL.N700)};
 
   &:hover {
     cursor: pointer;
@@ -99,6 +101,8 @@ type Props = {
   actions :{
     switchLanguage :Function
   };
+  onClose :() => void;
+  renderText :(labels :Object) => string;
 };
 
 const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
@@ -126,7 +130,7 @@ class AppNavigationSidebar extends Component<Props> {
 
     const { onClose, renderText } = this.props;
 
-    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${renderText(LABELS.SEND_FEEDBACK_SUBJECT)}`
+    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${renderText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
 
     return (
       <Wrapper>
@@ -170,7 +174,6 @@ function mapStateToProps(state) {
     renderText: getRenderTextFn(state)
   };
 }
-
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({

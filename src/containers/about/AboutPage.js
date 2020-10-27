@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Colors } from 'lattice-ui-kit';
 
 import { STATE } from '../../utils/constants/StateConstants';
 import { ABOUT, LABELS } from '../../utils/constants/Labels';
@@ -13,6 +14,8 @@ import cloudflareLogo from '../../assets/images/cloudflareLogo.png';
 import everbridgeLogo from '../../assets/images/everbridgeLogo.png';
 import openlatticeLogo from '../../assets/images/openlatticeLogoLong.png';
 import mapboxLogo from '../../assets/images/mapboxLogo.png';
+
+const { NEUTRAL, PURPLE } = Colors;
 
 const URLS = {
   CDSS: 'https://cdss.ca.gov/',
@@ -49,7 +52,7 @@ const Header = styled.div`
   font-size: 22px;
   line-height: 27px;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
 const Text = styled.div`
@@ -59,20 +62,13 @@ const Text = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
 const TextLink = styled.a.attrs({
   target: '_blank'
 })`
-  color: #6124E2;
-`;
-
-const IntroSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 15px;
+  color: ${PURPLE.P300};
 `;
 
 const TextSection = styled.div`
@@ -116,7 +112,6 @@ const CaImg = styled.img.attrs({
   max-width: 125px;
   margin-top: 10px;
 `;
-
 
 class AboutPage extends React.Component {
 

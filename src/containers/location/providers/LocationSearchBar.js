@@ -67,7 +67,7 @@ const Wrapper = styled.div`
   `}
 `;
 
-const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} />);
+const GroupHeading = () => (<div style={{ borderBottom: `1px solid ${NEUTRAL.N100}` }} />);
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {

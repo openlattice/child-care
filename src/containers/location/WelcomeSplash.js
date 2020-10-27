@@ -1,13 +1,14 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { faHouse } from '@fortawesome/pro-light-svg-icons';
-import { Hooks, IconSplash } from 'lattice-ui-kit';
+
+import { Colors, Hooks } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import { WELCOME_SPLASH } from '../../utils/constants/Labels';
-import { useSelector } from 'react-redux';
+
+const { NEUTRAL, PURPLE } = Colors;
 
 const { useBoolean } = Hooks;
 
@@ -23,7 +24,7 @@ const Centered = styled.div`
 
 const TextSection = styled.span`
   text-align: center;
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
   font-size: 14px;
   font-weight: 300;
 `;
@@ -41,7 +42,7 @@ const Instructions = styled(TextSection)`
 
 
   span {
-    color: #6124E2;
+    color: ${PURPLE.P300};
     text-decoration: underline;
 
     &:hover {

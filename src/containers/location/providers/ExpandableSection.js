@@ -2,8 +2,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { Colors } from 'lattice-ui-kit';
 import { faChevronUp, faChevronDown } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
   width:  100%;
@@ -15,12 +18,12 @@ const TitleRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  color: #8E929B;
+  color: ${NEUTRAL.N400};
   width: 100%;
   padding-bottom: ${(props) => (props.isOpen ? 10 : 0)}px;
 
   span {
-    color: #555E6F;
+    color: ${NEUTRAL.N700};
     font-family: Inter;
     font-style: normal;
     font-weight: 600;
