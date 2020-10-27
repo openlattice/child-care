@@ -87,20 +87,17 @@ const ProviderPopup = ({
   provider,
   renderText
 } :Props) => {
-
-  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
-
   const name = renderFacilityName(provider, renderText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
-  const status = getValues(provider, PROPERTY_TYPES.STATUS);
-  const url = getValue(provider, PROPERTY_TYPES.URL);
+    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
-  const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
   const city = getValue(provider, PROPERTY_TYPES.CITY);
-  const zip = getValue(provider, PROPERTY_TYPES.ZIP);
-
-  const isOperating = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+  // const isOperating = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
+  // const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
+  // const status = getValues(provider, PROPERTY_TYPES.STATUS);
+  // const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
+  // const url = getValue(provider, PROPERTY_TYPES.URL);
+  // const zip = getValue(provider, PROPERTY_TYPES.ZIP);
 
   const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
   let vacancyLabel = LABELS.AVAILABILITY_UNKNOWN;

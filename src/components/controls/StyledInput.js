@@ -7,8 +7,8 @@ import styled, { css } from 'styled-components';
 const style = css`
   display: flex;
   flex: 0 1 auto;
-  width: ${props => props.width || '100%'};
-  height: ${props => (props.short ? 39 : 45)}px;
+  width: ${(props) => props.width || '100%'};
+  height: ${(props) => (props.short ? 39 : 45)}px;
   font-size: 16px;
   line-height: 19px;
   border-radius: 3px;
@@ -16,7 +16,7 @@ const style = css`
   border: solid 1px #dcdce7;
   color: #2e2e34;
   padding: 12px 20px;
-  margin-bottom: ${props => (props.padBottom ? 20 : 0)}px;
+  margin-bottom: ${(props) => (props.padBottom ? 20 : 0)}px;
 
   &:focus {
     box-shadow: inset 0 0 0 1px rebeccapurple;

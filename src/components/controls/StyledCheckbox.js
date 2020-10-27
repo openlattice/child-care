@@ -9,12 +9,12 @@ const Control = styled.label`
   display: block;
   position: relative;
   padding: 0 10px 0 20px;
-  margin-bottom: ${props => (props.noMargin ? 0 : 10)}px;
+  margin-bottom: ${(props) => (props.noMargin ? 0 : 10)}px;
   font-family: Inter;
   font-size: 16px;
   font-weight: normal;
-  color: ${props => (props.checked ? '#2e2e34' : '#8e929b')};
-  cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+  color: ${(props) => (props.checked ? '#2e2e34' : '#8e929b')};
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 
   input {
     position: absolute;
@@ -92,7 +92,7 @@ const CheckboxIndicator = styled.div`
 
 const CheckboxLabel = styled.span`
   margin-left: 5px;
-  font-weight: ${props => (props.bold ? 600 : 400)};
+  font-weight: ${(props) => (props.bold ? 600 : 400)};
   color: #2e2e34;
 `;
 
