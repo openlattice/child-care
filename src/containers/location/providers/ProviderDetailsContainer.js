@@ -1,11 +1,11 @@
 // @flow
-
+/* eslint-disable react/jsx-no-target-blank */
 import React, { Fragment } from 'react';
 
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
@@ -393,21 +393,20 @@ class ProviderDetailsContainer extends React.Component<Props> {
     );
   }
 
-
   renderHealthAndSafetySection = () => {
     const { renderText, provider, hospital } = this.props;
 
     const unknown = this.renderUnknown();
 
-    const InfoIcon = React.forwardRef((props, ref) => (
-      <span {...props} ref={ref}>
-        <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
-      </span>
-    ));
+    // const InfoIcon = React.forwardRef((props, ref) => (
+    //   <span {...props} ref={ref}>
+    //     <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
+    //   </span>
+    // ));
 
     const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
-    const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
+    // const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
 
     const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
@@ -481,6 +480,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
       this.renderHealthAndSafetySection(),
       this.renderRRsSection()
     ].filter((s) => s).map((s, idx) => (
+      /* eslint-disable-next-line */
       <Fragment key={idx}>
         {s}
         <Line />

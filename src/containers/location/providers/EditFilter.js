@@ -105,7 +105,6 @@ export default class EditFilter extends React.Component {
     };
   }
 
-
   getContent = () => {
     const { field, renderText } = this.props;
     const { value } = this.state;

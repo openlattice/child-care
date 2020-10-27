@@ -10,10 +10,9 @@ import {
 } from 'immutable';
 import { Constants, Models } from 'lattice';
 
-import { isDefined } from './LangUtils';
-import { FACILITY_NAME_MASKED, FACILITY_STATUSES, FACILITY_TYPES } from './DataConstants';
+import { FACILITY_NAME_MASKED, FACILITY_STATUSES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
-import { LABELS, AGES_SERVED_LABELS } from './constants/Labels'
+import { LABELS, AGES_SERVED_LABELS } from './constants/Labels';
 
 const { FullyQualifiedName } = Models;
 const { OPENLATTICE_ID_FQN } = Constants;
@@ -28,7 +27,7 @@ const getFqnObj = (fqnStr :string) => {
   };
 };
 
-const getFqn = (fqnObj) => {
+const getFqn = (fqnObj :Map) => {
   if (isImmutable(fqnObj)) {
     return `${fqnObj.get('namespace')}.${fqnObj.get('name')}`;
   }
@@ -165,39 +164,6 @@ const getEntityKeyId = (entity :Map | Object) :string => getIn(entity, [OPENLATT
 const getEntityKeyIdsFromList = (entityList :List) => entityList
   .map((entity) => getIn(entity, [OPENLATTICE_ID_FQN, 0]));
 
-const getFormDataFromEntity = (
-  entity :Map | Object,
-  esn :string,
-  properties :List<FullyQualifiedName> | FullyQualifiedName[],
-  index :number
-) :Map => {
-  const entityFormData = Map().withMutations((entityMutator) => {
-    properties.forEach((fqn :FullyQualifiedName) => {
-      const value = getIn(entity, [fqn, 0]);
-      if (isDefined(value)) {
-      }
-    });
-  });
-
-  return entityFormData;
-};
-
-const getFormDataFromEntityArray = (
-  data :List<Map> | Object[],
-  esn :string,
-  properties :List<FullyQualifiedName> | FullyQualifiedName[],
-  index :number
-) :List<Map> => {
-  const entityFormDataList = List().withMutations((mutator :List) => {
-    data.forEach((entity :Map) => {
-      const entityFormData = getFormDataFromEntity(entity, esn, properties, index);
-      mutator.push(entityFormData);
-    });
-  });
-
-  return entityFormDataList;
-};
-
 const groupNeighborsByEntitySetIds = (
   neighbors :List<Map>,
   byAssociation :boolean = false,
@@ -293,50 +259,52 @@ const getEKIDsFromEntryValues = (neighborMap :Map) => neighborMap
   .valueSeq()
   .map((neighbor) => neighbor.getIn([OPENLATTICE_ID_FQN, 0]));
 
-export const getValue = (entity, fqn) => entity.getIn([fqn, 0], '');
-export const getValues = (entity, fqn) => entity.get(fqn, List()).join(', ');
+export const getValue = (entity :Map, fqn :string) => entity.getIn([fqn, 0], '');
+export const getValues = (entity :Map, fqn :string) => entity.get(fqn, List()).join(', ');
 
-export const getDistanceBetweenCoords = (coordinate1, coordinate2) => {
+export const getDistanceBetweenCoords = (coordinate1 :number[], coordinate2 :number[]) => {
   const [lat1, lon1] = coordinate1;
   const [lat2, lon2] = coordinate2;
 
-	if ((lat1 == lat2) && (lon1 == lon2)) {
-		return 0;
-	}
-	else {
-		var radlat1 = Math.PI * lat1/180;
-		var radlat2 = Math.PI * lat2/180;
-		var theta = lon1-lon2;
-		var radtheta = Math.PI * theta/180;
-		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-		if (dist > 1) {
-			dist = 1;
-		}
-		dist = Math.acos(dist);
-		dist = dist * 180/Math.PI;
-		dist = dist * 60 * 1.1515;
+  if ((lat1 === lat2) && (lon1 === lon2)) {
+    return 0;
+  }
 
-		return dist;
-	}
-}
+  const radlat1 = (Math.PI * lat1) / 180;
+  const radlat2 = (Math.PI * lat2) / 180;
+  const theta = lon1 - lon2;
+  const radtheta = (Math.PI * theta) / 180;
+  let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  if (dist > 1) {
+    dist = 1;
+  }
+  dist = Math.acos(dist);
+  dist = (dist * 180) / Math.PI;
+  dist = dist * 60 * 1.1515;
+
+  return dist;
+
+};
 
 const HARDCODED_DATE = 'January 1, 2020';
 
-export const formatTimeAsDateTime = (time) => {
-  return moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
-};
+export const formatTimeAsDateTime = (time :string) => moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
 
-export const getAgesServedFromEntity = (provider, renderText) => provider.get(PROPERTY_TYPES.AGES_SERVED, List())
+export const getAgesServedFromEntity = (provider :Map, renderText :Function) => provider
+  .get(PROPERTY_TYPES.AGES_SERVED, List())
   .map((age) => renderText(AGES_SERVED_LABELS[age]))
   .join(', ')
     || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS);
 
-export const isProviderActive = (provider) => getValue(provider, PROPERTY_TYPES.STATUS) !== FACILITY_STATUSES.CLOSED;
+export const isProviderActive = (provider :Map) => getValue(
+  provider,
+  PROPERTY_TYPES.STATUS
+) !== FACILITY_STATUSES.CLOSED;
 
-export const shouldHideContact = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
-export const shouldHideLocation = (provider) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
+export const shouldHideContact = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
+export const shouldHideLocation = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
 
-export const renderFacilityName = (provider, renderText) => {
+export const renderFacilityName = (provider :Map, renderText :Function) => {
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
 
   if (name === FACILITY_NAME_MASKED) {
@@ -352,8 +320,6 @@ export {
   getEKIDsFromEntryValues,
   getEntityKeyId,
   getEntityKeyIdsFromList,
-  getFormDataFromEntity,
-  getFormDataFromEntityArray,
   getFqn,
   getFqnObj,
   getSearchTerm,

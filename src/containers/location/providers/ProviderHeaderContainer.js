@@ -144,17 +144,16 @@ class ProviderHeaderContainer extends React.Component {
 
     const name = renderFacilityName(provider, renderText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
-    const status = getValues(provider, PROPERTY_TYPES.STATUS);
-    const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
-    const url = getValue(provider, PROPERTY_TYPES.URL);
-
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
 
-    const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
+    // const status = getValues(provider, PROPERTY_TYPES.STATUS);
+    // const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
+    // const url = getValue(provider, PROPERTY_TYPES.URL);
+    // const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
+    // const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+    // const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
     const ages = getAgesServedFromEntity(provider, renderText);
 

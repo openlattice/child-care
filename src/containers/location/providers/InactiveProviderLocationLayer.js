@@ -18,6 +18,8 @@ type Props = {
 };
 
 const InactiveProviderLocationLayer = (props :Props) => (
+  /* eslint-disable */
+  // $FlowFixMe
   <ProviderLocationLayer images={images} layout={layout} {...props} />
 );
 

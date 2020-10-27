@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
 
-import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { VACANCY_COLORS } from '../../shared/Colors';
 import { selectProvider } from '../location/LocationsActions';
@@ -30,6 +30,8 @@ import {
 
 type Props = {
   provider :Map;
+  coordinates :{},
+  renderText :(labels :Object) => string;
 }
 
 const TwoPartRow = styled.div`
@@ -57,7 +59,6 @@ const ProviderResult = ({
   coordinates,
   renderText
 } :Props) => {
-  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
   const dispatch = useDispatch();
 
   const handleViewProfile = () => {
@@ -70,7 +71,7 @@ const ProviderResult = ({
 
   const name = renderFacilityName(provider, renderText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 

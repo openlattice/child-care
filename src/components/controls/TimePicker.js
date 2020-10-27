@@ -86,7 +86,7 @@ const TimePicker = (props :Props) => {
             placeholder={placeholder}
             value={selectedDate}
             variant="inline"
-            KeyboardButtonProps={{ disabled: true, style: { display: 'none' }}}
+            KeyboardButtonProps={{ disabled: true, style: { display: 'none' } }}
             // $FlowFixMe inexact pattern
             {...other} />
       </MuiPickersUtilsProvider>

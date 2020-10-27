@@ -40,7 +40,7 @@ const ProviderLocationLayer = (props :Props) => {
             map.getCanvas().style.cursor = '';
           };
 
-          const handleClick = (payload) => {
+          const handleClick = () => {
             const [lng, lat] = coordinates;
             const feature = { lngLat: { lng, lat } };
             onFeatureClick(location, feature);

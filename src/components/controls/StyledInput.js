@@ -46,7 +46,6 @@ export const StyledTextArea = styled.textarea`
 
 export default StyledInput;
 
-
 /* Styled input with FontAwesome search icon */
 
 const InputWrapper = styled.div`
@@ -68,8 +67,8 @@ const SearchIcon = styled(FontAwesomeIcon).attrs({
   top: 0;
   bottom: 0;
 `;
-
-export const SearchInput = props => (
+/* eslint-disable */
+export const SearchInput = (props) => (
   <InputWrapper>
     <SearchIcon />
     <PaddedStyledInput {...props} />

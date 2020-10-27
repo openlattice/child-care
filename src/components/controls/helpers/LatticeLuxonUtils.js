@@ -1,7 +1,7 @@
 // @flow
 import LuxonUtils from '@date-io/luxon';
 import type { DateTime, DurationObject } from 'luxon';
-
+/* eslint-disable class-methods-use-this */
 class LatticeLuxonUtils extends LuxonUtils {
   getWeekdays() {
     return ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];

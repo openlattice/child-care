@@ -1,6 +1,3 @@
-
-
-
 /*
  * @flow
  */
@@ -116,7 +113,6 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   return workerResponse;
 }
 
-
 /*
  * initializeApplication()
  */
@@ -144,7 +140,6 @@ function* initializeApplicationWatcher() :Generator<*, *, *> {
 
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
 }
-
 
 function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
   return take(
