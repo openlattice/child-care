@@ -24,20 +24,17 @@ const Text = styled.div`
   }
 `;
 
-const IEModal = ({ renderText }) => {
-
-  return (
-    <Modal withHeader={false} isVisible>
-      <Content>
-        <Text>
-          {renderText(UNSUPPORTED_BROWSER.HEADER)}
-        </Text>
-        <Text>
-          {renderText(UNSUPPORTED_BROWSER.SUGGESTION)}
-        </Text>
-      </Content>
-    </Modal>
-  );
-}
+const IEModal = ({ renderText }) => (
+  <Modal withHeader={false} isVisible>
+    <Content>
+      <Text>
+        {renderText(UNSUPPORTED_BROWSER.HEADER)}
+      </Text>
+      <Text>
+        {renderText(UNSUPPORTED_BROWSER.SUGGESTION)}
+      </Text>
+    </Content>
+  </Modal>
+);
 
 export default IEModal;
