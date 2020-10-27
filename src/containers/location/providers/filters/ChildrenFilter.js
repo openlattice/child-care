@@ -49,16 +49,16 @@ export default class ChildrenFilter extends React.Component<Props> {
     const { value, onChange, renderText } = this.props;
 
     const renderPlusMinus = (field) => (
-      <PlusMinus value={value.get(field, 0)} onChange={newValue => onChange(value.set(field, newValue))} />
+      <PlusMinus value={value.get(field, 0)} onChange={(newValue) => onChange(value.set(field, newValue))} />
     );
 
     return (
       <Wrapper>
 
-        <Label>{renderText(LABELS.AGE_INFANT)}</Label>
+        <Label id="numberOfInfants">{renderText(LABELS.AGE_INFANT)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
 
-        <Label>{renderText(LABELS.AGE_SCHOOL)}</Label>
+        <Label id="numberOfChildren">{renderText(LABELS.AGE_SCHOOL)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_OVER_5)}
 
       </Wrapper>
