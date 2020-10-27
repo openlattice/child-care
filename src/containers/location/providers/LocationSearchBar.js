@@ -77,8 +77,8 @@ const LocationsSearchBar = () => {
   useEffect(() => {
     if (refInput.current) {
       const inputElement :HTMLInputElement = refInput.current.querySelector('input');
-      if (inputElement && inputElement.ariaAutoComplete === 'list') {
-        inputElement.setAttribute('aria-autocomplete', 'none');
+      if (inputElement && inputElement.hasAttribute('aria-autocomplete')) {
+        inputElement.removeAttribute('aria-autocomplete');
       }
     }
   }, []);
