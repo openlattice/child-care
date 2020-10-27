@@ -21,7 +21,6 @@ import { getRenderTextFn } from '../../../utils/AppUtils';
 import {
   getDistanceBetweenCoords,
   getValue,
-  getValues,
   getAgesServedFromEntity,
   renderFacilityName
 } from '../../../utils/DataUtils';

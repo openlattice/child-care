@@ -5,7 +5,6 @@ import qs from 'query-string';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 import {
-  all,
   call,
   put,
   select,
@@ -40,8 +39,7 @@ import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 import {
   HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
-  RR_ENTITY_SET_ID,
-  BASE_URL
+  RR_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { STATE, HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';

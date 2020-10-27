@@ -69,7 +69,6 @@ const LocationsContainer = () => {
     false
   ));
 
-
   const renderText = useSelector(getRenderTextFn);
   const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const searchResults = useSelector((store) => store.getIn([STATE.LOCATIONS, 'hits'], List()));

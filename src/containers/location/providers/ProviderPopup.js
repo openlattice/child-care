@@ -13,15 +13,13 @@ import { selectProvider } from '../LocationsActions';
 
 import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';
-import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
   getValue,
-  getValues,
   getAgesServedFromEntity,
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
-import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 
 const { NEUTRAL, PURPLE } = Colors;

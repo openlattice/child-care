@@ -3,8 +3,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import isFunction from 'lodash/isFunction';
-import { faClock } from '@fortawesome/pro-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 import { DateTime } from 'luxon';
@@ -12,8 +10,6 @@ import { DateTime } from 'luxon';
 import LatticeLuxonUtils from './helpers/LatticeLuxonUtils';
 import useInputPropsMemo from './helpers/useInputPropsMemo';
 import { latticeMuiTheme } from './helpers/styles';
-
-const ClockIcon = <FontAwesomeIcon icon={faClock} />;
 
 type DateChange = (date :DateTime, value :string | null) => void;
 type Props = {

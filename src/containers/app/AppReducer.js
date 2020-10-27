@@ -3,20 +3,12 @@
  */
 
 import randomUUID from 'uuid/v4';
-import {
-  Map,
-  fromJS,
-  get,
-  getIn,
-} from 'immutable';
-import { Models } from 'lattice';
+import { fromJS, Map } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 import type { SequenceAction } from 'redux-reqseq';
 
-
 import { LANGUAGES } from '../../utils/constants/Labels';
-import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
-import { getFqn, getValue } from '../../utils/DataUtils';
+import { getFqn } from '../../utils/DataUtils';
 import {
   SWITCH_LANGUAGE,
   initializeApplication,
