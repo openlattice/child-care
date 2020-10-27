@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import activePin from '../../../assets/svg/activeprovidericon.svg';
 
@@ -14,7 +14,7 @@ const layout = { 'icon-image': 'activeMapPin' };
 
 type Props = {
   providerLocations :List;
-  onFeatureClick ? :(data, feature) => void;
+  onFeatureClick ?:(location :Map, feature :{}) => void;
 };
 
 const ActiveProviderLocationLayer = (props :Props) => (

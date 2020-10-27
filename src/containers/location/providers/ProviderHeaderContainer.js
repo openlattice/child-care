@@ -122,7 +122,16 @@ const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
 `;
 
-class ProviderHeaderContainer extends React.Component {
+type Props = {
+  actions :{
+    selectProvider :(bool :boolean) => void;
+  };
+  coordinates :{};
+  provider :Map;
+  renderText :(labels :Object) => string;
+};
+
+class ProviderHeaderContainer extends React.Component<Props> {
 
   getDistance = () => {
     const { coordinates, provider } = this.props;

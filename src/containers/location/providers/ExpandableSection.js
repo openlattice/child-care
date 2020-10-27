@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import type { Node, Element, ChildrenArray } from 'react';
 import styled from 'styled-components';
 import { Colors } from 'lattice-ui-kit';
 import { faChevronUp, faChevronDown } from '@fortawesome/pro-light-svg-icons';
@@ -38,7 +39,7 @@ const TitleRow = styled.div`
 
 type Props = {
   title :string;
-  children :Node;
+  children :Node | Element<*> | ChildrenArray<*>;
 }
 
 type State = {

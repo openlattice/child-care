@@ -95,9 +95,21 @@ const FILTER_COMPONENTS = {
   [PROVIDERS.TYPE_OF_CARE]: TypeOfCareFilter,
 };
 
-export default class EditFilter extends React.Component {
+type Props = {
+  field :string;
+  onCancel :() => void;
+  onSave :(nextObject :Object) => void;
+  renderText :(labels :Object) => string;
+  value :string;
+};
 
-  constructor(props) {
+type State = {
+  value :string;
+  isValid :boolean;
+}
+export default class EditFilter extends React.Component<Props, State> {
+
+  constructor(props :Props) {
     super(props);
     this.state = {
       value: props.value,

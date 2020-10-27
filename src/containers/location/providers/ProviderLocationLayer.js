@@ -1,15 +1,17 @@
 // @flow
 import React from 'react';
 
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { Feature, Layer } from 'react-mapbox-gl';
 
 import { OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
 type Props = {
+  images :any[];
+  layout :{};
   providerLocations :List;
-  onFeatureClick ? :(data, feature) => void;
+  onFeatureClick ?:(location :Map, feature :{}) => void;
 };
 
 const ProviderLocationLayer = (props :Props) => {
