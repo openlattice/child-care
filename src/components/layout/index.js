@@ -3,7 +3,7 @@ import { Colors, StyleUtils } from 'lattice-ui-kit';
 
 import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
 
-const { NEUTRALS } = Colors;
+const { NEUTRAL, PURPLE } = Colors;
 const { media } = StyleUtils;
 
 export const ContentOuterWrapper = styled.div`
@@ -52,7 +52,7 @@ export const DashedList = styled.div`
   flex-direction: column;
 
   > div {
-    border-bottom: 1px dashed ${NEUTRALS[4]};
+    border-bottom: 1px dashed ${NEUTRAL.N300};
   }
 
   > div:last-child {
@@ -68,6 +68,12 @@ export const H1 = styled.h1`
   font-size: 18px;
   font-weight: 600;
   align-items: center;
+`;
+
+export const TextLink = styled.a.attrs({
+  target: '_blank'
+})`
+  color: ${PURPLE.P300};
 `;
 
 export const IconWrapper = styled.span`
