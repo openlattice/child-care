@@ -4,8 +4,6 @@ import React, { Fragment } from 'react';
 
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-// import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
@@ -70,16 +68,14 @@ const StyledContentWrapper = styled(ContentWrapper)`
 `;
 
 const Row = styled.div`
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 8px 0;
-
-
   font-family: Inter;
   font-size: 14px;
+  justify-content: space-between;
   line-height: 19px;
+  margin: 8px 0;
 
   div {
     color: ${NEUTRAL.N700};
@@ -100,13 +96,13 @@ const DataRows = styled.div`
   ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
 
   span {
-    text-align: right;
     color: ${NEUTRAL.N600};
+    text-align: right;
   }
 
   a {
-    text-align: right;
     min-width: fit-content;
+    text-align: right;
     ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
   }
 `;
@@ -121,8 +117,8 @@ const DateRow = styled.article`
   }
 
   span:first-child {
-    text-align: left;
     margin-right: 10px;
+    text-align: left;
   }
 
   span:last-child {
@@ -131,36 +127,35 @@ const DateRow = styled.article`
 `;
 
 const Line = styled.div`
-  height: 1px;
   background-color: ${NEUTRAL.N100};
+  height: 1px;
   margin: ${(props) => props.paddingTop || 0}px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const InfoText = styled.div`
+  color: ${NEUTRAL.N600};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 19px;
-
-  color: ${NEUTRAL.N600};
 `;
 
 const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  color: ${NEUTRAL.N600};
-  width: 100%;
   padding: 20px 0;
+  width: 100%;
 
   span {
     color: ${NEUTRAL.N700};
     font-family: Inter;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
     line-height: 17px;
   }
 
@@ -398,15 +393,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     const unknown = this.renderUnknown();
 
-    // const InfoIcon = React.forwardRef((props, ref) => (
-    //   <span {...props} ref={ref}>
-    //     <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
-    //   </span>
-    // ));
-
     const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
-    // const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
 
     const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
@@ -418,23 +406,6 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
 
     const complaints = null;
-    // const complaints = (
-    //   <Row>
-    //     <Group>
-    //       <div>{renderText(LABELS.COMPLAINTS)}</div>
-    //       <Tooltip
-    //           arrow
-    //           enterTouchDelay={0}
-    //           placement="top"
-    //           title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
-    //         <InfoIcon />
-    //       </Tooltip>
-    //     </Group>
-    //     <DataRows>
-    //       {numComplaints}
-    //     </DataRows>
-    //   </Row>
-    // )
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
