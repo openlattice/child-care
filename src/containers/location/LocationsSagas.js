@@ -144,7 +144,7 @@ const trySetStoredPermissions = (bool) => {
   catch (error) {
     console.error(error);
   }
-}
+};
 
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
   /* check location perms */
