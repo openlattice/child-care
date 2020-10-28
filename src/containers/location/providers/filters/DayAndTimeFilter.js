@@ -8,22 +8,21 @@ import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/Labels';
 const { NEUTRAL } = Colors;
 
 const Row = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N700};
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${NEUTRAL.N700};
 `;
 
 const SectionWrapper = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
 `;
 
