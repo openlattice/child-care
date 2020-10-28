@@ -25,18 +25,16 @@ import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 const { NEUTRAL, PURPLE } = Colors;
 
 const ActionBar = styled.div`
+  align-items: center;
   display: flex;
   flex: 1;
-  align-items: center;
   justify-content: space-between;
-
 
   strong {
     color: ${(props) => (props.isInactive ? NEUTRAL.N500 : NEUTRAL.N700)};
-    font-weight: ${(props) => (props.isInactive ? 400 : 600)};
     font-size: 16px;
+    font-weight: ${(props) => (props.isInactive ? 400 : 600)};
   }
-
 `;
 
 const CloseButton = styled(IconButton)`
@@ -47,34 +45,34 @@ const CloseButton = styled(IconButton)`
 const CloseIcon = <FontAwesomeIcon icon={faTimes} fixedWidth />;
 
 const LinkButton = styled.div`
+  color: ${PURPLE.P300};
   font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
-  color: ${PURPLE.P300};
-  text-decoration: none;
   text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
   margin-top: 10px;
+
   :hover {
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
 const OpenClosedTag = styled.div`
+  color: ${(props) => props.color};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${(props) => props.color};
 `;
 
 type Props = {
   coordinates :[number, number];
   isOpen :boolean;
-  provider :Map;
   onClose :() => void;
+  provider :Map;
   renderText :(labels :Object) => string;
 };
 
