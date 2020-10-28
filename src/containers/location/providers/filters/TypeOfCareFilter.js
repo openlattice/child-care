@@ -51,11 +51,11 @@ export default class TypeOfCareFilter extends React.Component<Props> {
         <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
         {Object.values(FACILITY_TYPES).map((facilityType) => (
           <Checkbox
-              mode="button"
-              label={renderText(FACILITY_TYPE_LABELS[facilityType])}
-              value={facilityType}
               checked={value.includes(facilityType)}
-              onChange={onCheckboxChange} />
+              label={renderText(FACILITY_TYPE_LABELS[facilityType])}
+              mode="button"
+              onChange={onCheckboxChange}
+              value={facilityType} />
         ))}
       </ContentOuterWrapper>
     );
