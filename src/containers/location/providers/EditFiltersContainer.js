@@ -27,19 +27,19 @@ const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
 const StyledOuterWrapper = styled(ContentOuterWrapper)`
-  position: fixed;
-  height: calc(100vh - ${HEADER_HEIGHT}px);
-  top: ${HEADER_HEIGHT}px;
   bottom: 0;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
   z-index: 15;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
-  position: relative;
   height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
   padding-bottom: 5px;
+  position: relative;
 `;
 
 const ScrollContainer = styled.div`
@@ -47,13 +47,14 @@ const ScrollContainer = styled.div`
 `;
 
 const BackButton = styled.div`
+  align-items: center;
+  color: ${PURPLE.P300};
   display: flex;
   flex-direciton: row;
-  align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${PURPLE.P300};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
   }
@@ -68,43 +69,37 @@ const BackButton = styled.div`
 `;
 
 const HeaderLabel = styled.div`
-  padding-top: 20px;
-  padding-bottom: 10px;
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${NEUTRAL.N700};
+  padding-bottom: 10px;
+  padding-top: 20px;
 `;
 
 const FilterRow = styled.div`
+  align-items: center;
   color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  justify-content: space-between;
   line-height: 17px;
-
-  div {
-
-  }
+  padding: 10px 0;
 
   article {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
 
     span {
-      font-weight: 600;
       color: ${NEUTRAL.N700};
+      font-weight: 600;
       margin-right: 15px;
     }
   }
@@ -115,19 +110,19 @@ const FilterRow = styled.div`
 `;
 
 const Line = styled.div`
-  height: 1px;
   background-color: ${NEUTRAL.N100};
+  height: 1px;
   margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const ApplyButtonWrapper = styled.div`
-   position: fixed;
-   padding: 10px ${PADDING}px 30px ${PADDING}px;
-   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
-   bottom: 0;
-   height: 70px;
-   background-color: white;
-   z-index: 16;
+  background-color: white;
+  bottom: 0;
+  height: 70px;
+  padding: 10px ${PADDING}px 30px ${PADDING}px;
+  position: fixed;
+  width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+  z-index: 16;
 
    button {
      width: 100%;

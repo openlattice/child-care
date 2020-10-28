@@ -10,26 +10,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
-  width:  100%;
   padding: 20px 0;
+  width:  100%;
 `;
 
 const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N400};
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  color: ${NEUTRAL.N400};
-  width: 100%;
   padding-bottom: ${(props) => (props.isOpen ? 10 : 0)}px;
+  width: 100%;
 
   span {
     color: ${NEUTRAL.N700};
     font-family: Inter;
+    line-height: 17px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
   }
 
   &:hover {
@@ -38,8 +38,8 @@ const TitleRow = styled.div`
 `;
 
 type Props = {
-  title :string;
   children :Node | Element<*> | ChildrenArray<*>;
+  title :string;
 }
 
 type State = {

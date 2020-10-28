@@ -78,7 +78,6 @@ const NavigationToggleWrapper = styled.div`
   left: 0;
   margin-left: 10px; /* the icon is 14px wide, this div is 32px wide, so there's 9px on each side of the icon */
   position: absolute;
-
   width: 32px;
 
   &:hover {

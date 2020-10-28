@@ -22,33 +22,31 @@ const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
-  position: fixed;
-  height: calc(100vh - ${HEADER_HEIGHT}px);
-  top: ${HEADER_HEIGHT}px;
-  bottom: 0;
-  z-index: 15;
   background-color: ${NEUTRAL.N50};
+  bottom: 0;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
+  z-index: 15;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
-  position: relative;
-  background-color: white;
-  max-height: fit-content;
-  position: relative;
   height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   max-height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
+  position: relative;
 `;
 
 const BackButton = styled.div`
+  align-items: center;
+  color: ${PURPLE.P300};
   display: flex;
   flex-direciton: row;
-  align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${PURPLE.P300};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
   }
@@ -63,24 +61,23 @@ const BackButton = styled.div`
 `;
 
 const EditFilterHeader = styled.div`
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
   line-height: 27px;
   margin: 20px 0;
-
-  color: ${NEUTRAL.N700};
 `;
 
 const ApplyButtonWrapper = styled.div`
-   position: fixed;
-   padding: 10px ${PADDING}px 30px ${PADDING}px;
-   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
-   bottom: 0;
-   height: 70px;
-   background-color: white;
-   z-index: 16;
+  background-color: white;
+  bottom: 0;
+  height: 70px;
+  padding: 10px ${PADDING}px 30px ${PADDING}px;
+  position: fixed;
+  width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+  z-index: 16;
 
    button {
      width: 100%;

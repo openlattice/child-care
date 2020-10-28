@@ -5,14 +5,14 @@ import { Modal } from 'lattice-ui-kit';
 import { UNSUPPORTED_BROWSER } from '../../utils/constants/Labels';
 
 const Content = styled.div`
-  height: 100%;
-  min-height: 200px;
-  width: 100%;
   align-items: center;
-  justify-content: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  min-height: 200px;
   padding: 10px 0;
+  width: 100%;
 `;
 
 const Text = styled.div`

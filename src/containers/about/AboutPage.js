@@ -41,28 +41,26 @@ const IMG_HEIGHT = {
 };
 
 const Wrapper = styled(ContentWrapper)`
-  padding: 30px !important;
   background-color: white;
+  padding: 30px !important;
 `;
 
 const Header = styled.div`
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
   line-height: 27px;
-
-  color: ${NEUTRAL.N700};
 `;
 
 const Text = styled.div`
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${NEUTRAL.N700};
 `;
 
 const TextLink = styled.a.attrs({
@@ -72,19 +70,19 @@ const TextLink = styled.a.attrs({
 `;
 
 const TextSection = styled.div`
-  margin-top: 30px;
-  text-align: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  margin-top: 30px;
+  text-align: center;
 `;
 
 const LogoRow = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
   margin-top: 10px;
   width: 100%;
 `;
