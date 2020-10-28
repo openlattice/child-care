@@ -74,13 +74,13 @@ export default class RadiusFilter extends React.Component {
 
     return (
       <Select
-          value={selectedOption}
           isClearable={false}
           isSearchable={false}
           isMulti={false}
           onChange={handleOnChange}
           options={RADIUS_OPTIONS}
-          placeholder={renderText(LABELS.SELECT)} />
+          placeholder={renderText(LABELS.SELECT)}
+          value={selectedOption} />
     );
   }
 
