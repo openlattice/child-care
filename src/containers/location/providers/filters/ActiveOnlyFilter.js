@@ -8,16 +8,16 @@ import { LABELS } from '../../../../utils/constants/Labels';
 const { NEUTRAL, PURPLE } = Colors;
 
 const Wrapper = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const Button = styled.div`
-  padding: 20px;
   border-radius: 3px;
   margin-top: ${(props) => props.marginTop};
+  padding: 20px;
   text-align: center;
   width: 49%;
 
