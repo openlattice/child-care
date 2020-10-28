@@ -12,9 +12,10 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import {
+  fromJS,
+  get,
   List,
   Map,
-  fromJS,
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
@@ -284,8 +285,8 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       searchInputs: searchInputs.set('selectedOption', latLonObj)
     }));
 
-    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj.lat;
-    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj.lon;
+    const latitude :string = get(latLonObj, 'lat');
+    const longitude :string = get(latLonObj, 'lon');
 
     if (isFunction(gtag)) {
       gtag('event', 'Execute Search', {
