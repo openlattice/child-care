@@ -26,7 +26,7 @@ declare var gtag :?Function;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
-  accessToken: __MAPBOX_TOKEN__
+  accessToken: 'pk.eyJ1Ijoib3BlbmxhdHRpY2UiLCJhIjoiY2tjemNpdzM5MGNwbjJ3bW92bm54b3FmYSJ9.hj2CpMCvFFLnLnDcBbtY6w'
 });
 
 const flyToOptions = {
