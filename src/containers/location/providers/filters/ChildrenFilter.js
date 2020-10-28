@@ -13,29 +13,28 @@ import { LABELS } from '../../../../utils/constants/Labels';
 const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 `;
 
 const Label = styled.div`
-  margin: 30px 0 20px 0;
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 16px;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
   line-height: 19px;
+  margin: 30px 0 20px 0;
   text-align: center;
-
-  color: ${NEUTRAL.N700};
 `;
 
 type Props = {
-  setIsValid :(isValid :boolean) => void;
-  value :Map;
   onChange :(nextValues :Map) => void;
+  setIsValid :(isValid :boolean) => void;
   renderText :(labels :Object) => string;
+  value :Map;
 }
 
 export default class ChildrenFilter extends React.Component<Props> {
