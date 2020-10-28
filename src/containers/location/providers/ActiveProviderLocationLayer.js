@@ -17,10 +17,15 @@ type Props = {
   providerLocations :List;
 };
 
-const ActiveProviderLocationLayer = (props :Props) => (
-  /* eslint-disable */
-  // $FlowFixMe
-  <ProviderLocationLayer images={images} layout={layout} {...props} />
+const ActiveProviderLocationLayer = ({
+  onFeatureClick,
+  providerLocations,
+} :Props) => (
+  <ProviderLocationLayer
+      images={images}
+      layout={layout}
+      onFeatureClick={onFeatureClick}
+      providerLocations={providerLocations} />
 );
 
 ActiveProviderLocationLayer.defaultProps = {
