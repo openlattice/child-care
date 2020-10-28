@@ -30,7 +30,7 @@ import {
 
 type Props = {
   provider :Map;
-  coordinates :{},
+  coordinates :number[],
   renderText :(labels :Object) => string;
 }
 
@@ -45,13 +45,12 @@ const CardContent = styled.div`
 `;
 
 const OpenClosedTag = styled.div`
+  color: ${(props) => props.color};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${(props) => props.color};
 `;
 
 const ProviderResult = ({
