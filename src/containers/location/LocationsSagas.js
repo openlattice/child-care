@@ -427,27 +427,27 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
       const daysAndTimesConstraints = [];
 
-      daysAndTimes.entrySeq().forEach(([day, [start, end]]) => {
+      daysAndTimes.entrySeq().forEach(([day, [startDate, endDate]]) => {
 
-        if (start) {
+        if (startDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(start)}]`
+            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(startDate)}]`
           });
         }
 
-        if (end) {
+        if (endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][1]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(end)} TO *]`
+            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(endDate)} TO *]`
           });
         }
 
-        if (!start && !end) {
+        if (!startDate && !endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
