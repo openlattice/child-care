@@ -3,18 +3,19 @@
  */
 
 import randomUUID from 'uuid/v4';
-import { fromJS, Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 import type { SequenceAction } from 'redux-reqseq';
 
-import { LANGUAGES } from '../../utils/constants/Labels';
-import { getFqn } from '../../utils/DataUtils';
 import {
   SWITCH_LANGUAGE,
   initializeApplication,
   loadApp,
   reloadToken,
 } from './AppActions';
+
+import { getFqn } from '../../utils/DataUtils';
+import { LANGUAGES } from '../../utils/constants/Labels';
 
 const INITIAL_STATE :Map<*, *> = fromJS({
   actions: {
