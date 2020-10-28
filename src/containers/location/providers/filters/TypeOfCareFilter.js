@@ -11,17 +11,17 @@ import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels
 
 const Instruction = styled.div`
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 19px;
 `;
 
 type Props = {
-  setIsValid :(isValid :boolean) => void;
-  value :string[];
   onChange :(nextValues :string[]) => void;
   renderText :(labels :Object) => string;
+  setIsValid :(isValid :boolean) => void;
+  value :string[];
 };
 
 export default class TypeOfCareFilter extends React.Component<Props> {
