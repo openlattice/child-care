@@ -50,7 +50,7 @@ const BackButton = styled.div`
   align-items: center;
   color: ${PURPLE.P300};
   display: flex;
-  flex-direciton: row;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
