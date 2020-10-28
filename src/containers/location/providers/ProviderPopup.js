@@ -127,9 +127,10 @@ const ProviderPopup = ({
       <IconDetail content={type} isInactive={isInactive} />
       <IconDetail content={`${city}, CA`} isInactive={isInactive} />
       <IconDetail content={ages} isInactive={isInactive} />
-      {isInactive
-        ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
-        : null}
+      {
+        isInactive
+          && <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+      }
       <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );
