@@ -64,6 +64,8 @@ const LOG = new Logger('LocationsSagas');
 const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
+const regionIsCalifornia = (suggestion) => suggestion.context
+  .filter((item) => item.id.split('.').shift() === 'region' && item.text === 'California').length > 0;
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
@@ -107,8 +109,20 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
         value: place_name,
         lon,
         lat
-      };
-    });
+    const formattedSuggestions = suggestions.features
+      .filter(regionIsCalifornia)
+      .map((sugg) => {
+        const { place_name, geometry } = sugg;
+        const { coordinates } = geometry;
+        const [lon, lat] = coordinates;
+        return {
+          ...sugg,
+          label: place_name,
+          value: place_name,
+          lon,
+          lat
+        };
+      });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
   }
