@@ -420,7 +420,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         //     }
         //   ]
         constraints.push(childrenConstraint);
-        };
+      }
     }
 
     if (daysAndTimes && daysAndTimes.size) {
