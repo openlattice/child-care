@@ -38,7 +38,7 @@ export default function handler(action :Action, prevState :Map, nextState :Map) 
 
     const event :RouteChangeEvent = {};
     event.page_location = url;
-    event.page_path = url.replace(origin, '')
+    event.page_path = url.replace(origin, '');
 
     if (isFunction(gtag)) {
       gtag('config', GOOGLE_TRACKING_ID, event);

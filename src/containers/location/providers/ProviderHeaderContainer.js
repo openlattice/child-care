@@ -1,4 +1,3 @@
-
 // @flow
 
 import React from 'react';
@@ -22,7 +21,6 @@ import { getRenderTextFn } from '../../../utils/AppUtils';
 import {
   getDistanceBetweenCoords,
   getValue,
-  getValues,
   getAgesServedFromEntity,
   renderFacilityName
 } from '../../../utils/DataUtils';
@@ -31,10 +29,12 @@ import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
- z-index: 1;
- position: fixed;
- top: ${HEADER_HEIGHT}px;
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
+  z-index: 1;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -51,13 +51,14 @@ const StyledContentWrapper = styled(ContentWrapper)`
 `;
 
 const BackButton = styled.div`
-  display: flex;
-  flex-direciton: row;
   align-items: center;
+  color: ${PURPLE.P300};
+  display: flex;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
   }
@@ -72,13 +73,13 @@ const BackButton = styled.div`
 `;
 
 const Header = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N700};
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   font-family: Inter;
   font-style: normal;
-  color: #555E6F;
+  justify-content: space-between;
 
   @media only screen and (min-height: ${HEIGHTS[0]}px) {
     padding: 10px 0;
@@ -104,42 +105,33 @@ const Header = styled.div`
 
 
   span {
-    font-weight: normal;
     font-size: 14px;
+    font-weight: normal;
     line-height: 17px;
     min-width: fit-content;
   }
 `;
 
 const SubHeader = styled.div`
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
   margin: 3px 0;
-
-  color: #555E6F;
 `;
 
-const OpenClosedTag = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal !important;
-  font-size: 14px !important;
-  line-height: 17px !important;
+type Props = {
+  actions :{
+    selectProvider :(bool :boolean) => void;
+  };
+  coordinates :number[];
+  provider :Map;
+  renderText :(labels :Object) => string;
+};
 
-  text-align: right;
-  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
-`;
-
-const TwoPartRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-class ProviderHeaderContainer extends React.Component {
+class ProviderHeaderContainer extends React.Component<Props> {
 
   getDistance = () => {
     const { coordinates, provider } = this.props;
@@ -160,17 +152,9 @@ class ProviderHeaderContainer extends React.Component {
 
     const name = renderFacilityName(provider, renderText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
-    const status = getValues(provider, PROPERTY_TYPES.STATUS);
-    const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
-    const url = getValue(provider, PROPERTY_TYPES.URL);
-
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
-
-    const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
 
     const ages = getAgesServedFromEntity(provider, renderText);
 

@@ -140,6 +140,7 @@ const tryReadStoredPermissions = () => {
 
 const trySetStoredPermissions = (bool) => {
   try {
+    /* eslint-disable-next-line */
     localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, `${bool}`);
   }
   catch (error) {
@@ -358,9 +359,9 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       const propertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.FACILITY_TYPE);
 
       const typeOfCareConstraint = {
-        constraints: typeOfCare.map((value) => ({
+        constraints: typeOfCare.map((v) => ({
           type: 'simple',
-          searchTerm: `entity.${propertyTypeId}:"${value}"`,
+          searchTerm: `entity.${propertyTypeId}:"${v}"`,
           fuzzy: false
         })).toJS()
       };
@@ -401,25 +402,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
           ],
           min: 2
         };
-
-        // const bucketRequirements = children.entrySeq()
-        //   .filter(([_, number]) => number > 0)
-        //   .map(([fqn, number]) => `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`)
-        //   .join(' AND ');
-        //
-        // const childrenConstraint = {
-        //   constraints: [
-        //     {
-        //       type: 'simple',
-        //       fuzzy: false,
-        //       searchTerm: bucketRequirements
-        //     },
-        //     {
-        //       type: 'simple',
-        //       fuzzy: false,
-        //       searchTerm: `entity.${getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN)}:[${totalChildren} TO *]`
-        //     }
-        //   ]
         constraints.push(childrenConstraint);
       }
     }

@@ -6,40 +6,40 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Control = styled.label`
+  color: ${(props) => (props.checked ? '#2e2e34' : '#8e929b')};
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   display: block;
-  position: relative;
-  padding: 0 10px 0 20px;
-  margin-bottom: ${props => (props.noMargin ? 0 : 10)}px;
   font-family: Inter;
   font-size: 16px;
   font-weight: normal;
-  color: ${props => (props.checked ? '#2e2e34' : '#8e929b')};
-  cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+  margin-bottom: ${(props) => (props.noMargin ? 0 : 10)}px;
+  position: relative;
+  padding: 0 10px 0 20px;
 
   input {
+    opacity: 0;
     position: absolute;
     z-index: -1;
-    opacity: 0;
   }
 `;
 
 const CheckboxInput = styled.input.attrs({
   type: 'checkbox'
 })`
+  opacity: 0;
   position: absolute;
   z-index: -1;
-  opacity: 0;
 `;
 
 const CheckboxIndicator = styled.div`
+  background: #E6E6F7;
+  border-radius: 2px;
+  height: 20px;
+  left: 0;
+  margin-top: -2px;
   position: absolute;
   top: 0;
-  left: 0;
-  height: 20px;
   width: 20px;
-  margin-top: -2px;
-  border-radius: 2px;
-  background: #E6E6F7;
 
   ${Control}:hover input ~ &,
   ${Control} input:focus & {
@@ -62,16 +62,16 @@ const CheckboxIndicator = styled.div`
   }
 
   &:after {
-    content: '';
-    position: absolute;
-    display: none;
-    left: 8px;
-    top: 4px;
-    width: 3px;
-    height: 8px;
-    border solid: #FFFFFF;
+    border: solid #FFFFFF;
     border-width: 0 2px 2px 0;
+    content: '';
+    display: none;
+    height: 8px;
+    left: 8px;
+    position: absolute;
+    top: 4px;
     transform: rotate(45deg);
+    width: 3px;
 
     ${Control} input:disabled ~ &,
     ${Control} input:checked ~ & {
@@ -79,33 +79,33 @@ const CheckboxIndicator = styled.div`
     }
 
     ${Control} & {
-      left: 8px;
-      top: 4px;
-      width: 5px;
-      height: 10px;
       border: solid #FFFFFF;
       border-width: 0 2px 2px 0;
+      height: 10px;
+      left: 8px;
+      top: 4px;
       transform: rotate(45deg);
+      width: 5px;
     }
   }
 `;
 
 const CheckboxLabel = styled.span`
-  margin-left: 5px;
-  font-weight: ${props => (props.bold ? 600 : 400)};
   color: #2e2e34;
+  font-weight: ${(props) => (props.bold ? 600 : 400)};
+  margin-left: 5px;
 `;
 
 type Props = {
-  name :string,
-  label :string,
-  value :string,
-  checked :boolean,
-  onChange :(event :Object) => void,
-  disabled? :boolean,
-  dataSection? :?string,
-  bold? :string,
-  noMargin? :boolean
+  bold? :string;
+  checked :boolean;
+  dataSection? :?string;
+  disabled? :boolean;
+  label :string;
+  name :string;
+  noMargin? :boolean;
+  onChange :(event :Object) => void;
+  value :string;
 };
 
 const StyledCheckbox = ({

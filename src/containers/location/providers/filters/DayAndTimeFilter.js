@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { Colors } from 'lattice-ui-kit';
 
 import TimePicker from '../../../../components/controls/TimePicker';
 import StyledCheckbox from '../../../../components/controls/StyledCheckbox';
 import { DAYS_OF_WEEK } from '../../../../utils/DataConstants';
 import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/Labels';
+
+const { NEUTRAL } = Colors;
 
 const Row = styled.div`
   display: flex;
@@ -19,7 +21,7 @@ const Row = styled.div`
   font-size: 14px;
   line-height: 17px;
 
-  color: #555E6F;
+  color: ${NEUTRAL.N700};
 `;
 
 const SectionWrapper = styled.div`

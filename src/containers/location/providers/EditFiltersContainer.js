@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import type { RequestSequence } from 'redux-reqseq';
 import { bindActionCreators } from 'redux';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
@@ -20,23 +21,25 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import * as LocationsActions from '../LocationsActions';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
 const StyledOuterWrapper = styled(ContentOuterWrapper)`
-  position: fixed;
-  height: calc(100vh - ${HEADER_HEIGHT}px);
-  top: ${HEADER_HEIGHT}px;
   bottom: 0;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
   z-index: 15;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
-  position: relative;
   height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
   padding-bottom: 5px;
+  position: relative;
 `;
 
 const ScrollContainer = styled.div`
@@ -44,13 +47,14 @@ const ScrollContainer = styled.div`
 `;
 
 const BackButton = styled.div`
+  align-items: center;
+  color: ${PURPLE.P300};
   display: flex;
   flex-direciton: row;
-  align-items: center;
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
   }
@@ -65,43 +69,37 @@ const BackButton = styled.div`
 `;
 
 const HeaderLabel = styled.div`
-  padding-top: 20px;
-  padding-bottom: 10px;
+  color: ${NEUTRAL.N700};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
-
-  color: #555E6F;
+  padding-bottom: 10px;
+  padding-top: 20px;
 `;
 
 const FilterRow = styled.div`
-  color: #8E929B;
+  align-items: center;
+  color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  justify-content: space-between;
   line-height: 17px;
-
-  div {
-
-  }
+  padding: 10px 0;
 
   article {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
 
     span {
+      color: ${NEUTRAL.N700};
       font-weight: 600;
-      color: #555E6F;
       margin-right: 15px;
     }
   }
@@ -112,28 +110,42 @@ const FilterRow = styled.div`
 `;
 
 const Line = styled.div`
+  background-color: ${NEUTRAL.N100};
   height: 1px;
-  background-color: #E6E6EB;
   margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const ApplyButtonWrapper = styled.div`
-   position: fixed;
-   padding: 10px ${PADDING}px 30px ${PADDING}px;
-   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
-   bottom: 0;
-   height: 70px;
-   background-color: white;
-   z-index: 16;
+  background-color: white;
+  bottom: 0;
+  height: 70px;
+  padding: 10px ${PADDING}px 30px ${PADDING}px;
+  position: fixed;
+  width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+  z-index: 16;
 
    button {
      width: 100%;
    }
 `;
 
-class EditFiltersContainer extends React.Component {
+type Props = {
+  actions :{
+    searchLocations :RequestSequence;
+    setValue :({ field :string, value :any }) => void;
+  };
+  hasSearched :boolean;
+  providerState :Map;
+  renderText :(labels :Object) => string;
+}
 
-  constructor(props) {
+type State = {
+  filterPage :string | null;
+}
+
+class EditFiltersContainer extends React.Component<Props, State> {
+
+  constructor(props :Props) {
     super(props);
 
     const { providerState } = props;

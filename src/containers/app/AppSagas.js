@@ -1,6 +1,3 @@
-
-
-
 /*
  * @flow
  */
@@ -8,7 +5,6 @@
 /* eslint-disable no-use-before-define */
 import decode from 'jwt-decode';
 import {
-  all,
   call,
   put,
   select,
@@ -18,7 +14,7 @@ import {
 import { get } from 'axios';
 import { configure } from 'lattice';
 import { DateTime } from 'luxon';
-import type { SequenceAction } from 'redux-reqseq';
+import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
 import {
@@ -31,10 +27,8 @@ import {
 } from './AppActions';
 
 import Logger from '../../utils/Logger';
-import * as Routes from '../../core/router/Routes';
 import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
-import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
-import { isValidUuid } from '../../utils/Utils';
+import { ERR_WORKER_SAGA } from '../../utils/Errors';
 
 const LOG = new Logger('AppSagas');
 
@@ -116,7 +110,6 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   return workerResponse;
 }
 
-
 /*
  * initializeApplication()
  */
@@ -144,7 +137,6 @@ function* initializeApplicationWatcher() :Generator<*, *, *> {
 
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
 }
-
 
 function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
   return take(

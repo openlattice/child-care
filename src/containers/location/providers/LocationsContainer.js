@@ -40,26 +40,23 @@ const StyledContentWrapper = styled(ContentWrapper)`
 const StyledSearchResults = styled(SearchResults)``;
 
 const FilterRow = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   padding: 15px 30px 0 30px;
 `;
 
 const FilterButton = styled.div`
+  color: ${Colors.PURPLES[1]};
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
     cursor: pointer;
   }
-`;
-
-const SortOption = styled.div`
-
 `;
 
 const LocationsContainer = () => {
@@ -68,7 +65,6 @@ const LocationsContainer = () => {
     [STATE.LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
     false
   ));
-
 
   const renderText = useSelector(getRenderTextFn);
   const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
@@ -141,23 +137,23 @@ const LocationsContainer = () => {
           providerDetails || (
             <>
               <FilterRow>
-                <SortOption>
+                <div>
                   {renderText(LABELS.SORT_BY)}
-                </SortOption>
+                </div>
                 <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
               </FilterRow>
 
               <StyledContentWrapper>
                 { renderSearchResults() }
                 {
-                  hasSearched &&
-                  (
-                    <PaginationToolbar
-                        page={page}
-                        count={totalHits}
-                        onPageChange={onPageChange}
-                        rowsPerPage={MAX_HITS} />
-                  )
+                  hasSearched
+                    && (
+                      <PaginationToolbar
+                          page={page}
+                          count={totalHits}
+                          onPageChange={onPageChange}
+                          rowsPerPage={MAX_HITS} />
+                    )
                 }
               </StyledContentWrapper>
             </>

@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { CardSegment, StyleUtils } from 'lattice-ui-kit';
+import { CardSegment, Colors, StyleUtils } from 'lattice-ui-kit';
 
 import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
+
+const { NEUTRAL } = Colors;
 
 const { media } = StyleUtils;
 
@@ -42,7 +44,7 @@ const ResultName = styled.div`
   font-weight: ${(props) => (props.isInactive ? 400 : 600)};
   font-size: 16px;
   line-height: 19px;
-  color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
+  color: ${(props) => (props.isInactive ? NEUTRAL.N500 : NEUTRAL.N700)};
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;

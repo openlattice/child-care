@@ -1,20 +1,30 @@
+/*
+ * @flow
+ */
 import React from 'react';
 import styled from 'styled-components';
+import { Checkbox } from 'lattice-ui-kit';
 
-import CheckboxButton from '../../../../components/controls/CheckboxButton';
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels';
 
 const Instruction = styled.div`
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 19px;
 `;
 
-export default class TypeOfCareFilter extends React.Component {
+type Props = {
+  onChange :(nextValues :string[]) => void;
+  renderText :(labels :Object) => string;
+  setIsValid :(isValid :boolean) => void;
+  value :string[];
+};
+
+export default class TypeOfCareFilter extends React.Component<Props> {
 
   componentDidMount() {
     const { setIsValid } = this.props;
@@ -25,7 +35,8 @@ export default class TypeOfCareFilter extends React.Component {
 
     const { value, onChange, renderText } = this.props;
 
-    const onCheckboxChange = (newValue) => {
+    const onCheckboxChange = (e) => {
+      const { value: newValue } = e.target;
 
       if (value.includes(newValue)) {
         onChange(value.filter((v) => v !== newValue));
@@ -39,16 +50,14 @@ export default class TypeOfCareFilter extends React.Component {
       <ContentOuterWrapper>
         <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
         {Object.values(FACILITY_TYPES).map((facilityType) => (
-          <CheckboxButton
-              marginTop="20px"
-              key={facilityType}
+          <Checkbox
+              checked={value.includes(facilityType)}
               label={renderText(FACILITY_TYPE_LABELS[facilityType])}
-              value={facilityType}
-              isSelected={value.includes(facilityType)}
-              onChange={onCheckboxChange} />
+              mode="button"
+              onChange={onCheckboxChange}
+              value={facilityType} />
         ))}
       </ContentOuterWrapper>
     );
   }
-
-};
+}

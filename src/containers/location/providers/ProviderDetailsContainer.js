@@ -1,13 +1,11 @@
 // @flow
-
+/* eslint-disable react/jsx-no-target-blank */
 import React, { Fragment } from 'react';
 
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, List } from 'immutable';
-import { Tooltip } from 'lattice-ui-kit';
+import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -30,6 +28,8 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+
+const { NEUTRAL, PURPLE } = Colors;
 
 const PADDING = 25;
 
@@ -68,34 +68,24 @@ const StyledContentWrapper = styled(ContentWrapper)`
 `;
 
 const Row = styled.div`
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin: 8px 0;
-
-
   font-family: Inter;
   font-size: 14px;
+  justify-content: space-between;
   line-height: 19px;
+  margin: 8px 0;
 
   div {
-    color: #555E6F;
+    color: ${NEUTRAL.N700};
     max-width: 65%;
   }
 
   a {
-    color: #6124E2;
+    color: ${PURPLE.P300};
     text-decoration: underline;
     max-width: 65%;
-  }
-`;
-
-const Group = styled.div`
-  display: flex;
-  flex-direction: row;
-  div {
-    margin-right: 10px;
   }
 `;
 
@@ -106,13 +96,13 @@ const DataRows = styled.div`
   ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
 
   span {
+    color: ${NEUTRAL.N600};
     text-align: right;
-    color: #8E929B;
   }
 
   a {
-    text-align: right;
     min-width: fit-content;
+    text-align: right;
     ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
   }
 `;
@@ -123,12 +113,12 @@ const DateRow = styled.article`
   justify-content: space-between;
 
   span {
-    color: #8E929B;
+    color: ${NEUTRAL.N600};
   }
 
   span:first-child {
-    text-align: left;
     margin-right: 10px;
+    text-align: left;
   }
 
   span:last-child {
@@ -137,36 +127,35 @@ const DateRow = styled.article`
 `;
 
 const Line = styled.div`
+  background-color: ${NEUTRAL.N100};
   height: 1px;
-  background-color: #E6E6EB;
   margin: ${(props) => props.paddingTop || 0}px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const InfoText = styled.div`
+  color: ${NEUTRAL.N600};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 19px;
-
-  color: #8E929B;
 `;
 
 const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  color: #8E929B;
-  width: 100%;
   padding: 20px 0;
+  width: 100%;
 
   span {
-    color: #555E6F;
+    color: ${NEUTRAL.N700};
     font-family: Inter;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
     line-height: 17px;
   }
 
@@ -175,9 +164,16 @@ const TitleRow = styled.div`
   }
 `;
 
-class ProviderDetailsContainer extends React.Component {
+type Props = {
+  hospital :Map;
+  provider :Map;
+  renderText :(labels :Object) => string;
+  rrs :Map;
+};
 
-  renderEmailAsLink = (provider, isRR) => {
+class ProviderDetailsContainer extends React.Component<Props> {
+
+  renderEmailAsLink = (provider :Map, isRR :boolean) => {
     const { renderText } = this.props;
     const email = getValue(provider, PROPERTY_TYPES.EMAIL);
     if (!email) {
@@ -187,7 +183,7 @@ class ProviderDetailsContainer extends React.Component {
     return <a onClick={trackClick()} href={`mailto:${email}`}>{email}</a>;
   };
 
-  renderRR = (rr) => {
+  renderRR = (rr :Map) => {
     const url = getValue(rr, PROPERTY_TYPES.URL);
     const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
 
@@ -392,21 +388,13 @@ class ProviderDetailsContainer extends React.Component {
     );
   }
 
-
   renderHealthAndSafetySection = () => {
     const { renderText, provider, hospital } = this.props;
 
     const unknown = this.renderUnknown();
 
-    const InfoIcon = React.forwardRef((props, ref) => (
-      <span {...props} ref={ref}>
-        <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
-      </span>
-    ));
-
     const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
-    const numComplaints = getValue(provider, PROPERTY_TYPES.NUM_COMPLAINTS) || 0;
 
     const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
@@ -418,23 +406,6 @@ class ProviderDetailsContainer extends React.Component {
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
 
     const complaints = null;
-    // const complaints = (
-    //   <Row>
-    //     <Group>
-    //       <div>{renderText(LABELS.COMPLAINTS)}</div>
-    //       <Tooltip
-    //           arrow
-    //           enterTouchDelay={0}
-    //           placement="top"
-    //           title={renderText(LABELS.COMPLAINTS_DESCRIPTION)}>
-    //         <InfoIcon />
-    //       </Tooltip>
-    //     </Group>
-    //     <DataRows>
-    //       {numComplaints}
-    //     </DataRows>
-    //   </Row>
-    // )
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
@@ -452,8 +423,6 @@ class ProviderDetailsContainer extends React.Component {
               {this.renderLicenseElement()}
             </DataRows>
           </Row>
-
-
           <Row>
             <div>{renderText(LABELS.NEAREST_HOSPITAL)}</div>
             <DataRows alignEnd>
@@ -468,7 +437,7 @@ class ProviderDetailsContainer extends React.Component {
 
   render() {
 
-    const { renderText, provider, rrs } = this.props;
+    const { provider } = this.props;
 
     if (!provider) {
       return null;
@@ -481,12 +450,13 @@ class ProviderDetailsContainer extends React.Component {
       this.renderContactSection(),
       this.renderHealthAndSafetySection(),
       this.renderRRsSection()
-    ].filter(s => s).map((s, idx) => (
+    ].filter((s) => s).map((s, idx) => (
+      /* eslint-disable-next-line */
       <Fragment key={idx}>
         {s}
         <Line />
       </Fragment>
-    ))
+    ));
 
     return (
       <StyledContentOuterWrapper>
@@ -507,7 +477,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
   const provider = providerState.get(PROVIDERS.SELECTED_PROVIDER);
   const selectedProviderId = getEntityKeyId(provider);
   const rrs = providerState.getIn([PROVIDERS.RRS_BY_ID, selectedProviderId], List())
-    .map(e => e.get('neighborDetails', Map()));
+    .map((entity) => entity.get('neighborDetails', Map()));
   const hospital = providerState.getIn([PROVIDERS.HOSPITALS_BY_ID, selectedProviderId], Map())
     .get('neighborDetails', Map());
 

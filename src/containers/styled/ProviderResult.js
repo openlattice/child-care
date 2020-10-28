@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
 
-import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { VACANCY_COLORS } from '../../shared/Colors';
 import { selectProvider } from '../location/LocationsActions';
@@ -29,9 +29,9 @@ import {
 } from '.';
 
 type Props = {
-  person :Map;
   provider :Map;
-  profilePicture :Map;
+  coordinates :number[],
+  renderText :(labels :Object) => string;
 }
 
 const TwoPartRow = styled.div`
@@ -45,13 +45,12 @@ const CardContent = styled.div`
 `;
 
 const OpenClosedTag = styled.div`
+  color: ${(props) => props.color};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${(props) => props.color};
 `;
 
 const ProviderResult = ({
@@ -59,7 +58,6 @@ const ProviderResult = ({
   coordinates,
   renderText
 } :Props) => {
-  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
   const dispatch = useDispatch();
 
   const handleViewProfile = () => {
@@ -72,7 +70,7 @@ const ProviderResult = ({
 
   const name = renderFacilityName(provider, renderText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
