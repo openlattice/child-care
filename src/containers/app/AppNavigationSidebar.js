@@ -37,17 +37,16 @@ const NavMenuWrapper = styled.div`
 `;
 
 const menuRowStyle = css`
+  border-bottom: 1px solid ${NEUTRAL.N100};
+  color: ${(props) => (props.isBack ? PURPLE.P300 : NEUTRAL.N700)};
+  ${DEFAULT_PADDING}
   display: flex;
   flex-direction: row;
-  ${DEFAULT_PADDING}
-  border-bottom: 1px solid ${NEUTRAL.N100};
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
   text-decoration: none;
-
-  color: ${(props) => (props.isBack ? PURPLE.P300 : NEUTRAL.N700)};
 
   span {
     margin-right: 10px;
@@ -83,12 +82,11 @@ const NavFooter = styled.div`
 `;
 
 const Lang = styled.div`
-  font-style: normal;
-  font-size: 14px;
-  line-height: 17px;
-
-  font-weight: ${(props) => (props.isSelected ? 600 : 400)};
   color: ${(props) => (props.isSelected ? PURPLE.P300 : NEUTRAL.N700)};
+  font-size: 14px;
+  font-style: normal;
+  font-weight: ${(props) => (props.isSelected ? 600 : 400)};
+  line-height: 17px;
 
   &:hover {
     cursor: pointer;
