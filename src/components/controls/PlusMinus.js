@@ -11,19 +11,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const { NEUTRAL } = Colors;
 
 type Props = {
-  value :number,
   onChange :(value :number) => void;
+  value :number,
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  border-radius: 3px;
   background-color: ${NEUTRAL.N50};
   border: 1px solid ${NEUTRAL.N100};
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
   height: 40px;
+  justify-content: space-between;
   width: 180px;
 `;
 
