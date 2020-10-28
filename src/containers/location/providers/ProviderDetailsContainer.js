@@ -34,31 +34,31 @@ const { NEUTRAL, PURPLE } = Colors;
 const PADDING = 25;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
- z-index: 1;
+  z-index: 1;
 
- @media only screen and (min-height: ${HEIGHTS[0]}px) {
-   min-height: ${HEIGHTS[0] / 3}px;
- }
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    min-height: ${HEIGHTS[0] / 3}px;
+  }
 
- @media only screen and (min-height: 639px) {
-   min-height: 270px;
- }
+  @media only screen and (min-height: 639px) {
+    min-height: 270px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[1]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[2]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[2]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[3]}px) {
-   min-height: 460px;
- }
+  @media only screen and (min-height: ${HEIGHTS[3]}px) {
+    min-height: 460px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[4]}px) {
-   min-height: 630px;
- }
+  @media only screen and (min-height: ${HEIGHTS[4]}px) {
+    min-height: 630px;
+  }
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`

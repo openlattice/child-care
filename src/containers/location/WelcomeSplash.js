@@ -19,7 +19,7 @@ const Centered = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   opacity: ${(props) => (props.hidden ? 0 : 1)};
-  padding:  15px 0;
+  padding: 15px 0;
 `;
 
 const TextSection = styled.span`
@@ -30,8 +30,8 @@ const TextSection = styled.span`
 `;
 
 const Header = styled(TextSection)`
-   font-size:  20px;
-   font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const Details = styled(TextSection)`

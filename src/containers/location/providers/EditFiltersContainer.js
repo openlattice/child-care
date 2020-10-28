@@ -122,9 +122,9 @@ const ApplyButtonWrapper = styled.div`
   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
   z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
 type Props = {

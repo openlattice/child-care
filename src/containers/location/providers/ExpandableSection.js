@@ -11,7 +11,7 @@ const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
   padding: 20px 0;
-  width:  100%;
+  width: 100%;
 `;
 
 const TitleRow = styled.div`
