@@ -4,25 +4,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Colors, Typography } from 'lattice-ui-kit';
 
 import { STATE } from '../../utils/constants/StateConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { getRenderTextFn } from '../../utils/AppUtils';
-import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
+
+const { NEUTRAL } = Colors;
 
 const Wrapper = styled(ContentWrapper)`
   padding: 30px !important;
   background-color: white;
 `;
 
-const Header = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 27px;
-
-  color: #555E6F;
+const Description = styled(Typography)`
+  color: ${NEUTRAL.N500};
 `;
 
 type Props = {
@@ -37,7 +34,16 @@ class AboutPage extends React.Component<Props> {
     return (
       <ContentOuterWrapper>
         <Wrapper>
-          <Header>{renderText(LABELS.RESOURCES)}</Header>
+          <Typography variant="h1">{renderText(LABELS.RESOURCES)}</Typography>
+          <Description variant="body1">{renderText(LABELS.RESOURCES_DESCRIPTIONS)}</Description>
+          <TextLink></TextLink>
+          <Typography variant="subtitle1">California Resource and Referral Network</Typography>
+          <TextLink></TextLink>
+          <Typography variant="subtitle1">California Covid-19 Childcare Response</Typography>
+          <TextLink></TextLink>
+          <Typography variant="subtitle1">California Parent and Family Resources</Typography>
+          <TextLink></TextLink>
+          <Typography variant="subtitle1">Family Child Care Home Licensing Information</Typography>
         </Wrapper>
       </ContentOuterWrapper>
     );
