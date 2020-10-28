@@ -56,7 +56,7 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
