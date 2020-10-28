@@ -4,6 +4,6 @@
 
 const GOOGLE_TRACKING_ID :string = 'UA-118446829-4';
 
-export default {
+export {
   GOOGLE_TRACKING_ID,
 };

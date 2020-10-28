@@ -6,7 +6,7 @@ import isFunction from 'lodash/isFunction';
 import { Map } from 'immutable';
 
 import Logger from '../../../../utils/Logger';
-import gaConsts from '../GoogleAnalytics';
+import { GOOGLE_TRACKING_ID } from '../GoogleAnalytics';
 
 const LOG :Logger = new Logger('RouteChangeEventHandler');
 
@@ -41,7 +41,7 @@ export default function handler(action :Action, prevState :Map, nextState :Map) 
     event.page_path = url.replace(origin, '');
 
     if (isFunction(gtag)) {
-      gtag('config', gaConsts.GOOGLE_TRACKING_ID, event);
+      gtag('config', GOOGLE_TRACKING_ID, event);
     }
     else {
       LOG.error('global "gtag" function not available', gtag);
