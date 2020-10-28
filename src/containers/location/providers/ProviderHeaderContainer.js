@@ -77,7 +77,6 @@ const Header = styled.div`
   color: ${NEUTRAL.N700};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-style: normal;
   justify-content: space-between;
 
@@ -113,7 +112,6 @@ const Header = styled.div`
 
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;

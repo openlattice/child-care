@@ -70,7 +70,6 @@ const BackButton = styled.div`
 
 const HeaderLabel = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -84,7 +83,6 @@ const FilterRow = styled.div`
   color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;

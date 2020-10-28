@@ -55,7 +55,6 @@ const Wrapper = styled(ContentWrapper)`
 
 const Header = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
@@ -64,7 +63,6 @@ const Header = styled.div`
 
 const Text = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;

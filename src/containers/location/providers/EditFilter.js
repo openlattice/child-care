@@ -62,7 +62,6 @@ const BackButton = styled.div`
 
 const EditFilterHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 22px;
   font-style: normal;
   font-weight: 600;

@@ -12,8 +12,6 @@ const Row = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
-  font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

@@ -25,7 +25,6 @@ const TitleRow = styled.div`
 
   span {
     color: ${NEUTRAL.N700};
-    font-family: Inter;
     line-height: 17px;
     font-size: 14px;
     font-style: normal;

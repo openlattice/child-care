@@ -41,7 +41,6 @@ const menuRowStyle = css`
   flex-direction: row;
   ${DEFAULT_PADDING}
   border-bottom: 1px solid ${NEUTRAL.N100};
-  font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -80,7 +79,6 @@ const NavFooter = styled.div`
 `;
 
 const Lang = styled.div`
-  font-family: Inter;
   font-style: normal;
   font-size: 14px;
   line-height: 17px;

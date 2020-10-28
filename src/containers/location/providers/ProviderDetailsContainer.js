@@ -71,7 +71,6 @@ const Row = styled.div`
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   justify-content: space-between;
   line-height: 19px;
@@ -134,7 +133,6 @@ const Line = styled.div`
 
 const InfoText = styled.div`
   color: ${NEUTRAL.N600};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
