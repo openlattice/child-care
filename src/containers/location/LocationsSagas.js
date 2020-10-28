@@ -402,26 +402,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
           ],
           min: 2
         };
-
-        // const bucketRequirements = children.entrySeq()
-        //   .filter(([_, number]) => number > 0)
-        //   .map(([fqn, number]) => `entity.${getPropertyTypeId(app, fqn)}:[${number} TO *]`)
-        //   .join(' AND ');
-        //
-        // const childrenConstraint = {
-        //   constraints: [
-        //     {
-        //       type: 'simple',
-        //       fuzzy: false,
-        //       searchTerm: bucketRequirements
-        //     },
-        //     {
-        //       type: 'simple',
-        //       fuzzy: false,
-        /* eslint-disable-next-line */
-        //       searchTerm: `entity.${getPropertyTypeId(app, PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN)}:[${totalChildren} TO *]`
-        //     }
-        //   ]
         constraints.push(childrenConstraint);
       }
     }
