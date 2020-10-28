@@ -13,8 +13,8 @@ const images = ['activeMapPin', MapPin];
 const layout = { 'icon-image': 'activeMapPin' };
 
 type Props = {
-  providerLocations :List;
   onFeatureClick ?:(location :Map, feature :{}) => void;
+  providerLocations :List;
 };
 
 const ActiveProviderLocationLayer = (props :Props) => (
