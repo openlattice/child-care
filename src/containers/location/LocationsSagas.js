@@ -284,8 +284,8 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       searchInputs: searchInputs.set('selectedOption', latLonObj)
     }));
 
-    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
-    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
+    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj.lat;
+    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj.lon;
 
     if (isFunction(gtag)) {
       gtag('event', 'Execute Search', {
