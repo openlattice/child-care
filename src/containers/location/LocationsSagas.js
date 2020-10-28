@@ -5,7 +5,6 @@ import qs from 'query-string';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
 import {
-  all,
   call,
   put,
   select,
@@ -13,13 +12,14 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import {
+  fromJS,
+  get,
   List,
   Map,
-  fromJS,
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
-import type { SequenceAction } from 'redux-reqseq';
+import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
   GEOCODE_PLACE,
@@ -40,8 +40,7 @@ import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
 import {
   HOSPITALS_ENTITY_SET_ID,
   PROPERTY_TYPES,
-  RR_ENTITY_SET_ID,
-  BASE_URL
+  RR_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { STATE, HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
@@ -64,6 +63,8 @@ const LOG = new Logger('LocationsSagas');
 const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
+const regionIsCalifornia = (suggestion) => suggestion.context
+  .filter((item) => item.id.split('.').shift() === 'region' && item.text === 'California').length > 0;
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
@@ -97,18 +98,20 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
       url: `${GEOCODING_API}/${window.encodeURI(address)}.json?bbox=${CA_BOUNDARY_BOX}&${queryString}`,
     });
 
-    const formattedSuggestions = suggestions.features.map((sugg) => {
-      const { place_name, geometry } = sugg;
-      const { coordinates } = geometry;
-      const [lon, lat] = coordinates;
-      return {
-        ...sugg,
-        label: place_name,
-        value: place_name,
-        lon,
-        lat
-      };
-    });
+    const formattedSuggestions = suggestions.features
+      .filter(regionIsCalifornia)
+      .map((sugg) => {
+        const { place_name: placeName, geometry } = sugg;
+        const { coordinates } = geometry;
+        const [lon, lat] = coordinates;
+        return {
+          ...sugg,
+          label: placeName,
+          value: placeName,
+          lon,
+          lat
+        };
+      });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
   }
@@ -142,7 +145,7 @@ const trySetStoredPermissions = (bool) => {
   catch (error) {
     console.error(error);
   }
-}
+};
 
 function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
   /* check location perms */
@@ -282,8 +285,8 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       searchInputs: searchInputs.set('selectedOption', latLonObj)
     }));
 
-    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj['lat'];
-    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj['lon'];
+    const latitude :string = get(latLonObj, 'lat');
+    const longitude :string = get(latLonObj, 'lon');
 
     if (isFunction(gtag)) {
       gtag('event', 'Execute Search', {
@@ -418,34 +421,34 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
         //     }
         //   ]
         constraints.push(childrenConstraint);
-        };
+      }
     }
 
     if (daysAndTimes && daysAndTimes.size) {
 
       const daysAndTimesConstraints = [];
 
-      daysAndTimes.entrySeq().forEach(([day, [start, end]]) => {
+      daysAndTimes.entrySeq().forEach(([day, [startDate, endDate]]) => {
 
-        if (start) {
+        if (startDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(start)}]`
+            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(startDate)}]`
           });
         }
 
-        if (end) {
+        if (endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][1]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(end)} TO *]`
+            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(endDate)} TO *]`
           });
         }
 
-        if (!start && !end) {
+        if (!startDate && !endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
@@ -472,7 +475,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
 
-    const filteredHits = fromJS(hits).filter(e => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
+    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
     const locationsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
