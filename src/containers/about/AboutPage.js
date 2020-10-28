@@ -98,7 +98,6 @@ const LogoRow = styled.div`
 const LogoLink = styled.a.attrs({
   target: '_blank'
 })`
-
   width: ${(props) => props.width}%;
 
   img {

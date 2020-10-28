@@ -103,7 +103,6 @@ const Header = styled.div`
     font-weight: 600;
   }
 
-
   span {
     font-size: 14px;
     font-weight: normal;

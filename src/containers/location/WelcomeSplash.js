@@ -39,8 +39,6 @@ const Details = styled(TextSection)`
 `;
 
 const Instructions = styled(TextSection)`
-
-
   span {
     color: ${PURPLE.P300};
     text-decoration: underline;
