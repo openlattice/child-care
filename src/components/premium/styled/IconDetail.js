@@ -15,10 +15,10 @@ const IconDetailWrapper = styled.div`
 `;
 
 const Content = styled.div`
-  flex: 1;
-  word-break: break-word;
-  white-space: pre-wrap;
   color: ${(props) => (props.isInactive ? NEUTRAL.N400 : NEUTRAL.N700)};
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
 `;
 
 const IconWrapper = styled.span`
@@ -29,10 +29,10 @@ const IconWrapper = styled.span`
 type Props = {
   className ? :string;
   content ? :string;
-  icon ? :IconDefinition;
-  isLoading ? :boolean;
-  isInactive ? :boolean;
   fitContent ? :boolean;
+  icon ? :IconDefinition;
+  isInactive ? :boolean;
+  isLoading ? :boolean;
 }
 
 class IconDetail extends Component<Props> {
