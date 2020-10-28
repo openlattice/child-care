@@ -6,7 +6,7 @@ import { Colors } from 'lattice-ui-kit';
 import { STATE } from '../../utils/constants/StateConstants';
 import { ABOUT, LABELS } from '../../utils/constants/Labels';
 import { getRenderTextFn } from '../../utils/AppUtils';
-import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 
 import caForAll from '../../assets/images/caForAll.png';
 import cdnLogo from '../../assets/images/cdnLogo.png';
@@ -69,12 +69,6 @@ const Text = styled.div`
   font-style: normal;
   font-weight: normal;
   line-height: 17px;
-`;
-
-const TextLink = styled.a.attrs({
-  target: '_blank'
-})`
-  color: ${PURPLE.P300};
 `;
 
 const TextSection = styled.div`
