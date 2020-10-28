@@ -13,20 +13,20 @@ const { NEUTRAL, PURPLE } = Colors;
 const { useBoolean } = Hooks;
 
 const Centered = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
   align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   justify-content: flex-start;
   opacity: ${(props) => (props.hidden ? 0 : 1)};
   padding:  15px 0;
 `;
 
 const TextSection = styled.span`
-  text-align: center;
   color: ${NEUTRAL.N700};
   font-size: 14px;
   font-weight: 300;
+  text-align: center;
 `;
 
 const Header = styled(TextSection)`
