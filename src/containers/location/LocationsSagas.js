@@ -474,7 +474,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
 
-    const filteredHits = fromJS(hits).filter(e => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
+    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
     const locationsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
