@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Colors } from 'lattice-ui-kit';
+import { Checkbox, Colors, TimePicker } from 'lattice-ui-kit';
 
-import TimePicker from '../../../../components/controls/TimePicker';
-import StyledCheckbox from '../../../../components/controls/StyledCheckbox';
 import { DAYS_OF_WEEK } from '../../../../utils/DataConstants';
 import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/Labels';
 
@@ -69,7 +67,7 @@ export default class DayAndTimeFilter extends React.Component {
       return (
         <Row key={day}>
           <SectionWrapper>
-            <StyledCheckbox checked={isSelected} onChange={onCheckboxChange} name={day} noMargin />
+            <Checkbox checked={isSelected} onChange={onCheckboxChange} name={day} noMargin />
             <span>{renderText(DAY_OF_WEEK_LABELS[day])}</span>
           </SectionWrapper>
           <SectionWrapper>
