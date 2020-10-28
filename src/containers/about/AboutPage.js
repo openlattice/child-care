@@ -36,6 +36,14 @@ const URL_TO_IMG = {
   [URLS.MAPBOX]: mapboxLogo
 };
 
+const URL_TO_ALT_TEXT = {
+  [URLS.OPENLATTICE]: 'OpenLattice',
+  [URLS.CDN]: 'CDN',
+  [URLS.CLOUDFLARE]: 'Coudflare',
+  [URLS.EVERBRIDGE]: 'Everbridge',
+  [URLS.MAPBOX]: 'Mapbox'
+};
+
 const IMG_HEIGHT = {
   [URLS.CDN]: 20
 };
@@ -122,7 +130,7 @@ class AboutPage extends React.Component {
       <LogoRow>
         {logoUrls.map((url) => (
           <LogoLink href={url} key={url} width={width} height={IMG_HEIGHT[url] || 40}>
-            <img alt={URL_TO_IMG[url]} src={URL_TO_IMG[url]} />
+            <img alt={URL_TO_ALT_TEXT[url]} src={URL_TO_IMG[url]} />
           </LogoLink>
         ))}
       </LogoRow>
