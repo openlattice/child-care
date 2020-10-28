@@ -13,30 +13,28 @@ import { selectProvider } from '../LocationsActions';
 
 import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';
-import { FACILITY_STATUSES } from '../../../utils/DataConstants';
 import {
   getValue,
-  getValues,
   getAgesServedFromEntity,
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
-import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../../utils/constants/DataModelConstants';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const ActionBar = styled.div`
+  align-items: center;
   display: flex;
   flex: 1;
-  align-items: center;
   justify-content: space-between;
 
-
   strong {
-    color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
-    font-weight: ${(props) => (props.isInactive ? 400 : 600)};
+    color: ${(props) => (props.isInactive ? NEUTRAL.N500 : NEUTRAL.N700)};
     font-size: 16px;
+    font-weight: ${(props) => (props.isInactive ? 400 : 600)};
   }
-
 `;
 
 const CloseButton = styled(IconButton)`
@@ -47,35 +45,35 @@ const CloseButton = styled(IconButton)`
 const CloseIcon = <FontAwesomeIcon icon={faTimes} fixedWidth />;
 
 const LinkButton = styled.div`
+  color: ${PURPLE.P300};
   font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
-  color: ${Colors.PURPLES[1]};
-  text-decoration: none;
   text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
   margin-top: 10px;
+
   :hover {
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
 const OpenClosedTag = styled.div`
+  color: ${(props) => props.color};
   font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
   line-height: 17px;
-
-  color: ${(props) => props.color};
 `;
 
 type Props = {
   coordinates :[number, number];
   isOpen :boolean;
-  provider :Map;
   onClose :() => void;
-  renderText :Function
+  provider :Map;
+  renderText :(labels :Object) => string;
 };
 
 const ProviderPopup = ({
@@ -85,20 +83,11 @@ const ProviderPopup = ({
   provider,
   renderText
 } :Props) => {
-
-  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
-
   const name = renderFacilityName(provider, renderText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
-  const status = getValues(provider, PROPERTY_TYPES.STATUS);
-  const url = getValue(provider, PROPERTY_TYPES.URL);
+    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
 
-  const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
   const city = getValue(provider, PROPERTY_TYPES.CITY);
-  const zip = getValue(provider, PROPERTY_TYPES.ZIP);
-
-  const isOperating = getValue(provider, PROPERTY_TYPES.STATUS) === FACILITY_STATUSES.OPEN;
 
   const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
   let vacancyLabel = LABELS.AVAILABILITY_UNKNOWN;
@@ -136,9 +125,10 @@ const ProviderPopup = ({
       <IconDetail content={type} isInactive={isInactive} />
       <IconDetail content={`${city}, CA`} isInactive={isInactive} />
       <IconDetail content={ages} isInactive={isInactive} />
-      {isInactive
-        ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
-        : null}
+      {
+        isInactive
+          && <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+      }
       <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );

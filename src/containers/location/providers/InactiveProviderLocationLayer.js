@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import inactivePin from '../../../assets/svg/inactiveprovidericon.svg';
 
@@ -14,10 +14,12 @@ const layout = { 'icon-image': 'inactiveMapPin' };
 
 type Props = {
   providerLocations :List;
-  onFeatureClick ? :(data, feature) => void;
+  onFeatureClick ?:(location :Map, feature :{}) => void;
 };
 
 const InactiveProviderLocationLayer = (props :Props) => (
+  /* eslint-disable */
+  // $FlowFixMe
   <ProviderLocationLayer images={images} layout={layout} {...props} />
 );
 

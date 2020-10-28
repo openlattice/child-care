@@ -3,7 +3,6 @@ import { PROVIDERS } from './StateConstants';
 import {
   CLIENTS_SERVED,
   DAYS_OF_WEEK,
-  FACILITY_NAME_MASKED,
   FACILITY_TYPES
 } from '../DataConstants';
 
@@ -308,7 +307,6 @@ export const LABELS = {
     [es]: 'Código postal'
   },
 
-
   [DAYS_OF_WEEK.SUNDAY]: {
     [en]: 'Sun',
     [es]: 'dom'
@@ -453,7 +451,9 @@ export const WELCOME_SPLASH = {
     [es]: '¡Bienvenido a MyChildCare.ca.gov!'
   },
   DETAILS: {
+    /* eslint-disable-next-line */
     [en]: 'Here you can find information on licensed childcare providers that are currently open including location, health and safety details, ages of children served, capacity, and hours of care.',
+    /* eslint-disable-next-line */
     [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, incluyendo su ubicación, detalles de salud y seguridad, las edades de los niños bajo cuidado, su capacidad y las horas de cuidado.'
   },
   INSTRUCTIONS_1: {

@@ -1,4 +1,3 @@
-
 export const STATE = {
   LOCATIONS: 'locations'
 };

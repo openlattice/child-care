@@ -1,6 +1,5 @@
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
 
-
 /* Form Types */
 export const FORM_TYPE = {
 };
@@ -204,7 +203,6 @@ export const DRUG_TYPES = {
 };
 
 export const CONTENT_TYPE = 'content-type';
-
 
 export const DAYS_OF_WEEK = {
   SUNDAY: 'Sun',

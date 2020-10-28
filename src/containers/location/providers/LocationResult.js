@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { Map } from 'immutable';
-import { Constants } from 'lattice';
 import { useSelector } from 'react-redux';
 
 import { STATE } from '../../../utils/constants/StateConstants';
@@ -17,13 +16,12 @@ type Props = {
 
 const LocationResult = (props :Props) => {
 
-  const { coordinates, result: locationEKID } = props;
+  const { result: locationEKID } = props;
 
   const renderText = useSelector(getRenderTextFn);
 
   const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
   const provider = providerState.getIn(['providerLocations', locationEKID], Map());
-
 
   const lat = providerState.getIn(['selectedOption', 'lat']);
   const lon = providerState.getIn(['selectedOption', 'lon']);

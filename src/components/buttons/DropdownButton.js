@@ -107,10 +107,10 @@ class DropdownButton extends Component<Props, State> {
           <MenuContainer offset={size}>
             {options.map((option) => (
               <button
-                  type="button"
                   key={option.label}
                   onClick={this.closeDropdown}
-                  onMouseDown={option.onClick}>
+                  onMouseDown={option.onClick}
+                  type="button">
                 {option.label}
               </button>
             ))}

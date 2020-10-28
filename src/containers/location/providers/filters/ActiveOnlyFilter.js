@@ -1,20 +1,23 @@
 import React from 'react';
+import { Colors } from 'lattice-ui-kit';
 
 import styled from 'styled-components';
 
 import { LABELS } from '../../../../utils/constants/Labels';
 
+const { NEUTRAL, PURPLE } = Colors;
+
 const Wrapper = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 `;
 
 const Button = styled.div`
-  padding: 20px;
   border-radius: 3px;
   margin-top: ${(props) => props.marginTop};
+  padding: 20px;
   text-align: center;
   width: 49%;
 
@@ -24,21 +27,21 @@ const Button = styled.div`
 `;
 
 const SelectedValue = styled(Button)`
-  background-color: #e4d8ff;
-  color: #6124e2;
+  background-color: ${PURPLE.P100};
+  color: ${PURPLE.P300};
 
   &:hover {
-    background-color: #d0bbff;
+    background-color: ${PURPLE.P200};
     cursor: pointer;
   }
 `;
 
 const UnselectedValue = styled(Button)`
-  background-color: #F9F9FD;
-  color: #8E929B;
+  background-color: ${NEUTRAL.N50};
+  color: ${NEUTRAL.N600};
 
   &:hover {
-    background-color: #dcdce7;
+    background-color: ${NEUTRAL.N200};
     cursor: pointer;
   }
 `;

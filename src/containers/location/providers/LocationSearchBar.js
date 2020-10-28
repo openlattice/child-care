@@ -49,16 +49,15 @@ const getTheme = (theme) => ({
 });
 
 const Wrapper = styled.div`
-  width: 100%;
-  top: 0;
-  padding: 8px 0;
+  left: 50%;
   margin: 0 auto;
+  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
+  padding: 8px 0;
   position: fixed;
   top: 0;
-  z-index: 1000;
-  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
-  left: 50%;
   transform: translate(-50%, 0);
+  width: 100%;
+  z-index: 1000;
 
   /* fill right side gap for screens smaller than desktop cutoff */
   ${media.desktop`
@@ -67,7 +66,7 @@ const Wrapper = styled.div`
   `}
 `;
 
-const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} />);
+const GroupHeading = () => (<div style={{ borderBottom: `1px solid ${NEUTRAL.N100}` }} />);
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
@@ -77,8 +76,8 @@ const LocationsSearchBar = () => {
   useEffect(() => {
     if (refInput.current) {
       const inputElement :HTMLInputElement = refInput.current.querySelector('input');
-      if (inputElement && inputElement.ariaAutoComplete === 'list') {
-        inputElement.setAttribute('aria-autocomplete', 'none');
+      if (inputElement && inputElement.hasAttribute('aria-autocomplete')) {
+        inputElement.removeAttribute('aria-autocomplete');
       }
     }
   }, []);

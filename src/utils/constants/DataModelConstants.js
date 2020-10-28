@@ -1,4 +1,3 @@
-
 export const OPENLATTICE_ID_FQN = 'openlattice.@id';
 // export const PROVIDERS_ENTITY_SET = 'DemoEssentialCareProviderServices';
 export const PROVIDERS_ENTITY_SET = 'DssEssentialCareProviderServices';

@@ -65,22 +65,21 @@ const AppContainerWrapper = styled.div`
 `;
 
 const AppContentOuterWrapper = styled.main`
+  bottom: 0;
   display: flex;
   flex: 1 0 auto;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  overflow: auto;
-
   height: auto;
+  justify-content: center;
+  overflow: auto;
+  position: fixed;
   top: ${HEADER_HEIGHT}px;
   width: 100vw;
 `;
 
 const AppContentInnerWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   flex: 1 0 auto;
+  flex-direction: column;
   justify-content: flex-start;
   max-width: ${APP_CONTAINER_MAX_WIDTH}px;
   padding: ${APP_CONTENT_PADDING}px;
@@ -93,7 +92,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
-  renderText :(currentLanguage :string) => string;
+  renderText :(labels :Object) => string;
 };
 
 class AppContainer extends Component<Props> {
