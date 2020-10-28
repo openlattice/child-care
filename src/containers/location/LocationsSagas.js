@@ -12,9 +12,10 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import {
+  fromJS,
+  get,
   List,
   Map,
-  fromJS,
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
@@ -61,6 +62,10 @@ const LOG = new Logger('LocationsSagas');
 
 const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
+const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
+const regionIsCalifornia = (suggestion) => suggestion.context
+  .filter((item) => item.id.split('.').shift() === 'region' && item.text === 'California').length > 0;
+
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(getGeoOptions.request(action.id));
@@ -90,22 +95,23 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
     const { data: suggestions } = yield call(axios, {
       method: 'get',
-      url: `${GEOCODING_API}/${window.encodeURI(address)}.json?${queryString}`,
+      url: `${GEOCODING_API}/${window.encodeURI(address)}.json?bbox=${CA_BOUNDARY_BOX}&${queryString}`,
     });
 
-    const formattedSuggestions = suggestions.features.map((sugg) => {
-      /* eslint-disable-next-line */
-      const { place_name, geometry } = sugg;
-      const { coordinates } = geometry;
-      const [lon, lat] = coordinates;
-      return {
-        ...sugg,
-        label: place_name,
-        value: place_name,
-        lon,
-        lat
-      };
-    });
+    const formattedSuggestions = suggestions.features
+      .filter(regionIsCalifornia)
+      .map((sugg) => {
+        const { place_name: placeName, geometry } = sugg;
+        const { coordinates } = geometry;
+        const [lon, lat] = coordinates;
+        return {
+          ...sugg,
+          label: placeName,
+          value: placeName,
+          lon,
+          lat
+        };
+      });
 
     yield put(getGeoOptions.success(action.id, fromJS(formattedSuggestions)));
   }
@@ -280,8 +286,8 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       searchInputs: searchInputs.set('selectedOption', latLonObj)
     }));
 
-    const latitude :string = isImmutable(latLonObj) ? latLonObj.get('lat') : latLonObj.lat;
-    const longitude :string = isImmutable(latLonObj) ? latLonObj.get('lon') : latLonObj.lon;
+    const latitude :string = get(latLonObj, 'lat');
+    const longitude :string = get(latLonObj, 'lon');
 
     if (isFunction(gtag)) {
       gtag('event', 'Execute Search', {
@@ -424,27 +430,27 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
       const daysAndTimesConstraints = [];
 
-      daysAndTimes.entrySeq().forEach(([day, [startTime, endTime]]) => {
+      daysAndTimes.entrySeq().forEach(([day, [startDate, endDate]]) => {
 
-        if (startTime) {
+        if (startDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(startTime)}]`
+            searchTerm: `entity.${propertyTypeId}:[* TO ${formatTimeAsDateTime(startDate)}]`
           });
         }
 
-        if (endTime) {
+        if (endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][1]);
           daysAndTimesConstraints.push({
             type: 'simple',
             fuzzy: false,
-            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(endTime)} TO *]`
+            searchTerm: `entity.${propertyTypeId}:[${formatTimeAsDateTime(endDate)} TO *]`
           });
         }
 
-        if (!startTime && !endTime) {
+        if (!startDate && !endDate) {
           const propertyTypeId = getPropertyTypeId(app, DAY_PTS[day][0]);
           daysAndTimesConstraints.push({
             type: 'simple',
