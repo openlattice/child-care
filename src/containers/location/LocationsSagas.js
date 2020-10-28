@@ -18,7 +18,7 @@ import {
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
-import type { SequenceAction } from 'redux-reqseq';
+import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
   GEOCODE_PLACE,
