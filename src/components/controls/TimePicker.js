@@ -6,8 +6,8 @@ import isFunction from 'lodash/isFunction';
 import { KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 import { DateTime } from 'luxon';
+import { LatticeLuxonUtils } from 'lattice-ui-kit';
 
-import LatticeLuxonUtils from './helpers/LatticeLuxonUtils';
 import useInputPropsMemo from './helpers/useInputPropsMemo';
 import { latticeMuiTheme } from './helpers/styles';
 
