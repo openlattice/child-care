@@ -22,13 +22,13 @@ import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRAL, PURPLE } = Colors;
 
-const DEFAULT_PADDING = css`padding: 20px 24px;`;
+const DEFAULT_PADDING = css` padding: 20px 24px; `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
+  justify-content: space-between;
 `;
 
 const NavMenuWrapper = styled.div`
@@ -58,11 +58,15 @@ const menuRowStyle = css`
   }
 `;
 
-const MenuRow = styled.div`${menuRowStyle}`;
+const MenuRow = styled.div`
+  ${menuRowStyle}
+`;
 
 const MenuRowLink = styled.a.attrs({
   target: '_blank'
-})`${menuRowStyle}`;
+})`
+  ${menuRowStyle}
+`;
 
 const MenuRowMailtoLink = styled.a`
   ${menuRowStyle}

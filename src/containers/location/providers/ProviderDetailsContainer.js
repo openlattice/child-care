@@ -91,8 +91,7 @@ const Row = styled.div`
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
-
-  ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
+  ${(props) => (props.maxWidth ? css` max-width: ${props.maxWidth} !important; ` : '')}
 
   span {
     color: ${NEUTRAL.N600};
@@ -102,7 +101,29 @@ const DataRows = styled.div`
   a {
     min-width: fit-content;
     text-align: right;
-    ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
+    ${(props) => (props.alignEnd ? css` align-self: flex-end; ` : '')}
+  }
+`;
+
+const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0;
+  width: 100%;
+
+  span {
+    color: ${NEUTRAL.N700};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+
+    :last-child {
+      font-weight: normal;
+    }
   }
 `;
 
@@ -137,29 +158,6 @@ const InfoText = styled.div`
   font-style: normal;
   font-weight: normal;
   line-height: 19px;
-`;
-
-const TitleRow = styled.div`
-  align-items: center;
-  color: ${NEUTRAL.N600};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px 0;
-  width: 100%;
-
-  span {
-    color: ${NEUTRAL.N700};
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-  }
-
-  span:last-child {
-    font-weight: normal;
-  }
 `;
 
 type Props = {
