@@ -33,6 +33,7 @@ export const PROPERTY_TYPES = {
   LOCATION: 'ecps.locationcoordinates',
   PLACE_ID: 'ecps.google_place_id',
   LICENSE_URL: 'ecps.license_url',
+  LAST_UPDATED: 'ecps.last_updated',
   LICENSE_ID: 'ecps.license_number',
   LAST_INSPECTION_DATE: 'ecps.license_last_inspection_date',
   NUM_COMPLAINTS: 'ecps.license_complaints',
