@@ -146,6 +146,10 @@ export const LABELS = {
     [en]: 'Last Inspection Date',
     [es]: 'Fecha de la última inspección'
   },
+  LAST_UPDATED: {
+    [en]: 'Last Updated:',
+    [es]: 'Última actualización'
+  },
   LICENSE_NUMBER: {
     [en]: 'License Number',
     [es]: 'Número de licencia'
