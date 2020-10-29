@@ -11,7 +11,7 @@ const { NEUTRAL } = Colors;
 
 const IconDetailWrapper = styled.div`
   display: flex;
-  ${(props) => (props.fitContent ? css`min-width: fit-content;` : '')}
+  ${(props) => (props.fitContent ? css` min-width: fit-content; ` : '')}
 `;
 
 const Content = styled.div`

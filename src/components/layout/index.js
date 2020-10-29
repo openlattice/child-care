@@ -58,7 +58,6 @@ export const DashedList = styled.div`
   > div:last-child {
     border-bottom: 0;
   }
-
 `;
 
 export const H1 = styled.h1`
