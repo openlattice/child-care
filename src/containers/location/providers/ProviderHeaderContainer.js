@@ -12,22 +12,25 @@ import { bindActionCreators } from 'redux';
 
 import * as LocationsActions from '../LocationsActions';
 
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, OpenClosedTag } from '../../../components/layout';
 import {
   HEADER_HEIGHT,
   HEIGHTS,
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getLastUpdatedDate } from '../../../utils/DateUtils';
 import {
   getDistanceBetweenCoords,
   getValue,
   getAgesServedFromEntity,
+  isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import { VACANCY_COLORS } from '../../../shared/Colors';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -103,7 +106,6 @@ const Header = styled.div`
     font-weight: 600;
   }
 
-
   span {
     font-size: 14px;
     font-weight: normal;
@@ -114,10 +116,12 @@ const Header = styled.div`
 
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
+  display: flex;
+  flex-direction: row;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
+  justify-content: space-between;
   line-height: 17px;
   margin: 3px 0;
 `;
@@ -156,6 +160,13 @@ class ProviderHeaderContainer extends React.Component<Props> {
 
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
+    const lastUpdated = getValue(provider, PROPERTY_TYPES.LAST_UPDATED);
+    const lastUpdatedLabel = getLastUpdatedDate(lastUpdated);
+
+    const isActive = isProviderActive(provider);
+    const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
+    const statusColor = isActive ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
+
     const ages = getAgesServedFromEntity(provider, renderText);
 
     const distance = this.getDistance();
@@ -175,7 +186,12 @@ class ProviderHeaderContainer extends React.Component<Props> {
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
           <SubHeader>{ages}</SubHeader>
-
+          <SubHeader>
+            <OpenClosedTag color={statusColor}>
+              {renderText(statusLabel)}
+            </OpenClosedTag>
+            <span>{`${renderText(LABELS.LAST_UPDATED)} ${lastUpdatedLabel}`}</span>
+          </SubHeader>
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
     );
