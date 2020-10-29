@@ -34,31 +34,31 @@ const { NEUTRAL, PURPLE } = Colors;
 const PADDING = 25;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
- z-index: 1;
+  z-index: 1;
 
- @media only screen and (min-height: ${HEIGHTS[0]}px) {
-   min-height: ${HEIGHTS[0] / 3}px;
- }
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    min-height: ${HEIGHTS[0] / 3}px;
+  }
 
- @media only screen and (min-height: 639px) {
-   min-height: 270px;
- }
+  @media only screen and (min-height: 639px) {
+    min-height: 270px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[1]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[2]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[2]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[3]}px) {
-   min-height: 460px;
- }
+  @media only screen and (min-height: ${HEIGHTS[3]}px) {
+    min-height: 460px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[4]}px) {
-   min-height: 630px;
- }
+  @media only screen and (min-height: ${HEIGHTS[4]}px) {
+    min-height: 630px;
+  }
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -71,7 +71,6 @@ const Row = styled.div`
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   justify-content: space-between;
   line-height: 19px;
@@ -92,8 +91,7 @@ const Row = styled.div`
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
-
-  ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
+  ${(props) => (props.maxWidth ? css` max-width: ${props.maxWidth} !important; ` : '')}
 
   span {
     color: ${NEUTRAL.N600};
@@ -103,7 +101,29 @@ const DataRows = styled.div`
   a {
     min-width: fit-content;
     text-align: right;
-    ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
+    ${(props) => (props.alignEnd ? css` align-self: flex-end; ` : '')}
+  }
+`;
+
+const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0;
+  width: 100%;
+
+  span {
+    color: ${NEUTRAL.N700};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+
+    :last-child {
+      font-weight: normal;
+    }
   }
 `;
 
@@ -134,34 +154,10 @@ const Line = styled.div`
 
 const InfoText = styled.div`
   color: ${NEUTRAL.N600};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
   line-height: 19px;
-`;
-
-const TitleRow = styled.div`
-  align-items: center;
-  color: ${NEUTRAL.N600};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px 0;
-  width: 100%;
-
-  span {
-    color: ${NEUTRAL.N700};
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-  }
-
-  span:last-child {
-    font-weight: normal;
-  }
 `;
 
 type Props = {

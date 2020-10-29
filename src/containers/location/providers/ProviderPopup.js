@@ -61,7 +61,6 @@ const LinkButton = styled.div`
 
 const OpenClosedTag = styled.div`
   color: ${(props) => props.color};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
