@@ -117,7 +117,6 @@ const Header = styled.div`
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
   display: flex;
-  flex-direction: row;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
