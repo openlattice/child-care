@@ -70,12 +70,6 @@ export const H1 = styled.h1`
   align-items: center;
 `;
 
-export const TextLink = styled.a.attrs({
-  target: '_blank'
-})`
-  color: ${PURPLE.P300};
-`;
-
 export const IconWrapper = styled.span`
   vertical-align: middle;
   margin-right: 10px;
@@ -84,4 +78,10 @@ export const IconWrapper = styled.span`
 export const HeaderActions = styled.div`
   display: flex;
   margin-left: auto;
+`;
+
+export const TextLink = styled.a.attrs({
+  target: '_blank'
+})`
+color: ${PURPLE.P300};
 `;
