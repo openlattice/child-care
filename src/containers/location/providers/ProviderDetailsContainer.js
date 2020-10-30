@@ -424,7 +424,19 @@ class ProviderDetailsContainer extends React.Component<Props> {
               {lastInspectionDate}
             </DataRows>
           </Row>
-          {complaints}
+          <Row>
+            <FlexContainer>
+              {renderText(LABELS.CITATIONS)}
+              <MarginWrapper>
+                <Tooltip arrow placement="top" title={renderText(LABELS.CITATIONS_INFO)}>
+                  <div>{ infoIcon }</div>
+                </Tooltip>
+              </MarginWrapper>
+            </FlexContainer>
+            <DataRows>
+              {complaints}
+            </DataRows>
+          </Row>
           <Row>
             <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>
