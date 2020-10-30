@@ -7,6 +7,7 @@ import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
+import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,7 +19,6 @@ import {
   HEIGHTS,
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
-import { getLastUpdatedDate } from '../../../utils/DateUtils';
 import {
   getDistanceBetweenCoords,
   getValue,
@@ -31,6 +31,8 @@ import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 import { VACANCY_COLORS } from '../../../shared/Colors';
+
+const { formatAsRelative } = DateTimeUtils;
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -159,7 +161,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
     const lastUpdated = getValue(provider, PROPERTY_TYPES.LAST_UPDATED);
-    const lastUpdatedLabel = getLastUpdatedDate(lastUpdated);
+    const lastUpdatedLabel = formatAsRelative(lastUpdated);
 
     const isActive = isProviderActive(provider);
     const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
