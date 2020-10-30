@@ -4,32 +4,31 @@ import React, { Fragment } from 'react';
 
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-import { Map, List } from 'immutable';
+import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { List, Map } from 'immutable';
 import { Colors, Tooltip } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ExpandableSection from './ExpandableSection';
 
 import * as LocationsActions from '../LocationsActions';
-
-import ExpandableSection from './ExpandableSection';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { HEIGHTS } from '../../../core/style/Sizes';
+import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
-  getValue,
   getEntityKeyId,
+  getValue,
+  isProviderActive,
   shouldHideContact,
-  shouldHideLocation,
-  isProviderActive
+  shouldHideLocation
 } from '../../../utils/DataUtils';
-import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
 const InfoIcon = React.forwardRef((props, ref) => (
