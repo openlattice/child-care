@@ -9,6 +9,9 @@ import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import * as LocationsActions from '../LocationsActions';
 
 import ExpandableSection from './ExpandableSection';
@@ -28,6 +31,8 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+
+const infoIcon = <FontAwesomeIcon icon={faInfoCircle} size="sm" />;
 
 const { NEUTRAL, PURPLE } = Colors;
 
