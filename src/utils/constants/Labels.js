@@ -82,6 +82,14 @@ export const LABELS = {
     [en]: 'Children',
     [es]: 'niños'
   },
+  CITATIONS: {
+    [en]: 'Type A Citations',
+    [es]: 'Citas tipo A'
+  },
+  CITATIONS_INFO: {
+    [en]: 'Immediate Health, Safety, or Personal Rights Impact',
+    [es]: 'Impacto inmediato en la salud, la seguridad o los derechos personales'
+  },
   CLOSED: {
     [en]: 'Closed',
     [es]: 'Cerrado'

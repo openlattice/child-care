@@ -20,6 +20,7 @@ export const PROPERTY_TYPES = {
   FACILITY_NAME: 'ecps.facility_name',
   ADDRESS: 'ecps.facility_address',
   CITY: 'ecps.facility_city',
+  COMPLAINTS: 'ecps.license_complaints',
   ZIP: 'ecps.facility_zip',
   URL: 'ecps.url',
   STATUS: 'ecps.status',
