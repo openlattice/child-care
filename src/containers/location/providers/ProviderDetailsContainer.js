@@ -8,6 +8,7 @@ import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors, Tooltip } from 'lattice-ui-kit';
+import { DataUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -21,7 +22,6 @@ import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
   getEntityKeyId,
-  getValue,
   isProviderActive,
   shouldHideContact,
   shouldHideLocation
@@ -30,6 +30,8 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+
+const { getPropertyValue } = DataUtils;
 
 const InfoIcon = React.forwardRef((props, ref) => (
   // https://material-ui.com/components/tooltips/#custom-child-element
@@ -189,7 +191,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
   renderEmailAsLink = (provider :Map, isRR :boolean) => {
     const { renderText } = this.props;
-    const email = getValue(provider, PROPERTY_TYPES.EMAIL);
+    const email = getPropertyValue(provider, PROPERTY_TYPES.EMAIL);
     if (!email) {
       return <span>{renderText(LABELS.UNKNOWN)}</span>;
     }
@@ -198,8 +200,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   };
 
   renderRR = (rr :Map) => {
-    const url = getValue(rr, PROPERTY_TYPES.URL);
-    const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
+    const url = getPropertyValue(rr, PROPERTY_TYPES.URL);
+    const name = getPropertyValue(rr, PROPERTY_TYPES.FACILITY_NAME);
 
     let first = <div>{name}</div>;
     if (url) {
@@ -233,8 +235,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderLicenseElement = () => {
     const { renderText, provider } = this.props;
 
-    const licenseNumber = getValue(provider, PROPERTY_TYPES.LICENSE_ID);
-    const licenseURL = getValue(provider, PROPERTY_TYPES.LICENSE_URL);
+    const licenseNumber = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_ID);
+    const licenseURL = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_URL);
 
     if (!licenseURL) {
       return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
@@ -284,7 +286,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderVacanciesSection = () => {
     const { provider, renderText } = this.props;
 
-    const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
+    const hasVacancies = getPropertyValue(provider, PROPERTY_TYPES.VACANCIES);
 
     let label = LABELS.UNKNOWN;
     if (hasVacancies !== '') {
@@ -311,10 +313,10 @@ class ProviderDetailsContainer extends React.Component<Props> {
       return null;
     }
 
-    const phone = getValue(provider, PROPERTY_TYPES.PHONE);
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
-    const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+    const phone = getPropertyValue(provider, PROPERTY_TYPES.PHONE);
+    const street = getPropertyValue(provider, PROPERTY_TYPES.ADDRESS);
+    const city = getPropertyValue(provider, PROPERTY_TYPES.CITY);
+    const zip = getPropertyValue(provider, PROPERTY_TYPES.ZIP);
     const email = this.renderEmailAsLink(provider, false);
 
     const formatTime = (time) => {
@@ -340,14 +342,14 @@ class ProviderDetailsContainer extends React.Component<Props> {
       phoneElem = <a onClick={trackClick} href={`tel:${phone}`}>{phone}</a>;
     }
 
-    if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+    if (getPropertyValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
     else {
       Object.values(DAYS_OF_WEEK).forEach((day) => {
         const [startPT, endPT] = DAY_PTS[day];
-        const start = getValue(provider, startPT);
-        const end = getValue(provider, endPT);
+        const start = getPropertyValue(provider, startPT);
+        const end = getPropertyValue(provider, endPT);
 
         const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
 
@@ -407,11 +409,11 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     const unknown = this.renderUnknown();
 
-    const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
-    const complaints = getValue(provider, PROPERTY_TYPES.COMPLAINTS);
+    const lastInspectionDateStr = getPropertyValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
+    const complaints = getPropertyValue(provider, PROPERTY_TYPES.COMPLAINTS);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
 
-    const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
+    const hospitalName = getPropertyValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
     const [fromLat, fromLon] = getCoordinates(provider);
     const [toLat, toLon] = getCoordinates(hospital);
