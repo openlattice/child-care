@@ -5,7 +5,7 @@ import React, { Fragment } from 'react';
 import moment from 'moment';
 import styled, { css } from 'styled-components';
 import { Map, List } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
+import { Colors, Tooltip } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -37,6 +37,14 @@ const infoIcon = <FontAwesomeIcon icon={faInfoCircle} size="sm" />;
 const { NEUTRAL, PURPLE } = Colors;
 
 const PADDING = 25;
+
+const MarginWrapper = styled.span`
+  margin-left: 5px;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+`;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
   z-index: 1;
