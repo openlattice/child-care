@@ -32,7 +32,13 @@ import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
-const infoIcon = <FontAwesomeIcon icon={faInfoCircle} size="sm" />;
+const InfoIcon = React.forwardRef((props, ref) => (
+  // https://material-ui.com/components/tooltips/#custom-child-element
+  /* eslint-disable-next-line */
+  <span {...props} ref={ref}>
+    <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+  </span>
+));
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -429,7 +435,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
               {renderText(LABELS.CITATIONS)}
               <MarginWrapper>
                 <Tooltip arrow placement="top" title={renderText(LABELS.CITATIONS_INFO)}>
-                  <div>{ infoIcon }</div>
+                  <InfoIcon />
                 </Tooltip>
               </MarginWrapper>
             </FlexContainer>
