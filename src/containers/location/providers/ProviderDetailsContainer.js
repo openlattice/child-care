@@ -403,6 +403,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const unknown = this.renderUnknown();
 
     const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
+    const complaints = getValue(provider, PROPERTY_TYPES.COMPLAINTS);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
 
     const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
@@ -413,8 +414,6 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const hospitalDirections = `https://www.google.com/maps/dir/${fromLon},${fromLat}/${toLon},${toLat}`;
 
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
-
-    const complaints = null;
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
