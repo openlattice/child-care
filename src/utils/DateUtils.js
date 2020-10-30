@@ -34,16 +34,6 @@ const isNowValid = (start :string, end :string) => {
   return (startDT < now) && (now < endDT);
 };
 
-export const getLastUpdatedDate = (date :string) => {
-  const lastUpdatedDateTime = DateTime.fromISO(date);
-  const today = DateTime.local();
-  const yesterday = DateTime.local().minus({ days: 1 });
-  let dateLabel = getDateShortFromIsoDate(date);
-  if (lastUpdatedDateTime.hasSame(today, 'day')) dateLabel = 'Today';
-  if (lastUpdatedDateTime.hasSame(yesterday, 'day')) dateLabel = 'Yesterday';
-  return dateLabel;
-};
-
 const TIME_FORMAT = 'hh:mm:ss';
 
 export const isOpen = (entity) => {
