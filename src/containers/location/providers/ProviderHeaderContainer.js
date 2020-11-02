@@ -160,8 +160,8 @@ class ProviderHeaderContainer extends React.Component<Props> {
 
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
-    const lastUpdated = getValue(provider, PROPERTY_TYPES.LAST_UPDATED);
-    const lastUpdatedLabel = formatAsRelative(lastUpdated);
+    const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
+    const lastModifiedLabel = formatAsRelative(lastModified);
 
     const isActive = isProviderActive(provider);
     const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
@@ -190,7 +190,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
             <OpenClosedTag color={statusColor}>
               {renderText(statusLabel)}
             </OpenClosedTag>
-            <span>{`${renderText(LABELS.LAST_UPDATED)} ${lastUpdatedLabel}`}</span>
+            <span>{`${renderText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
           </SubHeader>
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
