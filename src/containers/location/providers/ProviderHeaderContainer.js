@@ -161,7 +161,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
     const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
-    const lastModifiedLabel = formatAsRelative(lastModified);
+    const lastModifiedLabel = formatAsRelative(lastModified, renderText(LABELS.UNKNOWN));
 
     const isActive = isProviderActive(provider);
     const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
