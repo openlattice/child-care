@@ -51,6 +51,10 @@ const MarginWrapper = styled.span`
 
 const FlexContainer = styled.div`
   display: flex;
+
+  span:last-child {
+    margin-left: 5px;
+  }
 `;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
@@ -297,7 +301,10 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     return (
       <TitleRow>
-        <span>{renderText(LABELS.AVAILABILITY)}</span>
+        <FlexContainer>
+          <span>{renderText(LABELS.AVAILABILITY)}</span>
+          { vacancyLastUpdateDate && <span>{`${renderText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</span> }
+        </FlexContainer>
         <span>{renderText(label)}</span>
       </TitleRow>
     );
