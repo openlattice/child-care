@@ -50,7 +50,7 @@ const BackButton = styled.div`
   align-items: center;
   color: ${PURPLE.P300};
   display: flex;
-  flex-direciton: row;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -64,13 +64,12 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
 const HeaderLabel = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -84,7 +83,6 @@ const FilterRow = styled.div`
   color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -105,7 +103,7 @@ const FilterRow = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
@@ -124,9 +122,9 @@ const ApplyButtonWrapper = styled.div`
   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
   z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
 type Props = {

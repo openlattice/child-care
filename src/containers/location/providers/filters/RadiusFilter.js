@@ -10,7 +10,7 @@ const { NEUTRAL, PURPLE } = Colors;
 const BasicSelect = styled.select`
   background-color: ${NEUTRAL.N00};
   border: solid 1px ${NEUTRAL.N100};
-  borderRadius: 3px;
+  border-radius: 3px;
   box-shadow: none;
   font-size: 12px;
   line-height: normal;

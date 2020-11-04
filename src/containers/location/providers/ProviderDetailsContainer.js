@@ -4,61 +4,81 @@ import React, { Fragment } from 'react';
 
 import moment from 'moment';
 import styled, { css } from 'styled-components';
-import { Map, List } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
+import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { List, Map } from 'immutable';
+import { Colors, Tooltip } from 'lattice-ui-kit';
+import { DataUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as LocationsActions from '../LocationsActions';
-
 import ExpandableSection from './ExpandableSection';
+
+import * as LocationsActions from '../LocationsActions';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { HEIGHTS } from '../../../core/style/Sizes';
+import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
-  getValue,
   getEntityKeyId,
+  isProviderActive,
   shouldHideContact,
-  shouldHideLocation,
-  isProviderActive
+  shouldHideLocation
 } from '../../../utils/DataUtils';
-import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+
+const { getPropertyValue } = DataUtils;
+
+const InfoIcon = React.forwardRef((props, ref) => (
+  // https://material-ui.com/components/tooltips/#custom-child-element
+  /* eslint-disable-next-line */
+  <span {...props} ref={ref}>
+    <FontAwesomeIcon icon={faInfoCircle} size="sm" />
+  </span>
+));
 
 const { NEUTRAL, PURPLE } = Colors;
 
 const PADDING = 25;
 
+const MarginWrapper = styled.span`
+  margin-left: 5px;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+`;
+
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
- z-index: 1;
+  z-index: 1;
 
- @media only screen and (min-height: ${HEIGHTS[0]}px) {
-   min-height: ${HEIGHTS[0] / 3}px;
- }
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    min-height: ${HEIGHTS[0] / 3}px;
+  }
 
- @media only screen and (min-height: 639px) {
-   min-height: 270px;
- }
+  @media only screen and (min-height: 639px) {
+    min-height: 270px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[1]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[2]}px) {
-   min-height: 350px;
- }
+  @media only screen and (min-height: ${HEIGHTS[2]}px) {
+    min-height: 350px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[3]}px) {
-   min-height: 460px;
- }
+  @media only screen and (min-height: ${HEIGHTS[3]}px) {
+    min-height: 460px;
+  }
 
- @media only screen and (min-height: ${HEIGHTS[4]}px) {
-   min-height: 630px;
- }
+  @media only screen and (min-height: ${HEIGHTS[4]}px) {
+    min-height: 630px;
+  }
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
@@ -71,7 +91,6 @@ const Row = styled.div`
   align-items: flex-start;
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   justify-content: space-between;
   line-height: 19px;
@@ -92,8 +111,7 @@ const Row = styled.div`
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
-
-  ${(props) => (props.maxWidth ? css`max-width: ${props.maxWidth} !important;` : '')}
+  ${(props) => (props.maxWidth ? css` max-width: ${props.maxWidth} !important; ` : '')}
 
   span {
     color: ${NEUTRAL.N600};
@@ -103,7 +121,29 @@ const DataRows = styled.div`
   a {
     min-width: fit-content;
     text-align: right;
-    ${(props) => (props.alignEnd ? css`align-self: flex-end;` : '')}
+    ${(props) => (props.alignEnd ? css` align-self: flex-end; ` : '')}
+  }
+`;
+
+const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0;
+  width: 100%;
+
+  span {
+    color: ${NEUTRAL.N700};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+
+    :last-child {
+      font-weight: normal;
+    }
   }
 `;
 
@@ -134,34 +174,10 @@ const Line = styled.div`
 
 const InfoText = styled.div`
   color: ${NEUTRAL.N600};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
   line-height: 19px;
-`;
-
-const TitleRow = styled.div`
-  align-items: center;
-  color: ${NEUTRAL.N600};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px 0;
-  width: 100%;
-
-  span {
-    color: ${NEUTRAL.N700};
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-  }
-
-  span:last-child {
-    font-weight: normal;
-  }
 `;
 
 type Props = {
@@ -175,7 +191,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
   renderEmailAsLink = (provider :Map, isRR :boolean) => {
     const { renderText } = this.props;
-    const email = getValue(provider, PROPERTY_TYPES.EMAIL);
+    const email = getPropertyValue(provider, PROPERTY_TYPES.EMAIL);
     if (!email) {
       return <span>{renderText(LABELS.UNKNOWN)}</span>;
     }
@@ -184,8 +200,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   };
 
   renderRR = (rr :Map) => {
-    const url = getValue(rr, PROPERTY_TYPES.URL);
-    const name = getValue(rr, PROPERTY_TYPES.FACILITY_NAME);
+    const url = getPropertyValue(rr, PROPERTY_TYPES.URL);
+    const name = getPropertyValue(rr, PROPERTY_TYPES.FACILITY_NAME);
 
     let first = <div>{name}</div>;
     if (url) {
@@ -219,8 +235,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderLicenseElement = () => {
     const { renderText, provider } = this.props;
 
-    const licenseNumber = getValue(provider, PROPERTY_TYPES.LICENSE_ID);
-    const licenseURL = getValue(provider, PROPERTY_TYPES.LICENSE_URL);
+    const licenseNumber = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_ID);
+    const licenseURL = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_URL);
 
     if (!licenseURL) {
       return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
@@ -270,7 +286,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderVacanciesSection = () => {
     const { provider, renderText } = this.props;
 
-    const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
+    const hasVacancies = getPropertyValue(provider, PROPERTY_TYPES.VACANCIES);
 
     let label = LABELS.UNKNOWN;
     if (hasVacancies !== '') {
@@ -297,10 +313,10 @@ class ProviderDetailsContainer extends React.Component<Props> {
       return null;
     }
 
-    const phone = getValue(provider, PROPERTY_TYPES.PHONE);
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
-    const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
+    const phone = getPropertyValue(provider, PROPERTY_TYPES.PHONE);
+    const street = getPropertyValue(provider, PROPERTY_TYPES.ADDRESS);
+    const city = getPropertyValue(provider, PROPERTY_TYPES.CITY);
+    const zip = getPropertyValue(provider, PROPERTY_TYPES.ZIP);
     const email = this.renderEmailAsLink(provider, false);
 
     const formatTime = (time) => {
@@ -326,14 +342,14 @@ class ProviderDetailsContainer extends React.Component<Props> {
       phoneElem = <a onClick={trackClick} href={`tel:${phone}`}>{phone}</a>;
     }
 
-    if (getValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+    if (getPropertyValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
     else {
       Object.values(DAYS_OF_WEEK).forEach((day) => {
         const [startPT, endPT] = DAY_PTS[day];
-        const start = getValue(provider, startPT);
-        const end = getValue(provider, endPT);
+        const start = getPropertyValue(provider, startPT);
+        const end = getPropertyValue(provider, endPT);
 
         const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
 
@@ -393,10 +409,11 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     const unknown = this.renderUnknown();
 
-    const lastInspectionDateStr = getValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
+    const lastInspectionDateStr = getPropertyValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
+    const complaints = getPropertyValue(provider, PROPERTY_TYPES.COMPLAINTS);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
 
-    const hospitalName = getValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
+    const hospitalName = getPropertyValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
     const [fromLat, fromLon] = getCoordinates(provider);
     const [toLat, toLon] = getCoordinates(hospital);
@@ -404,8 +421,6 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const hospitalDirections = `https://www.google.com/maps/dir/${fromLon},${fromLat}/${toLon},${toLat}`;
 
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
-
-    const complaints = null;
 
     return (
       <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
@@ -416,7 +431,19 @@ class ProviderDetailsContainer extends React.Component<Props> {
               {lastInspectionDate}
             </DataRows>
           </Row>
-          {complaints}
+          <Row>
+            <FlexContainer>
+              {renderText(LABELS.CITATIONS)}
+              <MarginWrapper>
+                <Tooltip arrow placement="top" title={renderText(LABELS.CITATIONS_INFO)}>
+                  <InfoIcon />
+                </Tooltip>
+              </MarginWrapper>
+            </FlexContainer>
+            <DataRows>
+              {complaints}
+            </DataRows>
+          </Row>
           <Row>
             <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>

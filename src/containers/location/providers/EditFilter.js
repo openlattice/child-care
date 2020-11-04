@@ -42,7 +42,7 @@ const BackButton = styled.div`
   align-items: center;
   color: ${PURPLE.P300};
   display: flex;
-  flex-direciton: row;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -56,13 +56,12 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
 const EditFilterHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
@@ -79,9 +78,9 @@ const ApplyButtonWrapper = styled.div`
   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
   z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
 const FILTER_COMPONENTS = {

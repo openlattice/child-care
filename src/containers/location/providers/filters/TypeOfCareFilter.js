@@ -10,7 +10,6 @@ import { FACILITY_TYPES } from '../../../../utils/DataConstants';
 import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels';
 
 const Instruction = styled.div`
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
