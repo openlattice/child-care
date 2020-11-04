@@ -145,9 +145,6 @@ class AppNavigationSidebar extends Component<Props> {
           <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
             {renderText(LABELS.ABOUT)}
           </MenuRowNavLink>
-          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
-            {renderText(LABELS.RESOURCES)}
-          </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
             {renderText(LABELS.TERMS_AND_CONDITIONS)}
           </MenuRowLink>
@@ -157,6 +154,9 @@ class AppNavigationSidebar extends Component<Props> {
           <MenuRowMailtoLink href={feedbackLink}>
             {renderText(LABELS.SEND_FEEDBACK)}
           </MenuRowMailtoLink>
+          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
+            {renderText(LABELS.RESOURCES)}
+          </MenuRowNavLink>
         </NavMenuWrapper>
 
         <NavFooter>
