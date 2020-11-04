@@ -8,6 +8,7 @@
   ],
   "syntax": "scss",
   "rules": {
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["dummyValue"] }],
     "value-no-vendor-prefix": [
       true,
       "ignoreValues": [

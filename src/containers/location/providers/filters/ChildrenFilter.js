@@ -21,7 +21,6 @@ const Wrapper = styled.div`
 
 const Label = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: normal;

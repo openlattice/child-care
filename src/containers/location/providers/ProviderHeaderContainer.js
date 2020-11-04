@@ -68,7 +68,7 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
@@ -77,7 +77,6 @@ const Header = styled.div`
   color: ${NEUTRAL.N700};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-style: normal;
   justify-content: space-between;
 
@@ -103,7 +102,6 @@ const Header = styled.div`
     font-weight: 600;
   }
 
-
   span {
     font-size: 14px;
     font-weight: normal;
@@ -114,7 +112,6 @@ const Header = styled.div`
 
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;

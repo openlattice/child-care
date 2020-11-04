@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/Lattice-Works/child-care/issues"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "@babel/polyfill": "~7.8.0",
     "@babel/runtime": "~7.9.0",
@@ -55,6 +55,7 @@
     "jwt-decode": "~2.2.0",
     "lattice": "~0.73.0",
     "lattice-ui-kit": "~0.38.0",
+    "lattice-utils": "~0.7.0",
     "lodash": "~4.17.10",
     "loglevel": "~1.6.0",
     "luxon": "~1.21.0",
