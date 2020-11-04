@@ -11,9 +11,9 @@ import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { STATE } from '../../utils/constants/StateConstants';
 import { LABELS } from '../../utils/constants/Labels';
 import { getRenderTextFn } from '../../utils/AppUtils';
-import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL } = Colors;
 
 const {
   CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK,
@@ -25,10 +25,6 @@ const {
 const Wrapper = styled(ContentWrapper)`
   padding: 30px !important;
   background-color: white;
-
-  a {
-    color: ${PURPLE.P300};
-  }
 
   h6 {
     margin: 20px 0 5px;
@@ -53,16 +49,16 @@ const AboutPage = ({ renderText } :Props) => {
         <Typography variant="h1">{renderText(LABELS.RESOURCES)}</Typography>
         <Description variant="body1">{renderText(LABELS.RESOURCES_DESCRIPTIONS)}</Description>
         <Typography variant="subtitle1">{CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK}</Typography>
-        <a
+        <TextLink
             onClick={() => trackClick(
               RESOURCES[CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK],
               CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK
             )}
             href={`tel:${RESOURCES[CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK]}`}>
           {RESOURCES[CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK]}
-        </a>
+        </TextLink>
         <Typography variant="subtitle1">{CALIFORNIA_COVID19_CHILDCARE_RESPONSE}</Typography>
-        <a
+        <TextLink
             onClick={() => trackClick(
               RESOURCES[CALIFORNIA_COVID19_CHILDCARE_RESPONSE],
               CALIFORNIA_COVID19_CHILDCARE_RESPONSE
@@ -71,9 +67,9 @@ const AboutPage = ({ renderText } :Props) => {
             href={RESOURCES[CALIFORNIA_COVID19_CHILDCARE_RESPONSE]}
             target="_blank">
           {RESOURCES[CALIFORNIA_COVID19_CHILDCARE_RESPONSE]}
-        </a>
+        </TextLink>
         <Typography variant="subtitle1">{CALIFORNIA_PARENT_AND_FAMILY_RESOURCES}</Typography>
-        <a
+        <TextLink
             onClick={() => trackClick(
               RESOURCES[CALIFORNIA_PARENT_AND_FAMILY_RESOURCES],
               CALIFORNIA_PARENT_AND_FAMILY_RESOURCES
@@ -82,9 +78,9 @@ const AboutPage = ({ renderText } :Props) => {
             href={RESOURCES[CALIFORNIA_PARENT_AND_FAMILY_RESOURCES]}
             target="_blank">
           {RESOURCES[CALIFORNIA_PARENT_AND_FAMILY_RESOURCES]}
-        </a>
+        </TextLink>
         <Typography variant="subtitle1">{FAMILY_CHILD_CARE_HOME_LICENSING_INFORMATION}</Typography>
-        <a
+        <TextLink
             onClick={() => trackClick(
               RESOURCES[FAMILY_CHILD_CARE_HOME_LICENSING_INFORMATION],
               FAMILY_CHILD_CARE_HOME_LICENSING_INFORMATION
@@ -93,7 +89,7 @@ const AboutPage = ({ renderText } :Props) => {
             href={RESOURCES[FAMILY_CHILD_CARE_HOME_LICENSING_INFORMATION]}
             target="_blank">
           {RESOURCES[FAMILY_CHILD_CARE_HOME_LICENSING_INFORMATION]}
-        </a>
+        </TextLink>
       </Wrapper>
     </ContentOuterWrapper>
   );
