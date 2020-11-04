@@ -2,13 +2,12 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { Fragment } from 'react';
 
-import moment from 'moment';
 import styled, { css } from 'styled-components';
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors, Tooltip } from 'lattice-ui-kit';
-import { DataUtils } from 'lattice-utils';
+import { DataUtils, DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -32,6 +31,7 @@ import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 
 const { getPropertyValue } = DataUtils;
+const { formatAsDate, formatAsTime } = DateTimeUtils;
 
 const InfoIcon = React.forwardRef((props, ref) => (
   // https://material-ui.com/components/tooltips/#custom-child-element
@@ -287,6 +287,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const { provider, renderText } = this.props;
 
     const hasVacancies = getPropertyValue(provider, PROPERTY_TYPES.VACANCIES);
+    const formatedVacancyLastUpdated = formatAsDate(vacancyLastUpdateDate, '');
 
     let label = LABELS.UNKNOWN;
     if (hasVacancies !== '') {
@@ -319,19 +320,6 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const zip = getPropertyValue(provider, PROPERTY_TYPES.ZIP);
     const email = this.renderEmailAsLink(provider, false);
 
-    const formatTime = (time) => {
-      if (!time) {
-        return '?';
-      }
-
-      const withDate = moment.utc(time);
-      if (!withDate.isValid()) {
-        return '?';
-      }
-
-      return withDate.format('hh:mma');
-    };
-
     const operatingHours = [];
 
     const unknown = this.renderUnknown();
@@ -351,7 +339,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
         const start = getPropertyValue(provider, startPT);
         const end = getPropertyValue(provider, endPT);
 
-        const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
+        const timeWindowStr = (start || end) ? `${formatAsTime(start)} - ${formatAsTime(end)}` : 'Closed';
 
         if (start || end) {
           operatingHours.push(
@@ -412,6 +400,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const lastInspectionDateStr = getPropertyValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
     const complaints = getPropertyValue(provider, PROPERTY_TYPES.COMPLAINTS);
     const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
+    const lastInspectionDate = formatAsDate(lastInspectionDateStr, unknown);
 
     const hospitalName = getPropertyValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
 
