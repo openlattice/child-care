@@ -3,6 +3,8 @@
  */
 
 /* eslint-disable no-use-before-define */
+
+import axios from 'axios';
 import decode from 'jwt-decode';
 import {
   call,
@@ -11,12 +13,10 @@ import {
   take,
   takeEvery
 } from '@redux-saga/core/effects';
-import { get } from 'axios';
 import { configure } from 'lattice';
 import { DateTime } from 'luxon';
 import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
-import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
 import {
   INITIALIZE_APPLICATION,
   LOAD_APP,
@@ -27,8 +27,9 @@ import {
 } from './AppActions';
 
 import Logger from '../../utils/Logger';
-import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
+import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
 import { ERR_WORKER_SAGA } from '../../utils/Errors';
+import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
 
 const LOG = new Logger('AppSagas');
 
@@ -87,7 +88,7 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(reloadToken.request(action.id));
 
-    const { data: token } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+    const { data: token } = yield call(axios.get, 'https://api.openlattice.com/child-care/explore/token');
 
     const { exp } = decode(token);
     const tokenExp = exp * 1000;
@@ -159,7 +160,7 @@ export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
     }
   }
   catch (error) {
-    console.error(error);
+    LOG.error('refreshAuthTokenIfNecessary', error);
   }
 }
 
