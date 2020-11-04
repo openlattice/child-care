@@ -16,8 +16,11 @@
 <PROJECT_ROOT>/build/.*
 <PROJECT_ROOT>/config/.*
 !<PROJECT_ROOT>/node_modules/lattice
+!<PROJECT_ROOT>/node_modules/lattice-sagas
+!<PROJECT_ROOT>/node_modules/lattice-ui-kit
+!<PROJECT_ROOT>/node_modules/lattice-utils
 !<PROJECT_ROOT>/node_modules/redux-reqseq
 .*/node_modules/immutable/.*
 
-[libs]
-./src/types.js.flow
+[options]
+esproposal.optional_chaining=enable
