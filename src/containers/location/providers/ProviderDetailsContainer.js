@@ -191,7 +191,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
   renderEmailAsLink = (provider :Map, isRR :boolean) => {
     const { renderText } = this.props;
-    const email = getPropertyValue(provider, PROPERTY_TYPES.EMAIL);
+    const email = getPropertyValue(provider, [PROPERTY_TYPES.EMAIL, 0]);
     if (!email) {
       return <span>{renderText(LABELS.UNKNOWN)}</span>;
     }
@@ -200,8 +200,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   };
 
   renderRR = (rr :Map) => {
-    const url = getPropertyValue(rr, PROPERTY_TYPES.URL);
-    const name = getPropertyValue(rr, PROPERTY_TYPES.FACILITY_NAME);
+    const url = getPropertyValue(rr, [PROPERTY_TYPES.URL, 0]);
+    const name = getPropertyValue(rr, [PROPERTY_TYPES.FACILITY_NAME, 0]);
 
     let first = <div>{name}</div>;
     if (url) {
@@ -235,8 +235,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderLicenseElement = () => {
     const { renderText, provider } = this.props;
 
-    const licenseNumber = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_ID);
-    const licenseURL = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_URL);
+    const licenseNumber = getPropertyValue(provider, [PROPERTY_TYPES.LICENSE_ID, 0]);
+    const licenseURL = getPropertyValue(provider, [PROPERTY_TYPES.LICENSE_URL, 0]);
 
     if (!licenseURL) {
       return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
@@ -286,7 +286,8 @@ class ProviderDetailsContainer extends React.Component<Props> {
   renderVacanciesSection = () => {
     const { provider, renderText } = this.props;
 
-    const hasVacancies = getPropertyValue(provider, PROPERTY_TYPES.VACANCIES);
+    const hasVacancies = getPropertyValue(provider, [PROPERTY_TYPES.VACANCIES, 0]);
+    const vacancyLastUpdateDate :string = getPropertyValue(provider, [PROPERTY_TYPES.VACANCY_LAST_UPDATED, 0]);
     const formatedVacancyLastUpdated = formatAsDate(vacancyLastUpdateDate, '');
 
     let label = LABELS.UNKNOWN;
@@ -314,10 +315,10 @@ class ProviderDetailsContainer extends React.Component<Props> {
       return null;
     }
 
-    const phone = getPropertyValue(provider, PROPERTY_TYPES.PHONE);
-    const street = getPropertyValue(provider, PROPERTY_TYPES.ADDRESS);
-    const city = getPropertyValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getPropertyValue(provider, PROPERTY_TYPES.ZIP);
+    const phone = getPropertyValue(provider, [PROPERTY_TYPES.PHONE, 0]);
+    const street = getPropertyValue(provider, [PROPERTY_TYPES.ADDRESS, 0]);
+    const city = getPropertyValue(provider, [PROPERTY_TYPES.CITY, 0]);
+    const zip = getPropertyValue(provider, [PROPERTY_TYPES.ZIP, 0]);
     const email = this.renderEmailAsLink(provider, false);
 
     const operatingHours = [];
@@ -330,14 +331,14 @@ class ProviderDetailsContainer extends React.Component<Props> {
       phoneElem = <a onClick={trackClick} href={`tel:${phone}`}>{phone}</a>;
     }
 
-    if (getPropertyValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+    if (getPropertyValue(provider, [PROPERTY_TYPES.HOURS_UNKNOWN, 0])) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
     else {
       Object.values(DAYS_OF_WEEK).forEach((day) => {
         const [startPT, endPT] = DAY_PTS[day];
-        const start = getPropertyValue(provider, startPT);
-        const end = getPropertyValue(provider, endPT);
+        const start = getPropertyValue(provider, [startPT, 0]);
+        const end = getPropertyValue(provider, [endPT, 0]);
 
         const timeWindowStr = (start || end) ? `${formatAsTime(start)} - ${formatAsTime(end)}` : 'Closed';
 
@@ -397,12 +398,11 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     const unknown = this.renderUnknown();
 
-    const lastInspectionDateStr = getPropertyValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
-    const complaints = getPropertyValue(provider, PROPERTY_TYPES.COMPLAINTS);
-    const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
+    const lastInspectionDateStr = getPropertyValue(provider, [PROPERTY_TYPES.LAST_INSPECTION_DATE, 0]);
+    const complaints = getPropertyValue(provider, [PROPERTY_TYPES.COMPLAINTS, 0]);
     const lastInspectionDate = formatAsDate(lastInspectionDateStr, unknown);
 
-    const hospitalName = getPropertyValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
+    const hospitalName = getPropertyValue(hospital, [PROPERTY_TYPES.FACILITY_NAME, 0]);
 
     const [fromLat, fromLon] = getCoordinates(provider);
     const [toLat, toLon] = getCoordinates(hospital);
