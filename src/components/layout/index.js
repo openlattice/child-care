@@ -78,3 +78,11 @@ export const HeaderActions = styled.div`
   display: flex;
   margin-left: auto;
 `;
+
+export const OpenClosedTag = styled.div`
+  color: ${(props) => props.color};
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 17px;
+`;
