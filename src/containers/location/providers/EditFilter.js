@@ -1,20 +1,23 @@
 // @flow
 
 import React from 'react';
+
 import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Colors } from 'lattice-ui-kit';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import ActiveOnlyFilter from './filters/ActiveOnlyFilter';
 import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
+
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { HEADER_LABELS, LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -95,7 +98,7 @@ type Props = {
   field :string;
   onCancel :() => void;
   onSave :(nextObject :Object) => void;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
   value :string;
 };
 
