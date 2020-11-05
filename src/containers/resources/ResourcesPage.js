@@ -2,16 +2,18 @@
  * @flow
  */
 import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Colors, Typography } from 'lattice-ui-kit';
 
-import { RESOURCES, SUBTITLES } from '../../utils/constants/ResourcesConstants';
-import { trackLinkClick } from '../../utils/AnalyticsUtils';
-import { STATE } from '../../utils/constants/StateConstants';
-import { LABELS } from '../../utils/constants/Labels';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import styled from 'styled-components';
+import { Colors, Typography } from 'lattice-ui-kit';
+import { connect } from 'react-redux';
+
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
+import { trackLinkClick } from '../../utils/AnalyticsUtils';
+import { getRenderTextFn } from '../../utils/AppUtils';
+import { LABELS } from '../../utils/constants/Labels';
+import { RESOURCES, SUBTITLES } from '../../utils/constants/ResourcesConstants';
+import { STATE } from '../../utils/constants/StateConstants';
+import type { Translation } from '../../types';
 
 const { NEUTRAL } = Colors;
 
@@ -36,7 +38,7 @@ const Description = styled(Typography)`
 `;
 
 type Props = {
-  renderText :(currentLanguage :string) => string;
+  renderText :(translation :Translation) => string;
 }
 
 const AboutPage = ({ renderText } :Props) => {
