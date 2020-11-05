@@ -2,6 +2,7 @@
  * @flow
  */
 import React from 'react';
+
 import styled from 'styled-components';
 import { Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
@@ -9,6 +10,7 @@ import { Colors } from 'lattice-ui-kit';
 import PlusMinus from '../../../../components/controls/PlusMinus';
 import { PROPERTY_TYPES } from '../../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../../utils/constants/Labels';
+import type { Translation } from '../../../../types';
 
 const { NEUTRAL } = Colors;
 
@@ -32,7 +34,7 @@ const Label = styled.div`
 type Props = {
   onChange :(nextValues :Map) => void;
   setIsValid :(isValid :boolean) => void;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
   value :Map;
 }
 
