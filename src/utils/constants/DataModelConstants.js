@@ -41,6 +41,7 @@ export const PROPERTY_TYPES = {
   SHOULD_HIDE_LOCATION: 'ecps.hide_location',
   EMAIL: 'ecps.facility_email',
   VACANCIES: 'ecps.vacancies',
+  VACANCY_LAST_UPDATED: 'ecps.vacancy_last_updated',
 
   PHONE: 'ecps.facility_phone',
 
