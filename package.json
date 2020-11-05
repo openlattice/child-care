@@ -132,6 +132,7 @@
     "lint:css": "stylelint './src/**/*.js'",
     "lint:js": "eslint --config .eslintrc src",
     "test": "jest --config config/jest/jest.config.js --coverage=false",
+    "test:travis": "jest --maxWorkers=4 --config config/jest/jest.config.js",
     "test:watch": "jest --config config/jest/jest.config.js --watch --coverage=false"
   }
 }
