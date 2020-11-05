@@ -1,25 +1,25 @@
 // @flow
 
 import React from 'react';
-import type { RequestSequence } from 'redux-reqseq';
-import { bindActionCreators } from 'redux';
 
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import styled from 'styled-components';
+import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
 import { Button, Colors } from 'lattice-ui-kit';
-import { RequestStates } from 'redux-reqseq';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { RequestStates } from 'redux-reqseq';
+import type { RequestSequence } from 'redux-reqseq';
 
 import EditFilter from './EditFilter';
-import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
-import { LABELS } from '../../../utils/constants/Labels';
 
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { getRenderTextFn } from '../../../utils/AppUtils';
 import * as LocationsActions from '../LocationsActions';
+import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { getRenderTextFn } from '../../../utils/AppUtils';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -172,14 +172,18 @@ class EditFiltersContainer extends React.Component<Props, State> {
       onCancel();
     };
 
-    return (
-      <EditFilter
-          renderText={renderText}
-          field={filterPage}
-          value={state[filterPage]}
-          onCancel={onCancel}
-          onSave={onSave} />
-    );
+    if (filterPage) {
+      return (
+        <EditFilter
+            field={filterPage}
+            onCancel={onCancel}
+            onSave={onSave}
+            renderText={renderText}
+            value={state[filterPage]} />
+      );
+    }
+
+    return null;
   }
 
   render() {
