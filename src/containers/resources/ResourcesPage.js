@@ -5,15 +5,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { Colors, Typography } from 'lattice-ui-kit';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { getRenderTextFn } from '../../utils/AppUtils';
 import { LABELS } from '../../utils/constants/Labels';
 import { RESOURCES, SUBTITLES } from '../../utils/constants/ResourcesConstants';
-import { STATE } from '../../utils/constants/StateConstants';
-import type { Translation } from '../../types';
 
 const { NEUTRAL } = Colors;
 
@@ -37,11 +35,9 @@ const Description = styled(Typography)`
   color: ${NEUTRAL.N500};
 `;
 
-type Props = {
-  getText :(translation :Translation) => string;
-}
+const ResourcesPage = () => {
 
-const AboutPage = ({ getText } :Props) => {
+  const getText = useSelector(getRenderTextFn);
 
   const trackClick = (link, title) => trackLinkClick(link, title);
 
@@ -101,13 +97,4 @@ const AboutPage = ({ getText } :Props) => {
   );
 };
 
-function mapStateToProps(state) {
-  const app = state.get(STATE.APP);
-
-  return {
-    app,
-    getText: getRenderTextFn(state)
-  };
-}
-// $FlowFixMe
-export default connect(mapStateToProps, null)(AboutPage);
+export default ResourcesPage;
