@@ -16,7 +16,7 @@ import {
   HEADER_HEIGHT,
   HEIGHTS,
 } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
   getAgesServedFromEntity,
   getDistanceBetweenCoords,
@@ -189,7 +189,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
-    getText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

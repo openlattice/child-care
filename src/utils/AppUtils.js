@@ -3,7 +3,7 @@ import { Map } from 'immutable';
 
 export const getProvidersESID = (app :Map) :string => app.get('entitySetId');
 export const getPropertyTypeId = (app :Map, fqn :string) => app.getIn(['propertyTypesByFqn', fqn, 'id']);
-export const getRenderTextFn = (state :Map) => state.getIn(['app', 'getText']);
+export const getTextFnFromState = (state :Map) => state.getIn(['app', 'getText']);
 /* eslint-disable */
 export const isMobile = () => {
   let check = false;

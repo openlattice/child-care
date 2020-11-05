@@ -16,7 +16,7 @@ import { bindActionCreators } from 'redux';
 import * as AppActions from './AppActions';
 
 import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/Labels';
 import { STATE } from '../../utils/constants/StateConstants';
 import type { Translation } from '../../types';
@@ -174,7 +174,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    getText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

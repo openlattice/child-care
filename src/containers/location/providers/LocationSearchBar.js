@@ -31,7 +31,7 @@ import { useTimeout } from '../../../components/hooks';
 import {
   APP_CONTAINER_WIDTH
 } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -82,7 +82,7 @@ const LocationsSearchBar = () => {
     }
   }, []);
 
-  const getText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
   const currentLocationText = getText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
   const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));

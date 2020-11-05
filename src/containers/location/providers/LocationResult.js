@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { STATE } from '../../../utils/constants/StateConstants';
 
 import ProviderResult from '../../styled/ProviderResult';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 
 type Props = {
   result :Map;
@@ -18,7 +18,7 @@ const LocationResult = (props :Props) => {
 
   const { result: locationEKID } = props;
 
-  const getText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
 
   const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
   const provider = providerState.getIn(['providerLocations', locationEKID], Map());

@@ -5,7 +5,7 @@ import { faLocationSlash } from '@fortawesome/pro-light-svg-icons';
 import { Hooks, IconSplash } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { LABELS } from '../../utils/constants/Labels';
 import { useSelector } from 'react-redux';
 
@@ -20,7 +20,7 @@ const Centered = styled.div`
 `;
 
 const FindingLocationSplash = () => {
-  const getText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
   const [hidden, , reveal] = useBoolean(true);
   useTimeout(reveal, 10);
 

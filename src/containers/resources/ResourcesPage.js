@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 import { trackLinkClick } from '../../utils/AnalyticsUtils';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { LABELS } from '../../utils/constants/Labels';
 import { RESOURCES, SUBTITLES } from '../../utils/constants/ResourcesConstants';
 
@@ -37,7 +37,7 @@ const Description = styled(Typography)`
 
 const ResourcesPage = () => {
 
-  const getText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
 
   const trackClick = (link, title) => trackLinkClick(link, title);
 

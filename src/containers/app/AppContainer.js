@@ -36,7 +36,7 @@ import {
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
-import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
+import { browserIsIE, getTextFnFromState } from '../../utils/AppUtils';
 import { loadCurrentPosition } from '../location/LocationsActions';
 import type { Translation } from '../../types';
 
@@ -154,7 +154,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
     initializeState: state.getIn(['app', 'initializeState']),
-    getText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Colors, Hooks } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { WELCOME_SPLASH } from '../../utils/constants/Labels';
 
 const { NEUTRAL, PURPLE } = Colors;
@@ -50,7 +50,7 @@ const Instructions = styled(TextSection)`
 `;
 
 const WelcomeSplash = ({ getCurrentPosition }) => {
-  const getText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
   const [hidden, , reveal] = useBoolean(true);
   useTimeout(reveal, 10);
   return (

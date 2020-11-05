@@ -5,7 +5,7 @@ import { Colors } from 'lattice-ui-kit';
 
 import { STATE } from '../../utils/constants/StateConstants';
 import { ABOUT, LABELS } from '../../utils/constants/Labels';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 
 import caForAll from '../../assets/images/caForAll.png';
@@ -172,7 +172,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    getText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

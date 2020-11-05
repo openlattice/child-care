@@ -17,7 +17,7 @@ import EditFilter from './EditFilter';
 import * as LocationsActions from '../LocationsActions';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
@@ -299,7 +299,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
     providerState,
-    getText: getRenderTextFn(state),
+    getText: getTextFnFromState(state),
     hasSearched: providerState.get('fetchState') !== RequestStates.STANDBY
   };
 }

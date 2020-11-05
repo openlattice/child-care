@@ -18,7 +18,7 @@ import * as LocationsActions from '../LocationsActions';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { HEIGHTS } from '../../../core/style/Sizes';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
   getEntityKeyId,
@@ -513,7 +513,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider,
     coordinates: [lat, lon],
-    getText: getRenderTextFn(state),
+    getText: getTextFnFromState(state),
     rrs,
     hospital
   };
