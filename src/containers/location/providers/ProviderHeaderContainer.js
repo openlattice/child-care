@@ -7,20 +7,23 @@ import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
+import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as LocationsActions from '../LocationsActions';
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, OpenClosedTag } from '../../../components/layout';
 import {
   HEADER_HEIGHT,
   HEIGHTS,
 } from '../../../core/style/Sizes';
+import { VACANCY_COLORS } from '../../../shared/Colors';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
   getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
+  isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
@@ -28,6 +31,8 @@ import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 import type { Translation } from '../../../types';
+
+const { formatAsRelative } = DateTimeUtils;
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -112,9 +117,11 @@ const Header = styled.div`
 
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
+  display: flex;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
+  justify-content: space-between;
   line-height: 17px;
   margin: 3px 0;
 `;
@@ -154,6 +161,12 @@ class ProviderHeaderContainer extends React.Component<Props> {
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
     const ages = getAgesServedFromEntity(provider, getText);
+    const isActive = isProviderActive(provider);
+    const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
+    const statusColor = isActive ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
+
+    const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
+    const lastModifiedLabel = formatAsRelative(lastModified, getText(LABELS.UNKNOWN));
 
     const distance = this.getDistance();
 
@@ -172,7 +185,12 @@ class ProviderHeaderContainer extends React.Component<Props> {
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
           <SubHeader>{ages}</SubHeader>
-
+          <SubHeader>
+            <OpenClosedTag color={statusColor}>
+              {getText(statusLabel)}
+            </OpenClosedTag>
+            <span>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
+          </SubHeader>
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
     );

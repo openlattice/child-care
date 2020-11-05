@@ -8,6 +8,10 @@ import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
+
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
+import { OpenClosedTag } from '../../components/layout';
 import { VACANCY_COLORS } from '../../shared/Colors';
 import {
   getAgesServedFromEntity,
@@ -16,8 +20,6 @@ import {
   isProviderActive,
   renderFacilityName
 } from '../../utils/DataUtils';
-import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
-import { FACILITY_TYPE_LABELS, LABELS } from '../../utils/constants/Labels';
 import { selectProvider } from '../location/LocationsActions';
 import { getCoordinates } from '../map/MapUtils';
 import type { Translation } from '../../types';
@@ -42,14 +44,6 @@ const TwoPartRow = styled.div`
 
 const CardContent = styled.div`
   padding: 5px 0;
-`;
-
-const OpenClosedTag = styled.div`
-  color: ${(props) => props.color};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 17px;
 `;
 
 const ProviderResult = ({
