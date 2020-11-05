@@ -15,7 +15,7 @@ import everbridgeLogo from '../../assets/images/everbridgeLogo.png';
 import openlatticeLogo from '../../assets/images/openlatticeLogoLong.png';
 import mapboxLogo from '../../assets/images/mapboxLogo.png';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL } = Colors;
 
 const URLS = {
   CDSS: 'https://cdss.ca.gov/',
