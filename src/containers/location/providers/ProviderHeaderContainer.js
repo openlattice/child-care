@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as LocationsActions from '../LocationsActions';
-
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import {
   HEADER_HEIGHT,
@@ -19,15 +18,16 @@ import {
 } from '../../../core/style/Sizes';
 import { getRenderTextFn } from '../../../utils/AppUtils';
 import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  getAgesServedFromEntity,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -125,7 +125,7 @@ type Props = {
   };
   coordinates :number[];
   provider :Map;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
 };
 
 class ProviderHeaderContainer extends React.Component<Props> {
