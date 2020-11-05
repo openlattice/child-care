@@ -30,6 +30,7 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import type { Translation } from '../../../types';
 
 const { getPropertyValue } = DataUtils;
 
@@ -183,7 +184,7 @@ const InfoText = styled.div`
 type Props = {
   hospital :Map;
   provider :Map;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
   rrs :Map;
 };
 
