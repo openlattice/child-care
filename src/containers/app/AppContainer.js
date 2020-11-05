@@ -10,9 +10,9 @@ import {
   LatticeLuxonUtils,
   MuiPickersUtilsProvider,
   Spinner,
+  StylesProvider,
   ThemeProvider,
-  lightTheme,
-  StylesProvider
+  lightTheme
 } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -24,9 +24,9 @@ import AppHeaderContainer from './AppHeaderContainer';
 import { initializeApplication } from './AppActions';
 
 import AboutPage from '../about/AboutPage';
-import ResourcesPage from '../resources/ResourcesPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
+import ResourcesPage from '../resources/ResourcesPage';
 import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import {
   APP_CONTAINER_MAX_WIDTH,
@@ -38,6 +38,7 @@ import {
 } from '../../core/style/Sizes';
 import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
 import { loadCurrentPosition } from '../location/LocationsActions';
+import type { Translation } from '../../types';
 
 /*
  * styled components
@@ -92,7 +93,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
 };
 
 class AppContainer extends Component<Props> {
