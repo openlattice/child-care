@@ -82,5 +82,5 @@ export const HeaderActions = styled.div`
 export const TextLink = styled.a.attrs({
   target: '_blank'
 })`
-color: ${PURPLE.P300};
+  color: ${PURPLE.P300};
 `;
