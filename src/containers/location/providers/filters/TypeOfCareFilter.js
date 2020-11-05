@@ -1,13 +1,16 @@
 /*
  * @flow
  */
+
 import React from 'react';
+
 import styled from 'styled-components';
+import { List } from 'immutable';
 import { Checkbox } from 'lattice-ui-kit';
 
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../../utils/constants/Labels';
 
 const Instruction = styled.div`
   font-size: 14px;
@@ -20,7 +23,7 @@ type Props = {
   onChange :(nextValues :string[]) => void;
   renderText :(labels :Object) => string;
   setIsValid :(isValid :boolean) => void;
-  value :string[];
+  value :List<string>;
 };
 
 export default class TypeOfCareFilter extends React.Component<Props> {
