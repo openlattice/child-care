@@ -22,7 +22,6 @@ import { HOME_PATH } from '../../core/router/Routes';
 import {
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
-import { getTextFnFromState } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRAL } = Colors;
