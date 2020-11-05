@@ -4,7 +4,7 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { Colors, Typography } from 'lattice-ui-kit';
+import { Typography } from 'lattice-ui-kit';
 import { useSelector } from 'react-redux';
 
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
@@ -12,8 +12,6 @@ import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { LABELS } from '../../utils/constants/Labels';
 import { RESOURCES, SUBTITLES } from '../../utils/constants/ResourcesConstants';
-
-const { NEUTRAL } = Colors;
 
 const {
   CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK,
@@ -31,10 +29,6 @@ const Wrapper = styled(ContentWrapper)`
   }
 `;
 
-const Description = styled(Typography)`
-  color: ${NEUTRAL.N500};
-`;
-
 const ResourcesPage = () => {
 
   const getText = useSelector(getTextFnFromState);
@@ -45,7 +39,7 @@ const ResourcesPage = () => {
     <ContentOuterWrapper>
       <Wrapper>
         <Typography variant="h1">{getText(LABELS.RESOURCES)}</Typography>
-        <Description variant="body1">{getText(LABELS.RESOURCES_DESCRIPTIONS)}</Description>
+        <Typography color="textSecondary" variant="body1">{getText(LABELS.RESOURCES_DESCRIPTIONS)}</Typography>
         <Typography variant="subtitle1">{CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK}</Typography>
         <TextLink
             aria-label={`phone to ${CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK}`}
