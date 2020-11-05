@@ -26,15 +26,17 @@ import { initializeApplication } from './AppActions';
 import AboutPage from '../about/AboutPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
-import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
+import ResourcesPage from '../resources/ResourcesPage';
+import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import {
   HEADER_HEIGHT,
   MEDIA_QUERY_LG,
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
-import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
+import { browserIsIE, getTextFnFromState } from '../../utils/AppUtils';
 import { loadCurrentPosition } from '../location/LocationsActions';
+import type { Translation } from '../../types';
 
 /*
  * styled components
@@ -79,7 +81,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
 };
 
 class AppContainer extends Component<Props> {
@@ -91,8 +93,8 @@ class AppContainer extends Component<Props> {
   }
 
   renderUnsupportedBrowserModal = () => {
-    const { renderText } = this.props;
-    return (browserIsIE() ? <IEModal renderText={renderText} /> : null);
+    const { getText } = this.props;
+    return (browserIsIE() ? <IEModal getText={getText} /> : null);
   }
 
   renderAppContent = () => {
@@ -109,6 +111,7 @@ class AppContainer extends Component<Props> {
       <Switch>
         <Route exact strict path={HOME_PATH} component={LocationsContainer} />
         <Route path={ABOUT_PATH} component={AboutPage} />
+        <Route path={RESOURCES_PATH} component={ResourcesPage} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );
@@ -137,7 +140,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
     initializeState: state.getIn(['app', 'initializeState']),
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

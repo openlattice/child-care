@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Colors, Hooks } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { WELCOME_SPLASH } from '../../utils/constants/Labels';
 
 const { NEUTRAL, PURPLE } = Colors;
@@ -50,23 +50,23 @@ const Instructions = styled(TextSection)`
 `;
 
 const WelcomeSplash = ({ getCurrentPosition }) => {
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
   const [hidden, , reveal] = useBoolean(true);
   useTimeout(reveal, 10);
   return (
     <Centered hidden={hidden}>
-      <Header>{renderText(WELCOME_SPLASH.WELCOME)}</Header>
-      <Details>{renderText(WELCOME_SPLASH.DETAILS)}</Details>
+      <Header>{getText(WELCOME_SPLASH.WELCOME)}</Header>
+      <Details>{getText(WELCOME_SPLASH.DETAILS)}</Details>
       <Instructions>
-        {renderText(WELCOME_SPLASH.INSTRUCTIONS_1)}
+        {getText(WELCOME_SPLASH.INSTRUCTIONS_1)}
         <span
             onClick={getCurrentPosition}
             onKeyDown={getCurrentPosition}
             role="button"
             tabIndex={0}>
-          { renderText(WELCOME_SPLASH.USE_CURRENT_LOCATION_LINK) }
+          { getText(WELCOME_SPLASH.USE_CURRENT_LOCATION_LINK) }
         </span>
-        {renderText(WELCOME_SPLASH.INSTRUCTIONS_2)}
+        {getText(WELCOME_SPLASH.INSTRUCTIONS_2)}
       </Instructions>
     </Centered>
   );

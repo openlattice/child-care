@@ -38,7 +38,7 @@ export default class DayAndTimeFilter extends React.Component {
   }
 
   render() {
-    const { value, onChange, renderText } = this.props;
+    const { value, onChange, getText } = this.props;
 
     const renderRow = (day) => {
 
@@ -65,7 +65,7 @@ export default class DayAndTimeFilter extends React.Component {
         <Row key={day}>
           <SectionWrapper>
             <Checkbox checked={isSelected} onChange={onCheckboxChange} name={day} noMargin />
-            <span>{renderText(DAY_OF_WEEK_LABELS[day])}</span>
+            <span>{getText(DAY_OF_WEEK_LABELS[day])}</span>
           </SectionWrapper>
           <SectionWrapper>
             <TimePicker

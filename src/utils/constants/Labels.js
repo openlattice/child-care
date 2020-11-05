@@ -158,6 +158,10 @@ export const LABELS = {
     [en]: 'Last Inspection Date',
     [es]: 'Fecha de la última inspección'
   },
+  LAST_UPDATED: {
+    [en]: 'Last Updated:',
+    [es]: 'Última actualización'
+  },
   LICENSE_NUMBER: {
     [en]: 'License Number',
     [es]: 'Número de licencia'
@@ -205,6 +209,16 @@ export const LABELS = {
   REFINE_SEARCH: {
     [en]: 'Refine Search',
     [es]: 'Refinar la búsqueda'
+  },
+  RESOURCES: {
+    [en]: 'Resources',
+    [es]: 'Recursos'
+  },
+  RESOURCES_DESCRIPTIONS: {
+    /* eslint-disable-next-line */
+    [en]: 'If you’re having trouble getting in touch with a care provider or have a general question, please consider contacting one of the following resources:',
+    /* eslint-disable-next-line */
+    [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta general, considere comunicarse con uno de los siguientes recursos:'
   },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Resource & Referral Agency',

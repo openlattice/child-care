@@ -1,20 +1,23 @@
 // @flow
 
 import React from 'react';
+
 import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Colors } from 'lattice-ui-kit';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import ActiveOnlyFilter from './filters/ActiveOnlyFilter';
 import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
+
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { HEADER_LABELS, LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -95,7 +98,7 @@ type Props = {
   field :string;
   onCancel :() => void;
   onSave :(nextObject :Object) => void;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
   value :string;
 };
 
@@ -114,7 +117,7 @@ export default class EditFilter extends React.Component<Props, State> {
   }
 
   getContent = () => {
-    const { field, renderText } = this.props;
+    const { field, getText } = this.props;
     const { value } = this.state;
 
     const Component = FILTER_COMPONENTS[field];
@@ -126,7 +129,7 @@ export default class EditFilter extends React.Component<Props, State> {
     return (
       <Component
           value={value}
-          renderText={renderText}
+          getText={getText}
           onChange={(newValue) => this.setState({ value: newValue })}
           setIsValid={(isValid) => this.setState({ isValid })} />
     );
@@ -135,7 +138,7 @@ export default class EditFilter extends React.Component<Props, State> {
   render() {
     const {
       field,
-      renderText,
+      getText,
       onCancel,
       onSave
     } = this.props;
@@ -146,17 +149,17 @@ export default class EditFilter extends React.Component<Props, State> {
         <StyledContentWrapper padding={`${PADDING}px`}>
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_PARAMETERS)}</span>
+            <span>{getText(LABELS.SEARCH_PARAMETERS)}</span>
           </BackButton>
 
-          <EditFilterHeader>{renderText(HEADER_LABELS[field])}</EditFilterHeader>
+          <EditFilterHeader>{getText(HEADER_LABELS[field])}</EditFilterHeader>
 
           {this.getContent()}
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
           <Button color="primary" disabled={!isValid} onClick={() => onSave({ field, value })}>
-            {renderText(LABELS.SAVE)}
+            {getText(LABELS.SAVE)}
           </Button>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
