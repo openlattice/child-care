@@ -46,6 +46,10 @@ export const LABELS = {
     [en]: 'Apply',
     [es]: 'Confirmar'
   },
+  AS_OF: {
+    [en]: 'as of',
+    [es]: 'al'
+  },
   AVAILABILITY: {
     [en]: 'Availability',
     [es]: 'Disponibilidad'
