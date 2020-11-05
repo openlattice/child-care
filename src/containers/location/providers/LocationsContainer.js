@@ -66,7 +66,7 @@ const LocationsContainer = () => {
     false
   ));
 
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getRenderTextFn);
   const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const searchResults = useSelector((store) => store.getIn([STATE.LOCATIONS, 'hits'], List()));
   const totalHits = useSelector((store) => store.getIn([STATE.LOCATIONS, 'totalHits'], 0));
@@ -138,9 +138,9 @@ const LocationsContainer = () => {
             <>
               <FilterRow>
                 <div>
-                  {renderText(LABELS.SORT_BY)}
+                  {getText(LABELS.SORT_BY)}
                 </div>
-                <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
+                <FilterButton onClick={editFilters}>{getText(LABELS.REFINE_SEARCH)}</FilterButton>
               </FilterRow>
 
               <StyledContentWrapper>

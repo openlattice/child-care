@@ -20,13 +20,13 @@ const Centered = styled.div`
 `;
 
 const FindingLocationSplash = () => {
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getRenderTextFn);
   const [hidden, , reveal] = useBoolean(true);
   useTimeout(reveal, 10);
 
   return (
     <Centered hidden={hidden}>
-      <IconSplash icon={faLocationSlash} caption={renderText(LABELS.ENSURE_LOCATION_DESCRIPTION)} />
+      <IconSplash icon={faLocationSlash} caption={getText(LABELS.ENSURE_LOCATION_DESCRIPTION)} />
     </Centered>
   );
 };

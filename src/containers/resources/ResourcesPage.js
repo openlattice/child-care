@@ -38,18 +38,18 @@ const Description = styled(Typography)`
 `;
 
 type Props = {
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 }
 
-const AboutPage = ({ renderText } :Props) => {
+const AboutPage = ({ getText } :Props) => {
 
   const trackClick = (link, title) => trackLinkClick(link, title);
 
   return (
     <ContentOuterWrapper>
       <Wrapper>
-        <Typography variant="h1">{renderText(LABELS.RESOURCES)}</Typography>
-        <Description variant="body1">{renderText(LABELS.RESOURCES_DESCRIPTIONS)}</Description>
+        <Typography variant="h1">{getText(LABELS.RESOURCES)}</Typography>
+        <Description variant="body1">{getText(LABELS.RESOURCES_DESCRIPTIONS)}</Description>
         <Typography variant="subtitle1">{CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK}</Typography>
         <TextLink
             aria-label={`phone to ${CALIFORNIA_RESOURCE_AND_REFERRAL_NETWORK}`}
@@ -106,7 +106,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    renderText: getRenderTextFn(state)
+    getText: getRenderTextFn(state)
   };
 }
 // $FlowFixMe

@@ -154,8 +154,7 @@ function mapStateToProps(state) {
   const app = state.get(STATE.APP);
 
   return {
-    app,
-    renderText: getRenderTextFn(state)
+    app
   };
 }
 

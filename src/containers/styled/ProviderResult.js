@@ -31,7 +31,7 @@ import {
 type Props = {
   provider :Map;
   coordinates :number[],
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 }
 
 const TwoPartRow = styled.div`
@@ -55,7 +55,7 @@ const OpenClosedTag = styled.div`
 const ProviderResult = ({
   provider,
   coordinates,
-  renderText
+  getText
 } :Props) => {
   const dispatch = useDispatch();
 
@@ -67,15 +67,15 @@ const ProviderResult = ({
   const miles = getDistanceBetweenCoords(coordinates, [lat, lon]);
   const distance = Math.round(miles * 10) / 10;
 
-  const name = renderFacilityName(provider, renderText);
+  const name = renderFacilityName(provider, getText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
   const isInactive = !isProviderActive(provider);
 
-  const ages = getAgesServedFromEntity(provider, renderText);
+  const ages = getAgesServedFromEntity(provider, getText);
 
   const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
 
@@ -104,7 +104,7 @@ const ProviderResult = ({
               <IconDetail content={ages} isInactive={isInactive} />
 
               {isInactive
-                ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+                ? <IconDetail content={getText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
                 : null}
 
             </ResultDetails>
@@ -112,7 +112,7 @@ const ProviderResult = ({
           {
             !isInactive && (
               <OpenClosedTag color={vacancyColor}>
-                {renderText(vacancyLabel)}
+                {getText(vacancyLabel)}
               </OpenClosedTag>
             )
           }

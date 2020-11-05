@@ -290,11 +290,11 @@ const HARDCODED_DATE = 'January 1, 2020';
 
 export const formatTimeAsDateTime = (time :string) => moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
 
-export const getAgesServedFromEntity = (provider :Map, renderText :Function) => provider
+export const getAgesServedFromEntity = (provider :Map, getText :Function) => provider
   .get(PROPERTY_TYPES.AGES_SERVED, List())
-  .map((age) => renderText(AGES_SERVED_LABELS[age]))
+  .map((age) => getText(AGES_SERVED_LABELS[age]))
   .join(', ')
-    || renderText(LABELS.UNKNOWN_AGE_LIMITATIONS);
+    || getText(LABELS.UNKNOWN_AGE_LIMITATIONS);
 
 export const isProviderActive = (provider :Map) => getValue(
   provider,
@@ -304,11 +304,11 @@ export const isProviderActive = (provider :Map) => getValue(
 export const shouldHideContact = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
 export const shouldHideLocation = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
 
-export const renderFacilityName = (provider :Map, renderText :Function) => {
+export const renderFacilityName = (provider :Map, getText :Function) => {
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
 
   if (name === FACILITY_NAME_MASKED) {
-    return renderText(LABELS.FACILITY_NAME_MASKED);
+    return getText(LABELS.FACILITY_NAME_MASKED);
   }
 
   return name;

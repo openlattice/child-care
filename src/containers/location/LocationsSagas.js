@@ -157,7 +157,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   try {
     yield put(loadCurrentPosition.request(action.id));
 
-    const renderText = yield select(getRenderTextFn);
+    const getText = yield select(getRenderTextFn);
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -180,7 +180,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
     yield put(searchLocations({
       searchInputs: Map({
         selectedOption: {
-          label: renderText(LABELS.CURRENT_LOCATION),
+          label: getText(LABELS.CURRENT_LOCATION),
           value: `${latitude},${longitude}`,
           lat: latitude,
           lon: longitude

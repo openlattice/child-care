@@ -103,7 +103,7 @@ type Props = {
     switchLanguage :Function
   };
   onClose :() => void;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 };
 
 const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
@@ -118,9 +118,9 @@ class AppNavigationSidebar extends Component<Props> {
   }
 
   renderLang = (lang, label) => {
-    const { renderText } = this.props;
+    const { getText } = this.props;
 
-    const currLang = renderText(CURRENT_LANGUAGE);
+    const currLang = getText(CURRENT_LANGUAGE);
 
     return (
       <Lang onClick={this.getSetLang(lang)} isSelected={lang === currLang}>{label}</Lang>
@@ -129,34 +129,34 @@ class AppNavigationSidebar extends Component<Props> {
 
   render() {
 
-    const { onClose, renderText } = this.props;
+    const { onClose, getText } = this.props;
 
-    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${renderText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
+    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${getText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
 
     return (
       <Wrapper>
         <NavMenuWrapper>
           <MenuRow isBack onClick={onClose}>
             <span><FontAwesomeIcon icon={faChevronLeft} /></span>
-            {renderText(LABELS.BACK)}
+            {getText(LABELS.BACK)}
           </MenuRow>
           <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
-            {renderText(LABELS.FIND_CHILDCARE)}
+            {getText(LABELS.FIND_CHILDCARE)}
           </MenuRowNavLink>
           <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
-            {renderText(LABELS.ABOUT)}
+            {getText(LABELS.ABOUT)}
           </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
-            {renderText(LABELS.TERMS_AND_CONDITIONS)}
+            {getText(LABELS.TERMS_AND_CONDITIONS)}
           </MenuRowLink>
           <MenuRowLink href={PRIVACY_POLICY_URL}>
-            {renderText(LABELS.PRIVACY_POLICY)}
+            {getText(LABELS.PRIVACY_POLICY)}
           </MenuRowLink>
           <MenuRowMailtoLink href={feedbackLink}>
-            {renderText(LABELS.SEND_FEEDBACK)}
+            {getText(LABELS.SEND_FEEDBACK)}
           </MenuRowMailtoLink>
           <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
-            {renderText(LABELS.RESOURCES)}
+            {getText(LABELS.RESOURCES)}
           </MenuRowNavLink>
         </NavMenuWrapper>
 
@@ -174,7 +174,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    renderText: getRenderTextFn(state)
+    getText: getRenderTextFn(state)
   };
 }
 

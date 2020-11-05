@@ -105,7 +105,7 @@ const ProviderMap = (props :Props) => {
     selectedOption
   } = props;
 
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getRenderTextFn);
   const providerLocations = useSelector((store) => store.getIn([STATE.LOCATIONS, 'providerLocations']));
   const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const searchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
@@ -239,7 +239,7 @@ const ProviderMap = (props :Props) => {
       {
         selectedFeature && (
           <ProviderPopup
-              renderText={renderText}
+              getText={getText}
               isOpen={isPopupOpen && !selectedProvider}
               coordinates={getCoordinates(selectedFeature)}
               provider={selectedFeature}

@@ -93,7 +93,7 @@ type Props = {
     loadCurrentPosition :RequestSequence;
   };
   initializeState :RequestState;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 };
 
 class AppContainer extends Component<Props> {
@@ -107,8 +107,8 @@ class AppContainer extends Component<Props> {
   wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
 
   renderUnsupportedBrowserModal = () => {
-    const { renderText } = this.props;
-    return (browserIsIE() ? <IEModal renderText={renderText} /> : null);
+    const { getText } = this.props;
+    return (browserIsIE() ? <IEModal getText={getText} /> : null);
   }
 
   renderAppContent = () => {
@@ -154,7 +154,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
     initializeState: state.getIn(['app', 'initializeState']),
-    renderText: getRenderTextFn(state)
+    getText: getRenderTextFn(state)
   };
 }
 

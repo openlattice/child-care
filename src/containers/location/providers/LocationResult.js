@@ -18,7 +18,7 @@ const LocationResult = (props :Props) => {
 
   const { result: locationEKID } = props;
 
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getRenderTextFn);
 
   const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
   const provider = providerState.getIn(['providerLocations', locationEKID], Map());
@@ -27,7 +27,7 @@ const LocationResult = (props :Props) => {
   const lon = providerState.getIn(['selectedOption', 'lon']);
 
   return (
-    <ProviderResult provider={provider} coordinates={[lat, lon]} renderText={renderText} />
+    <ProviderResult provider={provider} coordinates={[lat, lon]} getText={getText} />
   );
 };
 

@@ -34,7 +34,7 @@ const Label = styled.div`
 type Props = {
   onChange :(nextValues :Map) => void;
   setIsValid :(isValid :boolean) => void;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
   value :Map;
 }
 
@@ -46,7 +46,7 @@ export default class ChildrenFilter extends React.Component<Props> {
   }
 
   render() {
-    const { value, onChange, renderText } = this.props;
+    const { value, onChange, getText } = this.props;
 
     const renderPlusMinus = (field) => (
       <PlusMinus value={value.get(field, 0)} onChange={(newValue) => onChange(value.set(field, newValue))} />
@@ -55,10 +55,10 @@ export default class ChildrenFilter extends React.Component<Props> {
     return (
       <Wrapper>
 
-        <Label id="numberOfInfants">{renderText(LABELS.AGE_INFANT)}</Label>
+        <Label id="numberOfInfants">{getText(LABELS.AGE_INFANT)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_UNDER_2)}
 
-        <Label id="numberOfChildren">{renderText(LABELS.AGE_SCHOOL)}</Label>
+        <Label id="numberOfChildren">{getText(LABELS.AGE_SCHOOL)}</Label>
         {renderPlusMinus(PROPERTY_TYPES.CAPACITY_OVER_5)}
 
       </Wrapper>

@@ -72,7 +72,7 @@ type Props = {
   isOpen :boolean;
   onClose :() => void;
   provider :Map;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 };
 
 const ProviderPopup = ({
@@ -80,11 +80,11 @@ const ProviderPopup = ({
   isOpen,
   onClose,
   provider,
-  renderText
+  getText
 } :Props) => {
-  const name = renderFacilityName(provider, renderText);
+  const name = renderFacilityName(provider, getText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
@@ -96,7 +96,7 @@ const ProviderPopup = ({
     vacancyColor = hasVacancies ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
   }
 
-  const ages = getAgesServedFromEntity(provider, renderText);
+  const ages = getAgesServedFromEntity(provider, getText);
 
   const isInactive = !isProviderActive(provider);
 
@@ -113,7 +113,7 @@ const ProviderPopup = ({
       {
         !isInactive && (
           <OpenClosedTag color={vacancyColor}>
-            {renderText(vacancyLabel)}
+            {getText(vacancyLabel)}
           </OpenClosedTag>
         )
       }
@@ -126,9 +126,9 @@ const ProviderPopup = ({
       <IconDetail content={ages} isInactive={isInactive} />
       {
         isInactive
-          && <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+          && <IconDetail content={getText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
       }
-      <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
+      <LinkButton onClick={handleViewProfile}>{getText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );
 };

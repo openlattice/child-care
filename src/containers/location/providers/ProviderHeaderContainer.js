@@ -125,7 +125,7 @@ type Props = {
   };
   coordinates :number[];
   provider :Map;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
 };
 
 class ProviderHeaderContainer extends React.Component<Props> {
@@ -141,19 +141,19 @@ class ProviderHeaderContainer extends React.Component<Props> {
 
   render() {
 
-    const { actions, provider, renderText } = this.props;
+    const { actions, provider, getText } = this.props;
 
     if (!provider) {
       return null;
     }
 
-    const name = renderFacilityName(provider, renderText);
+    const name = renderFacilityName(provider, getText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
-    const ages = getAgesServedFromEntity(provider, renderText);
+    const ages = getAgesServedFromEntity(provider, getText);
 
     const distance = this.getDistance();
 
@@ -162,7 +162,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
         <StyledContentWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
+            <span>{getText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
@@ -189,7 +189,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    getText: getRenderTextFn(state)
   };
 }
 

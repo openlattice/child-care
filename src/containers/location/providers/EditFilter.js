@@ -98,7 +98,7 @@ type Props = {
   field :string;
   onCancel :() => void;
   onSave :(nextObject :Object) => void;
-  renderText :(translation :Translation) => string;
+  getText :(translation :Translation) => string;
   value :string;
 };
 
@@ -117,7 +117,7 @@ export default class EditFilter extends React.Component<Props, State> {
   }
 
   getContent = () => {
-    const { field, renderText } = this.props;
+    const { field, getText } = this.props;
     const { value } = this.state;
 
     const Component = FILTER_COMPONENTS[field];
@@ -129,7 +129,7 @@ export default class EditFilter extends React.Component<Props, State> {
     return (
       <Component
           value={value}
-          renderText={renderText}
+          getText={getText}
           onChange={(newValue) => this.setState({ value: newValue })}
           setIsValid={(isValid) => this.setState({ isValid })} />
     );
@@ -138,7 +138,7 @@ export default class EditFilter extends React.Component<Props, State> {
   render() {
     const {
       field,
-      renderText,
+      getText,
       onCancel,
       onSave
     } = this.props;
@@ -149,17 +149,17 @@ export default class EditFilter extends React.Component<Props, State> {
         <StyledContentWrapper padding={`${PADDING}px`}>
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_PARAMETERS)}</span>
+            <span>{getText(LABELS.SEARCH_PARAMETERS)}</span>
           </BackButton>
 
-          <EditFilterHeader>{renderText(HEADER_LABELS[field])}</EditFilterHeader>
+          <EditFilterHeader>{getText(HEADER_LABELS[field])}</EditFilterHeader>
 
           {this.getContent()}
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
           <Button color="primary" disabled={!isValid} onClick={() => onSave({ field, value })}>
-            {renderText(LABELS.SAVE)}
+            {getText(LABELS.SAVE)}
           </Button>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>
