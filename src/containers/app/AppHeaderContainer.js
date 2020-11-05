@@ -22,7 +22,6 @@ import { HOME_PATH } from '../../core/router/Routes';
 import {
   HEADER_HEIGHT
 } from '../../core/style/Sizes';
-import { getRenderTextFn } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRAL } = Colors;
@@ -154,8 +153,7 @@ function mapStateToProps(state) {
   const app = state.get(STATE.APP);
 
   return {
-    app,
-    renderText: getRenderTextFn(state)
+    app
   };
 }
 

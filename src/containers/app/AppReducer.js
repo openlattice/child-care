@@ -36,7 +36,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   propertyTypesByFqn: Map(),
   token: null,
   tokenExp: -1,
-  renderText: (label) => label[LANGUAGES.en],
+  getText: (label) => label[LANGUAGES.en],
   sessionId: randomUUID()
 });
 
@@ -105,7 +105,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
             .set('entitySetId', entitySetId)
             .set('propertyTypesById', propertyTypesById)
             .set('propertyTypesByFqn', propertyTypesByFqn)
-            .set('renderText', (label) => label[defaultLanguage]);
+            .set('getText', (label) => label[defaultLanguage]);
         },
         FINALLY: () => {
           const seqAction :SequenceAction = action;
@@ -117,7 +117,7 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
     }
 
     case SWITCH_LANGUAGE: {
-      return state.set('renderText', (labels) => labels[action.value]);
+      return state.set('getText', (labels) => labels[action.value]);
     }
 
     default:

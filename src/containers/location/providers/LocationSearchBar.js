@@ -31,7 +31,7 @@ import { useTimeout } from '../../../components/hooks';
 import {
   APP_CONTAINER_WIDTH
 } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isNonEmptyString } from '../../../utils/LangUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
@@ -82,8 +82,8 @@ const LocationsSearchBar = () => {
     }
   }, []);
 
-  const renderText = useSelector(getRenderTextFn);
-  const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
+  const getText = useSelector(getTextFnFromState);
+  const currentLocationText = getText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
   const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
   const storedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
@@ -155,7 +155,7 @@ const LocationsSearchBar = () => {
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
-          placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          placeholder={getText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
           theme={getTheme}
           value={value} />
     </Wrapper>

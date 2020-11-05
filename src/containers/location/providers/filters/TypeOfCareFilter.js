@@ -2,12 +2,14 @@
  * @flow
  */
 import React from 'react';
+
 import styled from 'styled-components';
 import { Checkbox } from 'lattice-ui-kit';
 
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../../utils/constants/Labels';
+import type { Translation } from '../../../../types';
 
 const Instruction = styled.div`
   font-size: 14px;
@@ -18,7 +20,7 @@ const Instruction = styled.div`
 
 type Props = {
   onChange :(nextValues :string[]) => void;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
   setIsValid :(isValid :boolean) => void;
   value :string[];
 };
@@ -32,7 +34,7 @@ export default class TypeOfCareFilter extends React.Component<Props> {
 
   render() {
 
-    const { value, onChange, renderText } = this.props;
+    const { value, onChange, getText } = this.props;
 
     const onCheckboxChange = (e) => {
       const { value: newValue } = e.target;
@@ -47,11 +49,11 @@ export default class TypeOfCareFilter extends React.Component<Props> {
 
     return (
       <ContentOuterWrapper>
-        <Instruction>{renderText(LABELS.SELECT_ALL)}</Instruction>
+        <Instruction>{getText(LABELS.SELECT_ALL)}</Instruction>
         {Object.values(FACILITY_TYPES).map((facilityType) => (
           <Checkbox
               checked={value.includes(facilityType)}
-              label={renderText(FACILITY_TYPE_LABELS[facilityType])}
+              label={getText(FACILITY_TYPE_LABELS[facilityType])}
               mode="button"
               onChange={onCheckboxChange}
               value={facilityType} />

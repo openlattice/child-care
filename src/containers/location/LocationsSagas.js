@@ -33,7 +33,7 @@ import {
 } from './LocationsActions';
 
 import Logger from '../../utils/Logger';
-import { getPropertyTypeId, getProvidersESID, getRenderTextFn } from '../../utils/AppUtils';
+import { getPropertyTypeId, getProvidersESID, getTextFnFromState } from '../../utils/AppUtils';
 import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
 import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -157,7 +157,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   try {
     yield put(loadCurrentPosition.request(action.id));
 
-    const renderText = yield select(getRenderTextFn);
+    const getText = yield select(getTextFnFromState);
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -180,7 +180,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
     yield put(searchLocations({
       searchInputs: Map({
         selectedOption: {
-          label: renderText(LABELS.CURRENT_LOCATION),
+          label: getText(LABELS.CURRENT_LOCATION),
           value: `${latitude},${longitude}`,
           lat: latitude,
           lon: longitude

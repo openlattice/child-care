@@ -15,7 +15,7 @@ import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
@@ -105,7 +105,7 @@ const ProviderMap = (props :Props) => {
     selectedOption
   } = props;
 
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
   const providerLocations = useSelector((store) => store.getIn([STATE.LOCATIONS, 'providerLocations']));
   const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const searchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
@@ -239,7 +239,7 @@ const ProviderMap = (props :Props) => {
       {
         selectedFeature && (
           <ProviderPopup
-              renderText={renderText}
+              getText={getText}
               isOpen={isPopupOpen && !selectedProvider}
               coordinates={getCoordinates(selectedFeature)}
               provider={selectedFeature}

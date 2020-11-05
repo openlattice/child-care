@@ -12,25 +12,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as LocationsActions from '../LocationsActions';
-
 import { ContentOuterWrapper, ContentWrapper, OpenClosedTag } from '../../../components/layout';
 import {
   HEADER_HEIGHT,
   HEIGHTS,
 } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { VACANCY_COLORS } from '../../../shared/Colors';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  getAgesServedFromEntity,
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
-import { VACANCY_COLORS } from '../../../shared/Colors';
+import type { Translation } from '../../../types';
 
 const { formatAsRelative } = DateTimeUtils;
 
@@ -132,7 +132,7 @@ type Props = {
   };
   coordinates :number[];
   provider :Map;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
 };
 
 class ProviderHeaderContainer extends React.Component<Props> {
@@ -148,28 +148,25 @@ class ProviderHeaderContainer extends React.Component<Props> {
 
   render() {
 
-    const { actions, provider, renderText } = this.props;
+    const { actions, provider, getText } = this.props;
 
     if (!provider) {
       return null;
     }
 
-    const name = renderFacilityName(provider, renderText);
+    const name = renderFacilityName(provider, getText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
+    const ages = getAgesServedFromEntity(provider, getText);
     const isActive = isProviderActive(provider);
     const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
     const statusColor = isActive ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
 
-    const lastUpdated = getValue(provider, PROPERTY_TYPES.LAST_UPDATED);
     const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
-    const updatedOrModifiedLable = isActive ? lastUpdated : lastModified;
-    const lastModifiedLabel = formatAsRelative(updatedOrModifiedLable, renderText(LABELS.UNKNOWN));
-
-    const ages = getAgesServedFromEntity(provider, renderText);
+    const lastModifiedLabel = formatAsRelative(lastModified, getText(LABELS.UNKNOWN));
 
     const distance = this.getDistance();
 
@@ -178,7 +175,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
         <StyledContentWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
+            <span>{getText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
@@ -190,9 +187,9 @@ class ProviderHeaderContainer extends React.Component<Props> {
           <SubHeader>{ages}</SubHeader>
           <SubHeader>
             <OpenClosedTag color={statusColor}>
-              {renderText(statusLabel)}
+              {getText(statusLabel)}
             </OpenClosedTag>
-            <span>{`${renderText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
+            <span>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
           </SubHeader>
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
@@ -210,7 +207,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 
