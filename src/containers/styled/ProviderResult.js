@@ -8,19 +8,19 @@ import { Card } from 'lattice-ui-kit';
 import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
-
-import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
 import { VACANCY_COLORS } from '../../shared/Colors';
-import { selectProvider } from '../location/LocationsActions';
-import { getCoordinates } from '../map/MapUtils';
 import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  renderFacilityName,
-  getAgesServedFromEntity,
-  isProviderActive
+  isProviderActive,
+  renderFacilityName
 } from '../../utils/DataUtils';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../utils/constants/Labels';
+import { selectProvider } from '../location/LocationsActions';
+import { getCoordinates } from '../map/MapUtils';
+import type { Translation } from '../../types';
 import {
   FlexRow,
   ResultDetails,
@@ -31,7 +31,7 @@ import {
 type Props = {
   provider :Map;
   coordinates :number[],
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
 }
 
 const TwoPartRow = styled.div`
