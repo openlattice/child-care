@@ -9,18 +9,18 @@ import { Colors, IconButton } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
 
-import { selectProvider } from '../LocationsActions';
-
-import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';
+import { VACANCY_COLORS } from '../../../shared/Colors';
 import {
-  getValue,
   getAgesServedFromEntity,
+  getValue,
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { selectProvider } from '../LocationsActions';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -72,7 +72,7 @@ type Props = {
   isOpen :boolean;
   onClose :() => void;
   provider :Map;
-  renderText :(labels :Object) => string;
+  renderText :(translation :Translation) => string;
 };
 
 const ProviderPopup = ({
