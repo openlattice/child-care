@@ -6,7 +6,7 @@ import { Marker } from 'react-mapbox-gl';
 import searchCenterIcon from '../../../../assets/svg/searchcenterpinicon.svg';
 
 type Props = {
-  coordinates :{};
+  coordinates :[number, number];
 };
 
 const SearchCenterMarker = ({ coordinates } :Props) => {

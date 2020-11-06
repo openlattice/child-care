@@ -3,11 +3,11 @@
  */
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Colors, Drawer } from 'lattice-ui-kit';
 
+import styled from 'styled-components';
 import { faBars } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Colors, Drawer } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -19,9 +19,7 @@ import LocationsSearchBar from '../location/providers/LocationSearchBar';
 import * as LocationsActions from '../location/LocationsActions';
 import * as Routes from '../../core/router/Routes';
 import { HOME_PATH } from '../../core/router/Routes';
-import {
-  HEADER_HEIGHT
-} from '../../core/style/Sizes';
+import { HEADER_HEIGHT } from '../../core/style/Sizes';
 import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRAL } = Colors;
@@ -86,11 +84,15 @@ const NavigationToggleWrapper = styled.div`
 
 type Props = {
   actions :{
-    switchLanguage :(language :string) => void
+    switchLanguage :(language :string) => void;
   };
 };
 
-class AppHeaderContainer extends Component<Props> {
+type State = {
+  isNavigationOpen :boolean;
+};
+
+class AppHeaderContainer extends Component<Props, State> {
 
   constructor(props) {
     super(props);

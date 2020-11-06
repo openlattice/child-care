@@ -173,14 +173,18 @@ class EditFiltersContainer extends React.Component<Props, State> {
       onCancel();
     };
 
-    return (
-      <EditFilter
-          getText={getText}
-          field={filterPage}
-          value={state[filterPage]}
-          onCancel={onCancel}
-          onSave={onSave} />
-    );
+    if (filterPage) {
+      return (
+        <EditFilter
+            getText={getText}
+            field={filterPage}
+            value={state[filterPage]}
+            onCancel={onCancel}
+            onSave={onSave} />
+      );
+    }
+
+    return null;
   }
 
   render() {
