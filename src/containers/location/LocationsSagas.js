@@ -1,9 +1,9 @@
 // @flow
 
 import axios from 'axios';
-import qs from 'query-string';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
+import qs from 'query-string';
 import {
   call,
   put,
@@ -12,10 +12,10 @@ import {
   takeEvery
 } from '@redux-saga/core/effects';
 import {
-  fromJS,
-  get,
   List,
   Map,
+  fromJS,
+  get,
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
@@ -33,7 +33,7 @@ import {
 } from './LocationsActions';
 
 import Logger from '../../utils/Logger';
-import { getPropertyTypeId, getProvidersESID, getRenderTextFn } from '../../utils/AppUtils';
+import { getPropertyTypeId, getProvidersESID, getTextFnFromState } from '../../utils/AppUtils';
 import { CLIENTS_SERVED, CLOSED, DAY_PTS } from '../../utils/DataConstants';
 import { formatTimeAsDateTime, getEntityKeyId } from '../../utils/DataUtils';
 import { ERR_ACTION_VALUE_TYPE } from '../../utils/Errors';
@@ -43,7 +43,7 @@ import {
   RR_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
 import { LABELS } from '../../utils/constants/Labels';
-import { STATE, HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS } from '../../utils/constants/StateConstants';
+import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS, STATE } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
@@ -74,7 +74,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
 
     const { address, currentPosition } = action.value;
 
-    const params = {
+    const params :Object = {
       access_token: __MAPBOX_TOKEN__,
       autocomplete: true,
     };
@@ -133,7 +133,7 @@ const tryReadStoredPermissions = () => {
     return localStorage.getItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS);
   }
   catch (error) {
-    console.error(error);
+    LOG.error('tryReadStoredPermissions', error);
     return '';
   }
 };
@@ -141,10 +141,10 @@ const tryReadStoredPermissions = () => {
 const trySetStoredPermissions = (bool) => {
   try {
     /* eslint-disable-next-line */
-    localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, `${bool}`);
+    localStorage.setItem(HAS_LOCAL_STORAGE_GEO_PERMISSIONS, String(bool));
   }
   catch (error) {
-    console.error(error);
+    LOG.error('trySetStoredPermissions', error);
   }
 };
 
@@ -157,7 +157,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   try {
     yield put(loadCurrentPosition.request(action.id));
 
-    const renderText = yield select(getRenderTextFn);
+    const getText = yield select(getTextFnFromState);
 
     const getUserLocation = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -180,7 +180,7 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
     yield put(searchLocations({
       searchInputs: Map({
         selectedOption: {
-          label: renderText(LABELS.CURRENT_LOCATION),
+          label: getText(LABELS.CURRENT_LOCATION),
           value: `${latitude},${longitude}`,
           lat: latitude,
           lon: longitude

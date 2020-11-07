@@ -10,7 +10,7 @@ const { NEUTRAL, PURPLE } = Colors;
 const BasicSelect = styled.select`
   background-color: ${NEUTRAL.N00};
   border: solid 1px ${NEUTRAL.N100};
-  borderRadius: 3px;
+  border-radius: 3px;
   box-shadow: none;
   font-size: 12px;
   line-height: normal;
@@ -31,9 +31,9 @@ export default class RadiusFilter extends React.Component {
   }
 
   render() {
-    const { value, onChange, renderText } = this.props;
+    const { value, onChange, getText } = this.props;
 
-    const renderMiles = (miles) => `${miles} ${renderText(LABELS.MILE)}${miles === 1 ? '' : 's'}`;
+    const renderMiles = (miles) => `${miles} ${getText(LABELS.MILE)}${miles === 1 ? '' : 's'}`;
 
     const RADIUS_OPTIONS = [
       1,
@@ -79,7 +79,7 @@ export default class RadiusFilter extends React.Component {
           isMulti={false}
           onChange={handleOnChange}
           options={RADIUS_OPTIONS}
-          placeholder={renderText(LABELS.SELECT)}
+          placeholder={getText(LABELS.SELECT)}
           value={selectedOption} />
     );
   }

@@ -9,18 +9,18 @@ import { Colors, IconButton } from 'lattice-ui-kit';
 import { Popup } from 'react-mapbox-gl';
 import { useDispatch } from 'react-redux';
 
-import { selectProvider } from '../LocationsActions';
-
-import { VACANCY_COLORS } from '../../../shared/Colors';
 import IconDetail from '../../../components/premium/styled/IconDetail';
+import { VACANCY_COLORS } from '../../../shared/Colors';
 import {
-  getValue,
   getAgesServedFromEntity,
+  getValue,
   isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { selectProvider } from '../LocationsActions';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -61,7 +61,6 @@ const LinkButton = styled.div`
 
 const OpenClosedTag = styled.div`
   color: ${(props) => props.color};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -73,7 +72,7 @@ type Props = {
   isOpen :boolean;
   onClose :() => void;
   provider :Map;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
 };
 
 const ProviderPopup = ({
@@ -81,11 +80,11 @@ const ProviderPopup = ({
   isOpen,
   onClose,
   provider,
-  renderText
+  getText
 } :Props) => {
-  const name = renderFacilityName(provider, renderText);
+  const name = renderFacilityName(provider, getText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
@@ -97,7 +96,7 @@ const ProviderPopup = ({
     vacancyColor = hasVacancies ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
   }
 
-  const ages = getAgesServedFromEntity(provider, renderText);
+  const ages = getAgesServedFromEntity(provider, getText);
 
   const isInactive = !isProviderActive(provider);
 
@@ -114,7 +113,7 @@ const ProviderPopup = ({
       {
         !isInactive && (
           <OpenClosedTag color={vacancyColor}>
-            {renderText(vacancyLabel)}
+            {getText(vacancyLabel)}
           </OpenClosedTag>
         )
       }
@@ -127,9 +126,9 @@ const ProviderPopup = ({
       <IconDetail content={ages} isInactive={isInactive} />
       {
         isInactive
-          && <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+          && <IconDetail content={getText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
       }
-      <LinkButton onClick={handleViewProfile}>{renderText(LABELS.VIEW_PROVIDER)}</LinkButton>
+      <LinkButton onClick={handleViewProfile}>{getText(LABELS.VIEW_PROVIDER)}</LinkButton>
     </Popup>
   );
 };

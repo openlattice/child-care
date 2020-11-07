@@ -39,7 +39,6 @@ const ResultDetails = styled.div`
 `;
 
 const ResultName = styled.div`
-  font-family: Inter;
   font-style: normal;
   font-weight: ${(props) => (props.isInactive ? 400 : 600)};
   font-size: 16px;

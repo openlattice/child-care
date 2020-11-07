@@ -11,7 +11,7 @@ const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
   padding: 20px 0;
-  width:  100%;
+  width: 100%;
 `;
 
 const TitleRow = styled.div`
@@ -25,7 +25,6 @@ const TitleRow = styled.div`
 
   span {
     color: ${NEUTRAL.N700};
-    font-family: Inter;
     line-height: 17px;
     font-size: 14px;
     font-style: normal;

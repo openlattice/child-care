@@ -7,27 +7,32 @@ import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';
+import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as LocationsActions from '../LocationsActions';
-
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { ContentOuterWrapper, ContentWrapper, OpenClosedTag } from '../../../components/layout';
 import {
   HEADER_HEIGHT,
   HEIGHTS,
 } from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { VACANCY_COLORS } from '../../../shared/Colors';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  getAgesServedFromEntity,
+  isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import type { Translation } from '../../../types';
+
+const { formatAsRelative } = DateTimeUtils;
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -68,7 +73,7 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
@@ -77,7 +82,6 @@ const Header = styled.div`
   color: ${NEUTRAL.N700};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-style: normal;
   justify-content: space-between;
 
@@ -103,7 +107,6 @@ const Header = styled.div`
     font-weight: 600;
   }
 
-
   span {
     font-size: 14px;
     font-weight: normal;
@@ -114,10 +117,11 @@ const Header = styled.div`
 
 const SubHeader = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
+  display: flex;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
+  justify-content: space-between;
   line-height: 17px;
   margin: 3px 0;
 `;
@@ -128,7 +132,7 @@ type Props = {
   };
   coordinates :number[];
   provider :Map;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
 };
 
 class ProviderHeaderContainer extends React.Component<Props> {
@@ -144,19 +148,25 @@ class ProviderHeaderContainer extends React.Component<Props> {
 
   render() {
 
-    const { actions, provider, renderText } = this.props;
+    const { actions, provider, getText } = this.props;
 
     if (!provider) {
       return null;
     }
 
-    const name = renderFacilityName(provider, renderText);
+    const name = renderFacilityName(provider, getText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map((v) => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
     const city = getValue(provider, PROPERTY_TYPES.CITY);
 
-    const ages = getAgesServedFromEntity(provider, renderText);
+    const ages = getAgesServedFromEntity(provider, getText);
+    const isActive = isProviderActive(provider);
+    const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
+    const statusColor = isActive ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
+
+    const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
+    const lastModifiedLabel = formatAsRelative(lastModified, getText(LABELS.UNKNOWN));
 
     const distance = this.getDistance();
 
@@ -165,7 +175,7 @@ class ProviderHeaderContainer extends React.Component<Props> {
         <StyledContentWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
+            <span>{getText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
@@ -175,7 +185,12 @@ class ProviderHeaderContainer extends React.Component<Props> {
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
           <SubHeader>{ages}</SubHeader>
-
+          <SubHeader>
+            <OpenClosedTag color={statusColor}>
+              {getText(statusLabel)}
+            </OpenClosedTag>
+            <span>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
+          </SubHeader>
         </StyledContentWrapper>
       </StyledContentOuterWrapper>
     );
@@ -192,7 +207,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

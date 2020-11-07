@@ -1,25 +1,26 @@
 // @flow
 
 import React from 'react';
-import type { RequestSequence } from 'redux-reqseq';
-import { bindActionCreators } from 'redux';
 
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import styled from 'styled-components';
+import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
 import { Button, Colors } from 'lattice-ui-kit';
-import { RequestStates } from 'redux-reqseq';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { RequestStates } from 'redux-reqseq';
+import type { RequestSequence } from 'redux-reqseq';
 
 import EditFilter from './EditFilter';
-import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
-import { LABELS } from '../../../utils/constants/Labels';
 
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { getRenderTextFn } from '../../../utils/AppUtils';
 import * as LocationsActions from '../LocationsActions';
+import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import type { Translation } from '../../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -50,7 +51,7 @@ const BackButton = styled.div`
   align-items: center;
   color: ${PURPLE.P300};
   display: flex;
-  flex-direciton: row;
+  flex-direction: row;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -64,13 +65,12 @@ const BackButton = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
 const HeaderLabel = styled.div`
   color: ${NEUTRAL.N700};
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -84,7 +84,6 @@ const FilterRow = styled.div`
   color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -105,7 +104,7 @@ const FilterRow = styled.div`
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
@@ -124,9 +123,9 @@ const ApplyButtonWrapper = styled.div`
   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
   z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
 type Props = {
@@ -136,7 +135,7 @@ type Props = {
   };
   hasSearched :boolean;
   providerState :Map;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
 }
 
 type State = {
@@ -164,7 +163,7 @@ class EditFiltersContainer extends React.Component<Props, State> {
 
   renderEditFilter = () => {
     const { props, state } = this;
-    const { renderText } = props;
+    const { getText } = props;
     const { filterPage } = state;
 
     const onCancel = () => this.setState({ filterPage: null });
@@ -174,19 +173,23 @@ class EditFiltersContainer extends React.Component<Props, State> {
       onCancel();
     };
 
-    return (
-      <EditFilter
-          renderText={renderText}
-          field={filterPage}
-          value={state[filterPage]}
-          onCancel={onCancel}
-          onSave={onSave} />
-    );
+    if (filterPage) {
+      return (
+        <EditFilter
+            getText={getText}
+            field={filterPage}
+            value={state[filterPage]}
+            onCancel={onCancel}
+            onSave={onSave} />
+      );
+    }
+
+    return null;
   }
 
   render() {
     const { state } = this;
-    const { actions, hasSearched, renderText } = this.props;
+    const { actions, hasSearched, getText } = this.props;
     const {
       filterPage,
       [PROVIDERS.ACTIVE_ONLY]: activeOnly,
@@ -203,7 +206,7 @@ class EditFiltersContainer extends React.Component<Props, State> {
 
     const editFilter = (value) => this.setState({ filterPage: value });
 
-    const any = renderText(LABELS.ANY);
+    const any = getText(LABELS.ANY);
 
     const getFacilityTypeValue = () => {
       const { size } = typeOfCare;
@@ -215,12 +218,12 @@ class EditFiltersContainer extends React.Component<Props, State> {
         return typeOfCare.get(0);
       }
 
-      return `${size} ${renderText(LABELS.TYPES_SELECTED)}`;
+      return `${size} ${getText(LABELS.TYPES_SELECTED)}`;
     };
 
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
-        <div>{renderText(label)}</div>
+        <div>{getText(label)}</div>
         <article>
           <span>{value}</span>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -262,25 +265,25 @@ class EditFiltersContainer extends React.Component<Props, State> {
           <StyledContentWrapper padding={`${PADDING}px`}>
             <BackButton onClick={backToMap}>
               <FontAwesomeIcon icon={faChevronLeft} />
-              <span>{renderText(LABELS.BACK_TO_SEARCH_RESULTS)}</span>
+              <span>{getText(LABELS.BACK_TO_SEARCH_RESULTS)}</span>
             </BackButton>
 
-            <HeaderLabel>{renderText(LABELS.BASIC_SEARCH)}</HeaderLabel>
+            <HeaderLabel>{getText(LABELS.BASIC_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), LABELS.TYPE_OF_CARE)}
             {
               renderRow(
                 PROVIDERS.RADIUS,
-                `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`,
+                `${radius} ${getText(LABELS.MILE)}${radius === 1 ? '' : 's'}`,
                 LABELS.SEARCH_RADIUS
               )
             }
             <Line />
-            <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
+            <HeaderLabel>{getText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
             {
               renderRow(
                 PROVIDERS.ACTIVE_ONLY,
-                renderText(activeOnly ? LABELS.NO : LABELS.YES),
+                getText(activeOnly ? LABELS.NO : LABELS.YES),
                 LABELS.SHOW_INACTIVE_FACILITIES
               )
             }
@@ -288,7 +291,7 @@ class EditFiltersContainer extends React.Component<Props, State> {
           </StyledContentWrapper>
         </ScrollContainer>
         <ApplyButtonWrapper>
-          <Button color="primary" onClick={onExecuteSearch}>{renderText(LABELS.APPLY)}</Button>
+          <Button color="primary" onClick={onExecuteSearch}>{getText(LABELS.APPLY)}</Button>
         </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );
@@ -300,7 +303,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
     providerState,
-    renderText: getRenderTextFn(state),
+    getText: getTextFnFromState(state),
     hasSearched: providerState.get('fetchState') !== RequestStates.STANDBY
   };
 }
