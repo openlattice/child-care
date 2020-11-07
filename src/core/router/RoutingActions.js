@@ -28,7 +28,7 @@ function goToPath(path :string, state :any) :RoutingAction {
 }
 
 const ROUTING_FAILURE :'ROUTING_FAILURE' = 'ROUTING_FAILURE';
-function routingFailure(errorMessage :string, path :any) :Object {
+function routingFailure(errorMessage :string | Error, path :any) :Object {
   return {
     path,
     error: errorMessage,

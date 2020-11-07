@@ -24,14 +24,14 @@ const Text = styled.div`
   }
 `;
 
-const IEModal = ({ renderText }) => (
+const IEModal = ({ getText }) => (
   <Modal withHeader={false} isVisible>
     <Content>
       <Text>
-        {renderText(UNSUPPORTED_BROWSER.HEADER)}
+        {getText(UNSUPPORTED_BROWSER.HEADER)}
       </Text>
       <Text>
-        {renderText(UNSUPPORTED_BROWSER.SUGGESTION)}
+        {getText(UNSUPPORTED_BROWSER.SUGGESTION)}
       </Text>
     </Content>
   </Modal>

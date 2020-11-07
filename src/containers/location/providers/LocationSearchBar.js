@@ -17,27 +17,25 @@ import {
   Select,
   StyleUtils,
 } from 'lattice-ui-kit';
+import { LangUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
+import { useTimeout } from '../../../components/hooks';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { LABELS } from '../../../utils/constants/Labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {
+  geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
-  selectLocationOption,
-  geocodePlace
+  selectLocationOption
 } from '../LocationsActions';
-
-import { useTimeout } from '../../../components/hooks';
-import {
-  APP_CONTAINER_WIDTH
-} from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
-import { isNonEmptyString } from '../../../utils/LangUtils';
-import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
+const { isNonEmptyString } = LangUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
 const getTheme = (theme) => ({
@@ -82,8 +80,8 @@ const LocationsSearchBar = () => {
     }
   }, []);
 
-  const renderText = useSelector(getRenderTextFn);
-  const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
+  const getText = useSelector(getTextFnFromState);
+  const currentLocationText = getText(LABELS.CURRENT_LOCATION);
   const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
   const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
   const storedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
@@ -155,7 +153,7 @@ const LocationsSearchBar = () => {
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
-          placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          placeholder={getText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
           theme={getTheme}
           value={value} />
     </Wrapper>

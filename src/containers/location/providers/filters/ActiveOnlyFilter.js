@@ -54,7 +54,7 @@ export default class ActiveOnlyFilter extends React.Component {
   }
 
   render() {
-    const { value, onChange, renderText } = this.props;
+    const { value, onChange, getText } = this.props;
 
     const NoComponent = value ? SelectedValue : UnselectedValue;
     const YesComponent = value ? UnselectedValue : SelectedValue;
@@ -62,10 +62,10 @@ export default class ActiveOnlyFilter extends React.Component {
     return (
       <Wrapper>
         <NoComponent onClick={() => onChange(true)}>
-          {renderText(LABELS.NO)}
+          {getText(LABELS.NO)}
         </NoComponent>
         <YesComponent onClick={() => onChange(false)}>
-          {renderText(LABELS.YES)}
+          {getText(LABELS.YES)}
         </YesComponent>
       </Wrapper>
     );
