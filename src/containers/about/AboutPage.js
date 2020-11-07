@@ -5,8 +5,8 @@ import { Colors } from 'lattice-ui-kit';
 
 import { STATE } from '../../utils/constants/StateConstants';
 import { ABOUT, LABELS } from '../../utils/constants/Labels';
-import { getRenderTextFn } from '../../utils/AppUtils';
-import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
+import { getTextFnFromState } from '../../utils/AppUtils';
+import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 
 import caForAll from '../../assets/images/caForAll.png';
 import cdnLogo from '../../assets/images/cdnLogo.png';
@@ -15,7 +15,7 @@ import everbridgeLogo from '../../assets/images/everbridgeLogo.png';
 import openlatticeLogo from '../../assets/images/openlatticeLogoLong.png';
 import mapboxLogo from '../../assets/images/mapboxLogo.png';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL } = Colors;
 
 const URLS = {
   CDSS: 'https://cdss.ca.gov/',
@@ -67,12 +67,6 @@ const Text = styled.div`
   font-style: normal;
   font-weight: normal;
   line-height: 17px;
-`;
-
-const TextLink = styled.a.attrs({
-  target: '_blank'
-})`
-  color: ${PURPLE.P300};
 `;
 
 const TextSection = styled.div`
@@ -135,20 +129,20 @@ class AboutPage extends React.Component {
   }
 
   render() {
-    const { renderText } = this.props;
+    const { getText } = this.props;
 
     return (
       <ContentOuterWrapper>
         <Wrapper>
-          <Header>{renderText(LABELS.ABOUT)}</Header>
+          <Header>{getText(LABELS.ABOUT)}</Header>
 
           <TextSection>
             <Text>
-              <span>{renderText(ABOUT.INTRO)}</span>
+              <span>{getText(ABOUT.INTRO)}</span>
               <TextLink href={URLS.CDSS}>California Department of Social Services</TextLink>
               <span>, </span>
               <TextLink href={URLS.CDE}>California Department of Education</TextLink>
-              <span>{`, ${renderText(ABOUT.AND)} `}</span>
+              <span>{`, ${getText(ABOUT.AND)} `}</span>
               <TextLink href={URLS.RR}>California Child Care Resource and Referral Network</TextLink>
               <span>.</span>
             </Text>
@@ -156,15 +150,15 @@ class AboutPage extends React.Component {
           </TextSection>
 
           <TextSection>
-            <Text>{renderText(ABOUT.CRAFTED_WITH_LOVE)}</Text>
+            <Text>{getText(ABOUT.CRAFTED_WITH_LOVE)}</Text>
             {this.renderLogos([URLS.OPENLATTICE])}
           </TextSection>
           <TextSection>
-            <Text>{renderText(ABOUT.DATA_COLLECTION)}</Text>
+            <Text>{getText(ABOUT.DATA_COLLECTION)}</Text>
             {this.renderLogos([URLS.CDN])}
           </TextSection>
           <TextSection>
-            <Text>{renderText(ABOUT.INFRASTRUCTURE_PARNERS)}</Text>
+            <Text>{getText(ABOUT.INFRASTRUCTURE_PARNERS)}</Text>
             {this.renderLogos([URLS.CLOUDFLARE, URLS.MAPBOX, URLS.EVERBRIDGE])}
           </TextSection>
         </Wrapper>
@@ -178,7 +172,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

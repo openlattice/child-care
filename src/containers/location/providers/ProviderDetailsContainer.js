@@ -2,13 +2,12 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { Fragment } from 'react';
 
-import moment from 'moment';
 import styled, { css } from 'styled-components';
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
 import { Colors, Tooltip } from 'lattice-ui-kit';
-import { DataUtils } from 'lattice-utils';
+import { DataUtils, DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,7 +17,7 @@ import * as LocationsActions from '../LocationsActions';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { HEIGHTS } from '../../../core/style/Sizes';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import {
   getEntityKeyId,
@@ -30,8 +29,10 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import type { Translation } from '../../../types';
 
 const { getPropertyValue } = DataUtils;
+const { formatAsDate, formatAsTime } = DateTimeUtils;
 
 const InfoIcon = React.forwardRef((props, ref) => (
   // https://material-ui.com/components/tooltips/#custom-child-element
@@ -183,25 +184,25 @@ const InfoText = styled.div`
 type Props = {
   hospital :Map;
   provider :Map;
-  renderText :(labels :Object) => string;
+  getText :(translation :Translation) => string;
   rrs :Map;
 };
 
 class ProviderDetailsContainer extends React.Component<Props> {
 
   renderEmailAsLink = (provider :Map, isRR :boolean) => {
-    const { renderText } = this.props;
-    const email = getPropertyValue(provider, PROPERTY_TYPES.EMAIL);
+    const { getText } = this.props;
+    const email = getPropertyValue(provider, [PROPERTY_TYPES.EMAIL, 0]);
     if (!email) {
-      return <span>{renderText(LABELS.UNKNOWN)}</span>;
+      return <span>{getText(LABELS.UNKNOWN)}</span>;
     }
     const trackClick = () => trackLinkClick(email, `${isRR ? 'R&R' : 'Provider'} Email`);
     return <a onClick={trackClick()} href={`mailto:${email}`}>{email}</a>;
   };
 
   renderRR = (rr :Map) => {
-    const url = getPropertyValue(rr, PROPERTY_TYPES.URL);
-    const name = getPropertyValue(rr, PROPERTY_TYPES.FACILITY_NAME);
+    const url = getPropertyValue(rr, [PROPERTY_TYPES.URL, 0]);
+    const name = getPropertyValue(rr, [PROPERTY_TYPES.FACILITY_NAME, 0]);
 
     let first = <div>{name}</div>;
     if (url) {
@@ -220,12 +221,12 @@ class ProviderDetailsContainer extends React.Component<Props> {
   };
 
   renderRRsSection = () => {
-    const { rrs, renderText } = this.props;
+    const { rrs, getText } = this.props;
 
     return (
-      <ExpandableSection title={renderText(LABELS.RESOURCE_AND_REFERRAL)}>
+      <ExpandableSection title={getText(LABELS.RESOURCE_AND_REFERRAL)}>
         <>
-          <InfoText>{renderText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
+          <InfoText>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
           {rrs.map(this.renderRR)}
         </>
       </ExpandableSection>
@@ -233,13 +234,13 @@ class ProviderDetailsContainer extends React.Component<Props> {
   };
 
   renderLicenseElement = () => {
-    const { renderText, provider } = this.props;
+    const { getText, provider } = this.props;
 
-    const licenseNumber = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_ID);
-    const licenseURL = getPropertyValue(provider, PROPERTY_TYPES.LICENSE_URL);
+    const licenseNumber = getPropertyValue(provider, [PROPERTY_TYPES.LICENSE_ID, 0]);
+    const licenseURL = getPropertyValue(provider, [PROPERTY_TYPES.LICENSE_URL, 0]);
 
     if (!licenseURL) {
-      return <span>{licenseNumber || renderText(LABELS.NOT_LICENSED)}</span>;
+      return <span>{licenseNumber || getText(LABELS.NOT_LICENSED)}</span>;
     }
 
     const trackClick = () => trackLinkClick(licenseURL, 'Provider License');
@@ -247,7 +248,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
   }
 
   renderFamilyHomeLocationSection = () => {
-    const { provider, renderText } = this.props;
+    const { provider, getText } = this.props;
 
     if (!shouldHideLocation(provider)) {
       return null;
@@ -255,14 +256,14 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     return (
       <TitleRow>
-        <InfoText>{renderText(LABELS.CONTACT_RR_FOR_INFO)}</InfoText>
+        <InfoText>{getText(LABELS.CONTACT_RR_FOR_INFO)}</InfoText>
       </TitleRow>
     );
 
   }
 
   renderCapacitySection = () => {
-    const { provider, renderText } = this.props;
+    const { provider, getText } = this.props;
 
     let capacity = 0;
     [
@@ -277,16 +278,18 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     return (
       <TitleRow>
-        <span>{renderText(LABELS.CAPACITY)}</span>
-        <span>{`${capacity} ${renderText(capacityLabel)}`}</span>
+        <span>{getText(LABELS.CAPACITY)}</span>
+        <span>{`${capacity} ${getText(capacityLabel)}`}</span>
       </TitleRow>
     );
   }
 
   renderVacanciesSection = () => {
-    const { provider, renderText } = this.props;
+    const { provider, getText } = this.props;
 
-    const hasVacancies = getPropertyValue(provider, PROPERTY_TYPES.VACANCIES);
+    const hasVacancies = getPropertyValue(provider, [PROPERTY_TYPES.VACANCIES, 0]);
+    const vacancyLastUpdateDate :string = getPropertyValue(provider, [PROPERTY_TYPES.VACANCY_LAST_UPDATED, 0]);
+    const formatedVacancyLastUpdated = formatAsDate(vacancyLastUpdateDate, '');
 
     let label = LABELS.UNKNOWN;
     if (hasVacancies !== '') {
@@ -295,42 +298,35 @@ class ProviderDetailsContainer extends React.Component<Props> {
 
     return (
       <TitleRow>
-        <span>{renderText(LABELS.AVAILABILITY)}</span>
-        <span>{renderText(label)}</span>
+        <FlexContainer>
+          <span>{getText(LABELS.AVAILABILITY)}</span>
+          {
+            vacancyLastUpdateDate
+              && <MarginWrapper>{`${getText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</MarginWrapper>
+          }
+        </FlexContainer>
+        <span>{getText(label)}</span>
       </TitleRow>
     );
   }
 
   renderUnknown = () => {
-    const { renderText } = this.props;
-    return renderText(LABELS.UNKNOWN);
+    const { getText } = this.props;
+    return getText(LABELS.UNKNOWN);
   }
 
   renderContactSection = () => {
-    const { renderText, provider } = this.props;
+    const { getText, provider } = this.props;
 
     if (shouldHideContact(provider) || !isProviderActive(provider)) {
       return null;
     }
 
-    const phone = getPropertyValue(provider, PROPERTY_TYPES.PHONE);
-    const street = getPropertyValue(provider, PROPERTY_TYPES.ADDRESS);
-    const city = getPropertyValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getPropertyValue(provider, PROPERTY_TYPES.ZIP);
+    const phone = getPropertyValue(provider, [PROPERTY_TYPES.PHONE, 0]);
+    const street = getPropertyValue(provider, [PROPERTY_TYPES.ADDRESS, 0]);
+    const city = getPropertyValue(provider, [PROPERTY_TYPES.CITY, 0]);
+    const zip = getPropertyValue(provider, [PROPERTY_TYPES.ZIP, 0]);
     const email = this.renderEmailAsLink(provider, false);
-
-    const formatTime = (time) => {
-      if (!time) {
-        return '?';
-      }
-
-      const withDate = moment.utc(time);
-      if (!withDate.isValid()) {
-        return '?';
-      }
-
-      return withDate.format('hh:mma');
-    };
 
     const operatingHours = [];
 
@@ -342,21 +338,22 @@ class ProviderDetailsContainer extends React.Component<Props> {
       phoneElem = <a onClick={trackClick} href={`tel:${phone}`}>{phone}</a>;
     }
 
-    if (getPropertyValue(provider, PROPERTY_TYPES.HOURS_UNKNOWN)) {
+    if (getPropertyValue(provider, [PROPERTY_TYPES.HOURS_UNKNOWN, 0])) {
       operatingHours.push(<span key="hours-unknown">{unknown}</span>);
     }
     else {
-      Object.values(DAYS_OF_WEEK).forEach((day) => {
+      // $FlowIgnore
+      Object.values(DAYS_OF_WEEK).forEach((day :string) => {
         const [startPT, endPT] = DAY_PTS[day];
-        const start = getPropertyValue(provider, startPT);
-        const end = getPropertyValue(provider, endPT);
+        const start = getPropertyValue(provider, [startPT, 0]);
+        const end = getPropertyValue(provider, [endPT, 0]);
 
-        const timeWindowStr = (start || end) ? `${formatTime(start)} - ${formatTime(end)}` : 'Closed';
+        const timeWindowStr = (start || end) ? `${formatAsTime(start)} - ${formatAsTime(end)}` : 'Closed';
 
         if (start || end) {
           operatingHours.push(
             <DateRow key={day}>
-              <span>{renderText(LABELS[day])}</span>
+              <span>{getText(LABELS[day])}</span>
               <span>{timeWindowStr}</span>
             </DateRow>
           );
@@ -369,24 +366,24 @@ class ProviderDetailsContainer extends React.Component<Props> {
     }
 
     return (
-      <ExpandableSection title={renderText(LABELS.CONTACT)}>
+      <ExpandableSection title={getText(LABELS.CONTACT)}>
         <>
           <Row>
-            <div>{renderText(LABELS.PHONE)}</div>
+            <div>{getText(LABELS.PHONE)}</div>
             <DataRows>
               {phoneElem}
             </DataRows>
           </Row>
 
           <Row>
-            <div>{renderText(LABELS.EMAIL)}</div>
+            <div>{getText(LABELS.EMAIL)}</div>
             <DataRows>
               {email}
             </DataRows>
           </Row>
 
           <Row>
-            <div>{renderText(LABELS.ADDRESS)}</div>
+            <div>{getText(LABELS.ADDRESS)}</div>
             <DataRows>
               <span>{street}</span>
               <span>{`${city}, CA ${zip}`}</span>
@@ -394,7 +391,7 @@ class ProviderDetailsContainer extends React.Component<Props> {
           </Row>
 
           <Row>
-            <div>{renderText(LABELS.OPERATING_HOURS)}</div>
+            <div>{getText(LABELS.OPERATING_HOURS)}</div>
             <DataRows>
               {operatingHours}
             </DataRows>
@@ -405,15 +402,15 @@ class ProviderDetailsContainer extends React.Component<Props> {
   }
 
   renderHealthAndSafetySection = () => {
-    const { renderText, provider, hospital } = this.props;
+    const { getText, provider, hospital } = this.props;
 
     const unknown = this.renderUnknown();
 
-    const lastInspectionDateStr = getPropertyValue(provider, PROPERTY_TYPES.LAST_INSPECTION_DATE);
-    const complaints = getPropertyValue(provider, PROPERTY_TYPES.COMPLAINTS);
-    const lastInspectionDate = lastInspectionDateStr ? moment(lastInspectionDateStr).format('MMMM DD, YYYY') : unknown;
+    const lastInspectionDateStr = getPropertyValue(provider, [PROPERTY_TYPES.LAST_INSPECTION_DATE, 0]);
+    const complaints = getPropertyValue(provider, [PROPERTY_TYPES.COMPLAINTS, 0]);
+    const lastInspectionDate = formatAsDate(lastInspectionDateStr, unknown);
 
-    const hospitalName = getPropertyValue(hospital, PROPERTY_TYPES.FACILITY_NAME);
+    const hospitalName = getPropertyValue(hospital, [PROPERTY_TYPES.FACILITY_NAME, 0]);
 
     const [fromLat, fromLon] = getCoordinates(provider);
     const [toLat, toLon] = getCoordinates(hospital);
@@ -423,19 +420,19 @@ class ProviderDetailsContainer extends React.Component<Props> {
     const trackHospitalClicked = () => trackLinkClick(hospitalDirections, 'Hospital Directions');
 
     return (
-      <ExpandableSection title={renderText(LABELS.HEALTH_AND_SAFETY)}>
+      <ExpandableSection title={getText(LABELS.HEALTH_AND_SAFETY)}>
         <>
           <Row>
-            <div>{renderText(LABELS.LAST_INSPECTION_DATE)}</div>
+            <div>{getText(LABELS.LAST_INSPECTION_DATE)}</div>
             <DataRows>
               {lastInspectionDate}
             </DataRows>
           </Row>
           <Row>
             <FlexContainer>
-              {renderText(LABELS.CITATIONS)}
+              {getText(LABELS.CITATIONS)}
               <MarginWrapper>
-                <Tooltip arrow placement="top" title={renderText(LABELS.CITATIONS_INFO)}>
+                <Tooltip arrow placement="top" title={getText(LABELS.CITATIONS_INFO)}>
                   <InfoIcon />
                 </Tooltip>
               </MarginWrapper>
@@ -445,13 +442,13 @@ class ProviderDetailsContainer extends React.Component<Props> {
             </DataRows>
           </Row>
           <Row>
-            <div>{renderText(LABELS.LICENSE_NUMBER)}</div>
+            <div>{getText(LABELS.LICENSE_NUMBER)}</div>
             <DataRows>
               {this.renderLicenseElement()}
             </DataRows>
           </Row>
           <Row>
-            <div>{renderText(LABELS.NEAREST_HOSPITAL)}</div>
+            <div>{getText(LABELS.NEAREST_HOSPITAL)}</div>
             <DataRows alignEnd>
               <a onClick={trackHospitalClicked} href={hospitalDirections} target="_blank">{hospitalName}</a>
             </DataRows>
@@ -512,7 +509,7 @@ function mapStateToProps(state :Map<*, *>) :Object {
     providerState,
     provider,
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state),
+    getText: getTextFnFromState(state),
     rrs,
     hospital
   };
