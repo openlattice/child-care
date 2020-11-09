@@ -10,6 +10,7 @@ import { RequestStates } from 'redux-reqseq';
 import {
   SELECT_LOCATION_OPTION,
   SELECT_PROVIDER,
+  SELECT_REFERRAL_AGENCY,
   SET_VALUE,
   SET_VALUES,
   geocodePlace,
@@ -28,6 +29,7 @@ const {
   RRS_BY_ID,
   HOSPITALS_BY_ID,
   SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY,
   IS_EXECUTING_SEARCH,
   IS_EDITING_FILTERS,
   HAS_PERFORMED_INITIAL_SEARCH,
@@ -65,6 +67,7 @@ const INITIAL_STATE :Map = fromJS({
   [RRS_BY_ID]: Map(),
   [HOSPITALS_BY_ID]: Map(),
   [SELECTED_PROVIDER]: null,
+  [SELECTED_REFERRAL_AGENCY]: null,
   [IS_EDITING_FILTERS]: false,
   [ACTIVE_ONLY]: true,
   [FILTER_PAGE]: null,
@@ -95,6 +98,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(IS_EDITING_FILTERS, false)
             .set(FILTER_PAGE, null)
             .set(SELECTED_PROVIDER, null)
+            .set(SELECTED_REFERRAL_AGENCY, null)
             .set(HAS_PERFORMED_INITIAL_SEARCH, true)
             .set(GEO_LOCATION_UNAVAILABLE, false)
             .merge(searchInputs);
@@ -164,6 +168,16 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
         });
       }
       return state.set(SELECTED_PROVIDER, action.value);
+    }
+
+    case SELECT_REFERRAL_AGENCY: {
+      if (action.value && isFunction(gtag)) {
+        gtag('event', 'View Referral Agency Details', {
+          event_category: 'Navigation',
+          event_label: getEntityKeyId(action.value),
+        });
+      }
+      return state.set(SELECTED_REFERRAL_AGENCY, action.value);
     }
 
     case SET_VALUES: {
