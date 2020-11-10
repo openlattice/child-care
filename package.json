@@ -70,7 +70,7 @@
     "redux-immutable": "4.0.0",
     "redux-reqseq": "0.5.0",
     "styled-components": "~4.4.0",
-    "uuid": "~3.3.0"
+    "uuid": "~8.3.1"
   },
   "devDependencies": {
     "@babel/cli": "~7.12.1",
