@@ -1,10 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CardSegment, Colors, StyleUtils } from 'lattice-ui-kit';
 
-import {
-  ContentOuterWrapper,
-  ContentWrapper,
-} from '../../components/layout';
+import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
 import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../core/style/Sizes';
 
 const { NEUTRAL, PURPLE } = Colors;
@@ -27,6 +24,28 @@ const DataRows = styled.div`
     min-width: fit-content;
     text-align: right;
     ${(props) => (props.alignEnd ? css` align-self: flex-end; ` : '')}
+  }
+`;
+
+const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N600};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0;
+  width: 100%;
+
+  span {
+    color: ${NEUTRAL.N700};
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+
+    :last-child {
+      font-weight: normal;
+    }
   }
 `;
 
@@ -94,7 +113,6 @@ const ResultDetails = styled.div`
   flex: 1;
   font-size: 14px;
   min-width: 0;
-
   ${media.phone`
     font-size: 12px;
   `}
@@ -111,7 +129,6 @@ const ResultName = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   margin-bottom: 5px;
-
   ${media.phone`
     font-size: 16px;
   `}
@@ -183,28 +200,6 @@ const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
   padding: 0 ${PADDING}px ${PADDING}px ${PADDING}px !important;
-`;
-
-const TitleRow = styled.div`
-  align-items: center;
-  color: ${NEUTRAL.N600};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 20px 0;
-  width: 100%;
-
-  span {
-    color: ${NEUTRAL.N700};
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-
-    :last-child {
-      font-weight: normal;
-    }
-  }
 `;
 
 export {
