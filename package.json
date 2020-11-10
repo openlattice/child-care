@@ -50,16 +50,16 @@
     "history": "~4.10.0",
     "immutable": "4.0.0-rc.10",
     "jwt-decode": "~3.1.1",
-    "lattice": "~0.73.0",
+    "lattice": "~0.82.2",
     "lattice-ui-kit": "~0.38.0",
     "lattice-utils": "~0.8.2",
     "lodash": "~4.17.10",
     "loglevel": "~1.7.0",
     "luxon": "~1.25.0",
-    "mapbox-gl": "~1.11.1",
+    "mapbox-gl": "~1.12.0",
     "moment": "~2.24.0",
     "polished": "~4.0.3",
-    "query-string": "~5.1.0",
+    "qs": "~6.9.0",
     "react": "~16.12.0",
     "react-dom": "~16.12.0",
     "react-mapbox-gl": "~4.8.2",
@@ -70,7 +70,7 @@
     "redux-immutable": "4.0.0",
     "redux-reqseq": "0.5.0",
     "styled-components": "~4.4.0",
-    "uuid": "~3.3.0"
+    "uuid": "~8.3.1"
   },
   "devDependencies": {
     "@babel/cli": "~7.12.1",
