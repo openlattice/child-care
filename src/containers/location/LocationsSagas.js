@@ -3,7 +3,7 @@
 import axios from 'axios';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
-import qs from 'query-string';
+import qs from 'qs';
 import {
   call,
   put,
