@@ -72,7 +72,9 @@ const ContactSection = () => {
     operatingHours.push(<span key="hours-unknown">{unknown}</span>);
   }
   else {
-    Object.values(DAYS_OF_WEEK).forEach((day) => {
+    // $FlowFixMe
+    const days :string[] = Object.values(DAYS_OF_WEEK);
+    days.forEach((day) => {
       const [startPT, endPT] = DAY_PTS[day];
       const start = getPropertyValue(provider, [startPT, 0]);
       const end = getPropertyValue(provider, [endPT, 0]);
