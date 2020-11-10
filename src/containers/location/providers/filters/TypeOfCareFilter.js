@@ -1,9 +1,11 @@
 /*
  * @flow
  */
+
 import React from 'react';
 
 import styled from 'styled-components';
+import { List } from 'immutable';
 import { Checkbox } from 'lattice-ui-kit';
 
 import { ContentOuterWrapper } from '../../../../components/layout';
@@ -22,7 +24,7 @@ type Props = {
   onChange :(nextValues :string[]) => void;
   getText :(translation :Translation) => string;
   setIsValid :(isValid :boolean) => void;
-  value :string[];
+  value :List<string>;
 };
 
 export default class TypeOfCareFilter extends React.Component<Props> {

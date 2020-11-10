@@ -12,7 +12,7 @@ import {
   Spinner,
   StylesProvider,
   ThemeProvider,
-  lightTheme
+  lightTheme,
 } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -29,8 +29,6 @@ import LocationsContainer from '../location/providers/LocationsContainer';
 import ResourcesPage from '../resources/ResourcesPage';
 import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import {
-  APP_CONTAINER_MAX_WIDTH,
-  APP_CONTENT_PADDING,
   HEADER_HEIGHT,
   MEDIA_QUERY_LG,
   MEDIA_QUERY_MD,
@@ -77,16 +75,6 @@ const AppContentOuterWrapper = styled.main`
   width: 100vw;
 `;
 
-const AppContentInnerWrapper = styled.div`
-  display: flex;
-  flex: 1 0 auto;
-  flex-direction: column;
-  justify-content: flex-start;
-  max-width: ${APP_CONTAINER_MAX_WIDTH}px;
-  padding: ${APP_CONTENT_PADDING}px;
-  position: relative;
-`;
-
 type Props = {
   actions :{
     initializeApplication :RequestSequence;
@@ -103,8 +91,6 @@ class AppContainer extends Component<Props> {
     actions.initializeApplication();
     actions.loadCurrentPosition({ shouldSearchIfLocationPerms: true });
   }
-
-  wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
 
   renderUnsupportedBrowserModal = () => {
     const { getText } = this.props;

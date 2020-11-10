@@ -65,6 +65,7 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
+        // $FlowFixMe
         zoom
       } = action.payload;
 
@@ -74,7 +75,7 @@ const reducer = (state, action) => {
         center,
         isPopupOpen,
         selectedFeature,
-        zoom: [zoom || 14]
+        zoom: zoom || [14]
       };
     }
     case 'bounds':
