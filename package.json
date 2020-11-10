@@ -52,7 +52,7 @@
     "connected-react-router": "~6.5.0",
     "history": "~4.10.0",
     "immutable": "4.0.0-rc.10",
-    "jwt-decode": "~2.2.0",
+    "jwt-decode": "~3.1.1",
     "lattice": "~0.73.0",
     "lattice-ui-kit": "~0.38.0",
     "lattice-utils": "~0.8.2",
