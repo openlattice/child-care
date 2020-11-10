@@ -55,7 +55,7 @@
     "lattice-utils": "~0.8.2",
     "lodash": "~4.17.10",
     "loglevel": "~1.7.0",
-    "luxon": "~1.21.0",
+    "luxon": "~1.25.0",
     "mapbox-gl": "~1.11.1",
     "moment": "~2.24.0",
     "polished": "~3.4.0",
