@@ -9,12 +9,13 @@ import {
   setIn,
 } from 'immutable';
 import { Constants, Models } from 'lattice';
+import type { UUID } from 'lattice';
 
 import { FACILITY_NAME_MASKED, FACILITY_STATUSES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
-import { LABELS, AGES_SERVED_LABELS } from './constants/Labels';
+import { AGES_SERVED_LABELS, LABELS } from './constants/Labels';
 
-const { FullyQualifiedName } = Models;
+const { FQN } = Models;
 const { OPENLATTICE_ID_FQN } = Constants;
 
 const SEARCH_PREFIX = 'entity';
@@ -67,9 +68,8 @@ const simulateResponseData = (properties :Map, entityKeyId :UUID, propertyTypesB
   const transformedIds = Map().withMutations((mutable :Map) => {
     properties.mapKeys((propertyTypeId :UUID, value :any) => {
       const fqnObj = propertyTypesById.getIn([propertyTypeId, 'type']);
-      const fqn = new FullyQualifiedName(fqnObj);
       if (!value.isEmpty()) {
-        mutable.set(fqn.toString(), value);
+        mutable.set(FQN.toString(fqnObj), value);
       }
     });
 
@@ -84,8 +84,7 @@ const replacePropertyTypeIdsWithFqns = (
   propertyTypesById :Map
 ) => Object.fromEntries<string, Object>(Object.entries(entity).map(([propertyTypeId, value]) => {
   const fqnObj = propertyTypesById.getIn([propertyTypeId, 'type']);
-  const fqn = new FullyQualifiedName(fqnObj);
-  return [fqn.toString(), value];
+  return [FQN.toString(fqnObj), value];
 }));
 
 type Entity = {

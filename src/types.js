@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+
 type Translation = {
   en :string;
   es :string;

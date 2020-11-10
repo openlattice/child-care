@@ -455,7 +455,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
+    const { hits, numHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
