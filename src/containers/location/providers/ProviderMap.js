@@ -21,6 +21,8 @@ import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
+const { LOCATIONS } = STATE;
+
 declare var __MAPBOX_TOKEN__;
 declare var gtag :?Function;
 
@@ -106,11 +108,12 @@ const ProviderMap = (props :Props) => {
   } = props;
 
   const getText = useSelector(getTextFnFromState);
-  const providerLocations = useSelector((store) => store.getIn([STATE.LOCATIONS, 'providerLocations']));
-  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
-  const searchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
+  const providerLocations = useSelector((store) => store.getIn([LOCATIONS, 'providerLocations']));
+  const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
+  const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
+  const searchInputs = useSelector((store) => store.getIn([LOCATIONS, 'searchInputs'], Map()));
   const isLoading = useSelector((store) => store
-    .getIn([STATE.LOCATIONS, 'fetchState']) === RequestStates.PENDING);
+    .getIn([LOCATIONS, 'fetchState']) === RequestStates.PENDING);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,
@@ -131,14 +134,15 @@ const ProviderMap = (props :Props) => {
 
   useEffect(() => {
     if (!isLoading) {
+      const placeToMap = selectedReferralAgency || selectedProvider;
       // first use external selectedProvider whenever possible
-      if (selectedProvider) {
-        const [lng, lat] = getCoordinates(selectedProvider);
+      if (placeToMap) {
+        const [lng, lat] = getCoordinates(placeToMap);
         stateDispatch({
           type: 'center',
           payload: {
             center: [lng, lat + EXTRA_LATITUDE_OFFSET],
-            selectedFeature: selectedProvider,
+            selectedFeature: placeToMap,
             isPopupOpen: false,
             zoom: [13]
           }
@@ -182,6 +186,7 @@ const ProviderMap = (props :Props) => {
     providerData,
     selectedOption,
     selectedProvider,
+    selectedReferralAgency
   ]);
 
   const showProviderPopup = (location) => {
@@ -233,6 +238,14 @@ const ProviderMap = (props :Props) => {
           <>
             <FamilyHomeRadius provider={selectedProvider} />
             <SelectedProviderMarker provider={selectedProvider} />
+          </>
+        )
+      }
+      {
+        selectedReferralAgency && (
+          <>
+            <FamilyHomeRadius provider={selectedReferralAgency} />
+            <SelectedProviderMarker provider={selectedReferralAgency} />
           </>
         )
       }
