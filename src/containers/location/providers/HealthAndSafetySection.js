@@ -1,5 +1,5 @@
 // @flow
-
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
