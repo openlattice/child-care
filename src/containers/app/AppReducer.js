@@ -2,9 +2,9 @@
  * @flow
  */
 
-import randomUUID from 'uuid/v4';
 import { Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
+import { v4 as uuid } from 'uuid';
 import type { SequenceAction } from 'redux-reqseq';
 
 import {
@@ -37,7 +37,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   token: null,
   tokenExp: -1,
   getText: (label) => label[LANGUAGES.en],
-  sessionId: randomUUID()
+  sessionId: uuid()
 });
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {

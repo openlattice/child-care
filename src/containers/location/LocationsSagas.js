@@ -3,7 +3,7 @@
 import axios from 'axios';
 import isFunction from 'lodash/isFunction';
 import isPlainObject from 'lodash/isPlainObject';
-import qs from 'query-string';
+import qs from 'qs';
 import {
   call,
   put,
@@ -455,7 +455,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits } = yield call(SearchApi.executeSearch, searchOptions);
+    const { hits, numHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
