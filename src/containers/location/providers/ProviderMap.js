@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useReducer } from 'react';
 import isFunction from 'lodash/isFunction';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 import { List, Map, isImmutable } from 'immutable';
+import { LangUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 import { RequestStates } from 'redux-reqseq';
 
@@ -17,12 +18,14 @@ import SelectedProviderMarker from './markers/SelectedProviderMarker';
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
 declare var __MAPBOX_TOKEN__;
 declare var gtag :?Function;
+
+const { isNonEmptyArray } = LangUtils;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
@@ -147,7 +150,7 @@ const ProviderMap = (props :Props) => {
       }
       // second, use bounds whenever possible
       const newBounds = getBoundsFromPointsOfInterest(providerData);
-      if (newBounds.length) {
+      if (isNonEmptyArray(newBounds)) {
         stateDispatch({ type: 'bounds', payload: newBounds });
       }
       // then, try to center to position without bounds
