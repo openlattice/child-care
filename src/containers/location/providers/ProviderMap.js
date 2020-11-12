@@ -147,7 +147,7 @@ const ProviderMap = (props :Props) => {
       }
       // second, use bounds whenever possible
       const newBounds = getBoundsFromPointsOfInterest(providerData);
-      if (newBounds) {
+      if (newBounds.length) {
         stateDispatch({ type: 'bounds', payload: newBounds });
       }
       // then, try to center to position without bounds
