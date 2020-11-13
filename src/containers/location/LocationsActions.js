@@ -8,6 +8,9 @@ import type { RequestSequence } from 'redux-reqseq';
 export const SEARCH_LOCATIONS :string = 'SEARCH_LOCATIONS';
 export const searchLocations :RequestSequence = newRequestSequence(SEARCH_LOCATIONS);
 
+export const SEARCH_REFERRAL_AGENCIES :string = 'SEARCH_REFERRAL_AGENCIES';
+export const searchReferralAgencies :RequestSequence = newRequestSequence(SEARCH_REFERRAL_AGENCIES);
+
 export const GET_GEO_OPTIONS :string = 'GET_GEO_OPTIONS';
 export const getGeoOptions :RequestSequence = newRequestSequence(GET_GEO_OPTIONS);
 
