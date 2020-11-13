@@ -1,12 +1,15 @@
 // @flow
 import { List, Map } from 'immutable';
+import { DataUtils } from 'lattice-utils';
 
 import { UNIT_CONVERSION } from './constants';
 
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
 
+const { getPropertyValue } = DataUtils;
+
 const getCoordinates = (entity :Map) :[number, number] => {
-  const [latStr, lonStr] = entity.getIn([PROPERTY_TYPES.LOCATION, 0], '').split(',');
+  const [latStr, lonStr] = getPropertyValue(entity, [PROPERTY_TYPES.LOCATION, 0], '').split(',');
   const latitude = Number.parseFloat(latStr);
   const longitude = Number.parseFloat(lonStr);
 
