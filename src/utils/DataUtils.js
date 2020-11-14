@@ -302,6 +302,7 @@ export const isProviderActive = (provider :Map) => getValue(
 
 export const shouldHideContact = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_CONTACT);
 export const shouldHideLocation = (provider :Map) => getValue(provider, PROPERTY_TYPES.SHOULD_HIDE_LOCATION);
+export const shouldShowLocation = (provider :Map) => !shouldHideLocation(provider);
 
 export const renderFacilityName = (provider :Map, getText :Function) => {
   const name = getValue(provider, PROPERTY_TYPES.FACILITY_NAME);
