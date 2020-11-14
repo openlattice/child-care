@@ -89,14 +89,28 @@ const HealthAndSafetySection = () => {
             {
               !licenseURL
                 ? <span>{licenseNumber || getText(LABELS.NOT_LICENSED)}</span>
-                : <a aria-label="link to license" onClick={trackProviderClick} href={licenseURL} target="_blank">{licenseNumber}</a>
+                : (
+                  <a
+                      aria-label="link to license"
+                      onClick={trackProviderClick}
+                      href={licenseURL}
+                      target="_blank">
+                    {licenseNumber}
+                  </a>
+                )
             }
           </DataRows>
         </Row>
         <Row>
           <div>{getText(LABELS.NEAREST_HOSPITAL)}</div>
           <DataRows alignEnd>
-            <a aria-label="link to hospital directions" onClick={trackHospitalClicked} href={hospitalDirections} target="_blank">{hospitalName}</a>
+            <a
+                aria-label="link to hospital directions"
+                onClick={trackHospitalClicked}
+                href={hospitalDirections}
+                target="_blank">
+              {hospitalName}
+            </a>
           </DataRows>
         </Row>
 
