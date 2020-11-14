@@ -65,13 +65,13 @@ const Header = styled.div`
   }
 `;
 
-const TitleRow = styled.div`
+const TitleRow = styled.section`
   align-items: center;
   color: ${NEUTRAL.N600};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 20px ${PADDING}px;
   width: 100%;
 
   span {
@@ -237,7 +237,15 @@ const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
   position: relative;
-  padding: 0 ${PADDING}px ${PADDING}px ${PADDING}px !important;
+  padding: 0 0 ${PADDING}px !important;
+
+  > section {
+    border-bottom: 1px solid ${NEUTRAL.N100};
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
 `;
 
 const StyledHeaderOuterWrapper = styled(ContentOuterWrapper)`
