@@ -2,22 +2,16 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
 import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import BackButton from '../../../components/controls/BackButton';
 import * as LocationsActions from '../LocationsActions';
-import { ContentOuterWrapper, ContentWrapper, OpenClosedTag } from '../../../components/layout';
-import {
-  HEADER_HEIGHT,
-  HEIGHTS,
-} from '../../../core/style/Sizes';
+import { OpenClosedTag } from '../../../components/layout';
 import { VACANCY_COLORS } from '../../../shared/Colors';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
@@ -40,8 +34,6 @@ import {
 } from '../../styled';
 
 const { formatAsRelative } = DateTimeUtils;
-
-const { NEUTRAL, PURPLE } = Colors;
 
 type Props = {
   actions :{

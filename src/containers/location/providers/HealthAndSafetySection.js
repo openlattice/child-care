@@ -5,7 +5,7 @@ import React from 'react';
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
-import { Tooltip, Typography } from 'lattice-ui-kit';
+import { Tooltip } from 'lattice-ui-kit';
 import { DataUtils, DateTimeUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 

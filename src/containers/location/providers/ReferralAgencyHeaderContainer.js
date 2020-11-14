@@ -2,15 +2,11 @@
 
 import React from 'react';
 
-import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Colors } from 'lattice-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 
 import BackButton from '../../../components/controls/BackButton';
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { HEADER_HEIGHT, HEIGHTS } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { renderFacilityName } from '../../../utils/DataUtils';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -24,8 +20,6 @@ import {
 } from '../../styled';
 
 const { LOCATIONS } = STATE;
-
-const { NEUTRAL, PURPLE } = Colors;
 
 const ReferralAgencyHeaderContainer = () => {
   const getText = useSelector(getTextFnFromState);

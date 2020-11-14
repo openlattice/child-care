@@ -23,7 +23,7 @@ import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL } = Colors;
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;

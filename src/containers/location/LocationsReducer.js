@@ -2,7 +2,6 @@
  * @flow
  */
 
-import isFunction from 'lodash/isFunction';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
@@ -20,7 +19,6 @@ import {
 } from './LocationsActions';
 
 import { HOME_PATH } from '../../core/router/Routes';
-import { getEntityKeyId } from '../../utils/DataUtils';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 
 declare var gtag :?Function;
