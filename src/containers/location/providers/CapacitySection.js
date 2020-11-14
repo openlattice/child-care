@@ -13,17 +13,19 @@ import { TitleRow } from '../../styled';
 const { LOCATIONS } = STATE;
 const { SELECTED_PROVIDER } = PROVIDERS;
 
+const CAPACITY_PROPERTY_TYPES = [
+  PROPERTY_TYPES.CAPACITY_UNDER_2,
+  PROPERTY_TYPES.CAPACITY_2_TO_5,
+  PROPERTY_TYPES.CAPACITY_OVER_5,
+  PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN
+];
+
 const VacancySection = () => {
   const getText = useSelector(getTextFnFromState);
   const provider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
 
   let capacity = 0;
-  [
-    PROPERTY_TYPES.CAPACITY_UNDER_2,
-    PROPERTY_TYPES.CAPACITY_2_TO_5,
-    PROPERTY_TYPES.CAPACITY_OVER_5,
-    PROPERTY_TYPES.CAPACITY_AGE_UNKNOWN
-  ].forEach((capacityFqn) => {
+  CAPACITY_PROPERTY_TYPES.forEach((capacityFqn) => {
     capacity += provider.getIn([capacityFqn, 0], 0);
   });
   const capacityLabel = capacity === 1 ? LABELS.CHILD : LABELS.CHILDREN;
