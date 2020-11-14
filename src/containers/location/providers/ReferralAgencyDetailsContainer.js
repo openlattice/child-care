@@ -13,11 +13,11 @@ import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { PROVIDER_EMAIL, PROVIDER_PHONE_NUMBER } from '../../../core/tracking/constants';
 import {
   DataRows,
-  Line,
   Row,
   StyledContentOuterWrapper,
   StyledContentWrapper,
-  TitleRow
+  TitleRow,
+  Wrapper
 } from '../../styled';
 
 const { getPropertyValue } = DataUtils;
@@ -57,27 +57,28 @@ const ProviderDetailsContainer = () => {
     <StyledContentOuterWrapper>
       <StyledContentWrapper>
         <TitleRow>{getText(LABELS.CONTACT)}</TitleRow>
-        <Row>
-          <div>{getText(LABELS.PHONE)}</div>
-          <DataRows>
-            {phoneElement}
-          </DataRows>
-        </Row>
+        <Wrapper>
+          <Row>
+            <div>{getText(LABELS.PHONE)}</div>
+            <DataRows>
+              {phoneElement}
+            </DataRows>
+          </Row>
 
-        <Row>
-          <div>{getText(LABELS.EMAIL)}</div>
-          <DataRows>
-            {emailElement}
-          </DataRows>
-        </Row>
-        <Row>
-          <div>{getText(LABELS.ADDRESS)}</div>
-          <DataRows>
-            <span>{street}</span>
-            <span>{`${city}, CA ${zip}`}</span>
-          </DataRows>
-        </Row>
-        <Line />
+          <Row>
+            <div>{getText(LABELS.EMAIL)}</div>
+            <DataRows>
+              {emailElement}
+            </DataRows>
+          </Row>
+          <Row>
+            <div>{getText(LABELS.ADDRESS)}</div>
+            <DataRows>
+              <span>{street}</span>
+              <span>{`${city}, CA ${zip}`}</span>
+            </DataRows>
+          </Row>
+        </Wrapper>
       </StyledContentWrapper>
     </StyledContentOuterWrapper>
   );

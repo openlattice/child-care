@@ -270,6 +270,11 @@ const SubHeader = styled.div`
   margin: 3px 0;
 `;
 
+const Wrapper = styled.section`
+  padding: 20px 25px;
+  width: 100%;
+`;
+
 export {
   DataRows,
   DateRow,
@@ -292,4 +297,5 @@ export {
   StyledHeaderWrapper,
   SubHeader,
   TitleRow,
+  Wrapper
 };
