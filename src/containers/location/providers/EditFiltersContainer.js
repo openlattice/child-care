@@ -15,6 +15,7 @@ import type { RequestSequence } from 'redux-reqseq';
 import EditFilter from './EditFilter';
 
 import * as LocationsActions from '../LocationsActions';
+import BackButton from '../../../components/controls/BackButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
@@ -45,28 +46,6 @@ const StyledContentWrapper = styled(ContentWrapper)`
 
 const ScrollContainer = styled.div`
   overflow: auto;
-`;
-
-const BackButton = styled.div`
-  align-items: center;
-  color: ${PURPLE.P300};
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-
-  :hover {
-    text-decoration: underline;
-  }
-
-  span {
-    margin-left: 15px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const HeaderLabel = styled.div`
