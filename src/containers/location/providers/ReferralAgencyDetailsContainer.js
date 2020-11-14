@@ -55,29 +55,27 @@ const ProviderDetailsContainer = () => {
   return (
     <StyledContentOuterWrapper>
       <StyledContentWrapper>
-        <>
-          <TitleRow>{getText(LABELS.CONTACT)}</TitleRow>
-          <Row>
-            <div>{getText(LABELS.PHONE)}</div>
-            <DataRows>
-              {phoneElement}
-            </DataRows>
-          </Row>
+        <TitleRow>{getText(LABELS.CONTACT)}</TitleRow>
+        <Row>
+          <div>{getText(LABELS.PHONE)}</div>
+          <DataRows>
+            {phoneElement}
+          </DataRows>
+        </Row>
 
-          <Row>
-            <div>{getText(LABELS.EMAIL)}</div>
-            <DataRows>
-              {emailElement}
-            </DataRows>
-          </Row>
-          <Row>
-            <div>{getText(LABELS.ADDRESS)}</div>
-            <DataRows>
-              <span>{street}</span>
-              <span>{`${city}, CA ${zip}`}</span>
-            </DataRows>
-          </Row>
-        </>
+        <Row>
+          <div>{getText(LABELS.EMAIL)}</div>
+          <DataRows>
+            {emailElement}
+          </DataRows>
+        </Row>
+        <Row>
+          <div>{getText(LABELS.ADDRESS)}</div>
+          <DataRows>
+            <span>{street}</span>
+            <span>{`${city}, CA ${zip}`}</span>
+          </DataRows>
+        </Row>
         <Line />
       </StyledContentWrapper>
     </StyledContentOuterWrapper>
