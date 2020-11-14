@@ -3,11 +3,10 @@
  */
 
 import isFunction from 'lodash/isFunction';
-import { isImmutable, Map } from 'immutable';
+import { isImmutable } from 'immutable';
 import { DataUtils } from 'lattice-utils';
 
 import Logger from '../../../../utils/Logger';
-import { GOOGLE_TRACKING_ID } from '../GoogleAnalytics';
 
 const { getEntityKeyId } = DataUtils;
 
@@ -15,7 +14,7 @@ const LOG :Logger = new Logger('ViewReferralAgencyDetailsHandler');
 
 declare var gtag :?Function;
 type Action = {
-  id: string;
+  id :string;
   +type :string;
   value :any;
 };
@@ -26,7 +25,7 @@ type ViewReferralAgencyDetailsEvent = {
   value :Object
 };
 
-export default function handler(action :Action, prevState :Map, nextState :Map) {
+export default function handler(action :Action) {
 
   try {
     if (isFunction(gtag)) {
