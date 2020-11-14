@@ -136,7 +136,7 @@ const ProviderMap = (props :Props) => {
   useEffect(() => {
     if (!isLoading) {
       const placeToMap = selectedReferralAgency || selectedProvider;
-      // first use external selectedProvider whenever possible
+      // first check for selectedReferralAgency then fallback to selectedProvider
       if (placeToMap) {
         const [lng, lat] = getCoordinates(placeToMap);
         stateDispatch({
