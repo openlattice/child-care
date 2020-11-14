@@ -35,8 +35,9 @@ const VacancySection = () => {
       <FlexContainer>
         <span>{getText(LABELS.AVAILABILITY)}</span>
         {
-          vacancyLastUpdateDate
-            && <MarginWrapper>{`${getText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</MarginWrapper>
+          vacancyLastUpdateDate && (
+            <MarginWrapper>{`${getText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</MarginWrapper>
+          )
         }
       </FlexContainer>
       <span>{getText(label)}</span>
