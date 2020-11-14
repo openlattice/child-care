@@ -46,8 +46,8 @@ const ContactSection = () => {
 
   return (
     <ExpandableSection title={getText(LABELS.RESOURCE_AND_REFERRAL)}>
-        <InfoText>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
-        {rrs.map(renderRR)}
+      <InfoText>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
+      {rrs.map(renderRR)}
     </ExpandableSection>
   );
 };
