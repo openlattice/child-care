@@ -10,6 +10,7 @@ import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { PROVIDER_EMAIL, PROVIDER_PHONE_NUMBER } from '../../../core/tracking/constants';
 import {
   DataRows,
   Line,
@@ -42,13 +43,13 @@ const ProviderDetailsContainer = () => {
 
   let phoneElement = <span>{unknown}</span>;
   if (phone) {
-    const trackPhoneClick = () => trackLinkClick(phone, 'Provider Phone Number');
+    const trackPhoneClick = () => trackLinkClick(phone, PROVIDER_PHONE_NUMBER);
     phoneElement = <a onClick={trackPhoneClick} href={`tel:${phone}`}>{phone}</a>;
   }
 
   let emailElement = <span>{unknown}</span>;
   if (email) {
-    const trackEmailClick = () => trackLinkClick(email, 'Provider Email');
+    const trackEmailClick = () => trackLinkClick(email, PROVIDER_EMAIL);
     emailElement = <a onClick={trackEmailClick} href={`mailto:${email}`}>{email}</a>;
   }
 
