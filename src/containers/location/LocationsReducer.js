@@ -161,22 +161,10 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_PROVIDER: {
-      if (action.value && isFunction(gtag)) {
-        gtag('event', 'View Provider Details', {
-          event_category: 'Navigation',
-          event_label: getEntityKeyId(action.value),
-        });
-      }
       return state.set(SELECTED_PROVIDER, action.value);
     }
 
     case SELECT_REFERRAL_AGENCY: {
-      if (action.value && isFunction(gtag)) {
-        gtag('event', 'View Referral Agency Details', {
-          event_category: 'Navigation',
-          event_label: getEntityKeyId(action.value),
-        });
-      }
       return state.set(SELECTED_REFERRAL_AGENCY, action.value);
     }
 
