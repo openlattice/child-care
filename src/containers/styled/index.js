@@ -27,6 +27,44 @@ const DataRows = styled.div`
   }
 `;
 
+const Header = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N700};
+  display: flex;
+  flex-direction: row;
+  font-style: normal;
+  justify-content: space-between;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    padding: 10px 0;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    padding: 15px 0;
+  }
+
+  div {
+    @media only screen and (min-height: ${HEIGHTS[0]}px) {
+      font-size: 18px;
+      line-height: 14px;
+    }
+
+    @media only screen and (min-height: ${HEIGHTS[1]}px) {
+      font-size: 22px;
+      line-height: 27px;
+    }
+
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 17px;
+    min-width: fit-content;
+  }
+`;
+
 const TitleRow = styled.div`
   align-items: center;
   color: ${NEUTRAL.N600};
@@ -80,44 +118,6 @@ const FlexContainer = styled.div`
 const FlexRow = styled.div`
   display: flex;
   flex: 1;
-`;
-
-const Header = styled.div`
-  align-items: center;
-  color: ${NEUTRAL.N700};
-  display: flex;
-  flex-direction: row;
-  font-style: normal;
-  justify-content: space-between;
-
-  @media only screen and (min-height: ${HEIGHTS[0]}px) {
-    padding: 10px 0;
-  }
-
-  @media only screen and (min-height: ${HEIGHTS[1]}px) {
-    padding: 15px 0;
-  }
-
-  div {
-    @media only screen and (min-height: ${HEIGHTS[0]}px) {
-      font-size: 18px;
-      line-height: 14px;
-    }
-
-    @media only screen and (min-height: ${HEIGHTS[1]}px) {
-      font-size: 22px;
-      line-height: 27px;
-    }
-
-    font-weight: 600;
-  }
-
-  span {
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 17px;
-    min-width: fit-content;
-  }
 `;
 
 const InfoText = styled.div`
@@ -245,7 +245,6 @@ const StyledHeaderOuterWrapper = styled(ContentOuterWrapper)`
   top: ${HEADER_HEIGHT}px;
   z-index: 1;
 `;
-
 
 const StyledHeaderWrapper = styled(ContentWrapper)`
   background-color: white;
