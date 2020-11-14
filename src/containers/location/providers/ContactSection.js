@@ -25,6 +25,11 @@ const { LOCATIONS } = STATE;
 
 const { getPropertyValue } = DataUtils;
 
+const formatTime = (time) => {
+  const dateTimeUTC = DateTime.fromISO(time, { zone: 'utc' });
+  return dateTimeUTC.isValid ? dateTimeUTC.toLocaleString(DateTime.TIME_SIMPLE) : '?';
+};
+
 const ContactSection = () => {
   const getText = useSelector(getTextFnFromState);
   const provider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
@@ -38,19 +43,6 @@ const ContactSection = () => {
   const phone = getPropertyValue(provider, [PROPERTY_TYPES.PHONE, 0]);
   const street = getPropertyValue(provider, [PROPERTY_TYPES.ADDRESS, 0]);
   const zip = getPropertyValue(provider, [PROPERTY_TYPES.ZIP, 0]);
-
-  const formatTime = (time) => {
-    if (!time) {
-      return '?';
-    }
-
-    const withDate = DateTime.fromISO(time, { zone: 'utc' });
-    if (!withDate.isValid) {
-      return '?';
-    }
-
-    return withDate.toLocaleString(DateTime.TIME_SIMPLE);
-  };
 
   const operatingHours = [];
 
