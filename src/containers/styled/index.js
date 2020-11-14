@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { CardSegment, Colors, StyleUtils } from 'lattice-ui-kit';
 
 import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
-import { APP_CONTAINER_WIDTH, HEIGHTS } from '../../core/style/Sizes';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT, HEIGHTS } from '../../core/style/Sizes';
 
 const { NEUTRAL, PURPLE } = Colors;
 
@@ -80,6 +80,44 @@ const FlexContainer = styled.div`
 const FlexRow = styled.div`
   display: flex;
   flex: 1;
+`;
+
+const Header = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N700};
+  display: flex;
+  flex-direction: row;
+  font-style: normal;
+  justify-content: space-between;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    padding: 10px 0;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    padding: 15px 0;
+  }
+
+  div {
+    @media only screen and (min-height: ${HEIGHTS[0]}px) {
+      font-size: 18px;
+      line-height: 14px;
+    }
+
+    @media only screen and (min-height: ${HEIGHTS[1]}px) {
+      font-size: 22px;
+      line-height: 27px;
+    }
+
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 17px;
+    min-width: fit-content;
+  }
 `;
 
 const InfoText = styled.div`
@@ -202,12 +240,44 @@ const StyledContentWrapper = styled(ContentWrapper)`
   padding: 0 ${PADDING}px ${PADDING}px ${PADDING}px !important;
 `;
 
+const StyledHeaderOuterWrapper = styled(ContentOuterWrapper)`
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
+  z-index: 1;
+`;
+
+
+const StyledHeaderWrapper = styled(ContentWrapper)`
+  background-color: white;
+  position: relative;
+
+  @media only screen and (min-height: ${HEIGHTS[0]}px) {
+    padding: 10px 25px;
+  }
+
+  @media only screen and (min-height: ${HEIGHTS[1]}px) {
+    padding: 25px;
+  }
+`;
+
+const SubHeader = styled.div`
+  color: ${NEUTRAL.N700};
+  display: flex;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  justify-content: space-between;
+  line-height: 17px;
+  margin: 3px 0;
+`;
+
 export {
   DataRows,
   DateRow,
   FlexColumn,
   FlexContainer,
   FlexRow,
+  Header,
   InfoText,
   Line,
   MapWrapper,
@@ -219,5 +289,8 @@ export {
   SearchTitle,
   StyledContentOuterWrapper,
   StyledContentWrapper,
+  StyledHeaderOuterWrapper,
+  StyledHeaderWrapper,
+  SubHeader,
   TitleRow,
 };
