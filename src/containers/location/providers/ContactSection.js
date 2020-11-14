@@ -90,36 +90,34 @@ const ContactSection = () => {
 
   return (
     <ExpandableSection title={getText(LABELS.CONTACT)}>
-      <>
-        <Row>
-          <div>{getText(LABELS.PHONE)}</div>
-          <DataRows>
-            {phoneElement}
-          </DataRows>
-        </Row>
+      <Row>
+        <div>{getText(LABELS.PHONE)}</div>
+        <DataRows>
+          {phoneElement}
+        </DataRows>
+      </Row>
 
-        <Row>
-          <div>{getText(LABELS.EMAIL)}</div>
-          <DataRows>
-            {emailElement}
-          </DataRows>
-        </Row>
+      <Row>
+        <div>{getText(LABELS.EMAIL)}</div>
+        <DataRows>
+          {emailElement}
+        </DataRows>
+      </Row>
 
-        <Row>
-          <div>{getText(LABELS.ADDRESS)}</div>
-          <DataRows>
-            <span>{street}</span>
-            <span>{`${city}, CA ${zip}`}</span>
-          </DataRows>
-        </Row>
+      <Row>
+        <div>{getText(LABELS.ADDRESS)}</div>
+        <DataRows>
+          <span>{street}</span>
+          <span>{`${city}, CA ${zip}`}</span>
+        </DataRows>
+      </Row>
 
-        <Row>
-          <div>{getText(LABELS.OPERATING_HOURS)}</div>
-          <DataRows>
-            {operatingHours}
-          </DataRows>
-        </Row>
-      </>
+      <Row>
+        <div>{getText(LABELS.OPERATING_HOURS)}</div>
+        <DataRows>
+          {operatingHours}
+        </DataRows>
+      </Row>
     </ExpandableSection>
   );
 };
