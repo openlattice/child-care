@@ -5,7 +5,7 @@ import React from 'react';
 import { faInfoCircle } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
-import { Tooltip } from 'lattice-ui-kit';
+import { Tooltip, Typography } from 'lattice-ui-kit';
 import { DataUtils, DateTimeUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 
@@ -89,14 +89,14 @@ const HealthAndSafetySection = () => {
             {
               !licenseURL
                 ? <span>{licenseNumber || getText(LABELS.NOT_LICENSED)}</span>
-                : <a onClick={trackProviderClick} href={licenseURL} target="_blank">{licenseNumber}</a>
+                : <a aria-label="link to license" onClick={trackProviderClick} href={licenseURL} target="_blank">{licenseNumber}</a>
             }
           </DataRows>
         </Row>
         <Row>
           <div>{getText(LABELS.NEAREST_HOSPITAL)}</div>
           <DataRows alignEnd>
-            <a onClick={trackHospitalClicked} href={hospitalDirections} target="_blank">{hospitalName}</a>
+            <a aria-label="link to hospital directions" onClick={trackHospitalClicked} href={hospitalDirections} target="_blank">{hospitalName}</a>
           </DataRows>
         </Row>
 
