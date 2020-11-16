@@ -26,10 +26,12 @@ import {
   GET_GEO_OPTIONS,
   LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
+  SEARCH_REFERRAL_AGENCIES,
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
   searchLocations,
+  searchReferralAgencies
 } from './LocationsActions';
 
 import Logger from '../../utils/Logger';
@@ -509,10 +511,118 @@ function* searchLocationsWatcher() :Generator<any, any, any> {
   yield takeEvery(SEARCH_LOCATIONS, searchLocationsWorker);
 }
 
+function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, any, any> {
+  const response = {
+    data: {}
+  };
+
+  try {
+    yield call(refreshAuthTokenIfNecessary);
+
+    const { value } = action;
+    if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
+    const { start = 0, maxHits = 5 } = value;
+
+    const locationState = yield select((state) => state.get(STATE.LOCATIONS));
+
+    let latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
+    if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
+
+    yield put(searchReferralAgencies.request(action.id, {
+      page: start,
+      searchInputs: latLonObj
+    }));
+
+    const latitude :string = get(latLonObj, 'lat');
+    const longitude :string = get(latLonObj, 'lon');
+
+    if (isFunction(gtag)) {
+      gtag('event', 'Execute Search', {
+        event_category: 'Search',
+      });
+    }
+
+    const entitySetId = RR_ENTITY_SET_ID;
+    let app :Map = yield select((state) => state.get('app', Map()));
+    let providerEntitySetId = getProvidersESID(app);
+
+    if (!providerEntitySetId) {
+      const loadAppRequest = loadApp();
+      yield put(loadAppRequest);
+      yield takeReqSeqSuccessFailure(loadApp, loadAppRequest);
+      app = yield select((state) => state.get('app', Map()));
+      providerEntitySetId = getProvidersESID(app);
+    }
+
+    const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
+
+    const sort = {
+      type: 'geoDistance',
+      descending: false,
+      propertyTypeId: locationPropertyTypeId,
+      latitude,
+      longitude
+    };
+
+    const locationConstraint = {
+      constraints: [{
+        type: 'geoDistance',
+        latitude,
+        longitude,
+        propertyTypeId: locationPropertyTypeId,
+        radius: 100,
+        unit: 'miles'
+      }, {
+        type: 'simple',
+        fuzzy: false,
+        searchTerm: `_exists_:entity.${locationPropertyTypeId}`
+      }],
+      min: 2
+    };
+
+    const constraints = [locationConstraint];
+
+    const searchOptions = {
+      start: start * PAGE_SIZE,
+      entitySetIds: [entitySetId],
+      maxHits,
+      constraints,
+      sort
+    };
+
+    const { hits, numHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+
+    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
+
+    const locationsEKIDs = filteredHits.map(getEntityKeyId);
+    const rrsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
+    response.data.hits = fromJS(locationsEKIDs);
+    response.data.totalHits = numHits;
+    response.data.rrsLocations = rrsByEKID;
+
+    console.log(rrsByEKID.toJS());
+
+    yield put(searchReferralAgencies.success(action.id, {
+      newData: response.data
+    }));
+  }
+  catch (error) {
+    LOG.error(action.type, error);
+    yield put(searchReferralAgencies.failure(action.id));
+  }
+
+  return response;
+}
+
+function* searchReferralAgenciesWatcher() :Generator<any, any, any> {
+  yield takeEvery(SEARCH_REFERRAL_AGENCIES, searchReferralAgenciesWorker);
+}
+
 export {
   getGeoOptionsWatcher,
   getGeoOptionsWorker,
   searchLocationsWatcher,
+  searchReferralAgenciesWatcher,
   searchLocationsWorker,
   loadCurrentPositionWatcher,
 };
