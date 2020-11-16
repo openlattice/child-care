@@ -3,7 +3,7 @@ import { Feature, Layer } from 'react-mapbox-gl';
 import { Colors } from 'lattice-ui-kit';
 
 import { getCoordinates } from '../../../map/MapUtils';
-import { shouldHideLocation } from '../../../../utils/DataUtils';
+import { shouldShowLocation } from '../../../../utils/DataUtils';
 
 const { PURPLE } = Colors;
 
@@ -18,17 +18,13 @@ export default class familyHomeRadius extends React.Component {
   render() {
     const { provider } = this.props;
 
-    if (!shouldHideLocation(provider)) {
-      return null;
-    }
-
     const [longitude, latitude] = getCoordinates(provider);
 
     if (!latitude || !longitude) {
       return null;
     }
 
-    return (
+    return shouldShowLocation(provider) && (
       <Layer
           type="circle"
           id="familyHomeRadius"

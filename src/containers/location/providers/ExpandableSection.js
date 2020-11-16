@@ -6,13 +6,9 @@ import styled from 'styled-components';
 import { Colors } from 'lattice-ui-kit';
 import { faChevronUp, faChevronDown } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Wrapper } from '../../styled';
 
 const { NEUTRAL } = Colors;
-
-const Wrapper = styled.div`
-  padding: 20px 0;
-  width: 100%;
-`;
 
 const TitleRow = styled.div`
   align-items: center;

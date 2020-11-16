@@ -16,6 +16,8 @@ import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
+import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
+import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 import ProviderMap from './ProviderMap';
 import {
   searchLocations,
@@ -30,6 +32,8 @@ import { getTextFnFromState } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
+
+const { LOCATIONS } = STATE;
 
 const MAX_HITS = 20;
 
@@ -62,22 +66,22 @@ const FilterButton = styled.div`
 const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
-    [STATE.LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
+    [LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
     false
   ));
 
   const getText = useSelector(getTextFnFromState);
-  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
-  const searchResults = useSelector((store) => store.getIn([STATE.LOCATIONS, 'hits'], List()));
-  const totalHits = useSelector((store) => store.getIn([STATE.LOCATIONS, 'totalHits'], 0));
-  const fetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'fetchState']));
-  const lastSearchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
-  const page = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SEARCH_PAGE]));
-  const selectedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
-  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
-  const geoLocationUnavailable = useSelector((store) => store
-    .getIn([STATE.LOCATIONS, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
-  const lastSearchType = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.LAST_SEARCH_TYPE]));
+  const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
+  const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
+  const searchResults = useSelector((store) => store.getIn([LOCATIONS, 'hits'], List()));
+  const totalHits = useSelector((store) => store.getIn([LOCATIONS, 'totalHits'], 0));
+  const fetchState = useSelector((store) => store.getIn([LOCATIONS, 'fetchState']));
+  const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, 'searchInputs'], Map()));
+  const page = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SEARCH_PAGE]));
+  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, 'selectedOption']));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.CURRENT_POSITION]));
+  const geoLocationUnavailable = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
+  const lastSearchType = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.LAST_SEARCH_TYPE]));
   const dispatch = useDispatch();
 
   let editFiltersContent = null;
@@ -86,6 +90,10 @@ const LocationsContainer = () => {
 
   if (isEditingFilters) {
     editFiltersContent = <EditFiltersContainer />;
+  }
+  else if (selectedReferralAgency) {
+    providerHeader = <ReferralAgencyHeaderContainer />;
+    providerDetails = <ReferralAgencyDetailsContainer />;
   }
   else if (selectedProvider) {
     providerHeader = <ProviderHeaderContainer />;
