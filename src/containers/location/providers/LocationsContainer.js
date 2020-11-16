@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
@@ -21,6 +21,7 @@ import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 import ProviderMap from './ProviderMap';
 import {
   searchLocations,
+  searchReferralAgencies,
   setValue,
   loadCurrentPosition
 } from '../LocationsActions';
@@ -103,6 +104,16 @@ const LocationsContainer = () => {
   const hasSearched = fetchState !== RequestStates.STANDBY;
   const isLoading = fetchState === RequestStates.PENDING;
   const wasGeoSearch = lastSearchType === 'geo';
+
+  useEffect(() => {
+    if (hasSearched && searchResults.isEmpty() && selectedOption) {
+      dispatch(searchReferralAgencies());
+    }
+  }, [
+    dispatch,
+    searchResults,
+    selectedOption
+  ]);
 
   const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
 
