@@ -27,7 +27,7 @@ const { getPropertyValue } = DataUtils;
 
 const formatTime = (time) => {
   const dateTimeUTC = DateTime.fromISO(time, { zone: 'utc' });
-  return dateTimeUTC.isValid ? dateTimeUTC.toLocaleString(DateTime.TIME_SIMPLE) : '?';
+  return dateTimeUTC.isValid ? dateTimeUTC.toFormat('t') : '?';
 };
 
 const ContactSection = () => {
