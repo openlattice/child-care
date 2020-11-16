@@ -13,13 +13,14 @@ import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
 
+import BackButton from '../../../components/controls/BackButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { HEADER_LABELS, LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL } = Colors;
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
@@ -39,28 +40,6 @@ const StyledContentWrapper = styled(ContentWrapper)`
   max-height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
   position: relative;
-`;
-
-const BackButton = styled.div`
-  align-items: center;
-  color: ${PURPLE.P300};
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-
-  :hover {
-    text-decoration: underline;
-  }
-
-  span {
-    margin-left: 15px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const EditFilterHeader = styled.div`

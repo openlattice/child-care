@@ -22,6 +22,7 @@ export const PROVIDERS = {
   CURRENT_POSITION: 'currentPosition',
 
   SELECTED_PROVIDER: 'selectedProvider',
+  SELECTED_REFERRAL_AGENCY: 'selectedReferralAgency',
 
   IS_EDITING_FILTERS: 'isEditingFilters',
   FILTER_PAGE: 'filterPage',
