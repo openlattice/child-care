@@ -35,7 +35,9 @@ const ReferralAgencyHeaderContainer = () => {
     return null;
   }
 
-  const selectedProviderName = renderFacilityName(selectedProvider, getText);
+  const selectedProviderName = selectedProvider
+    ? renderFacilityName(selectedProvider, getText)
+    : getText(LABELS.BACK_TO_SEARCH_RESULTS);
   const selectedAgencyName = renderFacilityName(selectedReferralAgency, getText);
 
   const typeLabel = getText(LABELS.RESOURCE_AND_REFERRAL);
