@@ -7,6 +7,10 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
+  SEARCH_LOCATIONS,
+  GET_GEO_OPTIONS,
+  GEOCODE_PLACE,
+  LOAD_CURRENT_POSITION,
   SELECT_LOCATION_OPTION,
   SELECT_PROVIDER,
   SELECT_REFERRAL_AGENCY,
@@ -18,129 +22,138 @@ import {
   searchLocations
 } from './LocationsActions';
 
+import {
+  HITS,
+  PAGE,
+  REQUEST_STATE,
+  RS_INITIAL_STATE,
+  TOTAL_HITS
+} from '../../core/redux/constants';
 import { HOME_PATH } from '../../core/router/Routes';
 import { PROVIDERS } from '../../utils/constants/StateConstants';
 
 declare var gtag :?Function;
 
 const {
-  RRS_BY_ID,
+  ACTIVE_ONLY,
+  CHILDREN,
+  CURRENT_POSITION,
+  DAYS,
+  FILTER_PAGE,
   HOSPITALS_BY_ID,
+  IS_EDITING_FILTERS,
+  LAST_SEARCH_TYPE,
+  PROVIDER_LOCATIONS,
+  RADIUS,
+  RRS_BY_ID,
+  SEARCH_INPUTS,
+  SELECTED_OPTION,
   SELECTED_PROVIDER,
   SELECTED_REFERRAL_AGENCY,
-  IS_EXECUTING_SEARCH,
-  IS_EDITING_FILTERS,
-  HAS_PERFORMED_INITIAL_SEARCH,
-  FILTER_PAGE,
-  ACTIVE_ONLY,
   TYPE_OF_CARE,
   ZIP,
-  RADIUS,
-  CHILDREN,
-  DAYS,
-  SEARCH_PAGE,
-  LAST_SEARCH_TYPE,
-  GEO_LOCATION_UNAVAILABLE,
-  CURRENT_POSITION
 } = PROVIDERS;
 
 const INITIAL_STATE :Map = fromJS({
-  fetchState: RequestStates.STANDBY,
-  hits: List(),
-  totalHits: 0,
+  [HITS]: List(),
+  [TOTAL_HITS]: 0,
   options: Map({
-    fetchState: RequestStates.STANDBY,
     data: List()
   }),
-  people: Map(),
-  profilePictures: Map(),
-  searchInputs: Map({
+  [SEARCH_INPUTS]: Map({
     address: '',
     currentLocation: false,
   }),
-  providerLocations: Map(),
+  [PROVIDER_LOCATIONS]: Map(),
 
-  [HAS_PERFORMED_INITIAL_SEARCH]: false,
-  [IS_EXECUTING_SEARCH]: false,
-  [RRS_BY_ID]: Map(),
+  [GEOCODE_PLACE]: RS_INITIAL_STATE,
+  [GET_GEO_OPTIONS]: RS_INITIAL_STATE,
+  [LOAD_CURRENT_POSITION]: RS_INITIAL_STATE,
+  [SEARCH_LOCATIONS]: RS_INITIAL_STATE,
+
+  [ACTIVE_ONLY]: true,
+  [CHILDREN]: {},
+  [CURRENT_POSITION]: {},
+  [DAYS]: {},
+  [FILTER_PAGE]: null,
   [HOSPITALS_BY_ID]: Map(),
+  [IS_EDITING_FILTERS]: false,
+  [LAST_SEARCH_TYPE]: null,
+  [PAGE]: 0,
+  [RADIUS]: 10,
+  [RRS_BY_ID]: Map(),
+  [SELECTED_OPTION]: null,
   [SELECTED_PROVIDER]: null,
   [SELECTED_REFERRAL_AGENCY]: null,
-  [IS_EDITING_FILTERS]: false,
-  [ACTIVE_ONLY]: true,
-  [FILTER_PAGE]: null,
   [TYPE_OF_CARE]: [],
   [ZIP]: ['', {}],
-  [RADIUS]: 10,
-  [CHILDREN]: {},
-  [DAYS]: {},
-  [SEARCH_PAGE]: 0,
-  [LAST_SEARCH_TYPE]: null,
-  [GEO_LOCATION_UNAVAILABLE]: false,
-  [CURRENT_POSITION]: {}
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
   switch (action.type) {
 
-    case searchLocations.case(action.type): {
-      return searchLocations.reducer(state, action, {
-        REQUEST: () => {
-          const { searchInputs, page } = action.value;
-          return state
-            .set('fetchState', RequestStates.PENDING)
-            .set('searchInputs', searchInputs)
-            .set(SEARCH_PAGE, page)
-            .set(IS_EXECUTING_SEARCH, true)
-            .set(IS_EDITING_FILTERS, false)
-            .set(FILTER_PAGE, null)
-            .set(SELECTED_PROVIDER, null)
-            .set(SELECTED_REFERRAL_AGENCY, null)
-            .set(HAS_PERFORMED_INITIAL_SEARCH, true)
-            .set(GEO_LOCATION_UNAVAILABLE, false)
-            .merge(searchInputs);
-        },
+    case geocodePlace.case(action.type): {
+      return geocodePlace.reducer(state, action, {
+        REQUEST: () => state
+          .setIn([GEOCODE_PLACE, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([GEOCODE_PLACE, action.id], action),
         SUCCESS: () => state
-          .set('fetchState', RequestStates.SUCCESS)
-          .merge(action.value.newData),
-        FAILURE: () => state.set('fetchState', RequestStates.FAILURE),
-        FINALLY: () => state.set(IS_EXECUTING_SEARCH, false)
+          .setIn([GEOCODE_PLACE, REQUEST_STATE], RequestStates.SUCCESS),
+        FAILURE: () => state
+          .setIn([GEOCODE_PLACE, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([GEOCODE_PLACE, action.id])
       });
     }
 
     case getGeoOptions.case(action.type): {
       return getGeoOptions.reducer(state, action, {
-        REQUEST: () => state.setIn(['options', 'fetchState'], RequestStates.PENDING),
-        SUCCESS: () => state
-          .setIn(['options', 'fetchState'], RequestStates.SUCCESS)
-          .setIn(['options', 'data'], action.value),
-        FAILURE: () => state.setIn(['options', 'fetchState'], RequestStates.FAILURE),
-      });
-    }
-
-    case geocodePlace.case(action.type): {
-      return geocodePlace.reducer(state, action, {
         REQUEST: () => state
-          .set('fetchState', RequestStates.PENDING),
+          .setIn([GET_GEO_OPTIONS, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([GET_GEO_OPTIONS, action.id], action),
         SUCCESS: () => state
-          .set('selectedOption', action.value),
+          .setIn([GET_GEO_OPTIONS, REQUEST_STATE], RequestStates.SUCCESS)
+          .setIn(['options', 'data'], action.value),
         FAILURE: () => state
-          .set('fetchState', RequestStates.FAILURE)
+          .setIn([GET_GEO_OPTIONS, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([GET_GEO_OPTIONS, action.id])
       });
     }
 
     case loadCurrentPosition.case(action.type): {
       return loadCurrentPosition.reducer(state, action, {
         REQUEST: () => state
-          .set(LAST_SEARCH_TYPE, 'geo')
-          .set('fetchState', RequestStates.PENDING),
+          .setIn([LOAD_CURRENT_POSITION, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([LOAD_CURRENT_POSITION, action.id], action),
         SUCCESS: () => state
-          .set(GEO_LOCATION_UNAVAILABLE, false)
+          .setIn([LOAD_CURRENT_POSITION, REQUEST_STATE], RequestStates.SUCCESS)
           .set(CURRENT_POSITION, action.value),
         FAILURE: () => state
-          .set(GEO_LOCATION_UNAVAILABLE, true)
-          .set('fetchState', RequestStates.FAILURE)
+          .setIn([LOAD_CURRENT_POSITION, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([LOAD_CURRENT_POSITION, action.id])
+      });
+    }
+
+    case searchLocations.case(action.type): {
+      return searchLocations.reducer(state, action, {
+        REQUEST: () => {
+          const { searchInputs, page } = action.value;
+          return state
+            .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.PENDING)
+            .setIn([SEARCH_LOCATIONS, action.id], action)
+            .set(SEARCH_INPUTS, searchInputs)
+            .set(PAGE, page)
+            .set(IS_EDITING_FILTERS, false)
+            .set(FILTER_PAGE, null)
+            .set(SELECTED_PROVIDER, null)
+            .set(SELECTED_REFERRAL_AGENCY, null)
+            .merge(searchInputs);
+        },
+        SUCCESS: () => state
+          .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.SUCCESS)
+          .merge(action.value.newData),
+        FAILURE: () => state.setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([SEARCH_LOCATIONS, action.id])
       });
     }
 
@@ -152,10 +165,10 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     case SELECT_LOCATION_OPTION: {
       if (!action.value) {
         return state
-          .setIn(['selectedOption', 'label'], undefined)
+          .setIn([SELECTED_OPTION, 'label'], undefined)
           .setIn(['options', 'data'], List());
       }
-      return state.set('selectedOption', action.value);
+      return state.set(SELECTED_OPTION, action.value);
     }
 
     case SELECT_PROVIDER: {
