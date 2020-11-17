@@ -8,6 +8,9 @@ import { v4 as uuid } from 'uuid';
 import type { SequenceAction } from 'redux-reqseq';
 
 import {
+  INITIALIZE_APPLICATION,
+  LOAD_APP,
+  RELOAD_TOKEN,
   SWITCH_LANGUAGE,
   initializeApplication,
   loadApp,
@@ -16,28 +19,36 @@ import {
 
 import { getFqn } from '../../utils/DataUtils';
 import { LANGUAGES } from '../../utils/constants/Labels';
+import { APPLICAITON } from '../../utils/constants/StateConstants';
+import { APP, RS_INITIAL_STATE, REQUEST_STATE } from '../../core/redux/constants';
+
+const {
+  ENTITY_SET_ID,
+  PROPERTY_TYPES_BY_ID,
+  PROPERTY_TYPES_BY_FQN,
+  TOKEN,
+  TOKEN_EXP,
+  GET_TEXT,
+  SESSION_ID
+} = APPLICAITON;
 
 const INITIAL_STATE :Map<*, *> = fromJS({
+  [INITIALIZE_APPLICATION]: RS_INITIAL_STATE,
+  [LOAD_APP]: RS_INITIAL_STATE,
+  [RELOAD_TOKEN]: RS_INITIAL_STATE,
+
   actions: {
     loadApp: Map(),
   },
-  app: Map(),
-  appTypes: Map(),
-  errors: {
-    loadApp: Map(),
-  },
-  isLoadingApp: true,
-  organizations: Map(),
-  selectedOrganizationId: '',
-  selectedOrganizationSettings: Map(),
+  [APP]: Map(),
   initializeState: RequestStates.STANDBY,
-  entitySetId: null,
-  propertyTypesById: Map(),
-  propertyTypesByFqn: Map(),
-  token: null,
-  tokenExp: -1,
-  getText: (label) => label[LANGUAGES.en],
-  sessionId: uuid()
+  [ENTITY_SET_ID]: null,
+  [PROPERTY_TYPES_BY_ID]: Map(),
+  [PROPERTY_TYPES_BY_FQN]: Map(),
+  [TOKEN]: null,
+  [TOKEN_EXP]: -1,
+  [GET_TEXT]: (label) => label[LANGUAGES.en],
+  [SESSION_ID]: uuid()
 });
 
 export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Object) {
@@ -46,15 +57,29 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
 
     case initializeApplication.case(action.type): {
       return initializeApplication.reducer(state, action, {
-        REQUEST: () => state.set('initializeState', RequestStates.PENDING),
-        SUCCESS: () => state.set('initializeState', RequestStates.SUCCESS),
-        FAILURE: () => state.set('initializeState', RequestStates.FAILURE),
+        REQUEST: () => state
+          .setIn([INITIALIZE_APPLICATION, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([INITIALIZE_APPLICATION, action.id], action),
+        SUCCESS: () => state
+          .setIn([INITIALIZE_APPLICATION, REQUEST_STATE], RequestStates.SUCCESS),
+        FAILURE: () => state
+          .setIn([INITIALIZE_APPLICATION, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([INITIALIZE_APPLICATION, action.id])
       });
     }
 
     case reloadToken.case(action.type): {
       return reloadToken.reducer(state, action, {
-        SUCCESS: () => state.set('token', action.value.token).set('tokenExp', action.value.tokenExp)
+        REQUEST: () => state
+          .setIn([RELOAD_TOKEN, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([RELOAD_TOKEN, action.id], action),
+        SUCCESS: () => state
+          .set(TOKEN, action.value.token)
+          .set(TOKEN_EXP, action.value.tokenExp)
+          .setIn([RELOAD_TOKEN, REQUEST_STATE], RequestStates.SUCCESS),
+        FAILURE: () => state
+          .setIn([RELOAD_TOKEN, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([RELOAD_TOKEN, action.id])
       });
     }
 
@@ -63,14 +88,14 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
         REQUEST: () => {
           const seqAction :SequenceAction = action;
           return state
-            .set('isLoadingApp', true)
-            .set('selectedOrganizationId', '')
+            .setIn([LOAD_APP, REQUEST_STATE], RequestStates.PENDING)
+            .setIn([LOAD_APP, action.id], action)
             .setIn(['actions', 'loadApp', seqAction.id], fromJS(seqAction));
         },
         SUCCESS: () => {
 
           const seqAction :SequenceAction = action;
-          if (!state.hasIn(['actions', 'loadApp', seqAction.id])) {
+          if (!state.hasIn([LOAD_APP, seqAction.id])) {
             return state;
           }
 
@@ -102,22 +127,22 @@ export default function appReducer(state :Map<*, *> = INITIAL_STATE, action :Obj
           }
 
           return state
-            .set('entitySetId', entitySetId)
-            .set('propertyTypesById', propertyTypesById)
-            .set('propertyTypesByFqn', propertyTypesByFqn)
-            .set('getText', (label) => label[defaultLanguage]);
+            .set(ENTITY_SET_ID, entitySetId)
+            .set(PROPERTY_TYPES_BY_ID, propertyTypesById)
+            .set(PROPERTY_TYPES_BY_FQN, propertyTypesByFqn)
+            .set(GET_TEXT, (label) => label[defaultLanguage])
+            .setIn([LOAD_APP, REQUEST_STATE], RequestStates.SUCCESS);
         },
+        FAILURE: () => state.setIn([LOAD_APP, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => {
           const seqAction :SequenceAction = action;
-          return state
-            .set('isLoadingApp', false)
-            .deleteIn(['actions', 'loadApp', seqAction.id]);
+          return state.deleteIn([LOAD_APP, seqAction.id]);
         }
       });
     }
 
     case SWITCH_LANGUAGE: {
-      return state.set('getText', (labels) => labels[action.value]);
+      return state.set(GET_TEXT, (labels) => labels[action.value]);
     }
 
     default:
