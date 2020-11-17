@@ -56,6 +56,20 @@ const AGE_GROUP_BY_FQN = {
   [PROPERTY_TYPES.CAPACITY_OVER_5]: CLIENTS_SERVED.CHILDREN
 };
 
+const {
+  ACTIVE_ONLY,
+  CHILDREN,
+  DAYS,
+  LAT,
+  LON,
+  RADIUS,
+  SEARCH_INPUTS,
+  SELECTED_OPTION,
+  SELECTED_PROVIDER,
+  TYPE_OF_CARE,
+  ZIP,
+} = PROVIDERS;
+
 const PAGE_SIZE = 20;
 
 const LOG = new Logger('LocationsSagas');
@@ -270,24 +284,24 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const locationState = yield select((state) => state.get(STATE.LOCATIONS));
     const getValue = (field) => searchInputs.get(field, locationState.get(field));
 
-    let latLonObj = searchInputs.get('selectedOption');
-    if (isEmpty(latLonObj)) latLonObj = searchInputs.getIn([PROVIDERS.ZIP, 1]);
-    if (isEmpty(latLonObj)) latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
+    let latLonObj = searchInputs.get(SELECTED_OPTION);
+    if (isEmpty(latLonObj)) latLonObj = searchInputs.getIn([ZIP, 1]);
+    if (isEmpty(latLonObj)) latLonObj = locationState.getIn([SEARCH_INPUTS, SELECTED_OPTION]);
     if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
 
-    const radius = getValue(PROVIDERS.RADIUS);
-    const typeOfCare = getValue(PROVIDERS.TYPE_OF_CARE);
-    const children = getValue(PROVIDERS.CHILDREN);
-    const daysAndTimes = getValue(PROVIDERS.DAYS);
-    const activeOnly = getValue(PROVIDERS.ACTIVE_ONLY);
+    const radius = getValue(RADIUS);
+    const typeOfCare = getValue(TYPE_OF_CARE);
+    const children = getValue(CHILDREN);
+    const daysAndTimes = getValue(DAYS);
+    const activeOnly = getValue(ACTIVE_ONLY);
 
     yield put(searchLocations.request(action.id, {
       page: start,
-      searchInputs: searchInputs.set('selectedOption', latLonObj)
+      searchInputs: searchInputs.set(SELECTED_OPTION, latLonObj)
     }));
 
-    const latitude :string = get(latLonObj, 'lat');
-    const longitude :string = get(latLonObj, 'lon');
+    const latitude :string = get(latLonObj, LAT);
+    const longitude :string = get(latLonObj, LON);
 
     if (isFunction(gtag)) {
       gtag('event', 'Execute Search', {
