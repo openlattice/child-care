@@ -17,19 +17,19 @@ import {
   reloadToken,
 } from './AppActions';
 
+import { APP, REQUEST_STATE, RS_INITIAL_STATE } from '../../core/redux/constants';
 import { getFqn } from '../../utils/DataUtils';
 import { LANGUAGES } from '../../utils/constants/Labels';
 import { APPLICAITON } from '../../utils/constants/StateConstants';
-import { APP, RS_INITIAL_STATE, REQUEST_STATE } from '../../core/redux/constants';
 
 const {
   ENTITY_SET_ID,
-  PROPERTY_TYPES_BY_ID,
+  GET_TEXT,
   PROPERTY_TYPES_BY_FQN,
+  PROPERTY_TYPES_BY_ID,
+  SESSION_ID,
   TOKEN,
   TOKEN_EXP,
-  GET_TEXT,
-  SESSION_ID
 } = APPLICAITON;
 
 const INITIAL_STATE :Map<*, *> = fromJS({
