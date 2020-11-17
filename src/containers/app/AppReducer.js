@@ -37,11 +37,7 @@ const INITIAL_STATE :Map<*, *> = fromJS({
   [LOAD_APP]: RS_INITIAL_STATE,
   [RELOAD_TOKEN]: RS_INITIAL_STATE,
 
-  actions: {
-    loadApp: Map(),
-  },
   [APP]: Map(),
-  initializeState: RequestStates.STANDBY,
   [ENTITY_SET_ID]: null,
   [PROPERTY_TYPES_BY_ID]: Map(),
   [PROPERTY_TYPES_BY_FQN]: Map(),
