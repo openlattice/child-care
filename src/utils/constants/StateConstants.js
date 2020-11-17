@@ -4,29 +4,41 @@ export const STATE = {
 
 export const HAS_LOCAL_STORAGE_GEO_PERMISSIONS = 'hasLocalStorageGeoPermissions';
 
-export const SUBMIT = {
-  SUBMITTING: 'submitting',
-  SUCCESS: 'submitSuccess',
-  SUBMITTED: 'submitted',
-  ERROR: 'error'
+export const LANGUAGES = {
+  ENGLISH: 'en',
+  SPANISH: 'es'
+};
+
+export const APPLICAITON = {
+  ENTITY_SET_ID: 'entitySetId',
+  PROPERTY_TYPES_BY_ID: 'propertyTypesById',
+  PROPERTY_TYPES_BY_FQN: 'propertyTypesByFqn',
+  TOKEN: 'token',
+  TOKEN_EXP: 'tokenExp',
+  GET_TEXT: 'getText',
+  SESSION_ID: 'sessionId'
 };
 
 export const PROVIDERS = {
   RRS_BY_ID: 'rrsById',
   HOSPITALS_BY_ID: 'hospitalsById',
-  IS_EXECUTING_SEARCH: 'isExecutingSearch',
   HAS_PERFORMED_INITIAL_SEARCH: 'hasPerformedInitialSearch',
 
   LAST_SEARCH_TYPE: 'searchType',
   GEO_LOCATION_UNAVAILABLE: 'unableToLoadLocation',
   CURRENT_POSITION: 'currentPosition',
 
+  SEARCH_INPUTS: 'searchInputs',
+  SELECTED_OPTION: 'selectedOption',
   SELECTED_PROVIDER: 'selectedProvider',
   SELECTED_REFERRAL_AGENCY: 'selectedReferralAgency',
+  LAT: 'lat',
+  LON: 'lon',
 
   IS_EDITING_FILTERS: 'isEditingFilters',
   FILTER_PAGE: 'filterPage',
-  SEARCH_PAGE: 'searchPage',
+  PAGE: 'searchPage',
+  PROVIDER_LOCATIONS: 'providerLocations',
 
   // filters
   ACTIVE_ONLY: 'activeOnly',

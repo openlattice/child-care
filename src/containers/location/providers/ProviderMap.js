@@ -4,9 +4,8 @@ import React, { useEffect, useMemo, useReducer } from 'react';
 import isFunction from 'lodash/isFunction';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
 import { List, Map, isImmutable } from 'immutable';
-import { LangUtils } from 'lattice-utils';
+import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
 
 import ActiveProviderLocationLayer from './ActiveProviderLocationLayer';
 import FamilyHomeRadius from './markers/FamilyHomeRadius';
@@ -17,17 +16,33 @@ import SelectedProviderMarker from './markers/SelectedProviderMarker';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
 import { getTextFnFromState } from '../../../utils/AppUtils';
+import { REQUEST_STATE } from '../../../core/redux/constants';
 import { isProviderActive } from '../../../utils/DataUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
 
+import {
+  GEOCODE_PLACE,
+  GET_GEO_OPTIONS,
+  LOAD_CURRENT_POSITION,
+  SEARCH_LOCATIONS
+} from '../LocationsActions';
+
 const { LOCATIONS } = STATE;
+const {
+  LAT,
+  LON,
+  PROVIDER_LOCATIONS,
+  SEARCH_INPUTS,
+  SELECTED_OPTION
+} = PROVIDERS;
 
 declare var __MAPBOX_TOKEN__;
 declare var gtag :?Function;
 
 const { isNonEmptyArray } = LangUtils;
+const { isPending } = ReduxUtils;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
@@ -110,14 +125,27 @@ const ProviderMap = (props :Props) => {
     searchResults,
     selectedOption
   } = props;
-
+  const geocodePlaceRS = useSelector((store) => store.getIn(
+    [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
+  ));
+  const getGeoOptionsRS = useSelector((store) => store.getIn(
+    [LOCATIONS, GET_GEO_OPTIONS, REQUEST_STATE]
+  ));
+  const loadCurrentPositionRS = useSelector((store) => store.getIn(
+    [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
+  ));
+  const searchLocationsRS = useSelector((store) => store.getIn(
+    [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
+  ));
   const getText = useSelector(getTextFnFromState);
-  const providerLocations = useSelector((store) => store.getIn([LOCATIONS, 'providerLocations']));
+  const providerLocations = useSelector((store) => store.getIn([LOCATIONS, PROVIDER_LOCATIONS]));
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
-  const searchInputs = useSelector((store) => store.getIn([LOCATIONS, 'searchInputs'], Map()));
-  const isLoading = useSelector((store) => store
-    .getIn([LOCATIONS, 'fetchState']) === RequestStates.PENDING);
+  const searchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
+  const isLoading = isPending(geocodePlaceRS)
+    || isPending(searchLocationsRS)
+    || isPending(loadCurrentPositionRS)
+    || isPending(getGeoOptionsRS);
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,
@@ -132,8 +160,8 @@ const ProviderMap = (props :Props) => {
   [searchResults, providerLocations]);
 
   const searchedCoordinates = [
-    searchInputs.getIn(['selectedOption', 'lon']),
-    searchInputs.getIn(['selectedOption', 'lat'])
+    searchInputs.getIn([SELECTED_OPTION, LON]),
+    searchInputs.getIn([SELECTED_OPTION, LAT])
   ];
 
   useEffect(() => {
@@ -161,8 +189,8 @@ const ProviderMap = (props :Props) => {
       else if (selectedOption) {
         let { lat, lon } = selectedOption;
         if (isImmutable(selectedOption)) {
-          lat = selectedOption.get('lat');
-          lon = selectedOption.get('lon');
+          lat = selectedOption.get(LAT);
+          lon = selectedOption.get(LON);
         }
 
         if (lat && lon) {

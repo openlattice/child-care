@@ -17,25 +17,29 @@ import {
   Select,
   StyleUtils,
 } from 'lattice-ui-kit';
-import { LangUtils } from 'lattice-utils';
+import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
 
 import { useTimeout } from '../../../components/hooks';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { REQUEST_STATE } from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {
+  GET_GEO_OPTIONS,
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
   selectLocationOption
 } from '../LocationsActions';
 
+const { LOCATIONS } = STATE;
+const { CURRENT_POSITION, SELECTED_OPTION } = PROVIDERS;
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
+const { isPending } = ReduxUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
 const getTheme = (theme) => ({
@@ -82,16 +86,16 @@ const LocationsSearchBar = () => {
 
   const getText = useSelector(getTextFnFromState);
   const currentLocationText = getText(LABELS.CURRENT_LOCATION);
-  const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
-  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
-  const storedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
+  const getGeoOptionsRS = useSelector((store) => store.getIn([LOCATIONS, GET_GEO_OPTIONS, REQUEST_STATE]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
+  const storedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
 
   let selectedOption = storedOption;
   if (Map.isMap(storedOption)) {
     selectedOption = storedOption.toJS();
   }
 
-  const options = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'data']));
+  const options = useSelector((store) => store.getIn([LOCATIONS, 'options', 'data']));
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState();
@@ -104,7 +108,7 @@ const LocationsSearchBar = () => {
 
   useTimeout(fetchGeoOptions, 300);
 
-  const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
+  const isFetchingOptions = isPending(getGeoOptionsRS);
 
   const filterOption = () => true;
 
