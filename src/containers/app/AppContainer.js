@@ -14,19 +14,20 @@ import {
   ThemeProvider,
   lightTheme,
 } from 'lattice-ui-kit';
+import { ReduxUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
 import AppHeaderContainer from './AppHeaderContainer';
-import { initializeApplication } from './AppActions';
+import { INITIALIZE_APPLICATION, initializeApplication } from './AppActions';
 
 import AboutPage from '../about/AboutPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
 import ResourcesPage from '../resources/ResourcesPage';
+import { APP, REQUEST_STATE } from '../../core/redux/constants';
 import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
 import {
   HEADER_HEIGHT,
@@ -37,6 +38,8 @@ import {
 import { browserIsIE, getTextFnFromState } from '../../utils/AppUtils';
 import { loadCurrentPosition } from '../location/LocationsActions';
 import type { Translation } from '../../types';
+
+const { isPending } = ReduxUtils;
 
 /*
  * styled components
@@ -80,7 +83,7 @@ type Props = {
     initializeApplication :RequestSequence;
     loadCurrentPosition :RequestSequence;
   };
-  initializeState :RequestState;
+  initializeApplicationRS :RequestState;
   getText :(translation :Translation) => string;
 };
 
@@ -99,11 +102,9 @@ class AppContainer extends Component<Props> {
 
   renderAppContent = () => {
 
-    const {
-      initializeState
-    } = this.props;
+    const { initializeApplicationRS } = this.props;
 
-    if (initializeState === RequestStates.PENDING) {
+    if (isPending(initializeApplicationRS)) {
       return <Spinner size="3x" />;
     }
 
@@ -139,7 +140,7 @@ class AppContainer extends Component<Props> {
 function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
-    initializeState: state.getIn(['app', 'initializeState']),
+    initializeApplicationRS: state.getIn([APP, INITIALIZE_APPLICATION, REQUEST_STATE]),
     getText: getTextFnFromState(state)
   };
 }
