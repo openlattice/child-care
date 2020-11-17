@@ -9,29 +9,50 @@ import {
   PaginationToolbar,
   SearchResults,
 } from 'lattice-ui-kit';
+import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
 
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
+import ProviderMap from './ProviderMap';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
-import ProviderMap from './ProviderMap';
-import {
-  searchLocations,
-  setValue,
-  loadCurrentPosition
-} from '../LocationsActions';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import {
+  HITS,
+  PAGE,
+  REQUEST_STATE,
+  TOTAL_HITS
+} from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
+import {
+  LOAD_CURRENT_POSITION,
+  SEARCH_LOCATIONS,
+  loadCurrentPosition,
+  searchLocations,
+  setValue
+} from '../LocationsActions';
+
+const {
+  isFailure, isPending, isStandby
+} = ReduxUtils;
+
+const {
+  CURRENT_POSITION,
+  IS_EDITING_FILTERS,
+  SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY,
+  SEARCH_INPUTS,
+  SELECTED_OPTION,
+} = PROVIDERS;
 
 const { LOCATIONS } = STATE;
 
@@ -66,22 +87,24 @@ const FilterButton = styled.div`
 const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
-    [LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
+    [LOCATIONS, IS_EDITING_FILTERS],
     false
   ));
-
   const getText = useSelector(getTextFnFromState);
-  const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
-  const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
-  const searchResults = useSelector((store) => store.getIn([LOCATIONS, 'hits'], List()));
-  const totalHits = useSelector((store) => store.getIn([LOCATIONS, 'totalHits'], 0));
-  const fetchState = useSelector((store) => store.getIn([LOCATIONS, 'fetchState']));
-  const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, 'searchInputs'], Map()));
-  const page = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SEARCH_PAGE]));
-  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, 'selectedOption']));
-  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.CURRENT_POSITION]));
-  const geoLocationUnavailable = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
-  const lastSearchType = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.LAST_SEARCH_TYPE]));
+  const loadCurrentPositionRS = useSelector((store) => store.getIn(
+    [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
+  ));
+  const searchLocationsRS = useSelector((store) => store.getIn(
+    [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
+  ));
+  const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
+  const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, SELECTED_REFERRAL_AGENCY]));
+  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS], List()));
+  const totalHits = useSelector((store) => store.getIn([LOCATIONS, TOTAL_HITS], 0));
+  const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
+  const page = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
+  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const dispatch = useDispatch();
 
   let editFiltersContent = null;
@@ -100,17 +123,17 @@ const LocationsContainer = () => {
     providerDetails = <ProviderDetailsContainer />;
   }
 
-  const hasSearched = fetchState !== RequestStates.STANDBY;
-  const isLoading = fetchState === RequestStates.PENDING;
-  const wasGeoSearch = lastSearchType === 'geo';
+  const hasSearched = !isStandby(searchLocationsRS);
+  const isLoading = isPending(searchLocationsRS);
+  const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
-  const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
+  const editFilters = () => dispatch(setValue({ field: IS_EDITING_FILTERS, value: true }));
 
   const renderSearchResults = () => {
     if (!hasSearched) {
       return <WelcomeSplash getCurrentPosition={() => dispatch(loadCurrentPosition())} />;
     }
-    if (geoLocationUnavailable && wasGeoSearch) {
+    if (geoSearchFailed) {
       return <FindingLocationSplash />;
     }
     return (
