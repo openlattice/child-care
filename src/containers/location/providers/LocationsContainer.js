@@ -12,6 +12,7 @@ import {
 import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
+import NoResults from './NoResults';
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
@@ -166,6 +167,7 @@ const LocationsContainer = () => {
       <StyledSearchResults
           hasSearched={hasSearched}
           isLoading={isLoading}
+          noResults={NoResults}
           resultComponent={LocationResult}
           results={searchResults} />
     );
