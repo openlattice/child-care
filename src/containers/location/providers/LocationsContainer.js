@@ -34,6 +34,7 @@ import { LABELS } from '../../../utils/constants/Labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 import {
+  GEOCODE_PLACE,
   LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
   loadCurrentPosition,
@@ -43,7 +44,10 @@ import {
 } from '../LocationsActions';
 
 const {
-  isFailure, isPending, isStandby
+  isFailure,
+  isPending,
+  isStandby,
+  isSuccess
 } = ReduxUtils;
 
 const {
@@ -92,6 +96,9 @@ const LocationsContainer = () => {
     false
   ));
   const getText = useSelector(getTextFnFromState);
+  const geocodePlaceRS = useSelector((store) => store.getIn(
+    [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
+  ));
   const loadCurrentPositionRS = useSelector((store) => store.getIn(
     [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
   ));
@@ -125,7 +132,9 @@ const LocationsContainer = () => {
   }
 
   const hasSearched = !isStandby(searchLocationsRS);
-  const isLoading = isPending(searchLocationsRS);
+  const isLoading = isPending(geocodePlaceRS)
+    || isPending(searchLocationsRS)
+    || isPending(loadCurrentPositionRS);
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
