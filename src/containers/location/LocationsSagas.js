@@ -470,7 +470,8 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    if (error) throw error;
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
@@ -601,7 +602,8 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       sort
     };
 
-    const { hits, numHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    if (error) throw error;
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
 
