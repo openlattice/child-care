@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useReducer } from 'react';
 
 import isFunction from 'lodash/isFunction';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
-import { List, Map, isImmutable } from 'immutable';
+import { get, List, Map } from 'immutable';
 import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 
@@ -190,11 +190,8 @@ const ProviderMap = (props :Props) => {
       }
       // then, try to center to position without bounds
       else if (selectedOption) {
-        let { lat, lon } = selectedOption;
-        if (isImmutable(selectedOption)) {
-          lat = selectedOption.get(LAT);
-          lon = selectedOption.get(LON);
-        }
+        const lat = get(selectedOption, LAT);
+        const lon = get(selectedOption, LON);
 
         if (lat && lon) {
           stateDispatch({

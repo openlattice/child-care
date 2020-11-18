@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faSearchLocation } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isImmutable, Map } from 'immutable';
+import { get, Map } from 'immutable';
 import { Button, Typography } from 'lattice-ui-kit';
 import { DataUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,12 +46,8 @@ const NoResults = () => {
       dispatch(selectReferralAgency(rr));
     };
 
-    let { lat, lon } = selectedOption;
-    if (isImmutable(selectedOption)) {
-      lat = selectedOption.get(LAT);
-      lon = selectedOption.get(LON);
-    }
-
+    const lat = get(selectedOption, LAT);
+    const lon = get(selectedOption, LON);
     const rrsCoordinates = getCoordinates(rr);
     const miles = getDistanceBetweenCoords([rrsCoordinates[1], rrsCoordinates[0]], [lat, lon]);
 
