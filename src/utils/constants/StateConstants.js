@@ -39,6 +39,8 @@ export const PROVIDERS = {
   FILTER_PAGE: 'filterPage',
   PAGE: 'searchPage',
   PROVIDER_LOCATIONS: 'providerLocations',
+  REFERRAL_AGENCY_HITS: 'referralAgencyHits',
+  REFERRAL_AGENCY_LOCATIONS: 'referralAgencyLocations',
 
   // filters
   ACTIVE_ONLY: 'activeOnly',
