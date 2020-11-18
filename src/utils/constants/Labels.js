@@ -491,3 +491,12 @@ export const WELCOME_SPLASH = {
     [es]: ' para encontrar cuidado infantil cerca de usted.'
   },
 };
+
+export const NO_RESULTS = {
+  DETAILS: {
+    /* eslint-disable-next-line */
+    [en]: 'We couldn’t find any childcare facilities within these search parameters. Please refine your search or contact your local Resource & Referral agency:',
+    /* eslint-disable-next-line */
+    [es]: 'No pudimos encontrar ninguna guardería dentro de estos parámetros de búsqueda. Refine su búsqueda o comuníquese con su agencia local de Recursos y Referencias:'
+  },
+};
