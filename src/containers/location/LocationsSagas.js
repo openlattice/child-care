@@ -516,8 +516,9 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     LOG.error(action.type, error);
     yield put(searchLocations.failure(action.id));
   }
-
-  return response;
+  finally {
+    yield put(searchLocations.finally(action.id));
+  }
 }
 
 function* searchLocationsWatcher() :Generator<any, any, any> {
@@ -618,8 +619,9 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     LOG.error(action.type, error);
     yield put(searchReferralAgencies.failure(action.id));
   }
-
-  return response;
+  finally {
+    yield put(searchReferralAgencies.finally(action.id));
+  }
 }
 
 function* searchReferralAgenciesWatcher() :Generator<any, any, any> {
