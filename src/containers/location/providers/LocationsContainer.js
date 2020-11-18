@@ -138,12 +138,17 @@ const LocationsContainer = () => {
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
-    if (hasSearched && searchResults.isEmpty() && selectedOption) {
-      dispatch(searchReferralAgencies());
+    if (
+      isSuccess(searchLocationsRS)
+      && searchResults.isEmpty()
+      && selectedOption.lat
+      && selectedOption.lon
+    ) {
+      dispatch(searchReferralAgencies({ selectedOption }));
     }
   }, [
     dispatch,
-    hasSearched,
+    searchLocationsRS,
     searchResults,
     selectedOption
   ]);
