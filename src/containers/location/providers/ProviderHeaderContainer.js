@@ -34,6 +34,7 @@ import {
 } from '../../styled';
 
 const { formatAsRelative } = DateTimeUtils;
+const { LAT, LON, SELECTED_OPTION } = PROVIDERS;
 
 type Props = {
   actions :{
@@ -109,8 +110,8 @@ class ProviderHeaderContainer extends React.Component<Props> {
 function mapStateToProps(state :Map<*, *>) :Object {
   const providerState = state.get(STATE.LOCATIONS, Map());
 
-  const lat = providerState.getIn(['selectedOption', 'lat']);
-  const lon = providerState.getIn(['selectedOption', 'lon']);
+  const lat = providerState.getIn([SELECTED_OPTION, LAT]);
+  const lon = providerState.getIn([SELECTED_OPTION, LON]);
 
   return {
     providerState,

@@ -7,16 +7,17 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
 import { Button, Colors } from 'lattice-ui-kit';
+import { ReduxUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence } from 'redux-reqseq';
 
 import EditFilter from './EditFilter';
 
-import * as LocationsActions from '../LocationsActions';
 import BackButton from '../../../components/controls/BackButton';
+import * as LocationsActions from '../LocationsActions';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { REQUEST_STATE } from '../../../core/redux/constants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { LABELS } from '../../../utils/constants/Labels';
@@ -24,6 +25,8 @@ import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
 
 const { NEUTRAL } = Colors;
+
+const { isStandby } = ReduxUtils;
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
@@ -279,11 +282,11 @@ class EditFiltersContainer extends React.Component<Props, State> {
 
 function mapStateToProps(state :Map<*, *>) :Object {
   const providerState = state.get(STATE.LOCATIONS, Map());
-
+  const searchLocationsRS = providerState.getIn([LocationsActions.SEARCH_LOCATIONS, REQUEST_STATE]);
   return {
     providerState,
     getText: getTextFnFromState(state),
-    hasSearched: providerState.get('fetchState') !== RequestStates.STANDBY
+    hasSearched: !isStandby(searchLocationsRS)
   };
 }
 
