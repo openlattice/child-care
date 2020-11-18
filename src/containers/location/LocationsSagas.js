@@ -533,16 +533,13 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     yield call(refreshAuthTokenIfNecessary);
 
     const { value } = action;
+    const { selectedOption } = value;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
-    const { start = 0, maxHits = 5 } = value;
 
-    const locationState = yield select((state) => state.get(STATE.LOCATIONS));
-
-    let latLonObj = locationState.getIn(['searchInputs', 'selectedOption']);
+    let latLonObj = selectedOption;
     if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
 
     yield put(searchReferralAgencies.request(action.id, {
-      page: start,
       searchInputs: latLonObj
     }));
 
@@ -596,9 +593,9 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     const constraints = [locationConstraint];
 
     const searchOptions = {
-      start: start * PAGE_SIZE,
+      start: 0,
       entitySetIds: [entitySetId],
-      maxHits,
+      maxHits: 5,
       constraints,
       sort
     };
@@ -611,9 +608,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     const rrsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
     response.data.hits = fromJS(locationsEKIDs);
     response.data.totalHits = numHits;
-    response.data.rrsLocations = rrsByEKID;
-
-    console.log(rrsByEKID.toJS());
+    response.data.referralAgencyLocations = rrsByEKID;
 
     yield put(searchReferralAgencies.success(action.id, {
       newData: response.data
