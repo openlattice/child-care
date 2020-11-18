@@ -167,22 +167,25 @@ const ProviderMap = (props :Props) => {
   useEffect(() => {
     if (!isLoading) {
       const placeToMap = selectedReferralAgency || selectedProvider;
+      const newBounds = getBoundsFromPointsOfInterest(providerData);
       // first check for selectedReferralAgency then fallback to selectedProvider
       if (placeToMap) {
+        const feature = selectedReferralAgency
+          ? undefined
+          : selectedProvider;
         const [lng, lat] = getCoordinates(placeToMap);
         stateDispatch({
           type: 'center',
           payload: {
             center: [lng, lat + EXTRA_LATITUDE_OFFSET],
-            selectedFeature: placeToMap,
+            selectedFeature: feature,
             isPopupOpen: false,
             zoom: [13]
           }
         });
       }
       // second, use bounds whenever possible
-      const newBounds = getBoundsFromPointsOfInterest(providerData);
-      if (isNonEmptyArray(newBounds)) {
+      else if (isNonEmptyArray(newBounds)) {
         stateDispatch({ type: 'bounds', payload: newBounds });
       }
       // then, try to center to position without bounds
