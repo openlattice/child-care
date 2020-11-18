@@ -10,6 +10,16 @@ const { media } = StyleUtils;
 
 const PADDING = 25;
 
+const Centered = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: ${(props) => (props.hidden ? 0 : 1)};
+  padding: 15px 0;
+`;
+
 const DataRows = styled.div`
   display: flex;
   flex-direction: column;
@@ -284,6 +294,7 @@ const Wrapper = styled.section`
 `;
 
 export {
+  Centered,
   DataRows,
   DateRow,
   FlexColumn,
