@@ -215,10 +215,10 @@ export const LABELS = {
     [es]: 'Recursos'
   },
   RESOURCES_DESCRIPTIONS: {
-    /* eslint-disable-next-line */
-    [en]: 'If you’re having trouble getting in touch with a care provider or have a general question, please consider contacting one of the following resources:',
-    /* eslint-disable-next-line */
-    [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta general, considere comunicarse con uno de los siguientes recursos:'
+    [en]: 'If you’re having trouble getting in touch with a care provider or have a general question, '
+    + 'please consider contacting one of the following resources:',
+    [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta '
+    + 'general, considere comunicarse con uno de los siguientes recursos:'
   },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Resource & Referral Agency',
@@ -473,10 +473,11 @@ export const WELCOME_SPLASH = {
     [es]: '¡Bienvenido a MyChildCare.ca.gov!'
   },
   DETAILS: {
-    /* eslint-disable-next-line */
-    [en]: 'Here you can find information on licensed childcare providers that are currently open including location, health and safety details, ages of children served, capacity, and hours of care.',
-    /* eslint-disable-next-line */
-    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, incluyendo su ubicación, detalles de salud y seguridad, las edades de los niños bajo cuidado, su capacidad y las horas de cuidado.'
+    [en]: 'Here you can find information on licensed childcare providers that are currently open including location, '
+    + 'health and safety details, ages of children served, capacity, and hours of care.',
+    [es]: 'Aquí puede encontrar información sobre proveedores de cuidado infantil licenciados que están abiertos, '
+    + 'incluyendo su ubicación, detalles de salud y seguridad, las edades de los niños bajo cuidado, su capacidad y '
+    + 'las horas de cuidado.'
   },
   INSTRUCTIONS_1: {
     [en]: 'Enter an address in the search bar or ',
@@ -494,9 +495,9 @@ export const WELCOME_SPLASH = {
 
 export const NO_RESULTS = {
   DETAILS: {
-    /* eslint-disable-next-line */
-    [en]: 'We couldn’t find any childcare facilities within these search parameters. Please refine your search or contact your local Resource & Referral agency:',
-    /* eslint-disable-next-line */
-    [es]: 'No pudimos encontrar ninguna guardería dentro de estos parámetros de búsqueda. Refine su búsqueda o comuníquese con su agencia local de Recursos y Referencias:'
+    [en]: 'We couldn’t find any childcare facilities within these search parameters. Please refine your search or '
+    + 'contact your local Resource & Referral agency:',
+    [es]: 'No pudimos encontrar ninguna guardería dentro de estos parámetros de búsqueda. Refine su búsqueda o '
+    + 'comuníquese con su agencia local de Recursos y Referencias:'
   },
 };
