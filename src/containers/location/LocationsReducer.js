@@ -7,10 +7,11 @@ import { List, Map, fromJS } from 'immutable';
 import { RequestStates } from 'redux-reqseq';
 
 import {
-  SEARCH_LOCATIONS,
-  GET_GEO_OPTIONS,
   GEOCODE_PLACE,
+  GET_GEO_OPTIONS,
   LOAD_CURRENT_POSITION,
+  SEARCH_LOCATIONS,
+  SEARCH_REFERRAL_AGENCIES,
   SELECT_LOCATION_OPTION,
   SELECT_PROVIDER,
   SELECT_REFERRAL_AGENCY,
@@ -19,7 +20,8 @@ import {
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
-  searchLocations
+  searchLocations,
+  searchReferralAgencies
 } from './LocationsActions';
 
 import {
@@ -42,9 +44,10 @@ const {
   FILTER_PAGE,
   HOSPITALS_BY_ID,
   IS_EDITING_FILTERS,
-  LAST_SEARCH_TYPE,
   PROVIDER_LOCATIONS,
   RADIUS,
+  REFERRAL_AGENCY_HITS,
+  REFERRAL_AGENCY_LOCATIONS,
   RRS_BY_ID,
   SEARCH_INPUTS,
   SELECTED_OPTION,
@@ -56,6 +59,7 @@ const {
 
 const INITIAL_STATE :Map = fromJS({
   [HITS]: List(),
+  [REFERRAL_AGENCY_HITS]: List(),
   [TOTAL_HITS]: 0,
   options: Map({
     data: List()
@@ -64,12 +68,12 @@ const INITIAL_STATE :Map = fromJS({
     address: '',
     currentLocation: false,
   }),
-  [PROVIDER_LOCATIONS]: Map(),
 
   [GEOCODE_PLACE]: RS_INITIAL_STATE,
   [GET_GEO_OPTIONS]: RS_INITIAL_STATE,
   [LOAD_CURRENT_POSITION]: RS_INITIAL_STATE,
   [SEARCH_LOCATIONS]: RS_INITIAL_STATE,
+  [SEARCH_REFERRAL_AGENCIES]: RS_INITIAL_STATE,
 
   [ACTIVE_ONLY]: true,
   [CHILDREN]: {},
@@ -78,9 +82,10 @@ const INITIAL_STATE :Map = fromJS({
   [FILTER_PAGE]: null,
   [HOSPITALS_BY_ID]: Map(),
   [IS_EDITING_FILTERS]: false,
-  [LAST_SEARCH_TYPE]: null,
   [PAGE]: 0,
+  [PROVIDER_LOCATIONS]: Map(),
   [RADIUS]: 10,
+  [REFERRAL_AGENCY_LOCATIONS]: Map(),
   [RRS_BY_ID]: Map(),
   [SELECTED_OPTION]: null,
   [SELECTED_PROVIDER]: null,
@@ -145,6 +150,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(PAGE, page)
             .set(IS_EDITING_FILTERS, false)
             .set(FILTER_PAGE, null)
+            .set(REFERRAL_AGENCY_LOCATIONS, Map())
             .set(SELECTED_PROVIDER, null)
             .set(SELECTED_REFERRAL_AGENCY, null)
             .merge(searchInputs);
@@ -154,6 +160,28 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
           .merge(action.value.newData),
         FAILURE: () => state.setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => state.deleteIn([SEARCH_LOCATIONS, action.id])
+      });
+    }
+
+    case searchReferralAgencies.case(action.type): {
+      return searchReferralAgencies.reducer(state, action, {
+        REQUEST: () => {
+          const { searchInputs } = action.value;
+          return state
+            .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.PENDING)
+            .setIn([SEARCH_REFERRAL_AGENCIES, action.id], action)
+            .set(SEARCH_INPUTS, searchInputs)
+            .set(IS_EDITING_FILTERS, false)
+            .set(FILTER_PAGE, null)
+            .set(SELECTED_PROVIDER, null)
+            .set(SELECTED_REFERRAL_AGENCY, null);
+        },
+        SUCCESS: () => state
+          .set(REFERRAL_AGENCY_HITS, action.value.newData.hits)
+          .set(REFERRAL_AGENCY_LOCATIONS, action.value.newData.referralAgencyLocations)
+          .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.SUCCESS),
+        FAILURE: () => state.setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.FAILURE),
+        FINALLY: () => state.deleteIn([SEARCH_REFERRAL_AGENCIES, action.id])
       });
     }
 
