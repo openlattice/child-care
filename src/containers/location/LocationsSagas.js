@@ -473,11 +473,16 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
     if (error) throw error;
 
-    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
+    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
-    const locationsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
-    response.data.hits = fromJS(locationsEKIDs);
+    const locationsByEKID = Map().withMutations((mutableMap) => {
+      filteredHits.forEach((entity) => {
+        const EKID = getEntityKeyId(entity);
+        mutableMap.set(EKID, entity);
+      });
+    });
+    response.data.hits = locationsEKIDs;
     response.data.totalHits = numHits;
     response.data.providerLocations = locationsByEKID;
 
@@ -485,7 +490,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     if (locationsEKIDs.length) {
       neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
-        entityKeyIds: response.data.hits.toJS(),
+        entityKeyIds: response.data.hits,
         sourceEntitySetIds: [],
         destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
       });
@@ -605,11 +610,16 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
     if (error) throw error;
 
-    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size).toJS();
+    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
-    const rrsByEKID = Map(filteredHits.map((entity) => [getEntityKeyId(entity), fromJS(entity)]));
-    response.data.hits = fromJS(locationsEKIDs);
+    const rrsByEKID = Map().withMutations((mutableMap) => {
+      filteredHits.forEach((entity) => {
+        const EKID = getEntityKeyId(entity);
+        mutableMap.set(EKID, entity);
+      });
+    });
+    response.data.hits = locationsEKIDs;
     response.data.totalHits = numHits;
     response.data.referralAgencyLocations = rrsByEKID;
 
