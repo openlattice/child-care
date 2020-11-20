@@ -8,7 +8,13 @@ import isPlainObject from 'lodash/isPlainObject';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import type { DispatchAPI, MiddlewareAPI } from 'redux';
 
-import { SELECT_PROVIDER, SELECT_REFERRAL_AGENCY } from '../../containers/location/LocationsActions';
+import {
+  GET_GEO_OPTIONS,
+  SEARCH_LOCATIONS,
+  SEARCH_REFERRAL_AGENCIES,
+  SELECT_PROVIDER,
+  SELECT_REFERRAL_AGENCY
+} from '../../containers/location/LocationsActions';
 
 type TrackingAction = {
   +type :string;
@@ -20,7 +26,10 @@ type Action =
 
 const matchTrackingAction = (action :TrackingAction) => (
   (isPlainObject(action.tracking) && !isEmpty(action.tracking))
+  || (action.type === GET_GEO_OPTIONS)
   || (action.type === LOCATION_CHANGE)
+  || (action.type === SEARCH_LOCATIONS)
+  || (action.type === SEARCH_REFERRAL_AGENCIES)
   || (action.type === SELECT_PROVIDER)
   || (action.type === SELECT_REFERRAL_AGENCY)
 );

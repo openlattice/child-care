@@ -207,10 +207,10 @@ export const LABELS :Object = {
     [es]: 'Recursos'
   },
   RESOURCES_DESCRIPTIONS: {
-    /* eslint-disable-next-line */
-    [en]: 'If you’re having trouble getting in touch with a care provider or have a general question, please consider contacting one of the following resources:',
-    /* eslint-disable-next-line */
-    [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta general, considere comunicarse con uno de los siguientes recursos:'
+    [en]: 'If you’re having trouble getting in touch with a care provider or have a general question, '
+    + 'please consider contacting one of the following resources:',
+    [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta '
+    + 'general, considere comunicarse con uno de los siguientes recursos:'
   },
   RESOURCE_AND_REFERRAL: {
     [en]: 'Resource & Referral Agency',

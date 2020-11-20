@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { Colors, Hooks } from 'lattice-ui-kit';
 
+import { Centered } from '../styled';
 import { useTimeout } from '../../components/hooks';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { WELCOME_SPLASH } from '../../utils/constants/labels';
@@ -11,16 +12,6 @@ import { WELCOME_SPLASH } from '../../utils/constants/labels';
 const { NEUTRAL, PURPLE } = Colors;
 
 const { useBoolean } = Hooks;
-
-const Centered = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-start;
-  opacity: ${(props) => (props.hidden ? 0 : 1)};
-  padding: 15px 0;
-`;
 
 const TextSection = styled.span`
   color: ${NEUTRAL.N700};

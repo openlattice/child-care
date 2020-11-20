@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useReducer } from 'react';
 
 import isFunction from 'lodash/isFunction';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
-import { List, Map, isImmutable } from 'immutable';
+import { List, Map, get } from 'immutable';
 import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 
@@ -15,13 +15,12 @@ import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
-import { getTextFnFromState } from '../../../utils/AppUtils';
 import { REQUEST_STATE } from '../../../core/redux/constants';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
-
 import {
   GEOCODE_PLACE,
   GET_GEO_OPTIONS,
@@ -42,7 +41,7 @@ declare var __MAPBOX_TOKEN__;
 declare var gtag :?Function;
 
 const { isNonEmptyArray } = LangUtils;
-const { isPending } = ReduxUtils;
+const { isPending, reduceRequestStates } = ReduxUtils;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
@@ -142,10 +141,12 @@ const ProviderMap = (props :Props) => {
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
   const searchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
-  const isLoading = isPending(geocodePlaceRS)
-    || isPending(searchLocationsRS)
-    || isPending(loadCurrentPositionRS)
-    || isPending(getGeoOptionsRS);
+  const isLoading = isPending(reduceRequestStates([
+    geocodePlaceRS,
+    searchLocationsRS,
+    loadCurrentPositionRS,
+    getGeoOptionsRS
+  ]));
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,
@@ -167,31 +168,31 @@ const ProviderMap = (props :Props) => {
   useEffect(() => {
     if (!isLoading) {
       const placeToMap = selectedReferralAgency || selectedProvider;
+      const newBounds = getBoundsFromPointsOfInterest(providerData);
       // first check for selectedReferralAgency then fallback to selectedProvider
       if (placeToMap) {
+        const feature = selectedReferralAgency
+          ? undefined
+          : selectedProvider;
         const [lng, lat] = getCoordinates(placeToMap);
         stateDispatch({
           type: 'center',
           payload: {
             center: [lng, lat + EXTRA_LATITUDE_OFFSET],
-            selectedFeature: placeToMap,
+            selectedFeature: feature,
             isPopupOpen: false,
             zoom: [13]
           }
         });
       }
       // second, use bounds whenever possible
-      const newBounds = getBoundsFromPointsOfInterest(providerData);
-      if (isNonEmptyArray(newBounds)) {
+      else if (isNonEmptyArray(newBounds)) {
         stateDispatch({ type: 'bounds', payload: newBounds });
       }
       // then, try to center to position without bounds
       else if (selectedOption) {
-        let { lat, lon } = selectedOption;
-        if (isImmutable(selectedOption)) {
-          lat = selectedOption.get(LAT);
-          lon = selectedOption.get(LON);
-        }
+        const lat = get(selectedOption, LAT);
+        const lon = get(selectedOption, LON);
 
         if (lat && lon) {
           stateDispatch({

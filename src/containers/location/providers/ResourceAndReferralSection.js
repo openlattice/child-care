@@ -21,7 +21,7 @@ const { SELECTED_PROVIDER, RRS_BY_ID } = PROVIDERS;
 
 const { getEntityKeyId, getPropertyValue } = DataUtils;
 
-const ContactSection = () => {
+const ResourceAndReferralSection = () => {
   const dispatch = useDispatch();
   const getText = useSelector(getTextFnFromState);
   const provider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
@@ -52,4 +52,4 @@ const ContactSection = () => {
   );
 };
 
-export default ContactSection;
+export default ResourceAndReferralSection;

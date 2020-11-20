@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 import { List, Map } from 'immutable';
@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
+import NoResults from './NoResults';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
@@ -30,19 +31,25 @@ import {
   TOTAL_HITS
 } from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import { MapWrapper } from '../../styled';
 import {
+  GEOCODE_PLACE,
   LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
   loadCurrentPosition,
   searchLocations,
+  searchReferralAgencies,
   setValue
 } from '../LocationsActions';
 
 const {
-  isFailure, isPending, isStandby
+  isFailure,
+  isPending,
+  isStandby,
+  isSuccess,
+  reduceRequestStates
 } = ReduxUtils;
 
 const {
@@ -91,6 +98,9 @@ const LocationsContainer = () => {
     false
   ));
   const getText = useSelector(getTextFnFromState);
+  const geocodePlaceRS = useSelector((store) => store.getIn(
+    [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
+  ));
   const loadCurrentPositionRS = useSelector((store) => store.getIn(
     [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
   ));
@@ -124,8 +134,24 @@ const LocationsContainer = () => {
   }
 
   const hasSearched = !isStandby(searchLocationsRS);
-  const isLoading = isPending(searchLocationsRS);
+  const isLoading = isPending(reduceRequestStates([geocodePlaceRS, searchLocationsRS, loadCurrentPositionRS]));
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
+
+  useEffect(() => {
+    if (
+      isSuccess(searchLocationsRS)
+      && searchResults.isEmpty()
+      && selectedOption.lat
+      && selectedOption.lon
+    ) {
+      dispatch(searchReferralAgencies({ searchInputs: selectedOption }));
+    }
+  }, [
+    dispatch,
+    searchLocationsRS,
+    searchResults,
+    selectedOption
+  ]);
 
   const editFilters = () => dispatch(setValue({ field: IS_EDITING_FILTERS, value: true }));
 
@@ -140,6 +166,7 @@ const LocationsContainer = () => {
       <StyledSearchResults
           hasSearched={hasSearched}
           isLoading={isLoading}
+          noResults={NoResults}
           resultComponent={LocationResult}
           results={searchResults} />
     );

@@ -8,6 +8,9 @@ import type { RequestSequence } from 'redux-reqseq';
 export const GEOCODE_PLACE :'GEOCODE_PLACE' = 'GEOCODE_PLACE';
 export const geocodePlace :RequestSequence = newRequestSequence(GEOCODE_PLACE);
 
+export const SEARCH_REFERRAL_AGENCIES :'SEARCH_REFERRAL_AGENCIES' = 'SEARCH_REFERRAL_AGENCIES';
+export const searchReferralAgencies :RequestSequence = newRequestSequence(SEARCH_REFERRAL_AGENCIES);
+
 export const GET_GEO_OPTIONS :'GET_GEO_OPTIONS' = 'GET_GEO_OPTIONS';
 export const getGeoOptions :RequestSequence = newRequestSequence(GET_GEO_OPTIONS);
 

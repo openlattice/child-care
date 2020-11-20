@@ -21,21 +21,29 @@ import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useTimeout } from '../../../components/hooks';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { REQUEST_STATE } from '../../../core/redux/constants';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import {
   GET_GEO_OPTIONS,
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
-  selectLocationOption
+  selectLocationOption,
+  setValues
 } from '../LocationsActions';
 
 const { LOCATIONS } = STATE;
-const { CURRENT_POSITION, SELECTED_OPTION } = PROVIDERS;
+const {
+  CURRENT_POSITION,
+  SELECTED_OPTION,
+  IS_EDITING_FILTERS,
+  FILTER_PAGE,
+  SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY
+} = PROVIDERS;
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
@@ -114,6 +122,13 @@ const LocationsSearchBar = () => {
 
   const handleChange = (payload) => {
     const hasValues = isPlainObject(payload);
+
+    dispatch(setValues({
+      [FILTER_PAGE]: null,
+      [IS_EDITING_FILTERS]: false,
+      [SELECTED_PROVIDER]: null,
+      [SELECTED_REFERRAL_AGENCY]: null,
+    }));
 
     if (hasValues) {
 
