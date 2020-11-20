@@ -15,10 +15,19 @@ import { bindActionCreators } from 'redux';
 
 import * as AppActions from './AppActions';
 
-import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
+import {
+  ABOUT_PATH,
+  FAQS_PATH,
+  HOME_PATH,
+  RESOURCES_PATH
+} from '../../core/router/Routes';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/labels';
 import { STATE } from '../../utils/constants/StateConstants';
+import {
+  CURRENT_LANGUAGE,
+  LABELS,
+  LANGUAGES
+} from '../../utils/constants/labels';
 import type { Translation } from '../../types';
 
 const { NEUTRAL, PURPLE } = Colors;
@@ -157,6 +166,9 @@ class AppNavigationSidebar extends Component<Props> {
           </MenuRowMailtoLink>
           <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
             {getText(LABELS.RESOURCES)}
+          </MenuRowNavLink>
+          <MenuRowNavLink to={FAQS_PATH} onClick={onClose}>
+            {getText(LABELS.FAQ)}
           </MenuRowNavLink>
         </NavMenuWrapper>
 
