@@ -3,7 +3,6 @@
  */
 
 import isFunction from 'lodash/isFunction';
-import { isImmutable } from 'immutable';
 
 import Logger from '../../../../utils/Logger';
 
