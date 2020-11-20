@@ -48,7 +48,8 @@ const {
   isFailure,
   isPending,
   isStandby,
-  isSuccess
+  isSuccess,
+  reduceRequestStates
 } = ReduxUtils;
 
 const {
@@ -133,9 +134,7 @@ const LocationsContainer = () => {
   }
 
   const hasSearched = !isStandby(searchLocationsRS);
-  const isLoading = isPending(geocodePlaceRS)
-    || isPending(searchLocationsRS)
-    || isPending(loadCurrentPositionRS);
+  const isLoading = isPending(reduceRequestStates([geocodePlaceRS, searchLocationsRS, loadCurrentPositionRS]));
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
