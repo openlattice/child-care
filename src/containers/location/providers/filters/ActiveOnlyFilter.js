@@ -3,7 +3,7 @@ import { Colors } from 'lattice-ui-kit';
 
 import styled from 'styled-components';
 
-import { LABELS } from '../../../../utils/constants/Labels';
+import { LABELS } from '../../../../utils/constants/labels';
 
 const { NEUTRAL, PURPLE } = Colors;
 

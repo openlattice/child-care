@@ -16,7 +16,7 @@ import TypeOfCareFilter from './filters/TypeOfCareFilter';
 import BackButton from '../../../components/controls/BackButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
-import { HEADER_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { HEADER_LABELS, LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
 

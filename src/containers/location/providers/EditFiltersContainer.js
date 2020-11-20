@@ -20,7 +20,7 @@ import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout'
 import { REQUEST_STATE } from '../../../core/redux/constants';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import type { Translation } from '../../../types';
 

@@ -14,7 +14,7 @@ import ExpandableSection from './ExpandableSection';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { getCoordinates } from '../../map/MapUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {

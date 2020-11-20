@@ -10,7 +10,7 @@ import { Checkbox } from 'lattice-ui-kit';
 
 import { ContentOuterWrapper } from '../../../../components/layout';
 import { FACILITY_TYPES } from '../../../../utils/DataConstants';
-import { FACILITY_TYPE_LABELS, LABELS } from '../../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../../utils/constants/labels';
 import type { Translation } from '../../../../types';
 
 const Instruction = styled.div`

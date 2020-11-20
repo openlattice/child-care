@@ -24,7 +24,7 @@ import { useTimeout } from '../../../components/hooks';
 import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { REQUEST_STATE } from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {
   GET_GEO_OPTIONS,
