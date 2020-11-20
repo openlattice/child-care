@@ -144,7 +144,7 @@ const LocationsContainer = () => {
       && selectedOption.lat
       && selectedOption.lon
     ) {
-      dispatch(searchReferralAgencies({ selectedOption }));
+      dispatch(searchReferralAgencies({ searchInputs: selectedOption }));
     }
   }, [
     dispatch,
