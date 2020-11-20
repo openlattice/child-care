@@ -150,6 +150,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(RRS_BY_ID, Map())
             .set(TOTAL_HITS, 0)
             .set(SEARCH_INPUTS, searchInputs)
+            .set(SELECTED_OPTION, searchInputs.get(SELECTED_OPTION))
             .set(PAGE, page)
             .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.PENDING)
             .setIn([SEARCH_LOCATIONS, action.id], action);
