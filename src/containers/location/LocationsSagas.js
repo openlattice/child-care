@@ -80,7 +80,7 @@ const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
 const regionIsCalifornia = (suggestion) => suggestion.context
   .filter((item) => item.id.split('.').shift() === 'region' && item.text === 'California').length > 0;
 
-const hasLocation :boolean = (entity) => has(entity, PROPERTY_TYPES.LOCATION);
+const hasLocation = (entity :Map) => (has(entity, PROPERTY_TYPES.LOCATION));
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
