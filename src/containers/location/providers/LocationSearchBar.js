@@ -31,11 +31,19 @@ import {
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
-  selectLocationOption
+  selectLocationOption,
+  setValues
 } from '../LocationsActions';
 
 const { LOCATIONS } = STATE;
-const { CURRENT_POSITION, SELECTED_OPTION } = PROVIDERS;
+const {
+  CURRENT_POSITION,
+  SELECTED_OPTION,
+  IS_EDITING_FILTERS,
+  FILTER_PAGE,
+  SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY
+} = PROVIDERS;
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
@@ -114,6 +122,13 @@ const LocationsSearchBar = () => {
 
   const handleChange = (payload) => {
     const hasValues = isPlainObject(payload);
+
+    dispatch(setValues({
+      [FILTER_PAGE]: null,
+      [IS_EDITING_FILTERS]: false,
+      [SELECTED_PROVIDER]: null,
+      [SELECTED_REFERRAL_AGENCY]: null,
+    }));
 
     if (hasValues) {
 
