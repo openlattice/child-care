@@ -6,7 +6,7 @@ import { Hooks, IconSplash } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { LABELS } from '../../utils/constants/Labels';
+import { LABELS } from '../../utils/constants/labels';
 import { useSelector } from 'react-redux';
 
 const { useBoolean } = Hooks;

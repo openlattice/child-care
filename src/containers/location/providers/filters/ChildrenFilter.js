@@ -9,7 +9,7 @@ import { Colors } from 'lattice-ui-kit';
 
 import PlusMinus from '../../../../components/controls/PlusMinus';
 import { PROPERTY_TYPES } from '../../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../../utils/constants/Labels';
+import { LABELS } from '../../../../utils/constants/labels';
 import type { Translation } from '../../../../types';
 
 const { NEUTRAL } = Colors;

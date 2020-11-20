@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import IconDetail from '../../components/premium/styled/IconDetail';
 
 import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/labels';
 import { OpenClosedTag } from '../../components/layout';
 import { VACANCY_COLORS } from '../../shared/Colors';
 import {

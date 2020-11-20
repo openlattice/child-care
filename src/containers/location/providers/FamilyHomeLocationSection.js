@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { shouldShowLocation } from '../../../utils/DataUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { InfoText, TitleRow } from '../../styled';
 

@@ -11,7 +11,7 @@ import ExpandableSection from './ExpandableSection';
 
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { InfoText, Row } from '../../styled';
 import { selectReferralAgency } from '../LocationsActions';

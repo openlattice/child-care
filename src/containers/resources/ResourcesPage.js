@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { RESOURCES } from '../../utils/constants/Labels';
+import { RESOURCES } from '../../utils/constants/labels';
 import { RESOURCES_CONTENT } from '../../utils/constants/ResourcesConstants';
 
 const Wrapper = styled(ContentWrapper)`

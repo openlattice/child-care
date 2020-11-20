@@ -44,7 +44,7 @@ import {
   PROPERTY_TYPES,
   RR_ENTITY_SET_ID
 } from '../../utils/constants/DataModelConstants';
-import { LABELS } from '../../utils/constants/Labels';
+import { LABELS } from '../../utils/constants/labels';
 import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS, STATE } from '../../utils/constants/StateConstants';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';

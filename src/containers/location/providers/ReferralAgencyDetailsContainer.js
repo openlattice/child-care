@@ -8,7 +8,7 @@ import { DataUtils } from 'lattice-utils';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
 import { PROVIDER_EMAIL, PROVIDER_PHONE_NUMBER } from '../../../core/tracking/constants';
 import {

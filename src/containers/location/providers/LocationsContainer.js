@@ -31,7 +31,7 @@ import {
   TOTAL_HITS
 } from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { MapWrapper } from '../../styled';
 import {
