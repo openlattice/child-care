@@ -14,6 +14,10 @@ export const FAQS :Object = {
     [es]: 'Los usuarios deberán utilizar el navegador web Google Chrome para acceder '
     + 'al enlace https://mychildcare.ca.gov/.'
   },
+  FREQUENTLY_ASKED_QUESTIONS: {
+    [en]: 'Frequently Asked Questions (FAQ)',
+    [es]: 'Preguntas frecuentes (FAQ)'
+  },
   PARENTS: {
     [en]: 'Parents',
     [es]: 'Madres'
