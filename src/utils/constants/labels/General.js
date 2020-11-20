@@ -134,6 +134,10 @@ export const LABELS :Object = {
     [en]: 'Enter Name, Address, or ZIP',
     [es]: 'Nombre, dirección o código postal'
   },
+  FAQ: {
+    [en]: 'FAQs',
+    [es]: 'Preguntas más frecuentes'
+  },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
     [es]: 'Hogar familiar pequeño'
