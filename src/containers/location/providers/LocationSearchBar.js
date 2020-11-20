@@ -21,11 +21,11 @@ import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useTimeout } from '../../../components/hooks';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { REQUEST_STATE } from '../../../core/redux/constants';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import {
   GET_GEO_OPTIONS,
   geocodePlace,

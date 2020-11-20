@@ -12,9 +12,9 @@ import {
 import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
-import NoResults from './NoResults';
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
+import NoResults from './NoResults';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
@@ -31,8 +31,8 @@ import {
   TOTAL_HITS
 } from '../../../core/redux/constants';
 import { getTextFnFromState } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import { MapWrapper } from '../../styled';
 import {
   GEOCODE_PLACE,
