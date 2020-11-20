@@ -1,16 +1,18 @@
 /*
  * @flow
  */
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import styled from 'styled-components';
 import { Typography } from 'lattice-ui-kit';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { RESOURCES } from '../../utils/constants/labels';
+import { goToPath } from '../../core/router/RoutingActions';
+import { FAQS_PATH } from '../../core/router/Routes';
+import { FAQS, LABELS, RESOURCES } from '../../utils/constants/labels';
 import { RESOURCES_CONTENT } from '../../utils/constants/ResourcesConstants';
 
 const Wrapper = styled(ContentWrapper)`
@@ -25,7 +27,7 @@ const Wrapper = styled(ContentWrapper)`
 const trackClick = (link, title) => trackLinkClick(link, title);
 const getResourcesContent = (getText) => Object.entries(RESOURCES).map(([key, value]) => (
   RESOURCES_CONTENT[key] && (
-    <>
+    <Fragment key={key}>
       <Typography variant="subtitle1">{getText(value)}</Typography>
       {
         RESOURCES_CONTENT[key].PHONE && (
@@ -45,7 +47,6 @@ const getResourcesContent = (getText) => Object.entries(RESOURCES).map(([key, va
           <TextLink
               aria-label={`link to ${getText(value)}`}
               href={RESOURCES_CONTENT[key].URL}
-              key={RESOURCES_CONTENT[key].URL}
               onClick={() => trackClick(
                 RESOURCES_CONTENT[key].URL,
                 getText(value)
@@ -55,13 +56,14 @@ const getResourcesContent = (getText) => Object.entries(RESOURCES).map(([key, va
           </TextLink>
         )
       }
-    </>
+    </Fragment>
   )
 ));
 
 const ResourcesPage = () => {
-
+  const dispatch = useDispatch();
   const getText = useSelector(getTextFnFromState);
+  const goToFAQs = () => dispatch(goToPath(FAQS_PATH));
 
   return (
     <ContentOuterWrapper>
@@ -69,6 +71,12 @@ const ResourcesPage = () => {
         <Typography variant="h1">{getText(RESOURCES.RESOURCES)}</Typography>
         <Typography color="textSecondary" variant="body1">{getText(RESOURCES.RESOURCES_DESCRIPTIONS)}</Typography>
         { getResourcesContent(getText) }
+        <Typography variant="subtitle1">{getText(FAQS.FREQUENTLY_ASKED_QUESTIONS)}</Typography>
+        <TextLink
+            aria-label="link to FAQs Page"
+            onClick={goToFAQs}>
+          {`${getText(LABELS.LINK_TO)} FAQs`}
+        </TextLink>
       </Wrapper>
     </ContentOuterWrapper>
   );
