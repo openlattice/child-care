@@ -162,6 +162,10 @@ export const LABELS :Object = {
     [en]: 'License Number',
     [es]: 'Número de licencia'
   },
+  LINK_TO: {
+    [en]: 'Link to',
+    [es]: 'Enlace a'
+  },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',
     [es]: 'Hospital más cercano'
