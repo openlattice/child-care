@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
-export const UNSUPPORTED_BROWSER = {
+export const UNSUPPORTED_BROWSER :Object = {
   HEADER: {
     [en]: 'It looks like you\'re using an unsupported browser!',
     [es]: '¡Parece que está usando un navegador incompatible!'

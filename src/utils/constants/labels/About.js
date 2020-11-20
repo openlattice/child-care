@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
-export const ABOUT = {
+export const ABOUT :Object = {
   INTRO: {
     [en]: 'This tool is a COVID-19 joint collaboration between ',
     [es]: 'Esta herramienta es el resultado de una colaboración entre '

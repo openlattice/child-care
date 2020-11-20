@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
-export const WELCOME_SPLASH = {
+export const WELCOME_SPLASH :Object = {
   WELCOME: {
     [en]: 'Welcome to MyChildCare.ca.gov!',
     [es]: '¡Bienvenido a MyChildCare.ca.gov!'

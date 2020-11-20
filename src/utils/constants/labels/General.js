@@ -5,7 +5,7 @@
 import { DAYS_OF_WEEK } from '../../DataConstants';
 import { en, es } from './Languages';
 
-export const LABELS = {
+export const LABELS :Object = {
   ABOUT: {
     [en]: 'About',
     [es]: 'Acerca de esta herramienta'

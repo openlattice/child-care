@@ -4,7 +4,7 @@
 /* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
-export const RESOURCES = {
+export const RESOURCES :Object = {
   RESOURCES: {
     [en]: 'Resources',
     [es]: 'Recursos'

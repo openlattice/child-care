@@ -5,7 +5,7 @@
 import { FACILITY_TYPES } from '../../DataConstants';
 import { en, es } from './Languages';
 
-export const FACILITY_TYPE_LABELS = {
+export const FACILITY_TYPE_LABELS :Object = {
   [FACILITY_TYPES.FAMILY_HOME]: {
     [en]: 'Family Home',
     [es]: 'Casa familiar'

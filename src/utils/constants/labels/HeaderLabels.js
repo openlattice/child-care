@@ -6,7 +6,7 @@ import { PROVIDERS } from '../StateConstants';
 import { en, es } from './Languages';
 import { LABELS } from './General';
 
-export const HEADER_LABELS = {
+export const HEADER_LABELS :Object = {
   [PROVIDERS.ACTIVE_ONLY]: LABELS.SHOW_INACTIVE_FACILITIES,
   [PROVIDERS.TYPE_OF_CARE]: LABELS.TYPE_OF_CARE,
   [PROVIDERS.ZIP]: LABELS.ZIP_CODE,

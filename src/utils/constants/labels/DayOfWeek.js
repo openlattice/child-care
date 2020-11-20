@@ -5,7 +5,7 @@
 import { DAYS_OF_WEEK } from '../../DataConstants';
 import { en, es } from './Languages';
 
-export const DAY_OF_WEEK_LABELS = {
+export const DAY_OF_WEEK_LABELS :Object = {
   [DAYS_OF_WEEK.SUNDAY]: {
     [en]: 'Sunday',
     [es]: 'Domingo'
