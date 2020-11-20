@@ -16,6 +16,7 @@ import {
   Map,
   fromJS,
   get,
+  has,
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
@@ -80,6 +81,8 @@ const GEOCODING_API = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 const CA_BOUNDARY_BOX = '-124.409591,32.534156,-114.131211,42.009518';
 const regionIsCalifornia = (suggestion) => suggestion.context
   .filter((item) => item.id.split('.').shift() === 'region' && item.text === 'California').length > 0;
+
+const hasLocation :boolean = (entity) => has(entity, PROPERTY_TYPES.LOCATION);
 
 function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
@@ -469,7 +472,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { hits, numHits: totalHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
-    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
+    const filteredHits = fromJS(hits).filter(hasLocation);
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
     const providerLocations = Map().withMutations((mutableMap) => {
@@ -600,7 +603,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
 
     const { hits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
-    const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
+    const filteredHits = fromJS(hits).filter(hasLocation);
 
     const referralAgencyLocations = Map().withMutations((mutableMap) => {
       filteredHits.forEach((entity) => {
