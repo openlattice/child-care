@@ -50,7 +50,6 @@ import { LABELS } from '../../utils/constants/labels';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
 
-declare var gtag :?Function;
 declare var __MAPBOX_TOKEN__;
 
 const AGE_GROUP_BY_FQN = {
@@ -103,13 +102,6 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     }
 
     const queryString = qs.stringify(params);
-
-    if (isFunction(gtag)) {
-      gtag('event', 'Geocode Address', {
-        event_category: 'Search',
-        event_label: address,
-      });
-    }
 
     const { data: suggestions } = yield call(axios, {
       method: 'get',
@@ -303,19 +295,6 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const latitude :string = get(latLonObj, LAT);
     const longitude :string = get(latLonObj, LON);
-
-    if (isFunction(gtag)) {
-      gtag('event', 'Execute Search', {
-        event_category: 'Search',
-        event_label: JSON.stringify({
-          activeOnly,
-          children,
-          daysAndTimes,
-          radius,
-          typeOfCare,
-        }),
-      });
-    }
 
     let app :Map = yield select((state) => state.get('app', Map()));
     let entitySetId = getProvidersESID(app);
@@ -534,10 +513,10 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     yield call(refreshAuthTokenIfNecessary);
 
     const { value } = action;
-    const { selectedOption } = value;
+    const { searchInputs } = value;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
 
-    let latLonObj = selectedOption;
+    let latLonObj = searchInputs;
     if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
 
     yield put(searchReferralAgencies.request(action.id, {
@@ -546,12 +525,6 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
 
     const latitude :string = get(latLonObj, 'lat');
     const longitude :string = get(latLonObj, 'lon');
-
-    if (isFunction(gtag)) {
-      gtag('event', 'Execute Search', {
-        event_category: 'Search',
-      });
-    }
 
     const entitySetId = RR_ENTITY_SET_ID;
     let app :Map = yield select((state) => state.get('app', Map()));
