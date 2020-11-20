@@ -41,7 +41,7 @@ declare var __MAPBOX_TOKEN__;
 declare var gtag :?Function;
 
 const { isNonEmptyArray } = LangUtils;
-const { isPending } = ReduxUtils;
+const { isPending, reduceRequestStates } = ReduxUtils;
 
 // eslint-disable-next-line new-cap
 const Mapbox = ReactMapboxGl({
@@ -141,10 +141,12 @@ const ProviderMap = (props :Props) => {
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, PROVIDERS.SELECTED_REFERRAL_AGENCY]));
   const searchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
-  const isLoading = isPending(geocodePlaceRS)
-    || isPending(searchLocationsRS)
-    || isPending(loadCurrentPositionRS)
-    || isPending(getGeoOptionsRS);
+  const isLoading = isPending(reduceRequestStates([
+    geocodePlaceRS,
+    searchLocationsRS,
+    loadCurrentPositionRS,
+    getGeoOptionsRS
+  ]));
   const [state, stateDispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     bounds,
