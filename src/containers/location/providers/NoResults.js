@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { getDistanceBetweenCoords } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { NO_RESULTS } from '../../../utils/constants/Labels';
+import { NO_RESULTS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 import { Centered, Row } from '../../styled';
