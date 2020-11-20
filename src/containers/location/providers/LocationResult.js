@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Map } from 'immutable';
+import { get, Map } from 'immutable';
 import { useSelector } from 'react-redux';
 
 import ProviderResult from '../../styled/ProviderResult';
@@ -12,8 +12,14 @@ import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 type Props = {
   result :Map;
 }
+
+const { LOCATIONS } = STATE;
 const {
-  LAT, LON, PROVIDER_LOCATIONS, SELECTED_OPTION
+  CURRENT_POSITION,
+  LAT,
+  LON,
+  PROVIDER_LOCATIONS,
+  SELECTED_OPTION
 } = PROVIDERS;
 
 const LocationResult = (props :Props) => {
@@ -22,11 +28,13 @@ const LocationResult = (props :Props) => {
 
   const getText = useSelector(getTextFnFromState);
 
-  const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
-  const provider = providerState.getIn([PROVIDER_LOCATIONS, locationEKID], Map());
+  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
+  const provider = useSelector((store) => store.getIn([LOCATIONS, PROVIDER_LOCATIONS, locationEKID], Map()));
 
-  const lat = providerState.getIn([SELECTED_OPTION, LAT]);
-  const lon = providerState.getIn([SELECTED_OPTION, LON]);
+  const { latitude, longitude } = currentPosition.coords;
+  const lat = get(selectedOption, LAT, latitude);
+  const lon = get(selectedOption, LON, longitude);
 
   return (
     <ProviderResult provider={provider} coordinates={[lat, lon]} getText={getText} />
