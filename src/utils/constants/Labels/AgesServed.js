@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+/* eslint-disable import/prefer-default-export */
 import { CLIENTS_SERVED } from '../../DataConstants';
 import { LABELS } from './General';
 

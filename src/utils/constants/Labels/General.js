@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+/* eslint-disable import/prefer-default-export */
 import { DAYS_OF_WEEK } from '../../DataConstants';
 import { en, es } from './Languages';
 

@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+/* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
 export const ABOUT = {

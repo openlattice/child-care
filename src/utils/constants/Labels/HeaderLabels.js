@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+/* eslint-disable import/prefer-default-export */
 import { PROVIDERS } from '../StateConstants';
 import { en, es } from './Languages';
 import { LABELS } from './General';

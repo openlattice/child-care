@@ -1,3 +1,7 @@
+/*
+ * @flow
+ */
+/* eslint-disable import/prefer-default-export */
 import { FACILITY_TYPES } from '../../DataConstants';
 import { en, es } from './Languages';
 
