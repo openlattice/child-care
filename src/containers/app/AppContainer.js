@@ -26,9 +26,15 @@ import { INITIALIZE_APPLICATION, initializeApplication } from './AppActions';
 import AboutPage from '../about/AboutPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
+import FAQsPage from '../faqs/FAQsPage';
 import ResourcesPage from '../resources/ResourcesPage';
 import { APP, REQUEST_STATE } from '../../core/redux/constants';
-import { ABOUT_PATH, HOME_PATH, RESOURCES_PATH } from '../../core/router/Routes';
+import {
+  ABOUT_PATH,
+  FAQS_PATH,
+  HOME_PATH,
+  RESOURCES_PATH
+} from '../../core/router/Routes';
 import {
   HEADER_HEIGHT,
   MEDIA_QUERY_LG,
@@ -113,6 +119,7 @@ class AppContainer extends Component<Props> {
         <Route exact strict path={HOME_PATH} component={LocationsContainer} />
         <Route path={ABOUT_PATH} component={AboutPage} />
         <Route path={RESOURCES_PATH} component={ResourcesPage} />
+        <Route path={FAQS_PATH} component={FAQsPage} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );
