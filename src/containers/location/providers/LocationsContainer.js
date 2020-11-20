@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
-import { List, Map } from 'immutable';
+import { get, List, Map } from 'immutable';
 import {
   Colors,
   PaginationToolbar,
@@ -55,6 +55,8 @@ const {
 const {
   CURRENT_POSITION,
   IS_EDITING_FILTERS,
+  LAT,
+  LON,
   SELECTED_PROVIDER,
   SELECTED_REFERRAL_AGENCY,
   SEARCH_INPUTS,
@@ -133,6 +135,9 @@ const LocationsContainer = () => {
     providerDetails = <ProviderDetailsContainer />;
   }
 
+  const lat = get(selectedOption, LAT);
+  const lon = get(selectedOption, LON);
+
   const hasSearched = !isStandby(searchLocationsRS);
   const isLoading = isPending(reduceRequestStates([geocodePlaceRS, searchLocationsRS, loadCurrentPositionRS]));
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
@@ -141,8 +146,8 @@ const LocationsContainer = () => {
     if (
       isSuccess(searchLocationsRS)
       && searchResults.isEmpty()
-      && selectedOption.lat
-      && selectedOption.lon
+      && lat
+      && lon
     ) {
       dispatch(searchReferralAgencies({ searchInputs: selectedOption }));
     }
