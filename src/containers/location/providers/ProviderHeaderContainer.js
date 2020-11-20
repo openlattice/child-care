@@ -22,7 +22,7 @@ import {
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
 import type { Translation } from '../../../types';

@@ -6,7 +6,7 @@ import { Colors, Hooks } from 'lattice-ui-kit';
 
 import { useTimeout } from '../../components/hooks';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { WELCOME_SPLASH } from '../../utils/constants/Labels';
+import { WELCOME_SPLASH } from '../../utils/constants/labels';
 
 const { NEUTRAL, PURPLE } = Colors;
 

@@ -13,7 +13,7 @@ import type { UUID } from 'lattice';
 
 import { FACILITY_NAME_MASKED, FACILITY_STATUSES } from './DataConstants';
 import { PROPERTY_TYPES } from './constants/DataModelConstants';
-import { AGES_SERVED_LABELS, LABELS } from './constants/Labels';
+import { AGES_SERVED_LABELS, LABELS } from './constants/labels';
 
 const { FQN } = Models;
 const { OPENLATTICE_ID_FQN } = Constants;

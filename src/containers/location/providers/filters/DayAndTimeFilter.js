@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Checkbox, Colors, TimePicker } from 'lattice-ui-kit';
 
 import { DAYS_OF_WEEK } from '../../../../utils/DataConstants';
-import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/Labels';
+import { DAY_OF_WEEK_LABELS } from '../../../../utils/constants/labels';
 
 const { NEUTRAL } = Colors;
 

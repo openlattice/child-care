@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BackButton from '../../../components/controls/BackButton';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { renderFacilityName } from '../../../utils/DataUtils';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { selectReferralAgency } from '../LocationsActions';
 import {

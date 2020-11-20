@@ -18,7 +18,7 @@ import {
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/Labels';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
 import { selectProvider } from '../LocationsActions';
 import type { Translation } from '../../../types';
 

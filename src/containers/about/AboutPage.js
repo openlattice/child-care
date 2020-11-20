@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Colors } from 'lattice-ui-kit';
 
 import { STATE } from '../../utils/constants/StateConstants';
-import { ABOUT, LABELS } from '../../utils/constants/Labels';
+import { ABOUT, LABELS } from '../../utils/constants/labels';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
 

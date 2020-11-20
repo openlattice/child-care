@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Modal } from 'lattice-ui-kit';
 
-import { UNSUPPORTED_BROWSER } from '../../utils/constants/Labels';
+import { UNSUPPORTED_BROWSER } from '../../utils/constants/labels';
 
 const Content = styled.div`
   align-items: center;

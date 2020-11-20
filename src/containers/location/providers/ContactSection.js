@@ -13,7 +13,7 @@ import { getTextFnFromState } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import { isProviderActive, shouldHideContact } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/Labels';
+import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {
   DataRows,
