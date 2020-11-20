@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useReducer } from 'react';
 
 import isFunction from 'lodash/isFunction';
 import ReactMapboxGl, { ZoomControl } from 'react-mapbox-gl';
-import { get, List, Map } from 'immutable';
+import { List, Map, get } from 'immutable';
 import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 
@@ -15,13 +15,12 @@ import SearchCenterMarker from './markers/SearchCenterMarker';
 import SelectedProviderMarker from './markers/SelectedProviderMarker';
 
 import CurrentPositionLayer from '../../map/CurrentPositionLayer';
-import { getTextFnFromState } from '../../../utils/AppUtils';
 import { REQUEST_STATE } from '../../../core/redux/constants';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import { isProviderActive } from '../../../utils/DataUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getBoundsFromPointsOfInterest, getCoordinates } from '../../map/MapUtils';
 import { COORDS, MAP_STYLE } from '../../map/constants';
-
 import {
   GEOCODE_PLACE,
   GET_GEO_OPTIONS,
