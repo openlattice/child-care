@@ -144,20 +144,23 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
         REQUEST: () => {
           const { searchInputs, page } = action.value;
           return state
-            .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.PENDING)
-            .setIn([SEARCH_LOCATIONS, action.id], action)
+            .set(HITS, List())
+            .set(HOSPITALS_BY_ID, Map())
+            .set(PROVIDER_LOCATIONS, Map())
+            .set(RRS_BY_ID, Map())
+            .set(TOTAL_HITS, 0)
             .set(SEARCH_INPUTS, searchInputs)
             .set(PAGE, page)
-            .set(IS_EDITING_FILTERS, false)
-            .set(FILTER_PAGE, null)
-            .set(REFERRAL_AGENCY_LOCATIONS, Map())
-            .set(SELECTED_PROVIDER, null)
-            .set(SELECTED_REFERRAL_AGENCY, null)
-            .merge(searchInputs);
+            .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.PENDING)
+            .setIn([SEARCH_LOCATIONS, action.id], action);
         },
         SUCCESS: () => state
-          .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.SUCCESS)
-          .merge(action.value.newData),
+          .set(HITS, action.value.hits)
+          .set(HOSPITALS_BY_ID, action.value.hospitalsById)
+          .set(PROVIDER_LOCATIONS, action.value.providerLocations)
+          .set(RRS_BY_ID, action.value.rrsById)
+          .set(TOTAL_HITS, action.value.totalHits)
+          .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.SUCCESS),
         FAILURE: () => state.setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => state.deleteIn([SEARCH_LOCATIONS, action.id])
       });
@@ -165,20 +168,12 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
 
     case searchReferralAgencies.case(action.type): {
       return searchReferralAgencies.reducer(state, action, {
-        REQUEST: () => {
-          const { searchInputs } = action.value;
-          return state
-            .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.PENDING)
-            .setIn([SEARCH_REFERRAL_AGENCIES, action.id], action)
-            .set(SEARCH_INPUTS, searchInputs)
-            .set(IS_EDITING_FILTERS, false)
-            .set(FILTER_PAGE, null)
-            .set(SELECTED_PROVIDER, null)
-            .set(SELECTED_REFERRAL_AGENCY, null);
-        },
+        REQUEST: () => state
+          .set(REFERRAL_AGENCY_LOCATIONS, Map())
+          .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.PENDING)
+          .setIn([SEARCH_REFERRAL_AGENCIES, action.id], action),
         SUCCESS: () => state
-          .set(REFERRAL_AGENCY_HITS, action.value.newData.hits)
-          .set(REFERRAL_AGENCY_LOCATIONS, action.value.newData.referralAgencyLocations)
+          .set(REFERRAL_AGENCY_LOCATIONS, action.value.referralAgencyLocations)
           .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.SUCCESS),
         FAILURE: () => state.setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => state.deleteIn([SEARCH_REFERRAL_AGENCIES, action.id])
