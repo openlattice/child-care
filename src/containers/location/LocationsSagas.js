@@ -270,9 +270,6 @@ function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAc
 }
 
 function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any> {
-  const response = {
-    data: {}
-  };
 
   try {
 
@@ -470,27 +467,23 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
-    if (error) throw error;
+    const { hits, numHits: totalHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
 
     const locationsEKIDs = filteredHits.map(getEntityKeyId);
-    const locationsByEKID = Map().withMutations((mutableMap) => {
+    const providerLocations = Map().withMutations((mutableMap) => {
       filteredHits.forEach((entity) => {
         const EKID = getEntityKeyId(entity);
         mutableMap.set(EKID, entity);
       });
     });
-    response.data.hits = locationsEKIDs;
-    response.data.totalHits = numHits;
-    response.data.providerLocations = locationsByEKID;
 
     let neighborsById = {};
 
-    if (locationsEKIDs.length) {
+    if (!locationsEKIDs.isEmpty()) {
       neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
-        entityKeyIds: response.data.hits,
+        entityKeyIds: locationsEKIDs.toJS(),
         sourceEntitySetIds: [],
         destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
       });
@@ -511,11 +504,12 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       });
     });
 
-    response.data.rrsById = rrsById;
-    response.data.hospitalsById = hospitalsById;
-
     yield put(searchLocations.success(action.id, {
-      newData: response.data
+      hits: locationsEKIDs,
+      hospitalsById,
+      providerLocations,
+      rrsById,
+      totalHits
     }));
   }
   catch (error) {
@@ -532,9 +526,6 @@ function* searchLocationsWatcher() :Generator<any, any, any> {
 }
 
 function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, any, any> {
-  const response = {
-    data: {}
-  };
 
   try {
     yield call(refreshAuthTokenIfNecessary);
@@ -607,25 +598,18 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       sort
     };
 
-    const { hits, numHits, error } = yield call(SearchApi.searchEntitySetData, searchOptions);
-    if (error) throw error;
+    const { hits } = yield call(SearchApi.searchEntitySetData, searchOptions);
 
     const filteredHits = fromJS(hits).filter((e) => e.get(PROPERTY_TYPES.LOCATION, List()).size);
 
-    const locationsEKIDs = filteredHits.map(getEntityKeyId);
-    const rrsByEKID = Map().withMutations((mutableMap) => {
+    const referralAgencyLocations = Map().withMutations((mutableMap) => {
       filteredHits.forEach((entity) => {
         const EKID = getEntityKeyId(entity);
         mutableMap.set(EKID, entity);
       });
     });
-    response.data.hits = locationsEKIDs;
-    response.data.totalHits = numHits;
-    response.data.referralAgencyLocations = rrsByEKID;
 
-    yield put(searchReferralAgencies.success(action.id, {
-      newData: response.data
-    }));
+    yield put(searchReferralAgencies.success(action.id, { referralAgencyLocations }));
   }
   catch (error) {
     LOG.error(action.type, error);
