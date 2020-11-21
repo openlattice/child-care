@@ -134,6 +134,10 @@ export const LABELS :Object = {
     [en]: 'Enter Name, Address, or ZIP',
     [es]: 'Nombre, dirección o código postal'
   },
+  FAQ: {
+    [en]: 'FAQs',
+    [es]: 'Preguntas más frecuentes'
+  },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
     [es]: 'Hogar familiar pequeño'
@@ -157,6 +161,10 @@ export const LABELS :Object = {
   LICENSE_NUMBER: {
     [en]: 'License Number',
     [es]: 'Número de licencia'
+  },
+  LINK_TO: {
+    [en]: 'Link to',
+    [es]: 'Enlace a'
   },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',

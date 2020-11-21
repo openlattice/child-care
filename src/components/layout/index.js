@@ -91,4 +91,5 @@ export const TextLink = styled.a.attrs({
   target: '_blank'
 })`
   color: ${PURPLE.P300};
+  cursor: pointer;
 `;
