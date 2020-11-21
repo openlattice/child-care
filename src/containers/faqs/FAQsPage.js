@@ -14,8 +14,8 @@ import { FAQS, Q_AND_A } from '../../utils/constants/labels';
 const { PURPLE } = Colors;
 
 const Wrapper = styled(ContentWrapper)`
-  padding: 30px !important;
   background-color: white;
+  padding: 30px !important;
 
   h6 {
     margin: 20px 0 5px;
