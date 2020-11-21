@@ -151,7 +151,7 @@ export const Q_AND_A = {
       },
       A: {
         [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) '
-        + 'at your local Regional Office and submit changes. ',
+        + 'at your local Regional Office and submit changes.',
         [es]: ''
       }
     },
@@ -162,7 +162,7 @@ export const Q_AND_A = {
       },
       A: {
         [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at '
-        + 'your local Regional Office and submit changes. ',
+        + 'your local Regional Office and submit changes.',
         [es]: ''
       }
     },
