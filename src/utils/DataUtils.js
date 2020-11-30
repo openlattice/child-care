@@ -1,5 +1,4 @@
 // @flow
-import moment from 'moment';
 import {
   List,
   Map,
@@ -9,6 +8,7 @@ import {
   setIn,
 } from 'immutable';
 import { Constants, Models } from 'lattice';
+import { DateTime } from 'luxon';
 import type { UUID } from 'lattice';
 
 import { FACILITY_NAME_MASKED, FACILITY_STATUSES } from './DataConstants';
@@ -285,9 +285,15 @@ export const getDistanceBetweenCoords = (coordinate1 :number[], coordinate2 :num
 
 };
 
-const HARDCODED_DATE = 'January 1, 2020';
+const HARDCODED_DATE = '2020-01-01';
 
-export const formatTimeAsDateTime = (time :string) => moment.utc(`${HARDCODED_DATE} ${time}`).toISOString();
+export const formatTimeAsDateTime = (time :string) => {
+  const [hour, minute] = time.trim().split(':');
+  return DateTime
+    .fromISO(HARDCODED_DATE, { zone: 'utc' })
+    .set({ hour: parseInt(hour, 10), minute: parseInt(minute, 10) })
+    .toISO();
+};
 
 export const getAgesServedFromEntity = (provider :Map, getText :Function) => provider
   .get(PROPERTY_TYPES.AGES_SERVED, List())
