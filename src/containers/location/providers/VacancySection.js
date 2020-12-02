@@ -2,13 +2,15 @@
 
 import React from 'react';
 
+import { Typography } from 'lattice-ui-kit';
 import { DataUtils, DateTimeUtils } from 'lattice-utils';
 import { useSelector } from 'react-redux';
 
+import { Body3 } from '../../../components/layout';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import { FlexContainer, MarginWrapper, TitleRow } from '../../styled';
 
 const { LOCATIONS } = STATE;
@@ -33,14 +35,14 @@ const VacancySection = () => {
   return (
     <TitleRow>
       <FlexContainer>
-        <span>{getText(LABELS.AVAILABILITY)}</span>
+        <Typography variant="subtitle2">{getText(LABELS.AVAILABILITY)}</Typography>
         {
           vacancyLastUpdateDate && (
             <MarginWrapper>{`${getText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</MarginWrapper>
           )
         }
       </FlexContainer>
-      <span>{getText(label)}</span>
+      <Body3>{getText(label)}</Body3>
     </TitleRow>
   );
 };
