@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Colors, StyleUtils } from 'lattice-ui-kit';
+import { Colors, StyleUtils, Typography } from 'lattice-ui-kit';
 
 import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
 
@@ -92,4 +92,10 @@ export const TextLink = styled.a.attrs({
 })`
   color: ${PURPLE.P300};
   cursor: pointer;
+`;
+
+export const Body3 = styled(Typography).attrs({
+  variant: 'body1'
+})`
+  font-size: 14px;
 `;
