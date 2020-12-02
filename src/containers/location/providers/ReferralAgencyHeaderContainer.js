@@ -4,20 +4,21 @@ import React from 'react';
 
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from 'lattice-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 
 import BackButton from '../../../components/controls/BackButton';
+import { Body3 } from '../../../components/layout';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { renderFacilityName } from '../../../utils/DataUtils';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { selectReferralAgency } from '../LocationsActions';
+import { LABELS } from '../../../utils/constants/labels';
 import {
   Header,
   StyledHeaderOuterWrapper,
-  StyledHeaderWrapper,
-  SubHeader
+  StyledHeaderWrapper
 } from '../../styled';
+import { selectReferralAgency } from '../LocationsActions';
 
 const { LOCATIONS } = STATE;
 
@@ -50,9 +51,9 @@ const ReferralAgencyHeaderContainer = () => {
           <span>{selectedProviderName}</span>
         </BackButton>
         <Header>
-          <div>{selectedAgencyName}</div>
+          <Typography variant="h3">{selectedAgencyName}</Typography>
         </Header>
-        <SubHeader>{typeLabel}</SubHeader>
+        <Body3>{typeLabel}</Body3>
       </StyledHeaderWrapper>
     </StyledHeaderOuterWrapper>
   );
