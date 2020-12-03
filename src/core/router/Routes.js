@@ -29,4 +29,6 @@ export const ABOUT_PATH :string = '/about';
 export const BASIC_PATH :string = '/basic-information';
 export const CONTACTS_PATH :string = '/contacts';
 export const OFFICER_SAFETY_PATH :string = '/officer-safety';
+export const RESOURCES_PATH :string = '/resources';
+export const FAQS_PATH :string = '/faqs';
 export const RESPONSE_PLAN_PATH :string = '/response-plan';

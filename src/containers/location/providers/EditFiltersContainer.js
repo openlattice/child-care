@@ -1,139 +1,132 @@
 // @flow
 
 import React from 'react';
-import { bindActionCreators } from 'redux';
 
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import styled from 'styled-components';
+import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, fromJS } from 'immutable';
 import { Button, Colors } from 'lattice-ui-kit';
-import { RequestStates } from 'redux-reqseq';
+import { ReduxUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import type { RequestSequence } from 'redux-reqseq';
 
 import EditFilter from './EditFilter';
-import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
-import { LABELS } from '../../../utils/constants/Labels';
 
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import BackButton from '../../../components/controls/BackButton';
 import * as LocationsActions from '../LocationsActions';
+import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { REQUEST_STATE } from '../../../core/redux/constants';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { LABELS } from '../../../utils/constants/labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import type { Translation } from '../../../types';
+
+const { NEUTRAL } = Colors;
+
+const { isStandby } = ReduxUtils;
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
 const StyledOuterWrapper = styled(ContentOuterWrapper)`
-  position: fixed;
-  height: calc(100vh - ${HEADER_HEIGHT}px);
-  top: ${HEADER_HEIGHT}px;
   bottom: 0;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
   z-index: 15;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
-  position: relative;
   height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
   padding-bottom: 5px;
+  position: relative;
 `;
 
 const ScrollContainer = styled.div`
   overflow: auto;
 `;
 
-const BackButton = styled.div`
-  display: flex;
-  flex-direciton: row;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: ${Colors.PURPLES[1]};
-  text-decoration: none;
-  :hover {
-    text-decoration: underline;
-  }
-
-  span {
-    margin-left: 15px;
-  }
-
-  &:hover {
-    cursor: pointer
-  }
-`;
-
 const HeaderLabel = styled.div`
-  padding-top: 20px;
-  padding-bottom: 10px;
-  font-family: Inter;
+  color: ${NEUTRAL.N700};
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
-
-  color: #555E6F;
+  padding-bottom: 10px;
+  padding-top: 20px;
 `;
 
 const FilterRow = styled.div`
-  color: #8E929B;
+  align-items: center;
+  color: ${NEUTRAL.N500};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-
-  font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  justify-content: space-between;
   line-height: 17px;
-
-  div {
-
-  }
+  padding: 10px 0;
 
   article {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
 
     span {
+      color: ${NEUTRAL.N700};
       font-weight: 600;
-      color: #555E6F;
       margin-right: 15px;
     }
   }
 
   &:hover {
-    cursor: pointer
+    cursor: pointer;
   }
 `;
 
 const Line = styled.div`
+  background-color: ${NEUTRAL.N100};
   height: 1px;
-  background-color: #E6E6EB;
   margin: 10px -${PADDING}px 0 -${PADDING}px;
 `;
 
 const ApplyButtonWrapper = styled.div`
-   position: fixed;
-   padding: 10px ${PADDING}px 30px ${PADDING}px;
-   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
-   bottom: 0;
-   height: 70px;
-   background-color: white;
-   z-index: 16;
+  background-color: white;
+  bottom: 0;
+  height: 70px;
+  padding: 10px ${PADDING}px 30px ${PADDING}px;
+  position: fixed;
+  width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+  z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
-class EditFiltersContainer extends React.Component {
+type Props = {
+  actions :{
+    searchLocations :RequestSequence;
+    setValue :({ field :string, value :any }) => void;
+  };
+  hasSearched :boolean;
+  providerState :Map;
+  getText :(translation :Translation) => string;
+}
 
-  constructor(props) {
+type State = {
+  filterPage :string | null;
+}
+
+class EditFiltersContainer extends React.Component<Props, State> {
+
+  constructor(props :Props) {
     super(props);
 
     const { providerState } = props;
@@ -152,7 +145,7 @@ class EditFiltersContainer extends React.Component {
 
   renderEditFilter = () => {
     const { props, state } = this;
-    const { renderText } = props;
+    const { getText } = props;
     const { filterPage } = state;
 
     const onCancel = () => this.setState({ filterPage: null });
@@ -162,19 +155,23 @@ class EditFiltersContainer extends React.Component {
       onCancel();
     };
 
-    return (
-      <EditFilter
-          renderText={renderText}
-          field={filterPage}
-          value={state[filterPage]}
-          onCancel={onCancel}
-          onSave={onSave} />
-    );
+    if (filterPage) {
+      return (
+        <EditFilter
+            getText={getText}
+            field={filterPage}
+            value={state[filterPage]}
+            onCancel={onCancel}
+            onSave={onSave} />
+      );
+    }
+
+    return null;
   }
 
   render() {
     const { state } = this;
-    const { actions, hasSearched, renderText } = this.props;
+    const { actions, hasSearched, getText } = this.props;
     const {
       filterPage,
       [PROVIDERS.ACTIVE_ONLY]: activeOnly,
@@ -191,7 +188,7 @@ class EditFiltersContainer extends React.Component {
 
     const editFilter = (value) => this.setState({ filterPage: value });
 
-    const any = renderText(LABELS.ANY);
+    const any = getText(LABELS.ANY);
 
     const getFacilityTypeValue = () => {
       const { size } = typeOfCare;
@@ -203,12 +200,12 @@ class EditFiltersContainer extends React.Component {
         return typeOfCare.get(0);
       }
 
-      return `${size} ${renderText(LABELS.TYPES_SELECTED)}`;
+      return `${size} ${getText(LABELS.TYPES_SELECTED)}`;
     };
 
     const renderRow = (field, value, label) => (
       <FilterRow onClick={() => editFilter(field)}>
-        <div>{renderText(label)}</div>
+        <div>{getText(label)}</div>
         <article>
           <span>{value}</span>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -250,25 +247,25 @@ class EditFiltersContainer extends React.Component {
           <StyledContentWrapper padding={`${PADDING}px`}>
             <BackButton onClick={backToMap}>
               <FontAwesomeIcon icon={faChevronLeft} />
-              <span>{renderText(LABELS.BACK_TO_SEARCH_RESULTS)}</span>
+              <span>{getText(LABELS.BACK_TO_SEARCH_RESULTS)}</span>
             </BackButton>
 
-            <HeaderLabel>{renderText(LABELS.BASIC_SEARCH)}</HeaderLabel>
+            <HeaderLabel>{getText(LABELS.BASIC_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.TYPE_OF_CARE, getFacilityTypeValue(), LABELS.TYPE_OF_CARE)}
             {
               renderRow(
                 PROVIDERS.RADIUS,
-                `${radius} ${renderText(LABELS.MILE)}${radius === 1 ? '' : 's'}`,
+                `${radius} ${getText(LABELS.MILE)}${radius === 1 ? '' : 's'}`,
                 LABELS.SEARCH_RADIUS
               )
             }
             <Line />
-            <HeaderLabel>{renderText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
+            <HeaderLabel>{getText(LABELS.ADVANCED_SEARCH)}</HeaderLabel>
             {renderRow(PROVIDERS.CHILDREN, numberOfChildren, LABELS.NUMBER_OF_CHILDREN)}
             {
               renderRow(
                 PROVIDERS.ACTIVE_ONLY,
-                renderText(activeOnly ? LABELS.NO : LABELS.YES),
+                getText(activeOnly ? LABELS.NO : LABELS.YES),
                 LABELS.SHOW_INACTIVE_FACILITIES
               )
             }
@@ -276,7 +273,7 @@ class EditFiltersContainer extends React.Component {
           </StyledContentWrapper>
         </ScrollContainer>
         <ApplyButtonWrapper>
-          <Button color="primary" onClick={onExecuteSearch}>{renderText(LABELS.APPLY)}</Button>
+          <Button color="primary" onClick={onExecuteSearch}>{getText(LABELS.APPLY)}</Button>
         </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );
@@ -285,11 +282,11 @@ class EditFiltersContainer extends React.Component {
 
 function mapStateToProps(state :Map<*, *>) :Object {
   const providerState = state.get(STATE.LOCATIONS, Map());
-
+  const searchLocationsRS = providerState.getIn([LocationsActions.SEARCH_LOCATIONS, REQUEST_STATE]);
   return {
     providerState,
-    renderText: getRenderTextFn(state),
-    hasSearched: providerState.get('fetchState') !== RequestStates.STANDBY
+    getText: getTextFnFromState(state),
+    hasSearched: !isStandby(searchLocationsRS)
   };
 }
 

@@ -1,145 +1,51 @@
-
 // @flow
 
 import React from 'react';
 
-import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
-import { Colors } from 'lattice-ui-kit';
+import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import BackButton from '../../../components/controls/BackButton';
 import * as LocationsActions from '../LocationsActions';
-
-import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { OpenClosedTag } from '../../../components/layout';
+import { VACANCY_COLORS } from '../../../shared/Colors';
+import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
-  HEADER_HEIGHT,
-  HEIGHTS,
-} from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
-import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  getValues,
-  getAgesServedFromEntity,
+  isProviderActive,
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { getCoordinates } from '../../map/MapUtils';
+import type { Translation } from '../../../types';
+import {
+  Header,
+  StyledHeaderOuterWrapper,
+  StyledHeaderWrapper,
+  SubHeader
+} from '../../styled';
 
-const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
- z-index: 1;
- position: fixed;
- top: ${HEADER_HEIGHT}px;
-`;
+const { formatAsRelative } = DateTimeUtils;
+const { LAT, LON, SELECTED_OPTION } = PROVIDERS;
 
-const StyledContentWrapper = styled(ContentWrapper)`
-  background-color: white;
-  position: relative;
+type Props = {
+  actions :{
+    selectProvider :(bool :boolean) => void;
+  };
+  coordinates :number[];
+  provider :Map;
+  getText :(translation :Translation) => string;
+};
 
-  @media only screen and (min-height: ${HEIGHTS[0]}px) {
-    padding: 10px 25px;
-  }
-
-  @media only screen and (min-height: ${HEIGHTS[1]}px) {
-    padding: 25px;
-  }
-`;
-
-const BackButton = styled.div`
-  display: flex;
-  flex-direciton: row;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: ${Colors.PURPLES[1]};
-  text-decoration: none;
-  :hover {
-    text-decoration: underline;
-  }
-
-  span {
-    margin-left: 15px;
-  }
-
-  &:hover {
-    cursor: pointer
-  }
-`;
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-family: Inter;
-  font-style: normal;
-  color: #555E6F;
-
-  @media only screen and (min-height: ${HEIGHTS[0]}px) {
-    padding: 10px 0;
-  }
-
-  @media only screen and (min-height: ${HEIGHTS[1]}px) {
-    padding: 15px 0;
-  }
-
-  div {
-    @media only screen and (min-height: ${HEIGHTS[0]}px) {
-      font-size: 18px;
-      line-height: 14px;
-    }
-
-    @media only screen and (min-height: ${HEIGHTS[1]}px) {
-      font-size: 22px;
-      line-height: 27px;
-    }
-
-    font-weight: 600;
-  }
-
-
-  span {
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    min-width: fit-content;
-  }
-`;
-
-const SubHeader = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  margin: 3px 0;
-
-  color: #555E6F;
-`;
-
-const OpenClosedTag = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal !important;
-  font-size: 14px !important;
-  line-height: 17px !important;
-
-  text-align: right;
-  color: ${(props) => (props.isOpen ? '#009D48' : '#C61F08')};
-`;
-
-const TwoPartRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-class ProviderHeaderContainer extends React.Component {
+class ProviderHeaderContainer extends React.Component<Props> {
 
   getDistance = () => {
     const { coordinates, provider } = this.props;
@@ -152,36 +58,34 @@ class ProviderHeaderContainer extends React.Component {
 
   render() {
 
-    const { actions, provider, renderText } = this.props;
+    const { actions, provider, getText } = this.props;
 
     if (!provider) {
       return null;
     }
 
-    const name = renderFacilityName(provider, renderText);
+    const name = renderFacilityName(provider, getText);
     const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-      .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+      .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
-    const status = getValues(provider, PROPERTY_TYPES.STATUS);
-    const paymentOptions = getValues(provider, PROPERTY_TYPES.PAYMENT_OPTIONS);
-    const url = getValue(provider, PROPERTY_TYPES.URL);
-
-    const street = getValue(provider, PROPERTY_TYPES.ADDRESS);
     const city = getValue(provider, PROPERTY_TYPES.CITY);
-    const zip = getValue(provider, PROPERTY_TYPES.ZIP);
 
-    const isPopUp = getValue(provider, PROPERTY_TYPES.IS_POP_UP);
+    const ages = getAgesServedFromEntity(provider, getText);
+    const isActive = isProviderActive(provider);
+    const statusLabel = isActive ? LABELS.OPEN : LABELS.CLOSED;
+    const statusColor = isActive ? VACANCY_COLORS.OPEN : VACANCY_COLORS.CLOSED;
 
-    const ages = getAgesServedFromEntity(provider, renderText);
+    const lastModified = getValue(provider, PROPERTY_TYPES.LAST_MODIFIED);
+    const lastModifiedLabel = formatAsRelative(lastModified, getText(LABELS.UNKNOWN));
 
     const distance = this.getDistance();
 
     return (
-      <StyledContentOuterWrapper>
-        <StyledContentWrapper padding="25px">
+      <StyledHeaderOuterWrapper>
+        <StyledHeaderWrapper padding="25px">
           <BackButton onClick={() => actions.selectProvider(false)}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_RESULTS)}</span>
+            <span>{getText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
             <div>{name}</div>
@@ -191,9 +95,14 @@ class ProviderHeaderContainer extends React.Component {
           <SubHeader>{`${city}, CA`}</SubHeader>
           <SubHeader>{type}</SubHeader>
           <SubHeader>{ages}</SubHeader>
-
-        </StyledContentWrapper>
-      </StyledContentOuterWrapper>
+          <SubHeader>
+            <OpenClosedTag color={statusColor}>
+              {getText(statusLabel)}
+            </OpenClosedTag>
+            <span>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
+          </SubHeader>
+        </StyledHeaderWrapper>
+      </StyledHeaderOuterWrapper>
     );
   }
 }
@@ -201,14 +110,14 @@ class ProviderHeaderContainer extends React.Component {
 function mapStateToProps(state :Map<*, *>) :Object {
   const providerState = state.get(STATE.LOCATIONS, Map());
 
-  const lat = providerState.getIn(['selectedOption', 'lat']);
-  const lon = providerState.getIn(['selectedOption', 'lon']);
+  const lat = providerState.getIn([SELECTED_OPTION, LAT]);
+  const lon = providerState.getIn([SELECTED_OPTION, LON]);
 
   return {
     providerState,
     provider: providerState.get(PROVIDERS.SELECTED_PROVIDER),
     coordinates: [lat, lon],
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
 

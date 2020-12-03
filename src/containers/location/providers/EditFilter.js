@@ -1,88 +1,68 @@
 // @flow
 
 import React from 'react';
+
 import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Colors } from 'lattice-ui-kit';
-import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
 
 import ActiveOnlyFilter from './filters/ActiveOnlyFilter';
 import ChildrenFilter from './filters/ChildrenFilter';
 import DayAndTimeFilter from './filters/DayAndTimeFilter';
 import RadiusFilter from './filters/RadiusFilter';
 import TypeOfCareFilter from './filters/TypeOfCareFilter';
+
+import BackButton from '../../../components/controls/BackButton';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
+import { APP_CONTAINER_WIDTH, HEADER_HEIGHT } from '../../../core/style/Sizes';
+import { HEADER_LABELS, LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS } from '../../../utils/constants/StateConstants';
-import { LABELS, HEADER_LABELS } from '../../../utils/constants/Labels';
+import type { Translation } from '../../../types';
+
+const { NEUTRAL } = Colors;
 
 const BOTTOM_BAR_HEIGHT = 70;
 const PADDING = 25;
 
 const StyledContentOuterWrapper = styled(ContentOuterWrapper)`
-  position: fixed;
-  height: calc(100vh - ${HEADER_HEIGHT}px);
-  top: ${HEADER_HEIGHT}px;
+  background-color: ${NEUTRAL.N50};
   bottom: 0;
+  height: calc(100vh - ${HEADER_HEIGHT}px);
+  position: fixed;
+  top: ${HEADER_HEIGHT}px;
   z-index: 15;
-  background-color: #f5f5f8;
 `;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   background-color: white;
-  position: relative;
-  background-color: white;
-  max-height: fit-content;
-  position: relative;
   height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   max-height: calc(100vh - ${BOTTOM_BAR_HEIGHT}px - ${HEADER_HEIGHT}px);
   overflow-y: scroll;
-`;
-
-const BackButton = styled.div`
-  display: flex;
-  flex-direciton: row;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: ${Colors.PURPLES[1]};
-  text-decoration: none;
-  :hover {
-    text-decoration: underline;
-  }
-
-  span {
-    margin-left: 15px;
-  }
-
-  &:hover {
-    cursor: pointer
-  }
+  position: relative;
 `;
 
 const EditFilterHeader = styled.div`
-  font-family: Inter;
+  color: ${NEUTRAL.N700};
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
   line-height: 27px;
   margin: 20px 0;
-
-  color: #555E6F;
 `;
 
 const ApplyButtonWrapper = styled.div`
-   position: fixed;
-   padding: 10px ${PADDING}px 30px ${PADDING}px;
-   width: min(100vw, ${APP_CONTAINER_WIDTH}px);
-   bottom: 0;
-   height: 70px;
-   background-color: white;
-   z-index: 16;
+  background-color: white;
+  bottom: 0;
+  height: 70px;
+  padding: 10px ${PADDING}px 30px ${PADDING}px;
+  position: fixed;
+  width: min(100vw, ${APP_CONTAINER_WIDTH}px);
+  z-index: 16;
 
-   button {
-     width: 100%;
-   }
+  button {
+    width: 100%;
+  }
 `;
 
 const FILTER_COMPONENTS = {
@@ -93,9 +73,21 @@ const FILTER_COMPONENTS = {
   [PROVIDERS.TYPE_OF_CARE]: TypeOfCareFilter,
 };
 
-export default class EditFilter extends React.Component {
+type Props = {
+  field :string;
+  onCancel :() => void;
+  onSave :(nextObject :Object) => void;
+  getText :(translation :Translation) => string;
+  value :string;
+};
 
-  constructor(props) {
+type State = {
+  value :string;
+  isValid :boolean;
+}
+export default class EditFilter extends React.Component<Props, State> {
+
+  constructor(props :Props) {
     super(props);
     this.state = {
       value: props.value,
@@ -103,9 +95,8 @@ export default class EditFilter extends React.Component {
     };
   }
 
-
   getContent = () => {
-    const { field, renderText } = this.props;
+    const { field, getText } = this.props;
     const { value } = this.state;
 
     const Component = FILTER_COMPONENTS[field];
@@ -117,7 +108,7 @@ export default class EditFilter extends React.Component {
     return (
       <Component
           value={value}
-          renderText={renderText}
+          getText={getText}
           onChange={(newValue) => this.setState({ value: newValue })}
           setIsValid={(isValid) => this.setState({ isValid })} />
     );
@@ -126,7 +117,7 @@ export default class EditFilter extends React.Component {
   render() {
     const {
       field,
-      renderText,
+      getText,
       onCancel,
       onSave
     } = this.props;
@@ -137,17 +128,17 @@ export default class EditFilter extends React.Component {
         <StyledContentWrapper padding={`${PADDING}px`}>
           <BackButton onClick={onCancel}>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <span>{renderText(LABELS.SEARCH_PARAMETERS)}</span>
+            <span>{getText(LABELS.SEARCH_PARAMETERS)}</span>
           </BackButton>
 
-          <EditFilterHeader>{renderText(HEADER_LABELS[field])}</EditFilterHeader>
+          <EditFilterHeader>{getText(HEADER_LABELS[field])}</EditFilterHeader>
 
           {this.getContent()}
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
           <Button color="primary" disabled={!isValid} onClick={() => onSave({ field, value })}>
-            {renderText(LABELS.SAVE)}
+            {getText(LABELS.SAVE)}
           </Button>
         </ApplyButtonWrapper>
       </StyledContentOuterWrapper>

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import { faHome, faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faMapMarkerAlt } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map } from 'immutable';
 import { Colors } from 'lattice-ui-kit';

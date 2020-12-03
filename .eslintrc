@@ -1,19 +1,20 @@
 {
-  "parser": "babel-eslint",
-  "extends": [
-    "airbnb",
-    "plugin:flowtype/recommended"
-  ],
-  "plugins": [
-    "flowtype",
-    "jest",
-    "react",
-    "react-hooks"
-  ],
   "env": {
     "browser": true,
     "jest": true
   },
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import",
+    "jest",
+    "react",
+    "react-hooks"
+  ],
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
@@ -70,6 +71,7 @@
           "OrderedList",
           "Map",
           "OrderedMap",
+          "Seq",
           "Set",
           "OrderedSet",
           "SortableContainer",
@@ -79,7 +81,14 @@
     ],
     "padded-blocks": "off",
     "prefer-destructuring": "warn",
-    "space-before-function-paren": ["error", "never"],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
 
     "flowtype/define-flow-type": "error",
     "flowtype/space-after-type-colon": ["error", "never"],
@@ -112,6 +121,9 @@
 
     "jsx-a11y/href-no-hash": "off",
 
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
+
     "react/default-props-match-prop-types": [
       "error",
       {
@@ -119,8 +131,6 @@
       }
     ],
     "react/forbid-prop-types": "warn",
-    "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error",
     "react/jsx-closing-bracket-location": [
       "error",
       {

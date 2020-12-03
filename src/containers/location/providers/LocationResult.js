@@ -2,34 +2,43 @@
 
 import React from 'react';
 
-import { Map } from 'immutable';
-import { Constants } from 'lattice';
+import { get, Map } from 'immutable';
 import { useSelector } from 'react-redux';
 
-import { STATE } from '../../../utils/constants/StateConstants';
-
 import ProviderResult from '../../styled/ProviderResult';
-import { getRenderTextFn } from '../../../utils/AppUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 
 type Props = {
   result :Map;
 }
 
+const { LOCATIONS } = STATE;
+const {
+  CURRENT_POSITION,
+  LAT,
+  LON,
+  PROVIDER_LOCATIONS,
+  SELECTED_OPTION
+} = PROVIDERS;
+
 const LocationResult = (props :Props) => {
 
-  const { coordinates, result: locationEKID } = props;
+  const { result: locationEKID } = props;
 
-  const renderText = useSelector(getRenderTextFn);
+  const getText = useSelector(getTextFnFromState);
 
-  const providerState = useSelector((store) => store.get(STATE.LOCATIONS, Map()));
-  const provider = providerState.getIn(['providerLocations', locationEKID], Map());
+  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
+  const provider = useSelector((store) => store.getIn([LOCATIONS, PROVIDER_LOCATIONS, locationEKID], Map()));
 
-
-  const lat = providerState.getIn(['selectedOption', 'lat']);
-  const lon = providerState.getIn(['selectedOption', 'lon']);
+  const latCP = currentPosition?.coords?.latitude;
+  const lonCP = currentPosition?.coords?.longitude;
+  const lat = get(selectedOption, LAT, latCP);
+  const lon = get(selectedOption, LON, lonCP);
 
   return (
-    <ProviderResult provider={provider} coordinates={[lat, lon]} renderText={renderText} />
+    <ProviderResult provider={provider} coordinates={[lat, lon]} getText={getText} />
   );
 };
 

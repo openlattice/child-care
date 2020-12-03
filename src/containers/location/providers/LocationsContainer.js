@@ -1,35 +1,69 @@
 // @flow
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
-import { List, Map } from 'immutable';
+import { get, List, Map } from 'immutable';
 import {
   Colors,
   PaginationToolbar,
   SearchResults,
 } from 'lattice-ui-kit';
+import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
 
 import EditFiltersContainer from './EditFiltersContainer';
 import LocationResult from './LocationResult';
+import NoResults from './NoResults';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
-import {
-  searchLocations,
-  setValue,
-  loadCurrentPosition
-} from '../LocationsActions';
+import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
+import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
 import FindingLocationSplash from '../FindingLocationSplash';
 import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
-import { getRenderTextFn } from '../../../utils/AppUtils';
-import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
+import {
+  HITS,
+  PAGE,
+  REQUEST_STATE,
+  TOTAL_HITS
+} from '../../../core/redux/constants';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import { MapWrapper } from '../../styled';
+import {
+  GEOCODE_PLACE,
+  LOAD_CURRENT_POSITION,
+  SEARCH_LOCATIONS,
+  loadCurrentPosition,
+  searchLocations,
+  searchReferralAgencies,
+  setValue
+} from '../LocationsActions';
+
+const {
+  isFailure,
+  isPending,
+  isStandby,
+  isSuccess,
+  reduceRequestStates
+} = ReduxUtils;
+
+const {
+  CURRENT_POSITION,
+  IS_EDITING_FILTERS,
+  LAT,
+  LON,
+  SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY,
+  SEARCH_INPUTS,
+  SELECTED_OPTION,
+} = PROVIDERS;
+
+const { LOCATIONS } = STATE;
 
 const MAX_HITS = 20;
 
@@ -40,48 +74,49 @@ const StyledContentWrapper = styled(ContentWrapper)`
 const StyledSearchResults = styled(SearchResults)``;
 
 const FilterRow = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   padding: 15px 30px 0 30px;
 `;
 
 const FilterButton = styled.div`
+  color: ${Colors.PURPLES[1]};
   font-size: 14px;
   font-weight: 600;
-  color: ${Colors.PURPLES[1]};
   text-decoration: none;
+
   :hover {
     text-decoration: underline;
     cursor: pointer;
   }
 `;
 
-const SortOption = styled.div`
-
-`;
-
 const LocationsContainer = () => {
 
   const isEditingFilters = useSelector((store) => store.getIn(
-    [STATE.LOCATIONS, PROVIDERS.IS_EDITING_FILTERS],
+    [LOCATIONS, IS_EDITING_FILTERS],
     false
   ));
-
-
-  const renderText = useSelector(getRenderTextFn);
-  const selectedProvider = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SELECTED_PROVIDER]));
-  const searchResults = useSelector((store) => store.getIn([STATE.LOCATIONS, 'hits'], List()));
-  const totalHits = useSelector((store) => store.getIn([STATE.LOCATIONS, 'totalHits'], 0));
-  const fetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'fetchState']));
-  const lastSearchInputs = useSelector((store) => store.getIn([STATE.LOCATIONS, 'searchInputs'], Map()));
-  const page = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.SEARCH_PAGE]));
-  const selectedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
-  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
-  const geoLocationUnavailable = useSelector((store) => store
-    .getIn([STATE.LOCATIONS, PROVIDERS.GEO_LOCATION_UNAVAILABLE]));
-  const lastSearchType = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.LAST_SEARCH_TYPE]));
+  const getText = useSelector(getTextFnFromState);
+  const geocodePlaceRS = useSelector((store) => store.getIn(
+    [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
+  ));
+  const loadCurrentPositionRS = useSelector((store) => store.getIn(
+    [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
+  ));
+  const searchLocationsRS = useSelector((store) => store.getIn(
+    [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
+  ));
+  const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
+  const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, SELECTED_REFERRAL_AGENCY]));
+  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS], List()));
+  const totalHits = useSelector((store) => store.getIn([LOCATIONS, TOTAL_HITS], 0));
+  const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
+  const page = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
+  const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const dispatch = useDispatch();
 
   let editFiltersContent = null;
@@ -91,28 +126,52 @@ const LocationsContainer = () => {
   if (isEditingFilters) {
     editFiltersContent = <EditFiltersContainer />;
   }
+  else if (selectedReferralAgency) {
+    providerHeader = <ReferralAgencyHeaderContainer />;
+    providerDetails = <ReferralAgencyDetailsContainer />;
+  }
   else if (selectedProvider) {
     providerHeader = <ProviderHeaderContainer />;
     providerDetails = <ProviderDetailsContainer />;
   }
 
-  const hasSearched = fetchState !== RequestStates.STANDBY;
-  const isLoading = fetchState === RequestStates.PENDING;
-  const wasGeoSearch = lastSearchType === 'geo';
+  const lat = get(selectedOption, LAT);
+  const lon = get(selectedOption, LON);
 
-  const editFilters = () => dispatch(setValue({ field: PROVIDERS.IS_EDITING_FILTERS, value: true }));
+  const hasSearched = !isStandby(searchLocationsRS);
+  const isLoading = isPending(reduceRequestStates([geocodePlaceRS, searchLocationsRS, loadCurrentPositionRS]));
+  const geoSearchFailed = isFailure(loadCurrentPositionRS);
+
+  useEffect(() => {
+    if (
+      isSuccess(searchLocationsRS)
+      && searchResults.isEmpty()
+      && lat
+      && lon
+    ) {
+      dispatch(searchReferralAgencies({ searchInputs: selectedOption }));
+    }
+  }, [
+    dispatch,
+    searchLocationsRS,
+    searchResults,
+    selectedOption
+  ]);
+
+  const editFilters = () => dispatch(setValue({ field: IS_EDITING_FILTERS, value: true }));
 
   const renderSearchResults = () => {
     if (!hasSearched) {
       return <WelcomeSplash getCurrentPosition={() => dispatch(loadCurrentPosition())} />;
     }
-    if (geoLocationUnavailable && wasGeoSearch) {
+    if (geoSearchFailed) {
       return <FindingLocationSplash />;
     }
     return (
       <StyledSearchResults
           hasSearched={hasSearched}
           isLoading={isLoading}
+          noResults={NoResults}
           resultComponent={LocationResult}
           results={searchResults} />
     );
@@ -141,23 +200,23 @@ const LocationsContainer = () => {
           providerDetails || (
             <>
               <FilterRow>
-                <SortOption>
-                  {renderText(LABELS.SORT_BY)}
-                </SortOption>
-                <FilterButton onClick={editFilters}>{renderText(LABELS.REFINE_SEARCH)}</FilterButton>
+                <div>
+                  {getText(LABELS.SORT_BY)}
+                </div>
+                <FilterButton onClick={editFilters}>{getText(LABELS.REFINE_SEARCH)}</FilterButton>
               </FilterRow>
 
               <StyledContentWrapper>
                 { renderSearchResults() }
                 {
-                  hasSearched &&
-                  (
-                    <PaginationToolbar
-                        page={page}
-                        count={totalHits}
-                        onPageChange={onPageChange}
-                        rowsPerPage={MAX_HITS} />
-                  )
+                  hasSearched
+                    && (
+                      <PaginationToolbar
+                          page={page}
+                          count={totalHits}
+                          onPageChange={onPageChange}
+                          rowsPerPage={MAX_HITS} />
+                    )
                 }
               </StyledContentWrapper>
             </>

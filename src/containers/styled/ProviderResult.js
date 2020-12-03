@@ -9,18 +9,20 @@ import { useDispatch } from 'react-redux';
 
 import IconDetail from '../../components/premium/styled/IconDetail';
 
-import { PROPERTY_TYPES, OPENLATTICE_ID_FQN } from '../../utils/constants/DataModelConstants';
-import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/Labels';
+import { PROPERTY_TYPES } from '../../utils/constants/DataModelConstants';
+import { LABELS, FACILITY_TYPE_LABELS } from '../../utils/constants/labels';
+import { OpenClosedTag } from '../../components/layout';
 import { VACANCY_COLORS } from '../../shared/Colors';
-import { selectProvider } from '../location/LocationsActions';
-import { getCoordinates } from '../map/MapUtils';
 import {
+  getAgesServedFromEntity,
   getDistanceBetweenCoords,
   getValue,
-  renderFacilityName,
-  getAgesServedFromEntity,
-  isProviderActive
+  isProviderActive,
+  renderFacilityName
 } from '../../utils/DataUtils';
+import { selectProvider } from '../location/LocationsActions';
+import { getCoordinates } from '../map/MapUtils';
+import type { Translation } from '../../types';
 import {
   FlexRow,
   ResultDetails,
@@ -29,9 +31,9 @@ import {
 } from '.';
 
 type Props = {
-  person :Map;
   provider :Map;
-  profilePicture :Map;
+  coordinates :number[],
+  getText :(translation :Translation) => string;
 }
 
 const TwoPartRow = styled.div`
@@ -44,22 +46,11 @@ const CardContent = styled.div`
   padding: 5px 0;
 `;
 
-const OpenClosedTag = styled.div`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-
-  color: ${(props) => props.color};
-`;
-
 const ProviderResult = ({
   provider,
   coordinates,
-  renderText
+  getText
 } :Props) => {
-  const providerEKID = provider.getIn([OPENLATTICE_ID_FQN, 0]);
   const dispatch = useDispatch();
 
   const handleViewProfile = () => {
@@ -70,15 +61,15 @@ const ProviderResult = ({
   const miles = getDistanceBetweenCoords(coordinates, [lat, lon]);
   const distance = Math.round(miles * 10) / 10;
 
-  const name = renderFacilityName(provider, renderText);
+  const name = renderFacilityName(provider, getText);
   const type = provider.get(PROPERTY_TYPES.FACILITY_TYPE, List())
-    .map(v => renderText(FACILITY_TYPE_LABELS[v]));
+    .map((v) => getText(FACILITY_TYPE_LABELS[v]));
 
   const city = getValue(provider, PROPERTY_TYPES.CITY);
 
   const isInactive = !isProviderActive(provider);
 
-  const ages = getAgesServedFromEntity(provider, renderText);
+  const ages = getAgesServedFromEntity(provider, getText);
 
   const hasVacancies = getValue(provider, PROPERTY_TYPES.VACANCIES);
 
@@ -107,7 +98,7 @@ const ProviderResult = ({
               <IconDetail content={ages} isInactive={isInactive} />
 
               {isInactive
-                ? <IconDetail content={renderText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
+                ? <IconDetail content={getText(LABELS.CLOSED_DURING_COVID)} isInactive={isInactive} />
                 : null}
 
             </ResultDetails>
@@ -115,7 +106,7 @@ const ProviderResult = ({
           {
             !isInactive && (
               <OpenClosedTag color={vacancyColor}>
-                {renderText(vacancyLabel)}
+                {getText(vacancyLabel)}
               </OpenClosedTag>
             )
           }

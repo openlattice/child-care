@@ -19,19 +19,16 @@ import LocationsSearchBar from '../location/providers/LocationSearchBar';
 import * as LocationsActions from '../location/LocationsActions';
 import * as Routes from '../../core/router/Routes';
 import { HOME_PATH } from '../../core/router/Routes';
-import {
-  HEADER_HEIGHT
-} from '../../core/style/Sizes';
-import { getRenderTextFn } from '../../utils/AppUtils';
+import { HEADER_HEIGHT } from '../../core/style/Sizes';
 import { STATE } from '../../utils/constants/StateConstants';
 
-const { NEUTRALS, WHITE } = Colors;
+const { NEUTRAL } = Colors;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
-const APP_HEADER_BORDER :string = '#e6e6eb';
+const APP_HEADER_BORDER :string = NEUTRAL.N100;
 
 const AppHeaderOuterWrapper = styled.header`
-  background-color: ${WHITE};
+  background-color: white;
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;
@@ -69,7 +66,7 @@ const LogoTitleWrapperLink = styled.div`
 
 const NavigationToggleWrapper = styled.div`
   align-items: center;
-  color: ${NEUTRALS[1]};
+  color: ${NEUTRAL.N700};
   cursor: pointer;
   display: flex;
   font-size: 16px;
@@ -78,21 +75,24 @@ const NavigationToggleWrapper = styled.div`
   left: 0;
   margin-left: 10px; /* the icon is 14px wide, this div is 32px wide, so there's 9px on each side of the icon */
   position: absolute;
-
   width: 32px;
 
   &:hover {
-    color: ${NEUTRALS[0]};
+    color: ${NEUTRAL.N700};
   }
 `;
 
 type Props = {
   actions :{
-    switchLanguage :(language :string) => void
+    switchLanguage :(language :string) => void;
   };
 };
 
-class AppHeaderContainer extends Component<Props> {
+type State = {
+  isNavigationOpen :boolean;
+};
+
+class AppHeaderContainer extends Component<Props, State> {
 
   constructor(props) {
     super(props);
@@ -155,11 +155,9 @@ function mapStateToProps(state) {
   const app = state.get(STATE.APP);
 
   return {
-    app,
-    renderText: getRenderTextFn(state)
+    app
   };
 }
-
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({

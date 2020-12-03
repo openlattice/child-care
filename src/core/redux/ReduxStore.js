@@ -13,7 +13,6 @@ import sagas from '../sagas/Sagas';
 import trackingHandlers from '../tracking/google/trackinghandlers';
 import trackingMiddleware from '../tracking/TrackingMiddleware';
 
-
 export default function initializeReduxStore(routerHistory :any) :Object {
 
   const sagaMiddleware = createSagaMiddleware();

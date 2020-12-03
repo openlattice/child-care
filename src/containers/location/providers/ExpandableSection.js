@@ -1,31 +1,30 @@
 // @flow
 
 import React from 'react';
+import type { Node, Element, ChildrenArray } from 'react';
 import styled from 'styled-components';
+import { Colors } from 'lattice-ui-kit';
 import { faChevronUp, faChevronDown } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Wrapper } from '../../styled';
 
-const Wrapper = styled.div`
-  width:  100%;
-  padding: 20px 0;
-`;
+const { NEUTRAL } = Colors;
 
 const TitleRow = styled.div`
+  align-items: center;
+  color: ${NEUTRAL.N400};
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  color: #8E929B;
-  width: 100%;
   padding-bottom: ${(props) => (props.isOpen ? 10 : 0)}px;
+  width: 100%;
 
   span {
-    color: #555E6F;
-    font-family: Inter;
+    color: ${NEUTRAL.N700};
+    line-height: 17px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
-    line-height: 17px;
   }
 
   &:hover {
@@ -34,8 +33,8 @@ const TitleRow = styled.div`
 `;
 
 type Props = {
+  children :Node | Element<*> | ChildrenArray<*>;
   title :string;
-  children :Node;
 }
 
 type State = {
@@ -44,7 +43,7 @@ type State = {
 
 export default class ExpandableSection extends React.Component<Props, State> {
 
-  constructor(props) {
+  constructor(props :Props) {
     super(props);
     this.state = {
       isOpen: false

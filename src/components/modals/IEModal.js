@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { Modal } from 'lattice-ui-kit';
 
-import { UNSUPPORTED_BROWSER } from '../../utils/constants/Labels';
+import { UNSUPPORTED_BROWSER } from '../../utils/constants/labels';
 
 const Content = styled.div`
-  height: 100%;
-  min-height: 200px;
-  width: 100%;
   align-items: center;
-  justify-content: center;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  min-height: 200px;
   padding: 10px 0;
+  width: 100%;
 `;
 
 const Text = styled.div`
@@ -24,20 +24,17 @@ const Text = styled.div`
   }
 `;
 
-const IEModal = ({ renderText }) => {
-
-  return (
-    <Modal withHeader={false} isVisible>
-      <Content>
-        <Text>
-          {renderText(UNSUPPORTED_BROWSER.HEADER)}
-        </Text>
-        <Text>
-          {renderText(UNSUPPORTED_BROWSER.SUGGESTION)}
-        </Text>
-      </Content>
-    </Modal>
-  );
-}
+const IEModal = ({ getText }) => (
+  <Modal withHeader={false} isVisible>
+    <Content>
+      <Text>
+        {getText(UNSUPPORTED_BROWSER.HEADER)}
+      </Text>
+      <Text>
+        {getText(UNSUPPORTED_BROWSER.SUGGESTION)}
+      </Text>
+    </Content>
+  </Modal>
+);
 
 export default IEModal;

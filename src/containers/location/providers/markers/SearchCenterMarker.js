@@ -1,13 +1,12 @@
 // @flow
 import React from 'react';
 
-import { Map } from 'immutable';
 import { Marker } from 'react-mapbox-gl';
 
 import searchCenterIcon from '../../../../assets/svg/searchcenterpinicon.svg';
 
 type Props = {
-  provider :Map;
+  coordinates :[number, number];
 };
 
 const SearchCenterMarker = ({ coordinates } :Props) => {

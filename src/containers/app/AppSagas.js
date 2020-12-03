@@ -1,26 +1,22 @@
-
-
-
 /*
  * @flow
  */
 
 /* eslint-disable no-use-before-define */
+
+import axios from 'axios';
 import decode from 'jwt-decode';
 import {
-  all,
   call,
   put,
   select,
   take,
   takeEvery
 } from '@redux-saga/core/effects';
-import { get } from 'axios';
 import { configure } from 'lattice';
 import { DateTime } from 'luxon';
-import type { SequenceAction } from 'redux-reqseq';
+import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
-import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
 import {
   INITIALIZE_APPLICATION,
   LOAD_APP,
@@ -31,10 +27,9 @@ import {
 } from './AppActions';
 
 import Logger from '../../utils/Logger';
-import * as Routes from '../../core/router/Routes';
+import PROPERTY_TYPE_LIST from '../../utils/constants/PropertyTypes';
+import { ERR_WORKER_SAGA } from '../../utils/Errors';
 import { BASE_URL, PROVIDERS_ENTITY_SET_ID } from '../../utils/constants/DataModelConstants';
-import { ERR_ACTION_VALUE_TYPE, ERR_WORKER_SAGA } from '../../utils/Errors';
-import { isValidUuid } from '../../utils/Utils';
 
 const LOG = new Logger('AppSagas');
 
@@ -93,7 +88,7 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
   try {
     yield put(reloadToken.request(action.id));
 
-    const { data: token } = yield call(get, 'https://api.openlattice.com/child-care/explore/token');
+    const { data: token } = yield call(axios.get, 'https://api.openlattice.com/child-care/explore/token');
 
     const { exp } = decode(token);
     const tokenExp = exp * 1000;
@@ -115,7 +110,6 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
 
   return workerResponse;
 }
-
 
 /*
  * initializeApplication()
@@ -145,7 +139,6 @@ function* initializeApplicationWatcher() :Generator<*, *, *> {
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
 }
 
-
 function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAction) {
   return take(
     (anAction :Object) => (anAction.type === reqseq.SUCCESS && anAction.id === seqAction.id)
@@ -167,7 +160,7 @@ export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
     }
   }
   catch (error) {
-    console.error(error);
+    LOG.error('refreshAuthTokenIfNecessary', error);
   }
 }
 

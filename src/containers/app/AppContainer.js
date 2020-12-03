@@ -10,33 +10,42 @@ import {
   LatticeLuxonUtils,
   MuiPickersUtilsProvider,
   Spinner,
+  StylesProvider,
   ThemeProvider,
   lightTheme,
-  StylesProvider
 } from 'lattice-ui-kit';
+import { ReduxUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { RequestStates } from 'redux-reqseq';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
 import AppHeaderContainer from './AppHeaderContainer';
-import { initializeApplication } from './AppActions';
+import { INITIALIZE_APPLICATION, initializeApplication } from './AppActions';
 
 import AboutPage from '../about/AboutPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
-import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
+import FAQsPage from '../faqs/FAQsPage';
+import ResourcesPage from '../resources/ResourcesPage';
+import { APP, REQUEST_STATE } from '../../core/redux/constants';
 import {
-  APP_CONTAINER_MAX_WIDTH,
-  APP_CONTENT_PADDING,
+  ABOUT_PATH,
+  FAQS_PATH,
+  HOME_PATH,
+  RESOURCES_PATH
+} from '../../core/router/Routes';
+import {
   HEADER_HEIGHT,
   MEDIA_QUERY_LG,
   MEDIA_QUERY_MD,
   MEDIA_QUERY_TECH_SM
 } from '../../core/style/Sizes';
-import { browserIsIE, getRenderTextFn } from '../../utils/AppUtils';
+import { browserIsIE, getTextFnFromState } from '../../utils/AppUtils';
 import { loadCurrentPosition } from '../location/LocationsActions';
+import type { Translation } from '../../types';
+
+const { isPending } = ReduxUtils;
 
 /*
  * styled components
@@ -64,26 +73,15 @@ const AppContainerWrapper = styled.div`
 `;
 
 const AppContentOuterWrapper = styled.main`
+  bottom: 0;
   display: flex;
   flex: 1 0 auto;
-  justify-content: center;
-  position: fixed;
-  bottom: 0;
-  overflow: auto;
-
   height: auto;
+  justify-content: center;
+  overflow: auto;
+  position: fixed;
   top: ${HEADER_HEIGHT}px;
   width: 100vw;
-`;
-
-const AppContentInnerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 auto;
-  justify-content: flex-start;
-  max-width: ${APP_CONTAINER_MAX_WIDTH}px;
-  padding: ${APP_CONTENT_PADDING}px;
-  position: relative;
 `;
 
 type Props = {
@@ -91,7 +89,8 @@ type Props = {
     initializeApplication :RequestSequence;
     loadCurrentPosition :RequestSequence;
   };
-  initializeState :RequestState;
+  initializeApplicationRS :RequestState;
+  getText :(translation :Translation) => string;
 };
 
 class AppContainer extends Component<Props> {
@@ -102,20 +101,16 @@ class AppContainer extends Component<Props> {
     actions.loadCurrentPosition({ shouldSearchIfLocationPerms: true });
   }
 
-  wrapComponent = (AppComponent) => () => <AppContentInnerWrapper><AppComponent /></AppContentInnerWrapper>;
-
   renderUnsupportedBrowserModal = () => {
-    const { renderText } = this.props;
-    return (browserIsIE() ? <IEModal renderText={renderText} /> : null);
+    const { getText } = this.props;
+    return (browserIsIE() ? <IEModal getText={getText} /> : null);
   }
 
   renderAppContent = () => {
 
-    const {
-      initializeState
-    } = this.props;
+    const { initializeApplicationRS } = this.props;
 
-    if (initializeState === RequestStates.PENDING) {
+    if (isPending(initializeApplicationRS)) {
       return <Spinner size="3x" />;
     }
 
@@ -123,6 +118,8 @@ class AppContainer extends Component<Props> {
       <Switch>
         <Route exact strict path={HOME_PATH} component={LocationsContainer} />
         <Route path={ABOUT_PATH} component={AboutPage} />
+        <Route path={RESOURCES_PATH} component={ResourcesPage} />
+        <Route path={FAQS_PATH} component={FAQsPage} />
         <Redirect to={HOME_PATH} />
       </Switch>
     );
@@ -150,8 +147,8 @@ class AppContainer extends Component<Props> {
 function mapStateToProps(state :Map<*, *>) :Object {
 
   return {
-    initializeState: state.getIn(['app', 'initializeState']),
-    renderText: getRenderTextFn(state)
+    initializeApplicationRS: state.getIn([APP, INITIALIZE_APPLICATION, REQUEST_STATE]),
+    getText: getTextFnFromState(state)
   };
 }
 

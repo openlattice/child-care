@@ -15,18 +15,30 @@ import { bindActionCreators } from 'redux';
 
 import * as AppActions from './AppActions';
 
-import { ABOUT_PATH, HOME_PATH } from '../../core/router/Routes';
-import { getRenderTextFn } from '../../utils/AppUtils';
-import { CURRENT_LANGUAGE, LABELS, LANGUAGES } from '../../utils/constants/Labels';
+import {
+  ABOUT_PATH,
+  FAQS_PATH,
+  HOME_PATH,
+  RESOURCES_PATH
+} from '../../core/router/Routes';
+import { getTextFnFromState } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
+import {
+  CURRENT_LANGUAGE,
+  LABELS,
+  LANGUAGES
+} from '../../utils/constants/labels';
+import type { Translation } from '../../types';
 
-const DEFAULT_PADDING = css`padding: 20px 24px;`;
+const { NEUTRAL, PURPLE } = Colors;
+
+const DEFAULT_PADDING = css` padding: 20px 24px; `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
+  justify-content: space-between;
 `;
 
 const NavMenuWrapper = styled.div`
@@ -35,18 +47,16 @@ const NavMenuWrapper = styled.div`
 `;
 
 const menuRowStyle = css`
+  border-bottom: 1px solid ${NEUTRAL.N100};
+  color: ${(props) => (props.isBack ? PURPLE.P300 : NEUTRAL.N700)};
+  ${DEFAULT_PADDING}
   display: flex;
   flex-direction: row;
-  ${DEFAULT_PADDING}
-  border-bottom: 1px solid #E6E6EB;
-  font-family: Inter;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
   text-decoration: none;
-
-  color: ${(props) => (props.isBack ? Colors.PURPLES[1] : '#555E6F')};
 
   span {
     margin-right: 10px;
@@ -55,17 +65,21 @@ const menuRowStyle = css`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
-const MenuRow = styled.div`${menuRowStyle}`;
+const MenuRow = styled.div`
+  ${menuRowStyle}
+`;
 
 const MenuRowLink = styled.a.attrs({
   target: '_blank'
-})`${menuRowStyle}`;
+})`
+  ${menuRowStyle}
+`;
 
 const MenuRowMailtoLink = styled.a`
   ${menuRowStyle}
-`
+`;
 
 const MenuRowNavLink = styled(Link)`
   ${menuRowStyle}
@@ -78,13 +92,11 @@ const NavFooter = styled.div`
 `;
 
 const Lang = styled.div`
-  font-family: Inter;
-  font-style: normal;
+  color: ${(props) => (props.isSelected ? PURPLE.P300 : NEUTRAL.N700)};
   font-size: 14px;
-  line-height: 17px;
-
+  font-style: normal;
   font-weight: ${(props) => (props.isSelected ? 600 : 400)};
-  color: ${(props) => (props.isSelected ? '#6124E2' : '#555E6F')};
+  line-height: 17px;
 
   &:hover {
     cursor: pointer;
@@ -99,6 +111,8 @@ type Props = {
   actions :{
     switchLanguage :Function
   };
+  onClose :() => void;
+  getText :(translation :Translation) => string;
 };
 
 const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
@@ -113,9 +127,9 @@ class AppNavigationSidebar extends Component<Props> {
   }
 
   renderLang = (lang, label) => {
-    const { renderText } = this.props;
+    const { getText } = this.props;
 
-    const currLang = renderText(CURRENT_LANGUAGE);
+    const currLang = getText(CURRENT_LANGUAGE);
 
     return (
       <Lang onClick={this.getSetLang(lang)} isSelected={lang === currLang}>{label}</Lang>
@@ -124,33 +138,38 @@ class AppNavigationSidebar extends Component<Props> {
 
   render() {
 
-    const { onClose, renderText } = this.props;
+    const { onClose, getText } = this.props;
 
-    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${renderText(LABELS.SEND_FEEDBACK_SUBJECT)}`
+    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${getText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
 
     return (
       <Wrapper>
         <NavMenuWrapper>
-
           <MenuRow isBack onClick={onClose}>
             <span><FontAwesomeIcon icon={faChevronLeft} /></span>
-            {renderText(LABELS.BACK)}
+            {getText(LABELS.BACK)}
           </MenuRow>
           <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
-            {renderText(LABELS.FIND_CHILDCARE)}
+            {getText(LABELS.FIND_CHILDCARE)}
           </MenuRowNavLink>
           <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
-            {renderText(LABELS.ABOUT)}
+            {getText(LABELS.ABOUT)}
           </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
-            {renderText(LABELS.TERMS_AND_CONDITIONS)}
+            {getText(LABELS.TERMS_AND_CONDITIONS)}
           </MenuRowLink>
           <MenuRowLink href={PRIVACY_POLICY_URL}>
-            {renderText(LABELS.PRIVACY_POLICY)}
+            {getText(LABELS.PRIVACY_POLICY)}
           </MenuRowLink>
           <MenuRowMailtoLink href={feedbackLink}>
-            {renderText(LABELS.SEND_FEEDBACK)}
+            {getText(LABELS.SEND_FEEDBACK)}
           </MenuRowMailtoLink>
+          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
+            {getText(LABELS.RESOURCES)}
+          </MenuRowNavLink>
+          <MenuRowNavLink to={FAQS_PATH} onClick={onClose}>
+            {getText(LABELS.FAQ)}
+          </MenuRowNavLink>
         </NavMenuWrapper>
 
         <NavFooter>
@@ -167,10 +186,9 @@ function mapStateToProps(state) {
 
   return {
     app,
-    renderText: getRenderTextFn(state)
+    getText: getTextFnFromState(state)
   };
 }
-
 
 const mapDispatchToProps = (dispatch :Function) :Object => ({
   actions: bindActionCreators({

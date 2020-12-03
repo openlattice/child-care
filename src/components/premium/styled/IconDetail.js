@@ -5,18 +5,20 @@ import isPlainObject from 'lodash/isPlainObject';
 import styled, { css } from 'styled-components';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Skeleton } from 'lattice-ui-kit';
+import { Colors, Skeleton } from 'lattice-ui-kit';
+
+const { NEUTRAL } = Colors;
 
 const IconDetailWrapper = styled.div`
   display: flex;
-  ${(props) => (props.fitContent ? css`min-width: fit-content;` : '')}
+  ${(props) => (props.fitContent ? css` min-width: fit-content; ` : '')}
 `;
 
 const Content = styled.div`
+  color: ${(props) => (props.isInactive ? NEUTRAL.N400 : NEUTRAL.N700)};
   flex: 1;
-  word-break: break-word;
   white-space: pre-wrap;
-  color: ${(props) => (props.isInactive ? '#9094A4' : '#555E6F')};
+  word-break: break-word;
 `;
 
 const IconWrapper = styled.span`
@@ -27,10 +29,10 @@ const IconWrapper = styled.span`
 type Props = {
   className ? :string;
   content ? :string;
-  icon ? :IconDefinition;
-  isLoading ? :boolean;
-  isInactive ? :boolean;
   fitContent ? :boolean;
+  icon ? :IconDefinition;
+  isInactive ? :boolean;
+  isLoading ? :boolean;
 }
 
 class IconDetail extends Component<Props> {

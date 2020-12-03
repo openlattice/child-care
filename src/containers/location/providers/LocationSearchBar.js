@@ -17,27 +17,37 @@ import {
   Select,
   StyleUtils,
 } from 'lattice-ui-kit';
+import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { RequestStates } from 'redux-reqseq';
 
+import { useTimeout } from '../../../components/hooks';
+import { REQUEST_STATE } from '../../../core/redux/constants';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import {
+  GET_GEO_OPTIONS,
+  geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
   selectLocationOption,
-  geocodePlace
+  setValues
 } from '../LocationsActions';
 
-import { useTimeout } from '../../../components/hooks';
-import {
-  APP_CONTAINER_WIDTH
-} from '../../../core/style/Sizes';
-import { getRenderTextFn } from '../../../utils/AppUtils';
-import { isNonEmptyString } from '../../../utils/LangUtils';
-import { LABELS } from '../../../utils/constants/Labels';
-import { STATE, PROVIDERS } from '../../../utils/constants/StateConstants';
-
+const { LOCATIONS } = STATE;
+const {
+  CURRENT_POSITION,
+  SELECTED_OPTION,
+  IS_EDITING_FILTERS,
+  FILTER_PAGE,
+  SELECTED_PROVIDER,
+  SELECTED_REFERRAL_AGENCY
+} = PROVIDERS;
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
+const { isNonEmptyString } = LangUtils;
+const { isPending } = ReduxUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
 const getTheme = (theme) => ({
@@ -49,16 +59,15 @@ const getTheme = (theme) => ({
 });
 
 const Wrapper = styled.div`
-  width: 100%;
-  top: 0;
-  padding: 8px 0;
+  left: 50%;
   margin: 0 auto;
+  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
+  padding: 8px 0;
   position: fixed;
   top: 0;
-  z-index: 1000;
-  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
-  left: 50%;
   transform: translate(-50%, 0);
+  width: 100%;
+  z-index: 1000;
 
   /* fill right side gap for screens smaller than desktop cutoff */
   ${media.desktop`
@@ -67,7 +76,7 @@ const Wrapper = styled.div`
   `}
 `;
 
-const GroupHeading = () => (<div style={{ borderBottom: '1px solid #E6E6EB' }} />);
+const GroupHeading = () => (<div style={{ borderBottom: `1px solid ${NEUTRAL.N100}` }} />);
 const SearchIcon = <FontAwesomeIcon icon={faSearch} fixedWidth />;
 
 const LocationsSearchBar = () => {
@@ -77,24 +86,24 @@ const LocationsSearchBar = () => {
   useEffect(() => {
     if (refInput.current) {
       const inputElement :HTMLInputElement = refInput.current.querySelector('input');
-      if (inputElement && inputElement.ariaAutoComplete === 'list') {
-        inputElement.setAttribute('aria-autocomplete', 'none');
+      if (inputElement && inputElement.hasAttribute('aria-autocomplete')) {
+        inputElement.removeAttribute('aria-autocomplete');
       }
     }
   }, []);
 
-  const renderText = useSelector(getRenderTextFn);
-  const currentLocationText = renderText(LABELS.CURRENT_LOCATION);
-  const optionsFetchState = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'fetchState']));
-  const currentPosition = useSelector((store) => store.getIn([STATE.LOCATIONS, PROVIDERS.CURRENT_POSITION]));
-  const storedOption = useSelector((store) => store.getIn([STATE.LOCATIONS, 'selectedOption']));
+  const getText = useSelector(getTextFnFromState);
+  const currentLocationText = getText(LABELS.CURRENT_LOCATION);
+  const getGeoOptionsRS = useSelector((store) => store.getIn([LOCATIONS, GET_GEO_OPTIONS, REQUEST_STATE]));
+  const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
+  const storedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
 
   let selectedOption = storedOption;
   if (Map.isMap(storedOption)) {
     selectedOption = storedOption.toJS();
   }
 
-  const options = useSelector((store) => store.getIn([STATE.LOCATIONS, 'options', 'data']));
+  const options = useSelector((store) => store.getIn([LOCATIONS, 'options', 'data']));
   const dispatch = useDispatch();
 
   const [address, setAddress] = useState();
@@ -107,12 +116,19 @@ const LocationsSearchBar = () => {
 
   useTimeout(fetchGeoOptions, 300);
 
-  const isFetchingOptions = optionsFetchState === RequestStates.PENDING;
+  const isFetchingOptions = isPending(getGeoOptionsRS);
 
   const filterOption = () => true;
 
   const handleChange = (payload) => {
     const hasValues = isPlainObject(payload);
+
+    dispatch(setValues({
+      [FILTER_PAGE]: null,
+      [IS_EDITING_FILTERS]: false,
+      [SELECTED_PROVIDER]: null,
+      [SELECTED_REFERRAL_AGENCY]: null,
+    }));
 
     if (hasValues) {
 
@@ -156,7 +172,7 @@ const LocationsSearchBar = () => {
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
-          placeholder={renderText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          placeholder={getText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
           theme={getTheme}
           value={value} />
     </Wrapper>
