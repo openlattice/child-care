@@ -32,9 +32,10 @@ const LocationResult = (props :Props) => {
   const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const provider = useSelector((store) => store.getIn([LOCATIONS, PROVIDER_LOCATIONS, locationEKID], Map()));
 
-  const { latitude, longitude } = currentPosition.coords;
-  const lat = get(selectedOption, LAT, latitude);
-  const lon = get(selectedOption, LON, longitude);
+  const latCP = currentPosition?.coords?.latitude;
+  const lonCP = currentPosition?.coords?.longitude;
+  const lat = get(selectedOption, LAT, latCP);
+  const lon = get(selectedOption, LON, lonCP);
 
   return (
     <ProviderResult provider={provider} coordinates={[lat, lon]} getText={getText} />
