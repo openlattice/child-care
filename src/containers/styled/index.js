@@ -77,7 +77,6 @@ const Header = styled.div`
 
 const TitleRow = styled.section`
   align-items: center;
-  color: ${NEUTRAL.N600};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -85,7 +84,6 @@ const TitleRow = styled.section`
   width: 100%;
 
   span {
-    color: ${NEUTRAL.N700};
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
