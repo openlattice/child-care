@@ -35,7 +35,7 @@ const VacancySection = () => {
   return (
     <TitleRow>
       <FlexContainer>
-        <Typography variant="subtitle2">{getText(LABELS.AVAILABILITY)}</Typography>
+        <Typography textPrimary variant="subtitle2">{getText(LABELS.AVAILABILITY)}</Typography>
         {
           vacancyLastUpdateDate && (
             <MarginWrapper>{`${getText(LABELS.AS_OF)} ${formatedVacancyLastUpdated}`}</MarginWrapper>
