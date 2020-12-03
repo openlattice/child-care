@@ -97,5 +97,5 @@ export const TextLink = styled.a.attrs({
 export const Body3 = styled(Typography).attrs({
   variant: 'body1'
 })`
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
