@@ -40,7 +40,7 @@ const ReferralAgencyHeaderContainer = () => {
     : getText(LABELS.BACK_TO_SEARCH_RESULTS);
   const selectedAgencyName = renderFacilityName(selectedReferralAgency, getText);
 
-  const typeLabel = getText(LABELS.RESOURCE_AND_REFERRAL);
+  const typeLabel = getText(LABELS.REFERRAL);
 
   return (
     <StyledHeaderOuterWrapper>
