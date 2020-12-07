@@ -8,7 +8,8 @@ import CapacitySection from './CapacitySection';
 import ContactSection from './ContactSection';
 import FamilyHomeLocationSection from './FamilyHomeLocationSection';
 import HealthAndSafetySection from './HealthAndSafetySection';
-import ResourceAndReferralSection from './ResourceAndReferralSection';
+import ReferralAgencySection from './ReferralAgencySection';
+import ResourceSection from './ResourceSection';
 import VacancySection from './VacancySection';
 
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
@@ -28,7 +29,8 @@ const ProviderDetailsContainer = () => {
         <CapacitySection />
         <ContactSection />
         <HealthAndSafetySection />
-        <ResourceAndReferralSection />
+        <ReferralAgencySection />
+        <ResourceSection />
       </StyledContentWrapper>
     </StyledContentOuterWrapper>
   );

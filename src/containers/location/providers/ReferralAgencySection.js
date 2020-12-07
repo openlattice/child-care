@@ -21,7 +21,7 @@ const { SELECTED_PROVIDER, RRS_BY_ID } = PROVIDERS;
 
 const { getEntityKeyId, getPropertyValue } = DataUtils;
 
-const ResourceAndReferralSection = () => {
+const ReferralAgencySection = () => {
   const dispatch = useDispatch();
   const getText = useSelector(getTextFnFromState);
   const provider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
@@ -45,11 +45,11 @@ const ResourceAndReferralSection = () => {
   };
 
   return (
-    <ExpandableSection title={getText(LABELS.RESOURCE_AND_REFERRAL)}>
-      <InfoText>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</InfoText>
+    <ExpandableSection title={getText(LABELS.REFERRAL)}>
+      <InfoText>{getText(LABELS.REFERRAL_DESCRIPTION)}</InfoText>
       {rrs.map(renderRR)}
     </ExpandableSection>
   );
 };
 
-export default ResourceAndReferralSection;
+export default ReferralAgencySection;
