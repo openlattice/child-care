@@ -11,12 +11,13 @@ import { useSelector } from 'react-redux';
 
 import ExpandableSection from './ExpandableSection';
 
-import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { getTextFnFromState } from '../../../utils/AppUtils';
+import { Body3, TextLink } from '../../../components/layout';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
+import { getTextFnFromState } from '../../../utils/AppUtils';
+import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
+import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { LABELS } from '../../../utils/constants/labels';
 import { getCoordinates } from '../../map/MapUtils';
-import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import {
   DataRows,
   FlexContainer,
@@ -32,9 +33,9 @@ const { formatAsDate } = DateTimeUtils;
 const InfoIcon = React.forwardRef((props, ref) => (
   // https://material-ui.com/components/tooltips/#custom-child-element
   /* eslint-disable-next-line */
-  <span {...props} ref={ref}>
+  <Body3 {...props} ref={ref}>
     <FontAwesomeIcon icon={faInfoCircle} size="sm" />
-  </span>
+  </Body3>
 ));
 
 const HealthAndSafetySection = () => {
@@ -65,14 +66,14 @@ const HealthAndSafetySection = () => {
     <ExpandableSection title={getText(LABELS.HEALTH_AND_SAFETY)}>
       <>
         <Row>
-          <div>{getText(LABELS.LAST_INSPECTION_DATE)}</div>
+          <Body3>{getText(LABELS.LAST_INSPECTION_DATE)}</Body3>
           <DataRows>
-            {lastInspectionDate}
+            <Body3>{lastInspectionDate}</Body3>
           </DataRows>
         </Row>
         <Row>
           <FlexContainer>
-            {getText(LABELS.CITATIONS)}
+            <Body3>{getText(LABELS.CITATIONS)}</Body3>
             <MarginWrapper>
               <Tooltip arrow placement="top" title={getText(LABELS.CITATIONS_INFO)}>
                 <InfoIcon />
@@ -80,37 +81,35 @@ const HealthAndSafetySection = () => {
             </MarginWrapper>
           </FlexContainer>
           <DataRows>
-            {complaints}
+            <Body3>{complaints}</Body3>
           </DataRows>
         </Row>
         <Row>
-          <div>{getText(LABELS.LICENSE_NUMBER)}</div>
+          <Body3>{getText(LABELS.LICENSE_NUMBER)}</Body3>
           <DataRows>
             {
               !licenseURL
-                ? <span>{licenseNumber || getText(LABELS.NOT_LICENSED)}</span>
+                ? <Body3>{licenseNumber || getText(LABELS.NOT_LICENSED)}</Body3>
                 : (
-                  <a
+                  <TextLink
                       aria-label="link to license"
                       onClick={trackProviderClick}
-                      href={licenseURL}
-                      target="_blank">
+                      href={licenseURL}>
                     {licenseNumber}
-                  </a>
+                  </TextLink>
                 )
             }
           </DataRows>
         </Row>
         <Row>
-          <div>{getText(LABELS.NEAREST_HOSPITAL)}</div>
+          <Body3>{getText(LABELS.NEAREST_HOSPITAL)}</Body3>
           <DataRows alignEnd>
-            <a
+            <TextLink
                 aria-label="link to hospital directions"
                 onClick={trackHospitalClicked}
-                href={hospitalDirections}
-                target="_blank">
+                href={hospitalDirections}>
               {hospitalName}
-            </a>
+            </TextLink>
           </DataRows>
         </Row>
 

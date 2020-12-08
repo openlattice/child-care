@@ -1,31 +1,22 @@
 // @flow
 
 import React from 'react';
-import type { Node, Element, ChildrenArray } from 'react';
-import styled from 'styled-components';
-import { Colors } from 'lattice-ui-kit';
-import { faChevronUp, faChevronDown } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Wrapper } from '../../styled';
+import type { ChildrenArray, Element, Node } from 'react';
 
-const { NEUTRAL } = Colors;
+import styled from 'styled-components';
+import { faChevronDown, faChevronUp } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from 'lattice-ui-kit';
+
+import { Wrapper } from '../../styled';
 
 const TitleRow = styled.div`
   align-items: center;
-  color: ${NEUTRAL.N400};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: ${(props) => (props.isOpen ? 10 : 0)}px;
   width: 100%;
-
-  span {
-    color: ${NEUTRAL.N700};
-    line-height: 17px;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-  }
 
   &:hover {
     cursor: pointer;
@@ -59,7 +50,7 @@ export default class ExpandableSection extends React.Component<Props, State> {
     return (
       <Wrapper>
         <TitleRow isOpen={isOpen} onClick={() => this.setState({ isOpen: !isOpen })}>
-          <span>{title}</span>
+          <Typography textPrimary variant="subtitle2">{title}</Typography>
           <FontAwesomeIcon icon={icon} />
         </TitleRow>
         {isOpen ? children : null}
