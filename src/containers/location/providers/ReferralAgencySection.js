@@ -46,8 +46,8 @@ const ReferralAgencySection = () => {
   };
 
   return (
-    <ExpandableSection title={getText(LABELS.RESOURCE_AND_REFERRAL)}>
-      <Body3>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</Body3>
+    <ExpandableSection title={getText(LABELS.REFERRAL)}>
+      <Body3>{getText(LABELS.REFERRAL_DESCRIPTION)}</Body3>
       {rrs.map(renderRR)}
     </ExpandableSection>
   );
