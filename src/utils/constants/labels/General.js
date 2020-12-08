@@ -206,6 +206,22 @@ export const LABELS :Object = {
     [en]: 'Privacy Policy',
     [es]: 'Política de privacidad'
   },
+  PROVIDER_RESOURCES: {
+    [en]: 'Provider Resources',
+    [es]: 'Recursos del Proveedor'
+  },
+  PROVIDER_RESOURCES_DESCRIPTION: {
+    [en]: 'If you are affiliated with this facility and wish to update your provider information, please visit:',
+    [es]: 'Si está afiliado a esta instalación y desea actualizar la información de su proveedor, visite:'
+  },
+  REFERRAL: {
+    [en]: 'Referral',
+    [es]: 'Remisión'
+  },
+  REFERRAL_DESCRIPTION: {
+    [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
+    [es]: 'Si tiene preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
+  },
   REFINE_SEARCH: {
     [en]: 'Refine Search',
     [es]: 'Refinar la búsqueda'
@@ -219,14 +235,6 @@ export const LABELS :Object = {
     + 'please consider contacting one of the following resources:',
     [es]: 'Si tiene problemas para ponerse en contacto con un proveedor de atención médica o tiene una pregunta '
     + 'general, considere comunicarse con uno de los siguientes recursos:'
-  },
-  RESOURCE_AND_REFERRAL: {
-    [en]: 'Resource & Referral Agency',
-    [es]: 'Oficina de recursos y derivaciones'
-  },
-  RESOURCE_AND_REFERRAL_DESCRIPTION: {
-    [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
-    [es]: 'Si tiene preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
   },
   SAVE: {
     [en]: 'Save',
