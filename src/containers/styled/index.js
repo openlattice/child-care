@@ -77,7 +77,6 @@ const Header = styled.div`
 
 const TitleRow = styled.section`
   align-items: center;
-  color: ${NEUTRAL.N600};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -85,11 +84,9 @@ const TitleRow = styled.section`
   width: 100%;
 
   span {
-    color: ${NEUTRAL.N700};
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    line-height: 17px;
 
     :last-child {
       font-weight: normal;
@@ -106,12 +103,12 @@ const DateRow = styled.article`
     color: ${NEUTRAL.N600};
   }
 
-  span:first-child {
+  p:first-child {
     margin-right: 10px;
     text-align: left;
   }
 
-  span:last-child {
+  p:last-child {
     text-align: right;
   }
 `;
@@ -278,13 +275,8 @@ const StyledHeaderWrapper = styled(ContentWrapper)`
 `;
 
 const SubHeader = styled.div`
-  color: ${NEUTRAL.N700};
   display: flex;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
   justify-content: space-between;
-  line-height: 17px;
   margin: 3px 0;
 `;
 

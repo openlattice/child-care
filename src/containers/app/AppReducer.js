@@ -19,8 +19,8 @@ import {
 
 import { APP, REQUEST_STATE, RS_INITIAL_STATE } from '../../core/redux/constants';
 import { getFqn } from '../../utils/DataUtils';
-import { LANGUAGES } from '../../utils/constants/labels';
 import { APPLICAITON } from '../../utils/constants/StateConstants';
+import { LANGUAGES } from '../../utils/constants/labels';
 
 const {
   ENTITY_SET_ID,

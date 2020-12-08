@@ -1,19 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Colors } from 'lattice-ui-kit';
 
-import { STATE } from '../../utils/constants/StateConstants';
-import { ABOUT, LABELS } from '../../utils/constants/labels';
-import { getTextFnFromState } from '../../utils/AppUtils';
-import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
+import styled from 'styled-components';
+import { Colors, Typography } from 'lattice-ui-kit';
+import { connect } from 'react-redux';
 
 import caForAll from '../../assets/images/caForAll.png';
 import cdnLogo from '../../assets/images/cdnLogo.png';
 import cloudflareLogo from '../../assets/images/cloudflareLogo.png';
 import everbridgeLogo from '../../assets/images/everbridgeLogo.png';
-import openlatticeLogo from '../../assets/images/openlatticeLogoLong.png';
 import mapboxLogo from '../../assets/images/mapboxLogo.png';
+import openlatticeLogo from '../../assets/images/openlatticeLogoLong.png';
+import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
+import { getTextFnFromState } from '../../utils/AppUtils';
+import { STATE } from '../../utils/constants/StateConstants';
+import { ABOUT, LABELS } from '../../utils/constants/labels';
 
 const { NEUTRAL } = Colors;
 
@@ -59,14 +59,6 @@ const Header = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: 27px;
-`;
-
-const Text = styled.div`
-  color: ${NEUTRAL.N700};
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 17px;
 `;
 
 const TextSection = styled.div`
@@ -137,28 +129,28 @@ class AboutPage extends React.Component {
           <Header>{getText(LABELS.ABOUT)}</Header>
 
           <TextSection>
-            <Text>
-              <span>{getText(ABOUT.INTRO)}</span>
+            <Typography variant="body1">
+              <>{getText(ABOUT.INTRO)}</>
               <TextLink href={URLS.CDSS}>California Department of Social Services</TextLink>
-              <span>, </span>
+              <>, </>
               <TextLink href={URLS.CDE}>California Department of Education</TextLink>
-              <span>{`, ${getText(ABOUT.AND)} `}</span>
+              <>{`, ${getText(ABOUT.AND)} `}</>
               <TextLink href={URLS.RR}>California Child Care Resource and Referral Network</TextLink>
-              <span>.</span>
-            </Text>
+              <>.</>
+            </Typography>
             <CaImg />
           </TextSection>
 
           <TextSection>
-            <Text>{getText(ABOUT.CRAFTED_WITH_LOVE)}</Text>
+            <Typography variant="body1">{getText(ABOUT.CRAFTED_WITH_LOVE)}</Typography>
             {this.renderLogos([URLS.OPENLATTICE])}
           </TextSection>
           <TextSection>
-            <Text>{getText(ABOUT.DATA_COLLECTION)}</Text>
+            <Typography variant="body1">{getText(ABOUT.DATA_COLLECTION)}</Typography>
             {this.renderLogos([URLS.CDN])}
           </TextSection>
           <TextSection>
-            <Text>{getText(ABOUT.INFRASTRUCTURE_PARNERS)}</Text>
+            <Typography variant="body1">{getText(ABOUT.INFRASTRUCTURE_PARNERS)}</Typography>
             {this.renderLogos([URLS.CLOUDFLARE, URLS.MAPBOX, URLS.EVERBRIDGE])}
           </TextSection>
         </Wrapper>

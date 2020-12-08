@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ExpandableSection from './ExpandableSection';
 
+import { Body3 } from '../../../components/layout';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
-import { InfoText, Row } from '../../styled';
+import { LABELS } from '../../../utils/constants/labels';
+import { Row } from '../../styled';
 import { selectReferralAgency } from '../LocationsActions';
 
 const { LOCATIONS } = STATE;
@@ -45,8 +46,8 @@ const ReferralAgencySection = () => {
   };
 
   return (
-    <ExpandableSection title={getText(LABELS.REFERRAL)}>
-      <InfoText>{getText(LABELS.REFERRAL_DESCRIPTION)}</InfoText>
+    <ExpandableSection title={getText(LABELS.RESOURCE_AND_REFERRAL)}>
+      <Body3>{getText(LABELS.RESOURCE_AND_REFERRAL_DESCRIPTION)}</Body3>
       {rrs.map(renderRR)}
     </ExpandableSection>
   );
