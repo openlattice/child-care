@@ -19,6 +19,7 @@ import {
   isImmutable
 } from 'immutable';
 import { SearchApi } from 'lattice';
+import type { Saga } from '@redux-saga/core';
 import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
@@ -82,7 +83,7 @@ const regionIsCalifornia = (suggestion) => suggestion.context
 
 const hasLocation = (entity :Map) => (has(entity, PROPERTY_TYPES.LOCATION));
 
-function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
+function* getGeoOptionsWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(getGeoOptions.request(action.id));
 
@@ -91,7 +92,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
     const { address, currentPosition } = action.value;
 
     const params :Object = {
-      access_token: __MAPBOX_TOKEN__,
+      access_token: 'pk.eyJ1Ijoib3BlbmxhdHRpY2UiLCJhIjoiY2tjemNpdzM5MGNwbjJ3bW92bm54b3FmYSJ9.hj2CpMCvFFLnLnDcBbtY6w',
       autocomplete: true,
     };
 
@@ -133,7 +134,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-function* getGeoOptionsWatcher() :Generator<*, *, *> {
+function* getGeoOptionsWatcher() :Saga<*> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
@@ -157,7 +158,7 @@ const trySetStoredPermissions = (bool) => {
   }
 };
 
-function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+function* loadCurrentPositionWorker(action :SequenceAction) :Saga<*> {
   /* check location perms */
   if (action.value.shouldSearchIfLocationPerms && tryReadStoredPermissions() !== 'true') {
     return;
@@ -208,11 +209,11 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   }
 }
 
-function* loadCurrentPositionWatcher() :Generator<*, *, *> {
+function* loadCurrentPositionWatcher() :Saga<*> {
   yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
 }
 
-function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
+function* geocodePlaceWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(geocodePlace.request(action.id));
 
@@ -247,7 +248,7 @@ function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-export function* geocodePlaceWatcher() :Generator<*, *, *> {
+export function* geocodePlaceWatcher() :Saga<*> {
   yield takeEvery(GEOCODE_PLACE, geocodePlaceWorker);
 }
 
