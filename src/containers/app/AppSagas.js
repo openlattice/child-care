@@ -15,6 +15,7 @@ import {
 } from '@redux-saga/core/effects';
 import { configure } from 'lattice';
 import { DateTime } from 'luxon';
+import type { Saga } from '@redux-saga/core';
 import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
@@ -43,12 +44,12 @@ const LOG = new Logger('AppSagas');
  * loadApp()
  */
 
-function* loadAppWatcher() :Generator<*, *, *> {
+function* loadAppWatcher() :Saga<*> {
 
   yield takeEvery(LOAD_APP, loadAppWorker);
 }
 
-function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
+function* loadAppWorker(action :SequenceAction) :Saga<*> {
 
   const workerResponse :Object = {};
   try {
@@ -77,12 +78,12 @@ function* loadAppWorker(action :SequenceAction) :Generator<*, *, *> {
  * reloadToken()
  */
 
-export function* reloadTokenWatcher() :Generator<*, *, *> {
+export function* reloadTokenWatcher() :Saga<*> {
 
   yield takeEvery(RELOAD_TOKEN, reloadTokenWorker);
 }
 
-function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
+function* reloadTokenWorker(action :SequenceAction) :Saga<*> {
 
   const workerResponse :Object = {};
   try {
@@ -115,7 +116,7 @@ function* reloadTokenWorker(action :SequenceAction) :Generator<*, *, *> {
  * initializeApplication()
  */
 
-function* initializeApplicationWorker(action :SequenceAction) :Generator<*, *, *> {
+function* initializeApplicationWorker(action :SequenceAction) :Saga<*> {
 
   try {
     yield put(initializeApplication.request(action.id));
@@ -134,7 +135,7 @@ function* initializeApplicationWorker(action :SequenceAction) :Generator<*, *, *
   }
 }
 
-function* initializeApplicationWatcher() :Generator<*, *, *> {
+function* initializeApplicationWatcher() :Saga<*> {
 
   yield takeEvery(INITIALIZE_APPLICATION, initializeApplicationWorker);
 }
@@ -146,7 +147,7 @@ function takeReqSeqSuccessFailure(reqseq :RequestSequence, seqAction :SequenceAc
   );
 }
 
-export function* refreshAuthTokenIfNecessary() :Generator<*, *, *> {
+export function* refreshAuthTokenIfNecessary() :Saga<*> {
 
   try {
     const token = yield select((state) => state.getIn(['app', 'token']));

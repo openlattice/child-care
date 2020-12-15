@@ -18,7 +18,9 @@ import {
   has,
   isImmutable
 } from 'immutable';
-import { SearchApi } from 'lattice';
+import { SearchApiActions, SearchApiSagas } from 'lattice-sagas';
+import type { Saga } from '@redux-saga/core';
+import type { WorkerResponse } from 'lattice-sagas';
 import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
@@ -48,6 +50,9 @@ import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS, STATE } from '../../utils
 import { LABELS } from '../../utils/constants/labels';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
+
+const { searchEntitySetData, searchEntityNeighborsWithFilter } = SearchApiActions;
+const { searchEntitySetDataWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
 
 declare var __MAPBOX_TOKEN__;
 
@@ -82,7 +87,7 @@ const regionIsCalifornia = (suggestion) => suggestion.context
 
 const hasLocation = (entity :Map) => (has(entity, PROPERTY_TYPES.LOCATION));
 
-function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
+function* getGeoOptionsWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(getGeoOptions.request(action.id));
 
@@ -133,7 +138,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-function* getGeoOptionsWatcher() :Generator<*, *, *> {
+function* getGeoOptionsWatcher() :Saga<*> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
@@ -157,7 +162,7 @@ const trySetStoredPermissions = (bool) => {
   }
 };
 
-function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+function* loadCurrentPositionWorker(action :SequenceAction) :Saga<*> {
   /* check location perms */
   if (action.value.shouldSearchIfLocationPerms && tryReadStoredPermissions() !== 'true') {
     return;
@@ -208,11 +213,11 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   }
 }
 
-function* loadCurrentPositionWatcher() :Generator<*, *, *> {
+function* loadCurrentPositionWatcher() :Saga<*> {
   yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
 }
 
-function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
+function* geocodePlaceWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(geocodePlace.request(action.id));
 
@@ -247,7 +252,7 @@ function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-export function* geocodePlaceWatcher() :Generator<*, *, *> {
+export function* geocodePlaceWatcher() :Saga<*> {
   yield takeEvery(GEOCODE_PLACE, geocodePlaceWorker);
 }
 
@@ -440,7 +445,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     }
 
-    const searchOptions = {
+    const searchConstraints = {
       start: start * PAGE_SIZE,
       entitySetIds: [entitySetId],
       maxHits,
@@ -448,7 +453,13 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits: totalHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    const response :WorkerResponse = yield call(
+      searchEntitySetDataWorker,
+      searchEntitySetData(searchConstraints),
+    );
+
+    if (response.error) throw response.error;
+    const { hits, numHits: totalHits } = response.data;
 
     const filteredHits = fromJS(hits).filter(hasLocation);
 
@@ -463,11 +474,17 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     let neighborsById = {};
 
     if (!locationsEKIDs.isEmpty()) {
-      neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
+      const filter = {
         entityKeyIds: locationsEKIDs.toJS(),
         sourceEntitySetIds: [],
         destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
-      });
+      };
+      const neighborSearchResponse :WorkerResponse = yield call(
+        searchEntityNeighborsWithFilterWorker,
+        searchEntityNeighborsWithFilter({ entitySetId, filter }),
+      );
+      if (neighborSearchResponse.error) throw neighborSearchResponse.error;
+      neighborsById = neighborSearchResponse.data;
     }
 
     let rrsById = Map();
@@ -565,7 +582,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
 
     const constraints = [locationConstraint];
 
-    const searchOptions = {
+    const searchConstraints = {
       start: 0,
       entitySetIds: [entitySetId],
       maxHits: 5,
@@ -573,7 +590,13 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       sort
     };
 
-    const { hits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    const response :WorkerResponse = yield call(
+      searchEntitySetDataWorker,
+      searchEntitySetData(searchConstraints),
+    );
+
+    if (response.error) throw response.error;
+    const { hits } = response.data;
 
     const filteredHits = fromJS(hits).filter(hasLocation);
 
