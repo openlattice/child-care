@@ -34,6 +34,7 @@ export const PROVIDERS = {
   SELECTED_REFERRAL_AGENCY: 'selectedReferralAgency',
   LAT: 'lat',
   LON: 'lon',
+  ZIP_SEARCHED: 'zipCodeSearched',
 
   IS_EDITING_FILTERS: 'isEditingFilters',
   FILTER_PAGE: 'filterPage',
