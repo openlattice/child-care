@@ -55,6 +55,7 @@ const {
   SELECTED_REFERRAL_AGENCY,
   TYPE_OF_CARE,
   ZIP,
+  ZIP_SEARCHED,
 } = PROVIDERS;
 
 const INITIAL_STATE :Map = fromJS({
@@ -92,6 +93,7 @@ const INITIAL_STATE :Map = fromJS({
   [SELECTED_REFERRAL_AGENCY]: null,
   [TYPE_OF_CARE]: [],
   [ZIP]: ['', {}],
+  [ZIP_SEARCHED]: false,
 });
 
 const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
@@ -171,10 +173,12 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
       return searchReferralAgencies.reducer(state, action, {
         REQUEST: () => state
           .set(REFERRAL_AGENCY_LOCATIONS, Map())
+          .set(ZIP_SEARCHED, false)
           .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.PENDING)
           .setIn([SEARCH_REFERRAL_AGENCIES, action.id], action),
         SUCCESS: () => state
           .set(REFERRAL_AGENCY_LOCATIONS, action.value.referralAgencyLocations)
+          .set(ZIP_SEARCHED, action.value.zipCodeSearched)
           .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.SUCCESS),
         FAILURE: () => state.setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => state.deleteIn([SEARCH_REFERRAL_AGENCIES, action.id])
