@@ -29,7 +29,8 @@ const {
   LAT,
   LON,
   REFERRAL_AGENCY_LOCATIONS,
-  SELECTED_OPTION
+  SELECTED_OPTION,
+  ZIP_SEARCHED
 } = PROVIDERS;
 
 const { getEntityKeyId, getPropertyValue } = DataUtils;
@@ -38,7 +39,11 @@ const NoResults = () => {
   const dispatch = useDispatch();
   const getText = useSelector(getTextFnFromState);
   const nearbyReferralAgencies = useSelector((store) => store.getIn([LOCATIONS, REFERRAL_AGENCY_LOCATIONS], Map()));
+  const zipCodeWasSearched :?boolean = useSelector((store) => store.getIn([LOCATIONS, ZIP_SEARCHED], false));
   const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const instructionTextObject = zipCodeWasSearched
+    ? NO_RESULTS.DETAILS_WITH_ZIP
+    : NO_RESULTS.DETAILS_WITHOUT_ZIP;
 
   const renderRR = (rr :Map) => {
     const name = getPropertyValue(rr, [PROPERTY_TYPES.FACILITY_NAME, 0]);
@@ -63,7 +68,7 @@ const NoResults = () => {
     <Centered>
       <FontAwesomeIcon size="3x" icon={faSearchLocation} />
       <Instructions color="textSecondary" variant="subtitle1">
-        {getText(NO_RESULTS.DETAILS)}
+        {getText(instructionTextObject)}
       </Instructions>
       {nearbyReferralAgencies.valueSeq().map(renderRR)}
     </Centered>
