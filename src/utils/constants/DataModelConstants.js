@@ -44,6 +44,7 @@ export const PROPERTY_TYPES = {
   VACANCIES: 'ecps.vacancies',
   VACANCY_LAST_UPDATED: 'ecps.vacancy_last_updated',
   ZIP: 'ecps.facility_zip',
+  ZIP_SERVED: 'ecps.facility_zip_code_served',
 
   PHONE: 'ecps.facility_phone',
 
