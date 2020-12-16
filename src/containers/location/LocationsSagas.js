@@ -532,15 +532,27 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     const { searchInputs } = value;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
 
-    let latLonObj = searchInputs;
-    if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
+    // check for postcode
+    const zones = [];
+    // from context
+    searchInputs?.context.forEach((detail) => {
+      if (detail.id.startsWith('postcode')) {
+        zones.push(detail.text);
+      }
+    });
+    // from text if a zip was searched
+    if (searchInputs.place_type.includes('postcode')) {
+      zones.push(searchInputs.text);
+    }
+
+    const zoneSearched = zones.length > 0;
 
     yield put(searchReferralAgencies.request(action.id, {
-      searchInputs: latLonObj
+      searchInputs: fromJS(searchInputs)
     }));
 
-    const latitude :string = get(latLonObj, 'lat');
-    const longitude :string = get(latLonObj, 'lon');
+    const latitude :string = searchInputs.lat;
+    const longitude :string = searchInputs.lon;
 
     const entitySetId = RR_ENTITY_SET_ID;
     let app :Map = yield select((state) => state.get('app', Map()));
@@ -555,6 +567,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     }
 
     const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
+    const zipServedPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.ZIP_SERVED);
 
     const sort = {
       type: 'geoDistance',
@@ -580,7 +593,27 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       min: 2
     };
 
-    const constraints = [locationConstraint];
+    const zipConstraint = {
+      constraints: [{
+        type: 'geoDistance',
+        propertyTypeId: zipServedPropertyTypeId,
+        zones
+      }, {
+        type: 'simple',
+        fuzzy: false,
+        searchTerm: `_exists_:entity.${locationPropertyTypeId}`
+      }],
+      min: 2
+    };
+
+    const constraints = [];
+
+    if (zoneSearched) {
+      constraints.push(zipConstraint);
+    }
+    else {
+      constraints.push(locationConstraint);
+    }
 
     const searchConstraints = {
       start: 0,
@@ -607,7 +640,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       });
     });
 
-    yield put(searchReferralAgencies.success(action.id, { referralAgencyLocations }));
+    yield put(searchReferralAgencies.success(action.id, { referralAgencyLocations, zoneSearched }));
   }
   catch (error) {
     LOG.error(action.type, error);
