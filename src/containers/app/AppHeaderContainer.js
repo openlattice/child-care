@@ -94,7 +94,8 @@ const LogoWrapper = styled.div`
   display: flex;
   margin-left: 36px;
 
-  svg, img {
+  svg,
+  img {
     margin-right: 16px;
   }
 
