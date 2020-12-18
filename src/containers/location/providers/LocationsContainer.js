@@ -18,6 +18,7 @@ import NoResults from './NoResults';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
+import LocationSearchBar from './LocationSearchBar';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
@@ -136,6 +137,8 @@ const LocationsContainer = () => {
     providerDetails = <ProviderDetailsContainer />;
   }
 
+  const shouldDisplaySearchBar = !(isEditingFilters || selectedReferralAgency || selectedProvider);
+
   const lat = get(selectedOption, LAT);
   const lon = get(selectedOption, LON);
 
@@ -154,6 +157,8 @@ const LocationsContainer = () => {
     }
   }, [
     dispatch,
+    lat,
+    lon,
     searchLocationsRS,
     searchResults,
     selectedOption
@@ -188,6 +193,7 @@ const LocationsContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
+        { shouldDisplaySearchBar && <LocationSearchBar /> }
         {editFiltersContent}
         {providerHeader}
         <MapWrapper>
