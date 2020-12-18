@@ -11,7 +11,7 @@ import { Colors, Drawer, StyleUtils } from 'lattice-ui-kit';
 import { withRouter } from 'react-router';
 
 import AppNavigationSidebar from './AppNavigationSidebar';
-import AppHeaderNavagation from './AppHeaderNavagation';
+import AppHeaderNavigation from './AppHeaderNavigation';
 
 import CustomColors from '../../core/style/Colors';
 import * as Routes from '../../core/router/Routes';
@@ -139,7 +139,7 @@ const AppHeaderContainer = () => {
             </LogoWrapper>
           </LogoTitleWrapperLink>
         </LeftSideContentWrapper>
-        <AppHeaderNavagation />
+        <AppHeaderNavigation />
         <Drawer
             side="left"
             isOpen={isNavigationOpen}
