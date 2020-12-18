@@ -34,11 +34,9 @@ const Wrapper = styled.div`
   display: flex;
   height: 100%;
   justify-content: space-between;
-
   ${media.phone`
     display: none;
   `}
-
   ${media.tablet`
     display: none;
   `}
@@ -75,7 +73,7 @@ const MenuRowNavLink = styled(Link)`
 
 const Lang = styled.div`
   color: ${(props) => (props.isSelected ? 'white' : NEUTRAL.N200)};
-  font-weight: ${(props) => (props.isSelected ? 600 : 400)};;
+  font-weight: ${(props) => (props.isSelected ? 600 : 400)};
 
   &:hover {
     cursor: pointer;
