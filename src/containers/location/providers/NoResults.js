@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faSearchLocation } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { get, Map } from 'immutable';
+import { Map, get } from 'immutable';
 import { Button, Typography } from 'lattice-ui-kit';
 import { DataUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { getDistanceBetweenCoords } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { NO_RESULTS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { NO_RESULTS } from '../../../utils/constants/labels';
 import { getCoordinates } from '../../map/MapUtils';
 import { Centered, Row } from '../../styled';
 import { selectReferralAgency } from '../LocationsActions';
@@ -41,9 +41,6 @@ const NoResults = () => {
   const nearbyReferralAgencies = useSelector((store) => store.getIn([LOCATIONS, REFERRAL_AGENCY_LOCATIONS], Map()));
   const zipCodeWasSearched :?boolean = useSelector((store) => store.getIn([LOCATIONS, ZIP_SEARCHED], false));
   const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
-  const instructionTextObject = zipCodeWasSearched
-    ? NO_RESULTS.DETAILS_WITH_ZIP
-    : NO_RESULTS.DETAILS_WITHOUT_ZIP;
 
   const renderRR = (rr :Map) => {
     const name = getPropertyValue(rr, [PROPERTY_TYPES.FACILITY_NAME, 0]);
@@ -68,9 +65,12 @@ const NoResults = () => {
     <Centered>
       <FontAwesomeIcon size="3x" icon={faSearchLocation} />
       <Instructions color="textSecondary" variant="subtitle1">
-        {getText(instructionTextObject)}
+        {getText(NO_RESULTS.DETAILS)}
       </Instructions>
       {nearbyReferralAgencies.valueSeq().map(renderRR)}
+      <Instructions color="textSecondary" variant="subtitle1">
+        {!zipCodeWasSearched && getText(NO_RESULTS.DETAILS_WITHOUT_ZIP)}
+      </Instructions>
     </Centered>
   );
 };
