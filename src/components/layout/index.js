@@ -99,3 +99,11 @@ export const Body3 = styled(Typography).attrs({
 })`
   font-size: 0.875rem;
 `;
+
+export const LogoLink = styled.a.attrs({
+  target: '_blank'
+})`
+  img {
+    margin-right: 15px;
+  }
+`;
