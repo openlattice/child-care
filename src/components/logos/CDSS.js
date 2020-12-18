@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import cdssLogo from '../../assets/svg/cdssLogo.svg';
 
 const CDSS = styled.img.attrs({
-  alt: 'cal.gov',
+  alt: 'cdss.ca.gov',
   src: cdssLogo
 })`
   height: 34px;
