@@ -103,7 +103,7 @@ export const Body3 = styled(Typography).attrs({
 export const LogoLink = styled.a.attrs({
   target: '_blank'
 })`
-  line-height: normal;
+  line-height: 0;
 
   img {
     margin-right: 15px;
