@@ -110,7 +110,7 @@ const Lang = styled.div`
   color: ${(props) => (props.isSelected ? 'white' : NEUTRAL.N200)};
   font-size: 14px;
   font-style: normal;
-  font-weight: ${(props) => (props.isSelected ? 600 : 400)};;
+  font-weight: ${(props) => (props.isSelected ? 600 : 400)};
   line-height: 17px;
 
   &:hover {
