@@ -178,7 +178,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
           .setIn([SEARCH_REFERRAL_AGENCIES, action.id], action),
         SUCCESS: () => state
           .set(REFERRAL_AGENCY_LOCATIONS, action.value.referralAgencyLocations)
-          .set(ZIP_SEARCHED, action.value.zipCodeSearched)
+          .set(ZIP_SEARCHED, action.value.zoneSearched)
           .setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.SUCCESS),
         FAILURE: () => state.setIn([SEARCH_REFERRAL_AGENCIES, REQUEST_STATE], RequestStates.FAILURE),
         FINALLY: () => state.deleteIn([SEARCH_REFERRAL_AGENCIES, action.id])
