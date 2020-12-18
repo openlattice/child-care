@@ -43,6 +43,7 @@ const Wrapper = styled.div`
 `;
 
 const menuRowStyle = css`
+  align-items: center;
   background-color: ${BLUE};
   color: white;
   display: flex;
