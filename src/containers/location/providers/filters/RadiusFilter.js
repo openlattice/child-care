@@ -5,7 +5,7 @@ import { Colors, Select } from 'lattice-ui-kit';
 import { isMobile } from '../../../../utils/AppUtils';
 import { LABELS } from '../../../../utils/constants/labels';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 
 const BasicSelect = styled.select`
   background-color: ${NEUTRAL.N00};
@@ -19,7 +19,7 @@ const BasicSelect = styled.select`
 
   &:focus {
     background-color: white;
-    border: solid 1px ${PURPLE.P300};
+    border: solid 1px ${BLUE.B400};
   }
 `;
 

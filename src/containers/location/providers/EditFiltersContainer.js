@@ -273,7 +273,7 @@ class EditFiltersContainer extends React.Component<Props, State> {
           </StyledContentWrapper>
         </ScrollContainer>
         <ApplyButtonWrapper>
-          <Button color="primary" onClick={onExecuteSearch}>{getText(LABELS.APPLY)}</Button>
+          <Button color="info" onClick={onExecuteSearch}>{getText(LABELS.APPLY)}</Button>
         </ApplyButtonWrapper>
       </StyledOuterWrapper>
     );

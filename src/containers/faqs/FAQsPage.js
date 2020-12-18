@@ -11,7 +11,7 @@ import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { FAQS, Q_AND_A } from '../../utils/constants/labels';
 
-const { PURPLE } = Colors;
+const { BLUE } = Colors;
 
 const Wrapper = styled(ContentWrapper)`
   background-color: white;
@@ -23,7 +23,7 @@ const Wrapper = styled(ContentWrapper)`
 `;
 
 const SubTitle = styled(Typography)`
-  color: ${PURPLE.P300};
+  color: ${BLUE.B400};
   text-decoration: underline;
 `;
 

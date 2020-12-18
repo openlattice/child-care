@@ -64,6 +64,7 @@ const {
 } = PROVIDERS;
 
 const { LOCATIONS } = STATE;
+const { BLUE } = Colors;
 
 const MAX_HITS = 20;
 
@@ -82,7 +83,7 @@ const FilterRow = styled.div`
 `;
 
 const FilterButton = styled.div`
-  color: ${Colors.PURPLES[1]};
+  color: ${BLUE.B400};
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;

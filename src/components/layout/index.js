@@ -3,7 +3,7 @@ import { Colors, StyleUtils, Typography } from 'lattice-ui-kit';
 
 import { APP_CONTAINER_WIDTH } from '../../core/style/Sizes';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 const { media } = StyleUtils;
 
 export const ContentOuterWrapper = styled.div`
@@ -90,7 +90,7 @@ export const OpenClosedTag = styled.div`
 export const TextLink = styled.a.attrs({
   target: '_blank'
 })`
-  color: ${PURPLE.P300};
+  color: ${BLUE.B400};
   cursor: pointer;
 `;
 

@@ -22,7 +22,7 @@ import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
 import { selectProvider } from '../LocationsActions';
 import type { Translation } from '../../../types';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 
 const ActionBar = styled.div`
   align-items: center;
@@ -45,7 +45,7 @@ const CloseButton = styled(IconButton)`
 const CloseIcon = <FontAwesomeIcon icon={faTimes} fixedWidth />;
 
 const LinkButton = styled.div`
-  color: ${PURPLE.P300};
+  color: ${BLUE.B400};
   font-size: 14px;
   font-weight: 600;
   text-align: center;

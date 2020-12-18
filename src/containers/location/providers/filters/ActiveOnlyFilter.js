@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { LABELS } from '../../../../utils/constants/labels';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 
 const Wrapper = styled.div`
   align-items: center;
@@ -27,11 +27,11 @@ const Button = styled.div`
 `;
 
 const SelectedValue = styled(Button)`
-  background-color: ${PURPLE.P100};
-  color: ${PURPLE.P300};
+  background-color: ${BLUE.B100};
+  color: ${BLUE.B400};
 
   &:hover {
-    background-color: ${PURPLE.P200};
+    background-color: ${BLUE.B200};
     cursor: pointer;
   }
 `;
