@@ -40,7 +40,7 @@ const ReferralAgencySection = () => {
 
     return (
       <Row key={getEntityKeyId(rr)}>
-        <Button color="primary" onClick={handleViewProfile} size="small" variant="text">{name}</Button>
+        <Button color="info" onClick={handleViewProfile} size="small" variant="text">{name}</Button>
       </Row>
     );
   };

@@ -18,6 +18,7 @@ import NoResults from './NoResults';
 import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
+import LocationSearchBar from './LocationSearchBar';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
@@ -65,6 +66,7 @@ const {
 } = PROVIDERS;
 
 const { LOCATIONS } = STATE;
+const { BLUE } = Colors;
 
 const MAX_HITS = 20;
 
@@ -83,7 +85,7 @@ const FilterRow = styled.div`
 `;
 
 const FilterButton = styled.div`
-  color: ${Colors.PURPLES[1]};
+  color: ${BLUE.B400};
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
@@ -138,6 +140,8 @@ const LocationsContainer = () => {
     providerHeader = <ProviderHeaderContainer />;
     providerDetails = <ProviderDetailsContainer />;
   }
+
+  const shouldDisplaySearchBar = !(isEditingFilters || selectedReferralAgency || selectedProvider);
 
   const lat = get(selectedOption, LAT);
   const lon = get(selectedOption, LON);
@@ -198,6 +202,7 @@ const LocationsContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
+        { shouldDisplaySearchBar && <LocationSearchBar /> }
         {editFiltersContent}
         {providerHeader}
         <MapWrapper>

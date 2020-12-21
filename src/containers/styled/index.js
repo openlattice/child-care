@@ -4,7 +4,7 @@ import { CardSegment, Colors, StyleUtils } from 'lattice-ui-kit';
 import { ContentOuterWrapper, ContentWrapper } from '../../components/layout';
 import { APP_CONTAINER_WIDTH, HEADER_HEIGHT, HEIGHTS } from '../../core/style/Sizes';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 
 const { media } = StyleUtils;
 
@@ -200,7 +200,7 @@ const Row = styled.div`
   }
 
   a {
-    color: ${PURPLE.P300};
+    color: ${BLUE.B400};
     text-decoration: underline;
     max-width: 65%;
   }

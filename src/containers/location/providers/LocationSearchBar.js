@@ -58,14 +58,20 @@ const getTheme = (theme) => ({
   },
 });
 
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: 'white',
+    border: `1px solid ${NEUTRAL.N100}`
+  })
+};
+
 const Wrapper = styled.div`
   left: 50%;
   margin: 0 auto;
   max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
   padding: 8px 0;
-  position: fixed;
   top: 0;
-  transform: translate(-50%, 0);
   width: 100%;
   z-index: 1000;
 
@@ -73,6 +79,14 @@ const Wrapper = styled.div`
   ${media.desktop`
     max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
     left: calc(50% + 20px);
+  `}
+  ${media.phone`
+    position: fixed;
+    transform: translate(-50%, 0);
+  `}
+  ${media.tablet`
+    position: fixed;
+    transform: translate(-50%, 0);
   `}
 `;
 
@@ -173,6 +187,7 @@ const LocationsSearchBar = () => {
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={getText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          styles={customStyles}
           theme={getTheme}
           value={value} />
     </Wrapper>

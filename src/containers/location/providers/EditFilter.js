@@ -137,7 +137,7 @@ export default class EditFilter extends React.Component<Props, State> {
 
         </StyledContentWrapper>
         <ApplyButtonWrapper>
-          <Button color="primary" disabled={!isValid} onClick={() => onSave({ field, value })}>
+          <Button color="info" disabled={!isValid} onClick={() => onSave({ field, value })}>
             {getText(LABELS.SAVE)}
           </Button>
         </ApplyButtonWrapper>
