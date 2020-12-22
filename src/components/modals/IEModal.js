@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Modal, Typography } from 'lattice-ui-kit';
 import {
-  Chrome,
-  Edge,
-  Firefox,
-  Safari
+  ChromeLink,
+  EdgeLink,
+  FirefoxLink,
+  SafariLink
 } from '../logos';
 
 import { UNSUPPORTED_BROWSER } from '../../utils/constants/labels';
@@ -47,10 +47,10 @@ const IEModal = ({ getText }) => (
         {getText(UNSUPPORTED_BROWSER.SUGGESTION)}
       </Typography>
       <SupportedBroswers>
-        <Chrome />
-        <Edge />
-        <Firefox />
-        <Safari />
+        <ChromeLink />
+        <EdgeLink />
+        <FirefoxLink />
+        <SafariLink />
       </SupportedBroswers>
     </Content>
   </Modal>
