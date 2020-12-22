@@ -6,6 +6,10 @@ import { en, es } from './Languages';
 
 export const UNSUPPORTED_BROWSER :Object = {
   HEADER: {
+    [en]: 'Unsupported Browser',
+    [es]: 'Navegador no soportado'
+  },
+  WARNING: {
     [en]: 'It looks like you\'re using an unsupported browser!',
     [es]: '¡Parece que está usando un navegador incompatible!'
   },
