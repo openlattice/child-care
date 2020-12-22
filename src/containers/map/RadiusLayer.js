@@ -8,7 +8,7 @@ import { Feature, Layer } from 'react-mapbox-gl';
 import { distanceToPixelsAtMaxZoom, getCoordinates } from './MapUtils';
 import { LAYERS, MAP_STYLE } from './constants';
 
-const { PURPLES } = Colors;
+const { BLUE } = Colors;
 
 type Props = {
   mapMode ?:string;
@@ -26,7 +26,7 @@ const RadiusLayer = (props :Props) => {
     unit,
   } = props;
 
-  const color = mapMode === MAP_STYLE.DEFAULT ? PURPLES[2] : PURPLES[6];
+  const color = mapMode === MAP_STYLE.DEFAULT ? BLUE.B200 : BLUE.B400;
   const [longitude, latitude] = getCoordinates(location);
   if (radius && latitude && longitude) {
     return (

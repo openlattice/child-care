@@ -7,14 +7,16 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { Colors } from 'lattice-ui-kit';
 
 import * as AppActions from './AppActions';
 
+import CustomColors from '../../core/style/Colors';
+import { CDSSLink, CaGovLink } from '../../components/logos';
 import {
   ABOUT_PATH,
   FAQS_PATH,
@@ -30,11 +32,13 @@ import {
 } from '../../utils/constants/labels';
 import type { Translation } from '../../types';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { BLUE } = CustomColors;
+const { NEUTRAL } = Colors;
 
 const DEFAULT_PADDING = css` padding: 20px 24px; `;
 
 const Wrapper = styled.div`
+  background-color: ${BLUE};
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -47,8 +51,8 @@ const NavMenuWrapper = styled.div`
 `;
 
 const menuRowStyle = css`
-  border-bottom: 1px solid ${NEUTRAL.N100};
-  color: ${(props) => (props.isBack ? PURPLE.P300 : NEUTRAL.N700)};
+  border-bottom: 1px solid white;
+  color: white;
   ${DEFAULT_PADDING}
   display: flex;
   flex-direction: row;
@@ -69,6 +73,17 @@ const menuRowStyle = css`
 
 const MenuRow = styled.div`
   ${menuRowStyle}
+`;
+
+const LogoRow = styled.div`
+  ${menuRowStyle}
+  padding: 10px 24px;
+
+  img {
+    height: 46px;
+    width: auto;
+    margin-right: 10px;
+  }
 `;
 
 const MenuRowLink = styled.a.attrs({
@@ -92,7 +107,7 @@ const NavFooter = styled.div`
 `;
 
 const Lang = styled.div`
-  color: ${(props) => (props.isSelected ? PURPLE.P300 : NEUTRAL.N700)};
+  color: ${(props) => (props.isSelected ? 'white' : NEUTRAL.N200)};
   font-size: 14px;
   font-style: normal;
   font-weight: ${(props) => (props.isSelected ? 600 : 400)};
@@ -149,6 +164,10 @@ class AppNavigationSidebar extends Component<Props> {
             <span><FontAwesomeIcon icon={faChevronLeft} /></span>
             {getText(LABELS.BACK)}
           </MenuRow>
+          <LogoRow>
+            <CaGovLink />
+            <CDSSLink />
+          </LogoRow>
           <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
             {getText(LABELS.FIND_CHILDCARE)}
           </MenuRowNavLink>
