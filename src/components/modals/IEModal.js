@@ -9,6 +9,12 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Typography } from 'lattice-ui-kit';
+import {
+  Chrome,
+  Edge,
+  Firefox,
+  Safari
+} from '../logos';
 
 import { UNSUPPORTED_BROWSER } from '../../utils/constants/labels';
 
@@ -30,7 +36,7 @@ const SupportedBroswers = styled.div`
   margin-top: 20px;
   width: 100%;
 
-  svg {
+  img {
     margin: 0 5px;
   }
 `;
@@ -48,10 +54,10 @@ const IEModal = ({ getText }) => (
         {getText(UNSUPPORTED_BROWSER.SUGGESTION)}
       </Typography>
       <SupportedBroswers>
-        <FontAwesomeIcon icon={faChrome} size="3x" />
-        <FontAwesomeIcon icon={faEdge} size="3x" />
-        <FontAwesomeIcon icon={faFirefoxBrowser} size="3x" />
-        <FontAwesomeIcon icon={faSafari} size="3x" />
+        <Chrome />
+        <Edge />
+        <Firefox />
+        <Safari />
       </SupportedBroswers>
     </Content>
   </Modal>
