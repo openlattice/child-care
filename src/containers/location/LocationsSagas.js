@@ -567,7 +567,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     }
 
     const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
-    const zipServedPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.ZIP_SERVED);
+    const zipServedPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.ZIP_SERVED_STRING);
     const sort = {
       type: 'geoDistance',
       descending: false,
