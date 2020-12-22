@@ -6,8 +6,8 @@ const Chrome = styled.img.attrs({
   alt: 'chrome icon',
   src: chromeLogo
 })`
-  height: 34px;
-  width: 34px;
+  height: 40px;
+  width: 40px;
 `;
 
 export default Chrome;
