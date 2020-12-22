@@ -30,6 +30,11 @@ import {
   LABELS,
   LANGUAGES
 } from '../../utils/constants/labels';
+import {
+  PRIVACY_POLICY_URL,
+  CONDITIONS_OF_USE_URL,
+  FEEDBACK_EMAIL
+} from '../../utils/constants/URLs';
 import type { Translation } from '../../types';
 
 const { BLUE } = CustomColors;
@@ -129,10 +134,6 @@ type Props = {
   onClose :() => void;
   getText :(translation :Translation) => string;
 };
-
-const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
-const CONDITIONS_OF_USE_URL = 'https://cdss.ca.gov/conditions-of-use';
-const FEEDBACK_EMAIL = 'mychildcare@dss.ca.gov';
 
 class AppNavigationSidebar extends Component<Props> {
 
