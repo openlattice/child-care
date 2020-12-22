@@ -79,7 +79,7 @@ const AppFooterContainer = () => {
           {getText(LABELS.PRIVACY_POLICY)}
         </MenuItem>
         <MenuItem href={REGISTER_TO_VOTE_URL}>
-          {getText(LABELS.SEND_FEEDBACK)}
+          {getText(LABELS.REGISTER_TO_VOTE)}
         </MenuItem>
       </FooterItem>
       <FooterItem>
