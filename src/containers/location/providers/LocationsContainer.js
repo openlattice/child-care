@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
-import { get, List, Map } from 'immutable';
+import { List, Map, get } from 'immutable';
 import {
   Colors,
   PaginationToolbar,
@@ -39,6 +39,7 @@ import {
   GEOCODE_PLACE,
   LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
+  SEARCH_REFERRAL_AGENCIES,
   loadCurrentPosition,
   searchLocations,
   searchReferralAgencies,
@@ -111,6 +112,9 @@ const LocationsContainer = () => {
   const searchLocationsRS = useSelector((store) => store.getIn(
     [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
   ));
+  const searchReferralAgenciesRS = useSelector((store) => store.getIn(
+    [LOCATIONS, SEARCH_REFERRAL_AGENCIES, REQUEST_STATE]
+  ));
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, SELECTED_REFERRAL_AGENCY]));
   const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS], List()));
@@ -143,7 +147,12 @@ const LocationsContainer = () => {
   const lon = get(selectedOption, LON);
 
   const hasSearched = !isStandby(searchLocationsRS);
-  const isLoading = isPending(reduceRequestStates([geocodePlaceRS, searchLocationsRS, loadCurrentPositionRS]));
+  const isLoading = isPending(reduceRequestStates([
+    geocodePlaceRS,
+    searchLocationsRS,
+    loadCurrentPositionRS,
+    searchReferralAgenciesRS
+  ]));
   const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
