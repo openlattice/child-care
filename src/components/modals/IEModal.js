@@ -1,13 +1,6 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import {
-  faChrome,
-  faEdge,
-  faFirefoxBrowser,
-  faSafari
-} from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Typography } from 'lattice-ui-kit';
 import {
   Chrome,
