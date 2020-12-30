@@ -48,8 +48,13 @@ const menuRowStyle = css`
   color: white;
   display: flex;
   min-width: max-content;
-  padding: 20px 24px;
+  padding: 20px 24px 20px 0;
   text-decoration: none;
+
+  @media (max-width: ${(props) => (props.lang === LANGUAGES.en ? 1000 : 1350)}px) {
+    font-size: 14px;
+    min-width: min-content;
+  }
 
   span {
     margin-right: 10px;
@@ -92,39 +97,35 @@ const AppNavigationSidebar = () => {
   const getText = useSelector(getTextFnFromState);
 
   const getSetLang = (lang) => dispatch(switchLanguage(lang));
+  const currLang = getText(CURRENT_LANGUAGE);
 
-  const renderLang = (lang, label) => {
-
-    const currLang = getText(CURRENT_LANGUAGE);
-
-    return (
-      <Lang onClick={() => getSetLang(lang)} isSelected={lang === currLang}>{label}</Lang>
-    );
-  };
+  const renderLang = (lang, label) => (
+    <Lang onClick={() => getSetLang(lang)} isSelected={lang === currLang}>{label}</Lang>
+  );
 
   const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${getText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
 
   return (
     <Wrapper>
-      <MenuRowNavLink to={HOME_PATH}>
+      <MenuRowNavLink lang={currLang} to={HOME_PATH}>
         {getText(LABELS.FIND_CHILDCARE)}
       </MenuRowNavLink>
-      <MenuRowNavLink to={ABOUT_PATH}>
+      <MenuRowNavLink lang={currLang} to={ABOUT_PATH}>
         {getText(LABELS.ABOUT)}
       </MenuRowNavLink>
-      <MenuRowNavLink to={FAQS_PATH}>
+      <MenuRowNavLink lang={currLang} to={FAQS_PATH}>
         {getText(LABELS.FAQ)}
       </MenuRowNavLink>
-      <MenuRowNavLink to={RESOURCES_PATH}>
+      <MenuRowNavLink lang={currLang} to={RESOURCES_PATH}>
         {getText(LABELS.RESOURCES)}
       </MenuRowNavLink>
-      <MenuRowMailtoLink href={feedbackLink}>
+      <MenuRowMailtoLink lang={currLang} href={feedbackLink}>
         {getText(LABELS.SEND_FEEDBACK)}
       </MenuRowMailtoLink>
-      <MenuRow>
+      <MenuRow lang={currLang}>
         {renderLang(LANGUAGES.en, 'English')}
       </MenuRow>
-      <MenuRow>
+      <MenuRow lang={currLang}>
         {renderLang(LANGUAGES.es, 'Español')}
       </MenuRow>
     </Wrapper>
