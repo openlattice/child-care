@@ -5,7 +5,7 @@ import { Colors } from 'lattice-ui-kit';
 import { getCoordinates } from '../../../map/MapUtils';
 import { shouldShowLocation } from '../../../../utils/DataUtils';
 
-const { PURPLE } = Colors;
+const { BLUE } = Colors;
 
 const RADIUS = 500;
 
@@ -30,7 +30,7 @@ export default class familyHomeRadius extends React.Component {
           id="familyHomeRadius"
           paint={{
             'circle-opacity': 0.27,
-            'circle-color': PURPLE.P300,
+            'circle-color': BLUE.B400,
             'circle-radius': {
               stops: [
                 [0, 0],

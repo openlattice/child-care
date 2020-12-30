@@ -1,6 +1,13 @@
 import React from 'react';
+
 import styled from 'styled-components';
-import { Modal } from 'lattice-ui-kit';
+import { Modal, Typography } from 'lattice-ui-kit';
+import {
+  ChromeLink,
+  EdgeLink,
+  FirefoxLink,
+  SafariLink
+} from '../logos';
 
 import { UNSUPPORTED_BROWSER } from '../../utils/constants/labels';
 
@@ -11,28 +18,40 @@ const Content = styled.div`
   height: 100%;
   justify-content: center;
   min-height: 200px;
-  padding: 10px 0;
+  padding: 30px 40px;
   width: 100%;
 `;
 
-const Text = styled.div`
-  padding: 20px 0;
+const SupportedBroswers = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
 
-  &:first-child {
-    font-weight: 600;
-    text-align: center;
+  img {
+    margin: 0 5px;
   }
 `;
 
 const IEModal = ({ getText }) => (
   <Modal withHeader={false} isVisible>
     <Content>
-      <Text>
+      <Typography variant="h1">
         {getText(UNSUPPORTED_BROWSER.HEADER)}
-      </Text>
-      <Text>
+      </Typography>
+      <Typography variant="body1">
+        {getText(UNSUPPORTED_BROWSER.WARNING)}
+      </Typography>
+      <Typography variant="body1">
         {getText(UNSUPPORTED_BROWSER.SUGGESTION)}
-      </Text>
+      </Typography>
+      <SupportedBroswers>
+        <ChromeLink />
+        <EdgeLink />
+        <FirefoxLink />
+        <SafariLink />
+      </SupportedBroswers>
     </Content>
   </Modal>
 );

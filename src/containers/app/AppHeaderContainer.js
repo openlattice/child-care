@@ -2,33 +2,31 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import { faBars } from '@fortawesome/pro-solid-svg-icons';
+import { faBars, faHome } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Colors, Drawer } from 'lattice-ui-kit';
-import { connect } from 'react-redux';
+import { Colors, Drawer, StyleUtils } from 'lattice-ui-kit';
 import { withRouter } from 'react-router';
-import { bindActionCreators } from 'redux';
 
 import AppNavigationSidebar from './AppNavigationSidebar';
-import * as AppActions from './AppActions';
+import AppHeaderNavigation from './AppHeaderNavigation';
 
-import LocationsSearchBar from '../location/providers/LocationSearchBar';
-import * as LocationsActions from '../location/LocationsActions';
+import CustomColors from '../../core/style/Colors';
 import * as Routes from '../../core/router/Routes';
-import { HOME_PATH } from '../../core/router/Routes';
+import { CDSSLink, CaGovLink } from '../../components/logos';
 import { HEADER_HEIGHT } from '../../core/style/Sizes';
-import { STATE } from '../../utils/constants/StateConstants';
 
 const { NEUTRAL } = Colors;
+const { BLUE } = CustomColors;
+const { media } = StyleUtils;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
 const APP_HEADER_BORDER :string = NEUTRAL.N100;
 
 const AppHeaderOuterWrapper = styled.header`
-  background-color: white;
+  background-color: ${BLUE};
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;
@@ -42,8 +40,8 @@ const AppHeaderOuterWrapper = styled.header`
 
 const LeftSideContentWrapper = styled.div`
   display: flex;
-  flex: 0 0 auto;
   justify-content: flex-start;
+  width: 100%;
 `;
 
 const LogoTitleWrapperLink = styled.div`
@@ -53,6 +51,7 @@ const LogoTitleWrapperLink = styled.div`
   flex: 0 0 auto;
   padding: 15px 0;
   text-decoration: none;
+  justify-content: flex-start;
 
   &:focus {
     text-decoration: none;
@@ -68,7 +67,7 @@ const NavigationToggleWrapper = styled.div`
   align-items: center;
   color: ${NEUTRAL.N700};
   cursor: pointer;
-  display: flex;
+  display: none;
   font-size: 16px;
   height: 32px;
   justify-content: center;
@@ -80,92 +79,76 @@ const NavigationToggleWrapper = styled.div`
   &:hover {
     color: ${NEUTRAL.N700};
   }
+
+  ${media.phone`
+    display: flex;
+  `}
+
+  ${media.tablet`
+    display: flex;
+  `}
 `;
 
-type Props = {
-  actions :{
-    switchLanguage :(language :string) => void;
-  };
-};
+const LogoWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  margin-left: 36px;
 
-type State = {
-  isNavigationOpen :boolean;
-};
-
-class AppHeaderContainer extends Component<Props, State> {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isNavigationOpen: false
-    };
+  svg,
+  img {
+    margin-right: 16px;
   }
 
-  closeNavigation = () => {
+  ${media.phone`
+    display: none;
+  `}
 
-    const { isNavigationOpen } = this.state;
+  ${media.tablet`
+    display: none;
+  `}
+`;
+
+const AppHeaderContainer = () => {
+
+  const [isNavigationOpen, setNavigationState] = useState(false);
+
+  const closeNavigation = () => {
     if (isNavigationOpen) {
-      this.setState({ isNavigationOpen: false });
+      setNavigationState(false);
     }
-  }
-
-  toggleNavigation = () => {
-
-    const { isNavigationOpen } = this.state;
-    this.setState({ isNavigationOpen: !isNavigationOpen });
-  }
-
-  renderLeftSideContent = () => {
-
-    return (
-      <LeftSideContentWrapper>
-        <LogoTitleWrapperLink to={Routes.ROOT}>
-          <NavigationToggleWrapper onClick={this.toggleNavigation}>
-            <FontAwesomeIcon icon={faBars} />
-          </NavigationToggleWrapper>
-        </LogoTitleWrapperLink>
-      </LeftSideContentWrapper>
-    );
-  }
-
-  render() {
-    const { isNavigationOpen } = this.state;
-
-    const isViewingMap = window.location.hash.includes(HOME_PATH);
-    const searchBar = isViewingMap ? <LocationsSearchBar /> : null;
-
-    return (
-      <>
-        {searchBar}
-        <AppHeaderOuterWrapper>
-          { this.renderLeftSideContent() }
-          <Drawer
-              side="left"
-              isOpen={isNavigationOpen}
-              onClose={this.closeNavigation}>
-            <AppNavigationSidebar onClose={this.closeNavigation} />
-          </Drawer>
-        </AppHeaderOuterWrapper>
-      </>
-    );
-  }
-}
-
-function mapStateToProps(state) {
-  const app = state.get(STATE.APP);
-
-  return {
-    app
   };
-}
 
-const mapDispatchToProps = (dispatch :Function) :Object => ({
-  actions: bindActionCreators({
-    switchLanguage: AppActions.switchLanguage,
-    loadCurrentPosition: LocationsActions.loadCurrentPosition
-  }, dispatch)
-});
+  const toggleNavigation = () => {
+    setNavigationState(!isNavigationOpen);
+  };
 
-export default withRouter<*>(
-  connect(mapStateToProps, mapDispatchToProps)(AppHeaderContainer)
-);
+  return (
+    <>
+      <AppHeaderOuterWrapper>
+        <LeftSideContentWrapper>
+          <LogoTitleWrapperLink to={Routes.ROOT}>
+            <NavigationToggleWrapper onClick={toggleNavigation}>
+              <FontAwesomeIcon color="white" icon={faBars} />
+            </NavigationToggleWrapper>
+            <LogoWrapper>
+              <a aria-label="link to https://mychildcare.ca.gov/" href="https://mychildcare.ca.gov/">
+                <FontAwesomeIcon color="white" icon={faHome} />
+              </a>
+              <CaGovLink />
+              <CDSSLink />
+            </LogoWrapper>
+          </LogoTitleWrapperLink>
+        </LeftSideContentWrapper>
+        <AppHeaderNavigation />
+        <Drawer
+            side="left"
+            isOpen={isNavigationOpen}
+            onClose={closeNavigation}>
+          <AppNavigationSidebar onClose={closeNavigation} />
+        </Drawer>
+      </AppHeaderOuterWrapper>
+    </>
+  );
+};
+
+export default withRouter<*>(AppHeaderContainer);

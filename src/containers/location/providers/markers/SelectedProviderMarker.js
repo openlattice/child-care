@@ -11,7 +11,7 @@ import { getCoordinates } from '../../../map/MapUtils';
 import { shouldHideLocation } from '../../../../utils/DataUtils';
 import familyHomeIcon from '../../../../assets/svg/familyhomeicon.svg';
 
-const { PURPLES } = Colors;
+const { BLUE } = Colors;
 
 type Props = {
   provider :Map;
@@ -26,7 +26,7 @@ const SelectedProviderMarker = ({ provider } :Props) => {
 
   const icon = familyHome
     ? <img src={familyHomeIcon} alt="" />
-    : <FontAwesomeIcon icon={faMapMarkerAlt} color={PURPLES[1]} size="3x" />;
+    : <FontAwesomeIcon icon={faMapMarkerAlt} color={BLUE.B400} size="3x" />;
   const anchor = familyHome ? 'center' : 'bottom';
 
   return (

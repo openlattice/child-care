@@ -2,11 +2,11 @@
 import styled from 'styled-components';
 import { Colors } from 'lattice-ui-kit';
 
-const { PURPLE } = Colors;
+const { BLUE } = Colors;
 
 const BackButton = styled.div`
   align-items: center;
-  color: ${PURPLE.P300};
+  color: ${BLUE.B400};
   display: flex;
   flex-direction: row;
   font-size: 14px;

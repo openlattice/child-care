@@ -22,7 +22,7 @@ const ResourceSection = () => {
     <ExpandableSection title={getText(LABELS.PROVIDER_RESOURCES)}>
       <InfoText>{getText(LABELS.PROVIDER_RESOURCES_DESCRIPTION)}</InfoText>
       <Row>
-        <Button color="primary" onClick={goToFAQs} size="small" variant="text">
+        <Button color="info" onClick={goToFAQs} size="small" variant="text">
           {`${getText(LABELS.LINK_TO)} ${getText(LABELS.RESOURCES)}`}
         </Button>
       </Row>
