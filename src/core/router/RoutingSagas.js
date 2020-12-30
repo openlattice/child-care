@@ -4,6 +4,7 @@
 
 import { put, takeEvery } from '@redux-saga/core/effects';
 import { push } from 'connected-react-router';
+import type { Saga } from '@redux-saga/core';
 
 import {
   GO_TO_PATH,
@@ -29,7 +30,7 @@ const LOG = new Logger('RoutingSagas');
  *
  */
 
-function* goToPathWorker(action :RoutingAction) :Generator<*, *, *> {
+function* goToPathWorker(action :RoutingAction) :Saga<*> {
 
   const { path, state } = action;
   if (path === null || path === undefined || !path.startsWith('/', 0)) {
@@ -52,7 +53,7 @@ function* goToPathWatcher() :Generator<*, *, *> {
  *
  */
 
-function* goToRootWatcher() :Generator<*, *, *> {
+function* goToRootWatcher() :Saga<*> {
 
   yield takeEvery(GO_TO_ROOT, goToPathWorker);
 }

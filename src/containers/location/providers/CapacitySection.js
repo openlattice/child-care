@@ -2,12 +2,14 @@
 
 import React from 'react';
 
+import { Typography } from 'lattice-ui-kit';
 import { useSelector } from 'react-redux';
 
+import { Body3 } from '../../../components/layout';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import { TitleRow } from '../../styled';
 
 const { LOCATIONS } = STATE;
@@ -32,8 +34,8 @@ const VacancySection = () => {
 
   return (
     <TitleRow>
-      <span>{getText(LABELS.CAPACITY)}</span>
-      <span>{`${capacity} ${getText(capacityLabel)}`}</span>
+      <Typography textPrimary variant="subtitle2">{getText(LABELS.CAPACITY)}</Typography>
+      <Body3>{`${capacity} ${getText(capacityLabel)}`}</Body3>
     </TitleRow>
   );
 };

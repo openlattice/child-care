@@ -8,13 +8,14 @@ import { useSelector } from 'react-redux';
 
 import ExpandableSection from './ExpandableSection';
 
+import { Body3, TextLink } from '../../../components/layout';
 import { trackLinkClick } from '../../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { DAYS_OF_WEEK, DAY_PTS } from '../../../utils/DataConstants';
 import { isProviderActive, shouldHideContact } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { LABELS } from '../../../utils/constants/labels';
 import {
   DataRows,
   DateRow,
@@ -48,20 +49,20 @@ const ContactSection = () => {
 
   const unknown = getText(LABELS.UNKNOWN);
 
-  let phoneElement = <span>{unknown}</span>;
+  let phoneElement = <Body3>{unknown}</Body3>;
   if (phone) {
     const trackPhoneClick = () => trackLinkClick(phone, 'Provider Phone Number');
-    phoneElement = <a onClick={trackPhoneClick} href={`tel:${phone}`}>{phone}</a>;
+    phoneElement = <TextLink onClick={trackPhoneClick} href={`tel:${phone}`}>{phone}</TextLink>;
   }
 
-  let emailElement = <span>{unknown}</span>;
+  let emailElement = <Body3>{unknown}</Body3>;
   if (email) {
     const trackEmailClick = () => trackLinkClick(email, 'Provider Email');
-    emailElement = <a onClick={trackEmailClick} href={`mailto:${email}`}>{email}</a>;
+    emailElement = <TextLink onClick={trackEmailClick} href={`mailto:${email}`}>{email}</TextLink>;
   }
 
   if (getPropertyValue(provider, [PROPERTY_TYPES.HOURS_UNKNOWN, 0])) {
-    operatingHours.push(<span key="hours-unknown">{unknown}</span>);
+    operatingHours.push(<Body3 key="hours-unknown">{unknown}</Body3>);
   }
   else {
     // $FlowFixMe
@@ -76,8 +77,8 @@ const ContactSection = () => {
       if (start || end) {
         operatingHours.push(
           <DateRow key={day}>
-            <span>{getText(LABELS[day])}</span>
-            <span>{timeWindowStr}</span>
+            <Body3>{getText(LABELS[day])}</Body3>
+            <Body3>{timeWindowStr}</Body3>
           </DateRow>
         );
       }
@@ -85,35 +86,35 @@ const ContactSection = () => {
   }
 
   if (!operatingHours.length) {
-    operatingHours.push(<span key="hours-unknown">{unknown}</span>);
+    operatingHours.push(<Body3 key="hours-unknown">{unknown}</Body3>);
   }
 
   return (
     <ExpandableSection title={getText(LABELS.CONTACT)}>
       <Row>
-        <div>{getText(LABELS.PHONE)}</div>
+        <Body3>{getText(LABELS.PHONE)}</Body3>
         <DataRows>
           {phoneElement}
         </DataRows>
       </Row>
 
       <Row>
-        <div>{getText(LABELS.EMAIL)}</div>
+        <Body3>{getText(LABELS.EMAIL)}</Body3>
         <DataRows>
           {emailElement}
         </DataRows>
       </Row>
 
       <Row>
-        <div>{getText(LABELS.ADDRESS)}</div>
+        <Body3>{getText(LABELS.ADDRESS)}</Body3>
         <DataRows>
-          <span>{street}</span>
-          <span>{`${city}, CA ${zip}`}</span>
+          <Body3>{street}</Body3>
+          <Body3>{`${city}, CA ${zip}`}</Body3>
         </DataRows>
       </Row>
 
       <Row>
-        <div>{getText(LABELS.OPERATING_HOURS)}</div>
+        <Body3>{getText(LABELS.OPERATING_HOURS)}</Body3>
         <DataRows>
           {operatingHours}
         </DataRows>

@@ -18,7 +18,9 @@ import {
   has,
   isImmutable
 } from 'immutable';
-import { SearchApi } from 'lattice';
+import { SearchApiActions, SearchApiSagas } from 'lattice-sagas';
+import type { Saga } from '@redux-saga/core';
+import type { WorkerResponse } from 'lattice-sagas';
 import type { RequestSequence, SequenceAction } from 'redux-reqseq';
 
 import {
@@ -48,6 +50,9 @@ import { HAS_LOCAL_STORAGE_GEO_PERMISSIONS, PROVIDERS, STATE } from '../../utils
 import { LABELS } from '../../utils/constants/labels';
 import { loadApp } from '../app/AppActions';
 import { refreshAuthTokenIfNecessary } from '../app/AppSagas';
+
+const { searchEntitySetData, searchEntityNeighborsWithFilter } = SearchApiActions;
+const { searchEntitySetDataWorker, searchEntityNeighborsWithFilterWorker } = SearchApiSagas;
 
 declare var __MAPBOX_TOKEN__;
 
@@ -82,7 +87,7 @@ const regionIsCalifornia = (suggestion) => suggestion.context
 
 const hasLocation = (entity :Map) => (has(entity, PROPERTY_TYPES.LOCATION));
 
-function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
+function* getGeoOptionsWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(getGeoOptions.request(action.id));
 
@@ -133,7 +138,7 @@ function* getGeoOptionsWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-function* getGeoOptionsWatcher() :Generator<*, *, *> {
+function* getGeoOptionsWatcher() :Saga<*> {
   yield takeEvery(GET_GEO_OPTIONS, getGeoOptionsWorker);
 }
 
@@ -157,7 +162,7 @@ const trySetStoredPermissions = (bool) => {
   }
 };
 
-function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> {
+function* loadCurrentPositionWorker(action :SequenceAction) :Saga<*> {
   /* check location perms */
   if (action.value.shouldSearchIfLocationPerms && tryReadStoredPermissions() !== 'true') {
     return;
@@ -208,11 +213,11 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Generator<*, *, *> 
   }
 }
 
-function* loadCurrentPositionWatcher() :Generator<*, *, *> {
+function* loadCurrentPositionWatcher() :Saga<*> {
   yield takeEvery(LOAD_CURRENT_POSITION, loadCurrentPositionWorker);
 }
 
-function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
+function* geocodePlaceWorker(action :SequenceAction) :Saga<*> {
   try {
     yield put(geocodePlace.request(action.id));
 
@@ -247,7 +252,7 @@ function* geocodePlaceWorker(action :SequenceAction) :Generator<*, *, *> {
   }
 }
 
-export function* geocodePlaceWatcher() :Generator<*, *, *> {
+export function* geocodePlaceWatcher() :Saga<*> {
   yield takeEvery(GEOCODE_PLACE, geocodePlaceWorker);
 }
 
@@ -440,7 +445,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     }
 
-    const searchOptions = {
+    const searchConstraints = {
       start: start * PAGE_SIZE,
       entitySetIds: [entitySetId],
       maxHits,
@@ -448,7 +453,13 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
       sort
     };
 
-    const { hits, numHits: totalHits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    const response :WorkerResponse = yield call(
+      searchEntitySetDataWorker,
+      searchEntitySetData(searchConstraints),
+    );
+
+    if (response.error) throw response.error;
+    const { hits, numHits: totalHits } = response.data;
 
     const filteredHits = fromJS(hits).filter(hasLocation);
 
@@ -463,11 +474,17 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     let neighborsById = {};
 
     if (!locationsEKIDs.isEmpty()) {
-      neighborsById = yield call(SearchApi.searchEntityNeighborsWithFilter, entitySetId, {
+      const filter = {
         entityKeyIds: locationsEKIDs.toJS(),
         sourceEntitySetIds: [],
         destinationEntitySetIds: [RR_ENTITY_SET_ID, HOSPITALS_ENTITY_SET_ID]
-      });
+      };
+      const neighborSearchResponse :WorkerResponse = yield call(
+        searchEntityNeighborsWithFilterWorker,
+        searchEntityNeighborsWithFilter({ entitySetId, filter }),
+      );
+      if (neighborSearchResponse.error) throw neighborSearchResponse.error;
+      neighborsById = neighborSearchResponse.data;
     }
 
     let rrsById = Map();
@@ -515,15 +532,27 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     const { searchInputs } = value;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
 
-    let latLonObj = searchInputs;
-    if (!isImmutable(latLonObj)) latLonObj = fromJS(latLonObj);
+    // check for postcode
+    let zone = '';
+    // from context
+    searchInputs?.context.forEach((detail) => {
+      if (detail.id.startsWith('postcode')) {
+        zone = detail.text;
+      }
+    });
+    // from text if a zip was searched
+    if (searchInputs.place_type.includes('postcode')) {
+      zone = searchInputs.text;
+    }
+
+    const zoneSearched = zone.length > 0;
 
     yield put(searchReferralAgencies.request(action.id, {
-      searchInputs: latLonObj
+      searchInputs: fromJS(searchInputs)
     }));
 
-    const latitude :string = get(latLonObj, 'lat');
-    const longitude :string = get(latLonObj, 'lon');
+    const latitude :string = searchInputs.lat;
+    const longitude :string = searchInputs.lon;
 
     const entitySetId = RR_ENTITY_SET_ID;
     let app :Map = yield select((state) => state.get('app', Map()));
@@ -538,7 +567,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
     }
 
     const locationPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.LOCATION);
-
+    const zipServedPropertyTypeId = getPropertyTypeId(app, PROPERTY_TYPES.ZIP_SERVED_STRING);
     const sort = {
       type: 'geoDistance',
       descending: false,
@@ -563,19 +592,48 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       min: 2
     };
 
-    const constraints = [locationConstraint];
+    const zipConstraint = {
+      constraints: [{
+        type: 'simple',
+        searchTerm: `entity.${zipServedPropertyTypeId}:"${zone}"`,
+      }]
+    };
 
-    const searchOptions = {
+    const searchConstraints = {
       start: 0,
       entitySetIds: [entitySetId],
       maxHits: 5,
-      constraints,
+      constraints: [],
       sort
     };
 
-    const { hits } = yield call(SearchApi.searchEntitySetData, searchOptions);
+    let filteredHits = List();
 
-    const filteredHits = fromJS(hits).filter(hasLocation);
+    if (zoneSearched) {
+      searchConstraints.constraints = [zipConstraint];
+      const response :WorkerResponse = yield call(
+        searchEntitySetDataWorker,
+        searchEntitySetData(searchConstraints),
+      );
+      if (response.error) throw response.error;
+      const { hits } = response.data;
+      const filteredZipHits = fromJS(hits).filter(hasLocation);
+
+      if (!filteredZipHits.isEmpty()) {
+        filteredHits = filteredZipHits;
+      }
+    }
+    if (filteredHits.isEmpty()) {
+      searchConstraints.constraints = [locationConstraint];
+      const response :WorkerResponse = yield call(
+        searchEntitySetDataWorker,
+        searchEntitySetData(searchConstraints),
+      );
+      if (response.error) throw response.error;
+      const { hits } = response.data;
+      const filteredLocationHits = fromJS(hits).filter(hasLocation);
+      filteredHits = filteredLocationHits;
+    }
 
     const referralAgencyLocations = Map().withMutations((mutableMap) => {
       filteredHits.forEach((entity) => {
@@ -584,7 +642,7 @@ function* searchReferralAgenciesWorker(action :SequenceAction) :Generator<any, a
       });
     });
 
-    yield put(searchReferralAgencies.success(action.id, { referralAgencyLocations }));
+    yield put(searchReferralAgencies.success(action.id, { referralAgencyLocations, zoneSearched }));
   }
   catch (error) {
     LOG.error(action.type, error);

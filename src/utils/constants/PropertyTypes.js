@@ -180,6 +180,36 @@ export default [
     indexType: 'BTREE'
   },
   {
+    id: 'ac34130c-1efd-48ec-8b85-12c099090818',
+    type: {
+      namespace: 'ecps',
+      name: 'facility_zip_served'
+    },
+    title: 'Facility Zip Code Served',
+    description: 'Facility Zip Code Served',
+    schemas: [],
+    datatype: 'Int64',
+    pii: false,
+    multiValued: true,
+    analyzer: 'STANDARD',
+    indexType: 'BTREE'
+  },
+  {
+    id: 'db77d56c-385d-4160-a20e-1edf7b5d1259',
+    type: {
+      namespace: 'ecps',
+      name: 'facility_zip_served_string'
+    },
+    title: 'Facility zip code served (string)',
+    description: 'Facility zip code served (string)',
+    schemas: [],
+    datatype: 'String',
+    pii: false,
+    multiValued: true,
+    analyzer: 'STANDARD',
+    indexType: 'BTREE'
+  },
+  {
     id: '29c1e895-3fbd-47c8-8bd5-33b5c71987e7',
     type: {
       namespace: 'ecps',

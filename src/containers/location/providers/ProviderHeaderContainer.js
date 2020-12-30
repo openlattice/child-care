@@ -5,13 +5,14 @@ import React from 'react';
 import { faChevronLeft } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Map } from 'immutable';
+import { Typography } from 'lattice-ui-kit';
 import { DateTimeUtils } from 'lattice-utils';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import BackButton from '../../../components/controls/BackButton';
 import * as LocationsActions from '../LocationsActions';
-import { OpenClosedTag } from '../../../components/layout';
+import { Body3, OpenClosedTag } from '../../../components/layout';
 import { VACANCY_COLORS } from '../../../shared/Colors';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import {
@@ -22,16 +23,16 @@ import {
   renderFacilityName
 } from '../../../utils/DataUtils';
 import { PROPERTY_TYPES } from '../../../utils/constants/DataModelConstants';
-import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
+import { FACILITY_TYPE_LABELS, LABELS } from '../../../utils/constants/labels';
 import { getCoordinates } from '../../map/MapUtils';
-import type { Translation } from '../../../types';
 import {
   Header,
   StyledHeaderOuterWrapper,
   StyledHeaderWrapper,
   SubHeader
 } from '../../styled';
+import type { Translation } from '../../../types';
 
 const { formatAsRelative } = DateTimeUtils;
 const { LAT, LON, SELECTED_OPTION } = PROVIDERS;
@@ -88,18 +89,18 @@ class ProviderHeaderContainer extends React.Component<Props> {
             <span>{getText(LABELS.SEARCH_RESULTS)}</span>
           </BackButton>
           <Header>
-            <div>{name}</div>
-            <span>{`${distance} mi`}</span>
+            <Typography variant="h3">{name}</Typography>
+            <Body3>{`${distance} mi`}</Body3>
           </Header>
 
-          <SubHeader>{`${city}, CA`}</SubHeader>
-          <SubHeader>{type}</SubHeader>
-          <SubHeader>{ages}</SubHeader>
+          <Body3>{`${city}, CA`}</Body3>
+          <Body3>{type}</Body3>
+          <Body3>{ages}</Body3>
           <SubHeader>
             <OpenClosedTag color={statusColor}>
               {getText(statusLabel)}
             </OpenClosedTag>
-            <span>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</span>
+            <Body3>{`${getText(LABELS.LAST_UPDATED)} ${lastModifiedLabel}`}</Body3>
           </SubHeader>
         </StyledHeaderWrapper>
       </StyledHeaderOuterWrapper>
