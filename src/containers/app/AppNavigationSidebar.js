@@ -7,11 +7,11 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import { faChevronLeft } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Colors } from 'lattice-ui-kit';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Colors } from 'lattice-ui-kit';
 
 import * as AppActions from './AppActions';
 
@@ -25,6 +25,11 @@ import {
 } from '../../core/router/Routes';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { STATE } from '../../utils/constants/StateConstants';
+import {
+  CONDITIONS_OF_USE_URL,
+  PRIVACY_POLICY_URL,
+  REGISTER_TO_VOTE_URL
+} from '../../utils/constants/URLs';
 import {
   CURRENT_LANGUAGE,
   LABELS,
@@ -101,17 +106,17 @@ const MenuRowNavLink = styled(Link)`
 `;
 
 const NavFooter = styled.div`
+  color: white;
   display: flex;
   flex-direction: row;
+  font-weight: 400px;
   ${DEFAULT_PADDING}
 `;
 
 const Lang = styled.div`
+  ${menuRowStyle}
   color: ${(props) => (props.isSelected ? 'white' : NEUTRAL.N200)};
-  font-size: 14px;
-  font-style: normal;
   font-weight: ${(props) => (props.isSelected ? 600 : 400)};
-  line-height: 17px;
 
   &:hover {
     cursor: pointer;
@@ -129,10 +134,6 @@ type Props = {
   onClose :() => void;
   getText :(translation :Translation) => string;
 };
-
-const PRIVACY_POLICY_URL = 'https://cdss.ca.gov/privacy-policy';
-const CONDITIONS_OF_USE_URL = 'https://cdss.ca.gov/conditions-of-use';
-const FEEDBACK_EMAIL = 'mychildcare@dss.ca.gov';
 
 class AppNavigationSidebar extends Component<Props> {
 
@@ -155,8 +156,6 @@ class AppNavigationSidebar extends Component<Props> {
 
     const { onClose, getText } = this.props;
 
-    const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${getText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
-
     return (
       <Wrapper>
         <NavMenuWrapper>
@@ -174,26 +173,27 @@ class AppNavigationSidebar extends Component<Props> {
           <MenuRowNavLink to={ABOUT_PATH} onClick={onClose}>
             {getText(LABELS.ABOUT)}
           </MenuRowNavLink>
+          <MenuRowNavLink to={FAQS_PATH} onClick={onClose}>
+            {getText(LABELS.FAQ)}
+          </MenuRowNavLink>
+          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
+            {getText(LABELS.RESOURCES)}
+          </MenuRowNavLink>
           <MenuRowLink href={CONDITIONS_OF_USE_URL}>
             {getText(LABELS.TERMS_AND_CONDITIONS)}
           </MenuRowLink>
           <MenuRowLink href={PRIVACY_POLICY_URL}>
             {getText(LABELS.PRIVACY_POLICY)}
           </MenuRowLink>
-          <MenuRowMailtoLink href={feedbackLink}>
-            {getText(LABELS.SEND_FEEDBACK)}
+          <MenuRowMailtoLink href={REGISTER_TO_VOTE_URL}>
+            {getText(LABELS.REGISTER_TO_VOTE)}
           </MenuRowMailtoLink>
-          <MenuRowNavLink to={RESOURCES_PATH} onClick={onClose}>
-            {getText(LABELS.RESOURCES)}
-          </MenuRowNavLink>
-          <MenuRowNavLink to={FAQS_PATH} onClick={onClose}>
-            {getText(LABELS.FAQ)}
-          </MenuRowNavLink>
+          {this.renderLang(LANGUAGES.en, 'English')}
+          {this.renderLang(LANGUAGES.es, 'Español')}
         </NavMenuWrapper>
 
         <NavFooter>
-          {this.renderLang(LANGUAGES.en, 'English')}
-          {this.renderLang(LANGUAGES.es, 'Español')}
+          Copyright © 2020 State of California
         </NavFooter>
       </Wrapper>
     );
