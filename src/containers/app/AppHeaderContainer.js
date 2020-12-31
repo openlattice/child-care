@@ -19,14 +19,14 @@ import { CDSSLink, CaGovLink } from '../../components/logos';
 import { HEADER_HEIGHT } from '../../core/style/Sizes';
 
 const { NEUTRAL } = Colors;
-const { BLUE } = CustomColors;
+const { CA_BLUE } = CustomColors;
 const { media } = StyleUtils;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
 const APP_HEADER_BORDER :string = NEUTRAL.N100;
 
 const AppHeaderOuterWrapper = styled.header`
-  background-color: ${BLUE};
+  background-color: ${CA_BLUE};
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;

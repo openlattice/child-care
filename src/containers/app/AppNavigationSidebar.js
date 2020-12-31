@@ -37,13 +37,13 @@ import {
 } from '../../utils/constants/labels';
 import type { Translation } from '../../types';
 
-const { BLUE } = CustomColors;
+const { CA_BLUE } = CustomColors;
 const { NEUTRAL } = Colors;
 
 const DEFAULT_PADDING = css` padding: 20px 24px; `;
 
 const Wrapper = styled.div`
-  background-color: ${BLUE};
+  background-color: ${CA_BLUE};
   display: flex;
   flex-direction: column;
   height: 100%;

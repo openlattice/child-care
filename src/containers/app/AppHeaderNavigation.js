@@ -27,7 +27,7 @@ import {
 } from '../../utils/constants/labels';
 
 const { media } = StyleUtils;
-const { BLUE } = CustomColors;
+const { CA_BLUE } = CustomColors;
 const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
 const menuRowStyle = css`
   align-items: center;
-  background-color: ${BLUE};
+  background-color: ${CA_BLUE};
   color: white;
   display: flex;
   min-width: max-content;
