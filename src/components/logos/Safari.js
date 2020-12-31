@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import SafariLogo from '../../assets/svg/safariicon.svg';
+import SafariLogo from '../../assets/images/safari.png';
 
 const Safari = styled.img.attrs({
   alt: 'safari icon',

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import chromeLogo from '../../assets/svg/chromeicon.svg';
+import chromeLogo from '../../assets/images/chrome.png';
 
 const Chrome = styled.img.attrs({
   alt: 'chrome icon',

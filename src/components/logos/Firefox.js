@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import FirefoxLogo from '../../assets/svg/firefoxicon.svg';
+import FirefoxLogo from '../../assets/images/firefox.png';
 
 const Firefox = styled.img.attrs({
   alt: 'firefox icon',
