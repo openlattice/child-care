@@ -1,3 +1,3 @@
 export default {
-  BLUE: '#046B99'
+  CA_BLUE: '#046B99'
 };
