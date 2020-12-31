@@ -27,7 +27,7 @@ import {
 } from '../../utils/constants/labels';
 import {
   FEEDBACK_EMAIL
-} from '../../utils/constants/URLS';
+} from '../../utils/constants/URLs';
 
 const { media } = StyleUtils;
 const { CA_BLUE } = CustomColors;
