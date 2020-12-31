@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-import calLogo from '../../assets/svg/calIcon.svg';
+import calLogo from '../../assets/images/cagov.png';
 
 const CalGov = styled.img.attrs({
   alt: 'cal.gov',
   src: calLogo
 })`
-  height: 34px;
-  width: 34px;
+  height: 36px;
 `;
 
 export default CalGov;
