@@ -25,6 +25,9 @@ import {
   LABELS,
   LANGUAGES
 } from '../../utils/constants/labels';
+import {
+  FEEDBACK_EMAIL
+} from '../../utils/constants/URLS';
 
 const { media } = StyleUtils;
 const { CA_BLUE } = CustomColors;
@@ -89,8 +92,6 @@ const Lang = styled.div`
     margin-right: 20px;
   }
 `;
-
-const FEEDBACK_EMAIL = 'mychildcare@dss.ca.gov';
 
 const AppNavigationSidebar = () => {
   const dispatch = useDispatch();
