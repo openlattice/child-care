@@ -22,7 +22,6 @@ import LocationSearchBar from './LocationSearchBar';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
-import FindingLocationSplash from '../FindingLocationSplash';
 import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import {
@@ -47,7 +46,6 @@ import {
 } from '../LocationsActions';
 
 const {
-  isFailure,
   isPending,
   isStandby,
   isSuccess,
@@ -153,7 +151,6 @@ const LocationsContainer = () => {
     loadCurrentPositionRS,
     searchReferralAgenciesRS
   ]));
-  const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
     if (
@@ -178,9 +175,6 @@ const LocationsContainer = () => {
   const renderSearchResults = () => {
     if (!hasSearched) {
       return <WelcomeSplash getCurrentPosition={() => dispatch(loadCurrentPosition())} />;
-    }
-    if (geoSearchFailed) {
-      return <FindingLocationSplash />;
     }
     return (
       <StyledSearchResults
