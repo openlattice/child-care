@@ -28,6 +28,7 @@ import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { LABELS } from '../../../utils/constants/labels';
 import {
   GET_GEO_OPTIONS,
+  LOAD_CURRENT_POSITION,
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
@@ -47,7 +48,7 @@ const {
 const { NEUTRAL } = Colors;
 const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
-const { isPending } = ReduxUtils;
+const { isFailure, isPending } = ReduxUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
 const getTheme = (theme) => ({
@@ -108,9 +109,12 @@ const LocationsSearchBar = () => {
 
   const getText = useSelector(getTextFnFromState);
   const currentLocationText = getText(LABELS.CURRENT_LOCATION);
+  const locationServicesDenied = getText(LABELS.LOCATION_SERVICES_DISABLED);
   const getGeoOptionsRS = useSelector((store) => store.getIn([LOCATIONS, GET_GEO_OPTIONS, REQUEST_STATE]));
+  const loadCurrentPositionRS = useSelector((store) => store.getIn([LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]));
   const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const storedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   let selectedOption = storedOption;
   if (Map.isMap(storedOption)) {
@@ -157,9 +161,11 @@ const LocationsSearchBar = () => {
   };
 
   const optionsWithMyLocation = options.toJS();
+  const currentLocationLabel = geoSearchFailed
+    ? `${currentLocationText} (${locationServicesDenied})` : currentLocationText;
   optionsWithMyLocation.push({
     options: [
-      { label: currentLocationText, value: currentLocationText }
+      { label: currentLocationLabel, value: currentLocationLabel, isDisabled: geoSearchFailed }
     ]
   });
 
