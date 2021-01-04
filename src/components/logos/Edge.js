@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import EdgeLogo from '../../assets/images/edge.png';
+import EdgeLogo from '../../assets/svg/edge.svg';
 
 const Edge = styled.img.attrs({
   alt: 'edge icon',
