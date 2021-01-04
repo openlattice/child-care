@@ -226,6 +226,10 @@ export const LABELS :Object = {
     [en]: 'Refine Search',
     [es]: 'Refinar la búsqueda'
   },
+  REGISTER_TO_VOTE: {
+    [en]: 'Register to Vote',
+    [es]: 'Registrarse para votar'
+  },
   RESOURCES: {
     [en]: 'Resources',
     [es]: 'Recursos'
