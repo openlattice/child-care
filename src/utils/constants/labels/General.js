@@ -126,10 +126,6 @@ export const LABELS :Object = {
     [en]: 'Email',
     [es]: 'Correo electrónico'
   },
-  ENSURE_LOCATION_DESCRIPTION: {
-    [en]: 'Please ensure location services are enabled to use your current location',
-    [es]: 'Asegúrese de que los servicios de localización estén habilitados para usar su ubicación actual'
-  },
   ENTER_NAME_ADDRESS_ZIP: {
     [en]: 'Enter Name, Address, or ZIP',
     [es]: 'Nombre, dirección o código postal'
@@ -165,6 +161,10 @@ export const LABELS :Object = {
   LINK_TO: {
     [en]: 'Link to',
     [es]: 'Enlace a'
+  },
+  LOCATION_SERVICES_DISABLED: {
+    [en]: 'Disabled - check browser location settings',
+    [es]: 'Deshabilitado: verifique la configuración de ubicación del navegador'
   },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',
