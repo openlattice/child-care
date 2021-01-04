@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import calLogo from '../../assets/images/cagov.png';
+import calLogo from '../../assets/svg/cagov.svg';
 
 const CalGov = styled.img.attrs({
   alt: 'cal.gov',
