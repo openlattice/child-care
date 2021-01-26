@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux';
 
 import * as AppActions from './AppActions';
 
+import LanguageSelectionMenu from './LanguageSelectionMenu';
 import CustomColors from '../../core/style/Colors';
 import { CDSSLink, CaGovLink } from '../../components/logos';
 import {
@@ -168,6 +169,9 @@ class AppNavigationSidebar extends Component<Props> {
             <CaGovLink />
             <CDSSLink />
           </LogoRow>
+          <MenuRow>
+            <LanguageSelectionMenu />
+          </MenuRow>
           <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
             {getText(LABELS.FIND_CHILDCARE)}
           </MenuRowNavLink>
@@ -189,10 +193,7 @@ class AppNavigationSidebar extends Component<Props> {
           <MenuRowMailtoLink href={REGISTER_TO_VOTE_URL}>
             {getText(LABELS.REGISTER_TO_VOTE)}
           </MenuRowMailtoLink>
-          {this.renderLang(LANGUAGES.en, 'English')}
-          {this.renderLang(LANGUAGES.es, 'Español')}
         </NavMenuWrapper>
-
         <NavFooter>
           Copyright © 2020 State of California
         </NavFooter>
