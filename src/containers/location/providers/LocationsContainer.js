@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
-import { List, Map, get } from 'immutable';
+import { Map, get } from 'immutable';
 import {
   Colors,
   PaginationToolbar,
@@ -36,7 +36,6 @@ import { LABELS } from '../../../utils/constants/labels';
 import { MapWrapper } from '../../styled';
 import {
   GEOCODE_PLACE,
-  LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
   SEARCH_REFERRAL_AGENCIES,
   loadCurrentPosition,
