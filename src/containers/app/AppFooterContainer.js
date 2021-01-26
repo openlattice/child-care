@@ -30,6 +30,7 @@ const Footer = styled.div`
   position: fixed;
   width: 100%;
   text-align: center;
+  z-index: 20;
   ${media.phone`
     display: none;
   `}
