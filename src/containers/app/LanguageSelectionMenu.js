@@ -8,12 +8,13 @@ import styled from 'styled-components';
 import { faGlobe } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Select } from 'lattice-ui-kit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { switchLanguage } from './AppActions';
 
 import CustomColors from '../../core/style/Colors';
-import { LANGUAGES } from '../../utils/constants/labels';
+import { getTextFnFromState } from '../../utils/AppUtils';
+import { CURRENT_LANGUAGE, LANGUAGES } from '../../utils/constants/labels';
 
 const { CA_BLUE02 } = CustomColors;
 
@@ -44,13 +45,15 @@ const customStyles = {
   })
 };
 
-const LANG_OPTIONS = [
-  { label: 'English', value: LANGUAGES.en },
-  { label: 'Español', value: LANGUAGES.es }
-];
+const LANG_OPTIONS = {
+  [LANGUAGES.en]: { label: 'English', value: LANGUAGES.en },
+  [LANGUAGES.es]: { label: 'Español', value: LANGUAGES.es }
+};
 
 const LanguageSelectionMenu = () => {
   const dispatch = useDispatch();
+  const getText = useSelector(getTextFnFromState);
+  const currentLanguage = getText(CURRENT_LANGUAGE);
   const switchLang = (lang :Object) => {
     const { value } = lang;
     dispatch(switchLanguage(value));
@@ -63,9 +66,9 @@ const LanguageSelectionMenu = () => {
           menuPortalTarget={document.body}
           inputIcon={<FontAwesomeIcon color="white" icon={faGlobe} fixedWidth />}
           onChange={switchLang}
-          options={LANG_OPTIONS}
+          options={Object.values(LANG_OPTIONS)}
           styles={customStyles}
-          value={{ label: 'English', value: LANGUAGES.en }} />
+          value={LANG_OPTIONS[currentLanguage]} />
     </Wrapper>
   );
 };
