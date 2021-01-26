@@ -104,9 +104,6 @@ const LocationsContainer = () => {
   const geocodePlaceRS = useSelector((store) => store.getIn(
     [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
   ));
-  const loadCurrentPositionRS = useSelector((store) => store.getIn(
-    [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
-  ));
   const searchLocationsRS = useSelector((store) => store.getIn(
     [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
   ));
@@ -115,7 +112,7 @@ const LocationsContainer = () => {
   ));
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, SELECTED_REFERRAL_AGENCY]));
-  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS], List()));
+  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS]));
   const totalHits = useSelector((store) => store.getIn([LOCATIONS, TOTAL_HITS], 0));
   const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
   const page = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
@@ -148,7 +145,6 @@ const LocationsContainer = () => {
   const isLoading = isPending(reduceRequestStates([
     geocodePlaceRS,
     searchLocationsRS,
-    loadCurrentPositionRS,
     searchReferralAgenciesRS
   ]));
 
