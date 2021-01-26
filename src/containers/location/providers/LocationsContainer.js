@@ -69,6 +69,7 @@ const MAX_HITS = 20;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   justify-content: space-between;
+  margin-bottom: 15px;
 `;
 
 const StyledSearchResults = styled(SearchResults)``;
@@ -217,7 +218,7 @@ const LocationsContainer = () => {
                   hasSearched
                     && (
                       <PaginationToolbar
-                          page={page}
+                          page={page + 1}
                           count={totalHits}
                           onPageChange={onPageChange}
                           rowsPerPage={MAX_HITS} />
