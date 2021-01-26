@@ -66,6 +66,7 @@ const menuRowStyle = css`
   font-weight: 600;
   line-height: 17px;
   text-decoration: none;
+  min-height: 66px;
 
   span {
     margin-right: 10px;
