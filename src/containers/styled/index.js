@@ -258,7 +258,7 @@ const StyledContentWrapper = styled(ContentWrapper)`
 const StyledHeaderOuterWrapper = styled(ContentOuterWrapper)`
   position: fixed;
   top: ${HEADER_HEIGHT}px;
-  z-index: 1;
+  z-index: 10;
 `;
 
 const StyledHeaderWrapper = styled(ContentWrapper)`

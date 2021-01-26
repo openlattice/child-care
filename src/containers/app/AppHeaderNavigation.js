@@ -5,12 +5,12 @@
 import React from 'react';
 
 import styled, { css } from 'styled-components';
-import { Colors, StyleUtils } from 'lattice-ui-kit';
-import { useDispatch, useSelector } from 'react-redux';
+import { StyleUtils } from 'lattice-ui-kit';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { switchLanguage } from './AppActions';
+import LanguageSelectionMenu from './LanguageSelectionMenu';
 
 import CustomColors from '../../core/style/Colors';
 import {
@@ -21,17 +21,16 @@ import {
 } from '../../core/router/Routes';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import {
+  FEEDBACK_EMAIL
+} from '../../utils/constants/URLs';
+import {
   CURRENT_LANGUAGE,
   LABELS,
   LANGUAGES
 } from '../../utils/constants/labels';
-import {
-  FEEDBACK_EMAIL
-} from '../../utils/constants/URLs';
 
 const { media } = StyleUtils;
 const { CA_BLUE } = CustomColors;
-const { NEUTRAL } = Colors;
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,7 +68,12 @@ const menuRowStyle = css`
 `;
 
 const MenuRow = styled.div`
-  ${menuRowStyle}
+  align-items: center;
+  background-color: ${CA_BLUE};
+  color: white;
+  display: flex;
+  padding: 20px 24px 20px 0;
+  min-width: 160px;
 `;
 
 const MenuRowMailtoLink = styled.a`
@@ -80,29 +84,10 @@ const MenuRowNavLink = styled(Link)`
   ${menuRowStyle}
 `;
 
-const Lang = styled.div`
-  color: ${(props) => (props.isSelected ? 'white' : NEUTRAL.N200)};
-  font-weight: ${(props) => (props.isSelected ? 600 : 400)};
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
-`;
-
 const AppNavigationSidebar = () => {
-  const dispatch = useDispatch();
   const getText = useSelector(getTextFnFromState);
 
-  const getSetLang = (lang) => dispatch(switchLanguage(lang));
   const currLang = getText(CURRENT_LANGUAGE);
-
-  const renderLang = (lang, label) => (
-    <Lang onClick={() => getSetLang(lang)} isSelected={lang === currLang}>{label}</Lang>
-  );
 
   const feedbackLink = `mailto:${FEEDBACK_EMAIL}?subject=${getText(LABELS.SEND_FEEDBACK_SUBJECT)}`;
 
@@ -123,11 +108,8 @@ const AppNavigationSidebar = () => {
       <MenuRowMailtoLink lang={currLang} href={feedbackLink}>
         {getText(LABELS.SEND_FEEDBACK)}
       </MenuRowMailtoLink>
-      <MenuRow lang={currLang}>
-        {renderLang(LANGUAGES.en, 'English')}
-      </MenuRow>
-      <MenuRow lang={currLang}>
-        {renderLang(LANGUAGES.es, 'Español')}
+      <MenuRow>
+        <LanguageSelectionMenu />
       </MenuRow>
     </Wrapper>
   );

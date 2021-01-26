@@ -74,7 +74,7 @@ const Wrapper = styled.div`
   padding: 8px 0;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 100;
 
   /* fill right side gap for screens smaller than desktop cutoff */
   ${media.desktop`
@@ -83,11 +83,11 @@ const Wrapper = styled.div`
   `}
   ${media.phone`
     position: fixed;
-    transform: translate(-50%, 0);
+    transform: translate3d(-50%, 0, 200px);
   `}
   ${media.tablet`
     position: fixed;
-    transform: translate(-50%, 0);
+    transform: translate3d(-50%, 0, 200px);
   `}
 `;
 
