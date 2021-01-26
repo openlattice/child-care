@@ -84,10 +84,12 @@ const Wrapper = styled.div`
   ${media.phone`
     position: fixed;
     transform: translate(-50%, 0);
+    z-index: 10;
   `}
   ${media.tablet`
     position: fixed;
     transform: translate(-50%, 0);
+    z-index: 10;
   `}
 `;
 
