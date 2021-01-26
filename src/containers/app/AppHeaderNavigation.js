@@ -68,8 +68,12 @@ const menuRowStyle = css`
 `;
 
 const MenuRow = styled.div`
-  ${menuRowStyle}
-  width: 150px;
+  align-items: center;
+  background-color: ${CA_BLUE};
+  color: white;
+  display: flex;
+  padding: 20px 24px 20px 0;
+  min-width: 160px;
 `;
 
 const MenuRowMailtoLink = styled.a`
