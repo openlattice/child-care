@@ -12,17 +12,12 @@ import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, isImmutable } from 'immutable';
-import {
-  Colors,
-  Select,
-  StyleUtils,
-} from 'lattice-ui-kit';
+import { Colors, Select } from 'lattice-ui-kit';
 import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useTimeout } from '../../../components/hooks';
 import { REQUEST_STATE } from '../../../core/redux/constants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { LABELS } from '../../../utils/constants/labels';
@@ -46,7 +41,6 @@ const {
   SELECTED_REFERRAL_AGENCY
 } = PROVIDERS;
 const { NEUTRAL } = Colors;
-const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
 const { isFailure, isPending } = ReduxUtils;
 
@@ -68,27 +62,9 @@ const customStyles = {
 };
 
 const Wrapper = styled.div`
-  left: 50%;
-  margin: 0 auto;
-  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
-  padding: 8px 0;
-  top: 0;
+  padding: 0 15px;
   width: 100%;
-  z-index: 100;
-
-  /* fill right side gap for screens smaller than desktop cutoff */
-  ${media.desktop`
-    max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
-    left: calc(50% + 20px);
-  `}
-  ${media.phone`
-    position: fixed;
-    transform: translate3d(-50%, 0, 200px);
-  `}
-  ${media.tablet`
-    position: fixed;
-    transform: translate3d(-50%, 0, 200px);
-  `}
+  z-index: 10;
 `;
 
 const GroupHeading = () => (<div style={{ borderBottom: `1px solid ${NEUTRAL.N100}` }} />);
