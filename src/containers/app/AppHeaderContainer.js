@@ -12,6 +12,7 @@ import { withRouter } from 'react-router';
 
 import AppNavigationSidebar from './AppNavigationSidebar';
 import AppHeaderNavigation from './AppHeaderNavigation';
+import LocationSearchBar from '../location/providers/LocationSearchBar';
 
 import CustomColors from '../../core/style/Colors';
 import * as Routes from '../../core/router/Routes';
@@ -30,7 +31,7 @@ const AppHeaderOuterWrapper = styled.header`
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;
-  justify-content: center;
+  justify-content: space-between;
   height: ${HEADER_HEIGHT}px;
   top: 0;
   width: 100vw;
@@ -41,7 +42,15 @@ const AppHeaderOuterWrapper = styled.header`
 const LeftSideContentWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 100%;
+  width: max-content;
+
+  ${media.phone`
+    width: 100%;
+  `}
+
+  ${media.tablet`
+    width: 100%;
+  `}
 `;
 
 const LogoTitleWrapperLink = styled.div`
@@ -108,6 +117,21 @@ const LogoWrapper = styled.div`
   `}
 `;
 
+const SearchBarWrapper = styled.div`
+  align-items: center;
+  display: none;
+  margin-left: 36px;
+  width: 100%;
+
+  ${media.phone`
+    display: flex;
+  `}
+
+  ${media.tablet`
+    display: flex;
+  `}
+`;
+
 const AppHeaderContainer = () => {
 
   const [isNavigationOpen, setNavigationState] = useState(false);
@@ -138,6 +162,9 @@ const AppHeaderContainer = () => {
               <CDSSLink />
             </LogoWrapper>
           </LogoTitleWrapperLink>
+          <SearchBarWrapper>
+            <LocationSearchBar />
+          </SearchBarWrapper>
         </LeftSideContentWrapper>
         <AppHeaderNavigation />
         <Drawer
