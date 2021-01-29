@@ -43,11 +43,9 @@ const LeftSideContentWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   width: max-content;
-
   ${media.phone`
     width: 100%;
   `}
-
   ${media.tablet`
     width: 100%;
   `}
@@ -84,37 +82,33 @@ const NavigationToggleWrapper = styled.div`
   margin-left: 10px; /* the icon is 14px wide, this div is 32px wide, so there's 9px on each side of the icon */
   position: absolute;
   width: 32px;
+  ${media.phone`
+    display: flex;
+  `}
+  ${media.tablet`
+    display: flex;
+  `}
 
   &:hover {
     color: ${NEUTRAL.N700};
   }
-
-  ${media.phone`
-    display: flex;
-  `}
-
-  ${media.tablet`
-    display: flex;
-  `}
 `;
 
 const LogoWrapper = styled.div`
   align-items: center;
   display: flex;
   margin-left: 36px;
+  ${media.phone`
+    display: none;
+  `}
+  ${media.tablet`
+    display: none;
+  `}
 
   svg,
   img {
     margin-right: 16px;
   }
-
-  ${media.phone`
-    display: none;
-  `}
-
-  ${media.tablet`
-    display: none;
-  `}
 `;
 
 const SearchBarWrapper = styled.div`
@@ -122,11 +116,9 @@ const SearchBarWrapper = styled.div`
   display: none;
   margin-left: 36px;
   width: 100%;
-
   ${media.phone`
     display: flex;
   `}
-
   ${media.tablet`
     display: flex;
   `}
