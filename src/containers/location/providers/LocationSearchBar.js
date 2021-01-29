@@ -165,6 +165,7 @@ const LocationsSearchBar = () => {
           inputValue={address}
           isClearable
           isLoading={isFetchingOptions}
+          menuPortalTarget={document.body}
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
