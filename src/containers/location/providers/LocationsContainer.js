@@ -8,6 +8,7 @@ import {
   Colors,
   PaginationToolbar,
   SearchResults,
+  StyleUtils
 } from 'lattice-ui-kit';
 import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +20,7 @@ import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
 import LocationSearchBar from './LocationSearchBar';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
@@ -44,6 +46,7 @@ import {
   setValue
 } from '../LocationsActions';
 
+const { media } = StyleUtils;
 const {
   isPending,
   isStandby,
@@ -94,8 +97,31 @@ const FilterButton = styled.div`
   }
 `;
 
-const LocationsContainer = () => {
+const SearchBarWrapper = styled.div`
+  left: 50%;
+  margin: 0 auto;
+  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
+  padding: 8px 0;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 
+  /* fill right side gap for screens smaller than desktop cutoff */
+  ${media.desktop`
+    max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
+    left: calc(50% + 20px);
+  `}
+
+  ${media.phone`
+    display: none;
+  `}
+
+  ${media.tablet`
+    display: none;
+  `}
+`;
+
+const LocationsContainer = () => {
   const isEditingFilters = useSelector((store) => store.getIn(
     [LOCATIONS, IS_EDITING_FILTERS],
     false
@@ -192,7 +218,13 @@ const LocationsContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
-        { shouldDisplaySearchBar && <LocationSearchBar /> }
+        {
+          shouldDisplaySearchBar && (
+            <SearchBarWrapper>
+              <LocationSearchBar />
+            </SearchBarWrapper>
+          )
+        }
         {editFiltersContent}
         {providerHeader}
         <MapWrapper>
