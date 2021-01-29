@@ -152,7 +152,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
             .set(RRS_BY_ID, Map())
             .set(TOTAL_HITS, 0)
             .set(SEARCH_INPUTS, searchInputs)
-            .set(SELECTED_OPTION, searchInputs.get(SELECTED_OPTION, null))
+            .set(SELECTED_OPTION, searchInputs.get(SELECTED_OPTION))
             .set(PAGE, page)
             .setIn([SEARCH_LOCATIONS, REQUEST_STATE], RequestStates.PENDING)
             .setIn([SEARCH_LOCATIONS, action.id], action);
@@ -191,7 +191,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_LOCATION_OPTION: {
-      if (!action.value) {
+      if (!action.value && state.get(SELECTED_OPTION)) {
         return state
           .setIn([SELECTED_OPTION, 'label'], undefined)
           .setIn(['options', 'data'], List());
