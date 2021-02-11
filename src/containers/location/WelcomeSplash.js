@@ -9,7 +9,7 @@ import { useTimeout } from '../../components/hooks';
 import { getTextFnFromState } from '../../utils/AppUtils';
 import { WELCOME_SPLASH } from '../../utils/constants/labels';
 
-const { NEUTRAL, PURPLE } = Colors;
+const { NEUTRAL, BLUE } = Colors;
 
 const { useBoolean } = Hooks;
 
@@ -31,7 +31,7 @@ const Details = styled(TextSection)`
 
 const Instructions = styled(TextSection)`
   span {
-    color: ${PURPLE.P300};
+    color: ${BLUE.B400};
     text-decoration: underline;
 
     &:hover {

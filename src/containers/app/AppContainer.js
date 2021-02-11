@@ -21,12 +21,13 @@ import { bindActionCreators } from 'redux';
 import type { RequestSequence, RequestState } from 'redux-reqseq';
 
 import AppHeaderContainer from './AppHeaderContainer';
+import AppFooterContainer from './AppFooterContainer';
 import { INITIALIZE_APPLICATION, initializeApplication } from './AppActions';
 
 import AboutPage from '../about/AboutPage';
+import FAQsPage from '../faqs/FAQsPage';
 import IEModal from '../../components/modals/IEModal';
 import LocationsContainer from '../location/providers/LocationsContainer';
-import FAQsPage from '../faqs/FAQsPage';
 import ResourcesPage from '../resources/ResourcesPage';
 import { APP, REQUEST_STATE } from '../../core/redux/constants';
 import {
@@ -135,6 +136,7 @@ class AppContainer extends Component<Props> {
               <AppContentOuterWrapper>
                 { this.renderUnsupportedBrowserModal() }
                 { this.renderAppContent() }
+                <AppFooterContainer />
               </AppContentOuterWrapper>
             </AppContainerWrapper>
           </StylesProvider>

@@ -12,22 +12,18 @@ import styled from 'styled-components';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Map, isImmutable } from 'immutable';
-import {
-  Colors,
-  Select,
-  StyleUtils,
-} from 'lattice-ui-kit';
+import { Colors, Select } from 'lattice-ui-kit';
 import { LangUtils, ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useTimeout } from '../../../components/hooks';
 import { REQUEST_STATE } from '../../../core/redux/constants';
-import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import { getTextFnFromState } from '../../../utils/AppUtils';
 import { PROVIDERS, STATE } from '../../../utils/constants/StateConstants';
 import { LABELS } from '../../../utils/constants/labels';
 import {
   GET_GEO_OPTIONS,
+  LOAD_CURRENT_POSITION,
   geocodePlace,
   getGeoOptions,
   loadCurrentPosition,
@@ -45,9 +41,8 @@ const {
   SELECTED_REFERRAL_AGENCY
 } = PROVIDERS;
 const { NEUTRAL } = Colors;
-const { media } = StyleUtils;
 const { isNonEmptyString } = LangUtils;
-const { isPending } = ReduxUtils;
+const { isFailure, isPending } = ReduxUtils;
 
 /* placeholder color needs to be darker to provide more contrast between text and background */
 const getTheme = (theme) => ({
@@ -58,22 +53,18 @@ const getTheme = (theme) => ({
   },
 });
 
-const Wrapper = styled.div`
-  left: 50%;
-  margin: 0 auto;
-  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
-  padding: 8px 0;
-  position: fixed;
-  top: 0;
-  transform: translate(-50%, 0);
-  width: 100%;
-  z-index: 1000;
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: 'white',
+    border: `1px solid ${NEUTRAL.N100}`
+  })
+};
 
-  /* fill right side gap for screens smaller than desktop cutoff */
-  ${media.desktop`
-    max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
-    left: calc(50% + 20px);
-  `}
+const Wrapper = styled.div`
+  padding: 0 15px;
+  width: 100%;
+  z-index: 10;
 `;
 
 const GroupHeading = () => (<div style={{ borderBottom: `1px solid ${NEUTRAL.N100}` }} />);
@@ -94,9 +85,12 @@ const LocationsSearchBar = () => {
 
   const getText = useSelector(getTextFnFromState);
   const currentLocationText = getText(LABELS.CURRENT_LOCATION);
+  const locationServicesDenied = getText(LABELS.LOCATION_SERVICES_DISABLED);
   const getGeoOptionsRS = useSelector((store) => store.getIn([LOCATIONS, GET_GEO_OPTIONS, REQUEST_STATE]));
+  const loadCurrentPositionRS = useSelector((store) => store.getIn([LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]));
   const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const storedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
+  const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   let selectedOption = storedOption;
   if (Map.isMap(storedOption)) {
@@ -143,9 +137,11 @@ const LocationsSearchBar = () => {
   };
 
   const optionsWithMyLocation = options.toJS();
+  const currentLocationLabel = geoSearchFailed
+    ? `${currentLocationText} (${locationServicesDenied})` : currentLocationText;
   optionsWithMyLocation.push({
     options: [
-      { label: currentLocationText, value: currentLocationText }
+      { label: currentLocationLabel, value: currentLocationLabel, isDisabled: geoSearchFailed }
     ]
   });
 
@@ -169,10 +165,12 @@ const LocationsSearchBar = () => {
           inputValue={address}
           isClearable
           isLoading={isFetchingOptions}
+          menuPortalTarget={document.body}
           onChange={handleChange}
           onInputChange={setAddress}
           options={optionsWithMyLocation}
           placeholder={getText(LABELS.ENTER_NAME_ADDRESS_ZIP)}
+          styles={customStyles}
           theme={getTheme}
           value={value} />
     </Wrapper>
