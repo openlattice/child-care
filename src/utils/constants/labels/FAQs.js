@@ -34,16 +34,13 @@ export const Q_AND_A = {
       Q: {
         [en]: 'As a parent looking for care, how can I search by a specific type of care '
         + '(i.e. home-based care or child care center)?',
-        [es]: 'Como padre que busca cuidado, ¿cómo puedo buscar por un tipo específico '
-        + 'de cuidado (es decir, cuidado en el hogar o centro de cuidado infantil)?'
+        [es]: ''
       },
       A: {
         [en]: 'At the home screen, click on refine search located just below the map on the '
         + 'right-side of the page, then click on type of care and it will give you the option '
         + 'to select between the two child care types.',
-        [es]: 'En la pantalla de inicio, haga clic en refinar búsqueda ubicado justo debajo '
-        + 'del mapa en el lado derecho de la página, luego haga clic en tipo de cuidado y le '
-        + 'dará la opción de seleccionar entre los dos tipos de cuidado infantil.'
+        [es]: ''
       }
     },
     {
@@ -54,9 +51,8 @@ export const Q_AND_A = {
       A: {
         [en]: 'Once you find the small family child care home that you are interested in, '
         + 'click on the home. It will take you to a screen with several options: availability, '
-        + 'capacity, health & safety, and resource & referral agency. Click on resource & referral '
-        + 'agency. There it should list the agency that has all the information on the child care '
-        + 'home that you may need.',
+        + 'capacity, health & safety, and referral. Click on referral. There it should list the '
+        + 'agency that has all the information on the child care home that you may need.',
         [es]: ''
       }
     },
@@ -67,12 +63,12 @@ export const Q_AND_A = {
         [es]: ''
       },
       A: {
-        [en]: 'Once you find the facility that you are interested in, click on the listing. '
-        + 'It will take you to a screen with several options: availability, capacity, contact '
-        + '(on some facilities that can list their information), health & safety, and resource '
-        + '& referral agency. Click on health & safety. In this section you will find a facility '
-        + 'number that is underlined. Clicking the facility number will take you to the Department’s '
-        + 'Child Care Transparency Website. Here you can explore the facility’s history and associated reports.',
+        [en]: 'Once you find the facility that you are interested in, click on the listing. It '
+        + 'will take you to a screen with several options: availability, capacity, contact (on '
+        + 'some facilities that can list their information), health & safety, and referral. '
+        + 'Click on health & safety. In this section you will find a facility number that is '
+        + 'underlined. Clicking the facility number will take you to the Department’s Child Care '
+        + 'Transparency Website. Here you can explore the facility’s history and associated reports.',
         [es]: ''
       }
     },
@@ -85,23 +81,23 @@ export const Q_AND_A = {
       A: {
         [en]: 'Once you find the facility that you are interested in, click on the listing. '
         + 'It will take you to a screen with several options: availability, capacity, contact '
-        + '(on some facilities that can list their information), health & safety, and resource '
-        + '& referral agency. Click on contact. If the contact information is present, you can '
-        + 'reach out to the provider directly. If this option is not available, click on the '
-        + 'resource & referral agency tab. These agencies have all the contact information available '
-        + 'and will be able to assist you with your waitlist questions.',
+        + '(on some facilities that can list their information), health & safety, and referral. '
+        + 'Click on contact. If the contact information is present, you can reach out to the '
+        + 'provider directly. If this option is not available, click on the referral tab. '
+        + 'These agencies have all the contact information available and will be able to '
+        + 'assist you with your waitlist questions.',
         [es]: ''
       }
     },
     {
       Q: {
-        [en]: 'As a parent looking for care, do any of the Child Care Programs on this site have '
-        + 'educational support such as tutoring and help with homework?',
+        [en]: 'As a parent looking for care, do any of the Child Care Programs on this site '
+        + 'have educational support such as tutoring and help with homework?',
         [es]: ''
       },
       A: {
-        [en]: 'Once you have selected the facility or home that you are interested in, you will '
-        + 'have to contact the provider to discuss what services they provide.',
+        [en]: 'Once you have selected the facility or home that you are interested in, you '
+        + 'will have to contact the provider to discuss what services they provide.',
         [es]: ''
       }
     },
@@ -173,7 +169,8 @@ export const Q_AND_A = {
         [es]: ''
       },
       A: {
-        [en]: 'As a child care provider, please contact your resource and referral agency for assistance.',
+        [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at your '
+        + 'local Regional Office and submit changes.',
         [es]: ''
       }
     },
@@ -184,8 +181,8 @@ export const Q_AND_A = {
         [es]: ''
       },
       A: {
-        [en]: 'As a child care provider, please contact Community Care Licensing at https://mychildcare.ca.gov/ '
-        + 'to update the status of the facility.',
+        [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at your '
+        + 'local Regional Office and submit changes.',
         [es]: ''
       }
     },
@@ -196,10 +193,10 @@ export const Q_AND_A = {
         [es]: ''
       },
       A: {
-        [en]: 'The phone number and address for small family child care homes are confidential. All other child '
-        + 'care types such as large family child care homes will list their phone number. All other information '
-        + 'is obtained from the local resource and referral agency, which is listed in the resource & referral agency '
-        + 'section of the facility.',
+        [en]: 'The phone number and address for small family child care homes are confidential. All other '
+        + 'child care types such as large family child care homes will list their phone number. All other '
+        + 'information is obtained from the local resource and referral agency, which is listed in the '
+        + 'referral section of the facility.',
         [es]: ''
       }
     }
