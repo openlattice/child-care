@@ -27,11 +27,13 @@ const customStyles = {
   menu: (provided) => ({
     ...provided,
     backgroundColor: CA_BLUE02,
+    fontSize: 16,
   }),
   control: (provided) => ({
     ...provided,
     border: 'none',
-    backgroundColor: CA_BLUE02
+    backgroundColor: CA_BLUE02,
+    fontSize: 16,
   }),
   menuList: (provided) => ({
     ...provided,

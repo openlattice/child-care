@@ -36,7 +36,7 @@ const Wrapper = styled.div`
   background-color: ${CA_BLUE};
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: calc(100vh + 80px);
   justify-content: space-between;
   overflow: scroll;
 
@@ -113,7 +113,7 @@ const NavFooter = styled.div`
   flex-direction: column;
   font-weight: 400px;
   flex-grow: 1;
-  justify-content: flex-end;
+  justify-content: flex-start;
   ${DEFAULT_PADDING}
 `;
 
