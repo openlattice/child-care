@@ -30,13 +30,13 @@ import { LABELS } from '../../utils/constants/labels';
 
 const { CA_BLUE } = CustomColors;
 
-const DEFAULT_PADDING = css` padding: 20px 24px; `;
+const DEFAULT_PADDING = css` padding: 16px 18px; `;
 
 const Wrapper = styled.div`
   background-color: ${CA_BLUE};
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh + 80px);
+  min-height: 100%;
   justify-content: space-between;
   overflow: scroll;
 
@@ -59,8 +59,7 @@ const menuRowStyle = css`
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  line-height: 17px;
-  min-height: 58px;
+  min-height: 54px;
   text-decoration: none;
 
   span {
@@ -78,13 +77,13 @@ const MenuRow = styled.div`
 
 const LanguageRow = styled.div`
   ${menuRowStyle}
-  min-height: 79px;
+  min-height: 71px;
 `;
 
 const LogoRow = styled.div`
   ${menuRowStyle}
   min-height: 66px;
-  padding: 10px 24px;
+  padding: 10px 18px;
 
   img {
     height: 46px;
