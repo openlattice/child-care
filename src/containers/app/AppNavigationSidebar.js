@@ -30,14 +30,19 @@ import { LABELS } from '../../utils/constants/labels';
 
 const { CA_BLUE } = CustomColors;
 
-const DEFAULT_PADDING = css` padding: 20px 24px; `;
+const DEFAULT_PADDING = css` padding: 16px 18px; `;
 
 const Wrapper = styled.div`
   background-color: ${CA_BLUE};
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
   justify-content: space-between;
+  overflow: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NavMenuWrapper = styled.div`
@@ -54,9 +59,8 @@ const menuRowStyle = css`
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  line-height: 17px;
+  min-height: 54px;
   text-decoration: none;
-  min-height: 66px;
 
   span {
     margin-right: 10px;
@@ -71,9 +75,15 @@ const MenuRow = styled.div`
   ${menuRowStyle}
 `;
 
+const LanguageRow = styled.div`
+  ${menuRowStyle}
+  min-height: 71px;
+`;
+
 const LogoRow = styled.div`
   ${menuRowStyle}
-  padding: 10px 24px;
+  min-height: 66px;
+  padding: 10px 18px;
 
   img {
     height: 46px;
@@ -99,8 +109,10 @@ const MenuRowNavLink = styled(Link)`
 const NavFooter = styled.div`
   color: white;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-weight: 400px;
+  flex-grow: 1;
+  justify-content: flex-start;
   ${DEFAULT_PADDING}
 `;
 
@@ -117,9 +129,9 @@ const AppNavigationSidebar = ({ onClose }:{| onClose :() => void; |}) => {
           <CaGovLink />
           <CDSSLink />
         </LogoRow>
-        <MenuRow>
+        <LanguageRow>
           <LanguageSelectionMenu />
-        </MenuRow>
+        </LanguageRow>
         <MenuRowNavLink to={HOME_PATH} onClick={onClose}>
           {getText(LABELS.FIND_CHILDCARE)}
         </MenuRowNavLink>
