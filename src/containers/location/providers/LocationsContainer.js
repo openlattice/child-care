@@ -3,11 +3,12 @@
 import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
-import { List, Map, get } from 'immutable';
+import { Map, get } from 'immutable';
 import {
   Colors,
   PaginationToolbar,
   SearchResults,
+  StyleUtils
 } from 'lattice-ui-kit';
 import { ReduxUtils } from 'lattice-utils';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,10 +20,10 @@ import ProviderDetailsContainer from './ProviderDetailsContainer';
 import ProviderHeaderContainer from './ProviderHeaderContainer';
 import ProviderMap from './ProviderMap';
 import LocationSearchBar from './LocationSearchBar';
+import { APP_CONTAINER_WIDTH } from '../../../core/style/Sizes';
 import ReferralAgencyDetailsContainer from './ReferralAgencyDetailsContainer';
 import ReferralAgencyHeaderContainer from './ReferralAgencyHeaderContainer';
 
-import FindingLocationSplash from '../FindingLocationSplash';
 import WelcomeSplash from '../WelcomeSplash';
 import { ContentOuterWrapper, ContentWrapper } from '../../../components/layout';
 import {
@@ -37,7 +38,6 @@ import { LABELS } from '../../../utils/constants/labels';
 import { MapWrapper } from '../../styled';
 import {
   GEOCODE_PLACE,
-  LOAD_CURRENT_POSITION,
   SEARCH_LOCATIONS,
   SEARCH_REFERRAL_AGENCIES,
   loadCurrentPosition,
@@ -46,8 +46,8 @@ import {
   setValue
 } from '../LocationsActions';
 
+const { media } = StyleUtils;
 const {
-  isFailure,
   isPending,
   isStandby,
   isSuccess,
@@ -72,6 +72,7 @@ const MAX_HITS = 20;
 
 const StyledContentWrapper = styled(ContentWrapper)`
   justify-content: space-between;
+  margin-bottom: 15px;
 `;
 
 const StyledSearchResults = styled(SearchResults)``;
@@ -96,8 +97,31 @@ const FilterButton = styled.div`
   }
 `;
 
-const LocationsContainer = () => {
+const SearchBarWrapper = styled.div`
+  left: 50%;
+  margin: 0 auto;
+  max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 100px));
+  padding: 8px 0;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 
+  /* fill right side gap for screens smaller than desktop cutoff */
+  ${media.desktop`
+    max-width: min(${APP_CONTAINER_WIDTH}px, calc(100vw - 60px));
+    left: calc(50% + 20px);
+  `}
+
+  ${media.phone`
+    display: none;
+  `}
+
+  ${media.tablet`
+    display: none;
+  `}
+`;
+
+const LocationsContainer = () => {
   const isEditingFilters = useSelector((store) => store.getIn(
     [LOCATIONS, IS_EDITING_FILTERS],
     false
@@ -105,9 +129,6 @@ const LocationsContainer = () => {
   const getText = useSelector(getTextFnFromState);
   const geocodePlaceRS = useSelector((store) => store.getIn(
     [LOCATIONS, GEOCODE_PLACE, REQUEST_STATE]
-  ));
-  const loadCurrentPositionRS = useSelector((store) => store.getIn(
-    [LOCATIONS, LOAD_CURRENT_POSITION, REQUEST_STATE]
   ));
   const searchLocationsRS = useSelector((store) => store.getIn(
     [LOCATIONS, SEARCH_LOCATIONS, REQUEST_STATE]
@@ -117,7 +138,7 @@ const LocationsContainer = () => {
   ));
   const selectedProvider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
   const selectedReferralAgency = useSelector((store) => store.getIn([LOCATIONS, SELECTED_REFERRAL_AGENCY]));
-  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS], List()));
+  const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS]));
   const totalHits = useSelector((store) => store.getIn([LOCATIONS, TOTAL_HITS], 0));
   const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
   const page = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
@@ -150,10 +171,8 @@ const LocationsContainer = () => {
   const isLoading = isPending(reduceRequestStates([
     geocodePlaceRS,
     searchLocationsRS,
-    loadCurrentPositionRS,
     searchReferralAgenciesRS
   ]));
-  const geoSearchFailed = isFailure(loadCurrentPositionRS);
 
   useEffect(() => {
     if (
@@ -179,9 +198,6 @@ const LocationsContainer = () => {
     if (!hasSearched) {
       return <WelcomeSplash getCurrentPosition={() => dispatch(loadCurrentPosition())} />;
     }
-    if (geoSearchFailed) {
-      return <FindingLocationSplash />;
-    }
     return (
       <StyledSearchResults
           hasSearched={hasSearched}
@@ -202,7 +218,13 @@ const LocationsContainer = () => {
   return (
     <ContentOuterWrapper>
       <ContentWrapper padding="none">
-        { shouldDisplaySearchBar && <LocationSearchBar /> }
+        {
+          shouldDisplaySearchBar && (
+            <SearchBarWrapper>
+              <LocationSearchBar />
+            </SearchBarWrapper>
+          )
+        }
         {editFiltersContent}
         {providerHeader}
         <MapWrapper>
@@ -228,7 +250,7 @@ const LocationsContainer = () => {
                   hasSearched
                     && (
                       <PaginationToolbar
-                          page={page}
+                          page={page + 1}
                           count={totalHits}
                           onPageChange={onPageChange}
                           rowsPerPage={MAX_HITS} />

@@ -182,7 +182,8 @@ function* loadCurrentPositionWorker(action :SequenceAction) :Saga<*> {
         (error) => {
           trySetStoredPermissions(true);
           return reject(error);
-        }
+        },
+        { timeout: 5000 }
       );
     });
 

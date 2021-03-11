@@ -126,17 +126,13 @@ export const LABELS :Object = {
     [en]: 'Email',
     [es]: 'Correo electrónico'
   },
-  ENSURE_LOCATION_DESCRIPTION: {
-    [en]: 'Please ensure location services are enabled to use your current location',
-    [es]: 'Asegúrese de que los servicios de localización estén habilitados para usar su ubicación actual'
-  },
   ENTER_NAME_ADDRESS_ZIP: {
     [en]: 'Enter Name, Address, or ZIP',
     [es]: 'Nombre, dirección o código postal'
   },
   FAQ: {
     [en]: 'FAQs',
-    [es]: 'Preguntas más frecuentes'
+    [es]: 'Preguntas frecuentes'
   },
   FACILITY_NAME_MASKED: {
     [en]: 'Small Family Home',
@@ -165,6 +161,14 @@ export const LABELS :Object = {
   LINK_TO: {
     [en]: 'Link to',
     [es]: 'Enlace a'
+  },
+  LINK_TO_FAQS: {
+    [en]: 'Link to FAQs',
+    [es]: 'Enlace a las preguntas frecuentes'
+  },
+  LOCATION_SERVICES_DISABLED: {
+    [en]: 'Disabled - check browser location settings',
+    [es]: 'Deshabilitado: verifique la configuración de ubicación del navegador'
   },
   NEAREST_HOSPITAL: {
     [en]: 'Nearest Hospital',
@@ -208,11 +212,12 @@ export const LABELS :Object = {
   },
   PROVIDER_RESOURCES: {
     [en]: 'Provider Resources',
-    [es]: 'Recursos del Proveedor'
+    [es]: 'Recursos Para Proveedores'
   },
   PROVIDER_RESOURCES_DESCRIPTION: {
     [en]: 'If you are affiliated with this facility and wish to update your provider information, please visit:',
-    [es]: 'Si está afiliado a esta instalación y desea actualizar la información de su proveedor, visite:'
+    [es]: 'Si usted está asociado a este establecimiento y desea actualizar su información de proveedor, por '
+    + 'favor, visite:'
   },
   REFERRAL: {
     [en]: 'Referral',
@@ -220,11 +225,15 @@ export const LABELS :Object = {
   },
   REFERRAL_DESCRIPTION: {
     [en]: 'If you have questions about this provider, the following affiliates may be able to help you:',
-    [es]: 'Si tiene preguntas sobre este proveedor, los siguientes afiliados pueden ayudarlo:'
+    [es]: 'Si tiene preguntas sobre este proveedor, las siguientes organizaciones pueden ayudarle:'
   },
   REFINE_SEARCH: {
     [en]: 'Refine Search',
     [es]: 'Refinar la búsqueda'
+  },
+  REGISTER_TO_VOTE: {
+    [en]: 'Register to Vote',
+    [es]: 'Registrarse para votar'
   },
   RESOURCES: {
     [en]: 'Resources',

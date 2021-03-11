@@ -191,7 +191,7 @@ const locationsReducer = (state :Map = INITIAL_STATE, action :Object) => {
     }
 
     case SELECT_LOCATION_OPTION: {
-      if (!action.value) {
+      if (!action.value && state.get(SELECTED_OPTION)) {
         return state
           .setIn([SELECTED_OPTION, 'label'], undefined)
           .setIn(['options', 'data'], List());

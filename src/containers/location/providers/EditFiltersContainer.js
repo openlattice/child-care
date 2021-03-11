@@ -98,7 +98,7 @@ const Line = styled.div`
 
 const ApplyButtonWrapper = styled.div`
   background-color: white;
-  bottom: 0;
+  bottom: 40px;
   height: 70px;
   padding: 10px ${PADDING}px 30px ${PADDING}px;
   position: fixed;

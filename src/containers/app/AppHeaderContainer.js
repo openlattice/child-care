@@ -12,6 +12,7 @@ import { withRouter } from 'react-router';
 
 import AppNavigationSidebar from './AppNavigationSidebar';
 import AppHeaderNavigation from './AppHeaderNavigation';
+import LocationSearchBar from '../location/providers/LocationSearchBar';
 
 import CustomColors from '../../core/style/Colors';
 import * as Routes from '../../core/router/Routes';
@@ -19,18 +20,18 @@ import { CDSSLink, CaGovLink } from '../../components/logos';
 import { HEADER_HEIGHT } from '../../core/style/Sizes';
 
 const { NEUTRAL } = Colors;
-const { BLUE } = CustomColors;
+const { CA_BLUE } = CustomColors;
 const { media } = StyleUtils;
 
 // TODO: this should come from lattice-ui-kit, maybe after the next release. current version v0.1.1
 const APP_HEADER_BORDER :string = NEUTRAL.N100;
 
 const AppHeaderOuterWrapper = styled.header`
-  background-color: ${BLUE};
+  background-color: ${CA_BLUE};
   border-bottom: 1px solid ${APP_HEADER_BORDER};
   display: flex;
   flex: 0 0 auto;
-  justify-content: center;
+  justify-content: space-between;
   height: ${HEADER_HEIGHT}px;
   top: 0;
   width: 100vw;
@@ -41,7 +42,13 @@ const AppHeaderOuterWrapper = styled.header`
 const LeftSideContentWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 100%;
+  width: max-content;
+  ${media.phone`
+    width: 100%;
+  `}
+  ${media.tablet`
+    width: 100%;
+  `}
 `;
 
 const LogoTitleWrapperLink = styled.div`
@@ -75,36 +82,45 @@ const NavigationToggleWrapper = styled.div`
   margin-left: 10px; /* the icon is 14px wide, this div is 32px wide, so there's 9px on each side of the icon */
   position: absolute;
   width: 32px;
+  ${media.phone`
+    display: flex;
+  `}
+  ${media.tablet`
+    display: flex;
+  `}
 
   &:hover {
     color: ${NEUTRAL.N700};
   }
-
-  ${media.phone`
-    display: flex;
-  `}
-
-  ${media.tablet`
-    display: flex;
-  `}
 `;
 
 const LogoWrapper = styled.div`
   align-items: center;
   display: flex;
   margin-left: 36px;
+  ${media.phone`
+    display: none;
+  `}
+  ${media.tablet`
+    display: none;
+  `}
 
   svg,
   img {
     margin-right: 16px;
   }
+`;
 
+const SearchBarWrapper = styled.div`
+  align-items: center;
+  display: none;
+  margin-left: 36px;
+  width: 100%;
   ${media.phone`
-    display: none;
+    display: flex;
   `}
-
   ${media.tablet`
-    display: none;
+    display: flex;
   `}
 `;
 
@@ -138,6 +154,9 @@ const AppHeaderContainer = () => {
               <CDSSLink />
             </LogoWrapper>
           </LogoTitleWrapperLink>
+          <SearchBarWrapper>
+            <LocationSearchBar />
+          </SearchBarWrapper>
         </LeftSideContentWrapper>
         <AppHeaderNavigation />
         <Drawer
