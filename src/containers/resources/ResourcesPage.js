@@ -75,7 +75,7 @@ const ResourcesPage = () => {
         <TextLink
             aria-label="link to FAQs Page"
             onClick={goToFAQs}>
-          {`${getText(LABELS.LINK_TO)} FAQs`}
+          {getText(LABELS.LINK_TO_FAQS)}
         </TextLink>
       </Wrapper>
     </ContentOuterWrapper>
