@@ -50,10 +50,10 @@ export const Q_AND_A = {
         [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo obtengo más información sobre las casas familiares pequeñas?'
       },
       A: {
-        [en]: 'Once you find the small family child care home that you are interested in, '
-        + 'click on the home. It will take you to a screen with several options: availability, '
-        + 'capacity, health & safety, and referral. Click on referral. There it should list the '
-        + 'agency that has all the information on the child care home that you may need.',
+        [en]: 'Once you find the small family child care home that you are interested in, click on the home. '
+        + 'It will take you to a screen with several options: availability, capacity, health & safety, and referral. '
+        + 'Click on referral. There it should list the agency that has all the information on the child care home '
+        + 'that you may need.',
         [es]: 'Una vez que encuentre una casa familiar pequeña que le interesa, selecciónela. '
         + 'Esto le llevará a una pantalla con varias opciones: Disponibilidad, Capacidad, Salud '
         + 'y seguridad y Remisión. Elegir Remisión le enseñará el nombre de la oficina que tiene '
@@ -69,12 +69,12 @@ export const Q_AND_A = {
         + 'y seguridad?'
       },
       A: {
-        [en]: 'Once you find the facility that you are interested in, click on the listing. It '
-        + 'will take you to a screen with several options: availability, capacity, contact (on '
-        + 'some facilities that can list their information), health & safety, and referral. '
-        + 'Click on health & safety. In this section you will find a facility number that is '
-        + 'underlined. Clicking the facility number will take you to the Department’s Child Care '
-        + 'Transparency Website. Here you can explore the facility’s history and associated reports.',
+        [en]: 'Once you find the facility that you are interested in, click on the listing. It will take '
+        + 'you to a screen with several options: availability, capacity, contact (on some facilities that '
+        + 'can list their information), health & safety, and referral. Click on health & safety. In this section '
+        + 'you will find a facility number that is underlined. Clicking the facility number will take you to the '
+        + 'Department’s Child Care Transparency Website. Here you can explore the facility’s history and '
+        + 'associated reports.',
         [es]: 'Una vez que encuentre un establecimiento que le interesa, selecciónelo. Esto le llevará '
         + 'a una pantalla con varias opciones: Disponibilidad, Capacidad, Contacto (en algunos casos), '
         + 'Salud y seguridad y Remisión. Elegir Salud y seguridad le enseñará el número del establecimiento '
@@ -90,13 +90,12 @@ export const Q_AND_A = {
         + 'pero actualmente está lleno. ¿Hay una lista deespera?'
       },
       A: {
-        [en]: 'Once you find the facility that you are interested in, click on the listing. '
-        + 'It will take you to a screen with several options: availability, capacity, contact '
-        + '(on some facilities that can list their information), health & safety, and referral. '
-        + 'Click on contact. If the contact information is present, you can reach out to the '
-        + 'provider directly. If this option is not available, click on the referral tab. '
-        + 'These agencies have all the contact information available and will be able to '
-        + 'assist you with your waitlist questions.',
+        [en]: 'Once you find the facility that you are interested in, click on the listing. It will '
+        + 'take you to a screen with several options: availability, capacity, contact (on some facilities '
+        + 'that can list their information), health & safety, and referral. Click on contact. If the '
+        + 'contact information is present, you can reach out to the provider directly. If this option is '
+        + 'not available, click on the referral tab. These agencies have all the contact information available '
+        + 'and will be able to assist you with your waitlist questions.',
         [es]: 'Una vez que encuentre un establecimiento que le interesa, selecciónelo. Esto '
         + 'le llevará a una pantalla con varias opciones: Disponibilidad, Capacidad, Contacto '
         + '(en algunos casos), Salud y seguridad y Remisión. Elija Contacto. Si la información '
@@ -114,8 +113,8 @@ export const Q_AND_A = {
         + 'infantil ofrece apoyo educativo, como ayuda con la tarea o clases particulares?'
       },
       A: {
-        [en]: 'Once you have selected the facility or home that you are interested in, you '
-        + 'will have to contact the provider to discuss what services they provide.',
+        [en]: 'Once you have selected the facility or home that you are interested in, you will have to '
+        + 'contact the provider to discuss what services they provide.',
         [es]: 'Una vez que encuentre un centro o una casa que le interesa, tendrá que contactar '
         + 'con el proveedor para saber qué servicios ofrece.'
       }
@@ -171,19 +170,18 @@ export const Q_AND_A = {
   PROVIDERS: [
     {
       Q: {
-        [en]: 'I am a child care provider and I need to know how can I change my telephone number?',
+        [en]: 'I am a child care provider and I need to know how can I change my telephone number on this website?',
         [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi número de teléfono en este sitio web?'
       },
       A: {
-        [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) '
-        + 'at your local Regional Office and submit changes.',
+        [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at your local '
+        + 'Regional Office and submit changes.',
         [es]: 'Puede cambiarlo contactando con su analista de licenciamiento (LPA) en su oficina regional local.'
       }
     },
     {
       Q: {
-        [en]: 'I am a child care provider and I need to know how can I change my email address on this '
-        + 'website?',
+        [en]: 'I am a child care provider and I need to know how can I change my email address on this website?',
         [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi dirección de correo electrónico en este sitio web?'
       },
       A: {
@@ -194,16 +192,15 @@ export const Q_AND_A = {
     },
     {
       Q: {
-        [en]: 'I am a child care provider and I need to know how I can change my status from Booked to Spots '
-        + 'Open or my hours of availability?',
+        [en]: 'I am a child care provider and I need to know how I can change my status from Booked to Spots Open '
+        + 'or my hours of availability?',
         [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi disponibilidad de Lleno a Plazas disponibles? '
         + '¿Cómo cambio mi horario de operaciones?'
       },
       A: {
-        [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at your '
-        + 'local Regional Office and submit changes.',
-        [es]: 'Puede cambiar estas dos cosas contactando con su oficina de recursos e información (resource and '
-        + 'referral agency).'
+        [en]: 'As a child care provider, please contact your resource and referral agency for assistance.',
+        [es]: 'Puede cambiar estas dos cosas contactando con su oficina de recursos e información (resource '
+        + 'and referral agency).'
       }
     },
     {
@@ -226,12 +223,10 @@ export const Q_AND_A = {
         + 'no aparece mi información (número de teléfono, dirección, ubicación en el mapa, etc.)?'
       },
       A: {
-        [en]: 'The phone number and address for small family child care homes are confidential. All other '
-        + 'child care types such as large family child care homes will list their phone number. All other '
-        + 'information is obtained from the local resource and referral agency, which is listed in the '
-        + 'referral section of the facility.',
-        [es]: 'No se divulga la dirección ni el número de teléfono de las casas familiares pequeñas. Los '
-        + 'demás tipos de cuidado infantil, como las casas familiares grandes, incluirán su número de teléfono.'
+        [en]: 'The phone number and address for small family child care homes are confidential. All other child '
+        + 'care types such as large family child care homes will list their phone number.',
+        [es]: 'No se divulga la dirección ni el número de teléfono de las casas familiares pequeñas. Los demás '
+        + 'tipos de cuidado infantil, como las casas familiares grandes, incluirán su número de teléfono.'
       }
     }
   ]
