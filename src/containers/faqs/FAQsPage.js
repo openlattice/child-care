@@ -15,7 +15,7 @@ const { BLUE } = Colors;
 
 const Wrapper = styled(ContentWrapper)`
   background-color: white;
-  padding: 30px !important;
+  padding: 30px 30px 60px !important;
 
   h6 {
     margin: 20px 0 5px;
@@ -51,7 +51,7 @@ const getQAndAs = (getText) => Object.entries(FAQS).map(([key, value]) => (
   )
 ));
 
-const ResourcesPage = () => {
+const FAQsPage = () => {
 
   const getText = useSelector(getTextFnFromState);
 
@@ -66,4 +66,4 @@ const ResourcesPage = () => {
   );
 };
 
-export default ResourcesPage;
+export default FAQsPage;
