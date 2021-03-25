@@ -195,7 +195,7 @@ export const Q_AND_A = {
       Q: {
         [en]: 'I am a child care provider and I need to know how I can change my status from Booked to Spots Open '
         + 'or my hours of availability?',
-        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi <i>Disponibilidad</i> de '
+        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi disponibilidad de '
         + '<i>Lleno</i> a <i>Plazas disponibles</i>? ¿Cómo cambio mi horario de operaciones?'
       },
       A: {
