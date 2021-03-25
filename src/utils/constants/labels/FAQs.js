@@ -34,7 +34,7 @@ export const Q_AND_A = {
         [en]: 'As a parent looking for care, how can I search by a specific type of care '
         + '(i.e. home-based care or child care center)?',
         [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo busco un tipo de cuidado específico '
-        + '(i. e., un centro de cuidado infantil o un hogar familiar)?'
+        + '(i.e., un centro de cuidado infantil o un hogar familiar)?'
       },
       A: {
         [en]: 'At the home screen, click on refine search located just below the map on the '
@@ -145,9 +145,9 @@ export const Q_AND_A = {
       A: {
         [en]: 'Community Care Licensing offers free online videos that provide information on licensed '
         + 'child care and what to look for when choosing a licensed child care facility.',
-        [es]: 'La Community Care Licensing Division ha publicado en línea varios videos gratuitos e '
-        + 'informativos sobre el cuidado infantil con licencia y lo que usted debería tener en cuenta '
-        + 'a la hora de elegir un establecimiento con licencia.'
+        [es]: 'La <span lang="en">Community Care Licensing Division</span> ha publicado '
+        + 'en línea varios videos gratuitos e informativos sobre el cuidado infantil con '
+        + 'licencia y lo que usted debería tener en cuenta a la hora de elegir un establecimiento con licencia.'
       }
     },
     {
@@ -161,10 +161,10 @@ export const Q_AND_A = {
         [en]: 'Community Care Licensing offers a free video that provides information on how to file '
         + 'a complaint with licensing. You can also call 1-800-Let-Us-No (or 1-844-538-8766) to file a '
         + 'complaint regarding a licensed child care facility or to ask general licensing questions.',
-        [es]: 'La Community Care Licensing Division tiene un video gratuito que proporciona información '
-        + 'sobre el proceso de presentar una queja al Child Care Licensing Program. También puede llamarnos '
-        + 'al 1-800- Let-Us-No (1-844-538-8766) para hacer una pregunta general o presentar una queja '
-        + 'relacionada con un establecimiento de cuidado infantil con licencia.'
+        [es]: 'La <span lang="en">Community Care Licensing Division</span> tiene un video gratuito '
+        + 'que proporciona información sobre el proceso de presentar una queja al Child Care Licensing '
+        + 'Program. También puede llamarnos al 1-800- Let-Us-No (1-844-538-8766) para hacer una pregunta '
+        + 'general o presentar una queja relacionada con un establecimiento de cuidado infantil con licencia.'
       }
     }
   ],
@@ -200,8 +200,8 @@ export const Q_AND_A = {
       },
       A: {
         [en]: 'As a child care provider, please contact your resource and referral agency for assistance.',
-        [es]: 'Puede cambiar estas dos cosas contactando con su oficina de recursos e información (resource '
-        + 'and referral agency).'
+        [es]: 'Puede cambiar estas dos cosas contactando con su oficina de recursos e información '
+        + '(<i lang="en">resource and referral agency</i>).'
       }
     },
     {
