@@ -33,7 +33,7 @@ export const Q_AND_A = {
       Q: {
         [en]: 'As a parent looking for care, how can I search by a specific type of care '
         + '(i.e. home-based care or child care center)?',
-        [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo busco un <i>Tipo de cuidado</i> específico '
+        [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo busco un tipo de cuidado específico '
         + '(i. e., un centro de cuidado infantil o un hogar familiar)?'
       },
       A: {
