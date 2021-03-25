@@ -2,8 +2,8 @@ import { en, es } from './labels/Languages';
 
 const CRRN_PHONE = '(415) 882-0234';
 const CRRN_URL = {
-  [en]: 'https://rrnetwork.org/ ',
-  [es]: 'https://rrnetwork.org/ '
+  [en]: 'https://rrnetwork.org/',
+  [es]: 'https://rrnetwork.org/'
 };
 const CALIFONRIA_COVID_CHILDCARE_RESPONSE_URL = {
   [en]: 'https://covid19.ca.gov/childcare/',
