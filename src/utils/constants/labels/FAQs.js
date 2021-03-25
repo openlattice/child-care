@@ -33,15 +33,15 @@ export const Q_AND_A = {
       Q: {
         [en]: 'As a parent looking for care, how can I search by a specific type of care '
         + '(i.e. home-based care or child care center)?',
-        [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo busco un tipo de cuidado específico '
+        [es]: 'Busco cuidado infantil para mi hijo. ¿Cómo busco un <i>Tipo de cuidado</i> específico '
         + '(i. e., un centro de cuidado infantil o un hogar familiar)?'
       },
       A: {
         [en]: 'At the home screen, click on refine search located just below the map on the '
         + 'right-side of the page, then click on type of care and it will give you the option '
         + 'to select between the two child care types.',
-        [es]: 'En la página principal, seleccione Refinar la búsqueda, que está debajo del mapa, a la derecha.'
-        + 'Luego, elija Tipo de cuidado; esto le permitirá escoger entre dos tipos de cuidado infantil.'
+        [es]: 'En la página principal, seleccione <i>Refinar la búsqueda</i>, que está debajo del mapa, a la derecha. '
+        + 'Luego, elija <i>Tipo de cuidado</i>; esto le permitirá escoger entre dos tipos de cuidado infantil.'
       }
     },
     {
@@ -55,8 +55,8 @@ export const Q_AND_A = {
         + 'Click on referral. There it should list the agency that has all the information on the child care home '
         + 'that you may need.',
         [es]: 'Una vez que encuentre una casa familiar pequeña que le interesa, selecciónela. '
-        + 'Esto le llevará a una pantalla con varias opciones: Disponibilidad, Capacidad, Salud '
-        + 'y seguridad y Remisión. Elegir Remisión le enseñará el nombre de la oficina que tiene '
+        + 'Esto le llevará a una pantalla con varias opciones: <i>Disponibilidad</i>, <i>Capacidad</i>, <i>Salud '
+        + 'y seguridad</i> y <i>Remisión</i>. Elegir <i>Remisión</i> le enseñará el nombre de la oficina que tiene '
         + 'más información sobre esa casa familiar.'
       }
     },
@@ -76,10 +76,11 @@ export const Q_AND_A = {
         + 'Department’s Child Care Transparency Website. Here you can explore the facility’s history and '
         + 'associated reports.',
         [es]: 'Una vez que encuentre un establecimiento que le interesa, selecciónelo. Esto le llevará '
-        + 'a una pantalla con varias opciones: Disponibilidad, Capacidad, Contacto (en algunos casos), '
-        + 'Salud y seguridad y Remisión. Elegir Salud y seguridad le enseñará el número del establecimiento '
-        + 'en letra subrayada. Si selecciona ese número, el navegador le llevará al sitio web de transparencia '
-        + 'del CDSS, donde podrá revisar el historial del establecimiento y todos los informes pertinentes.'
+        + 'a una pantalla con varias opciones: <i>Disponibilidad</i>, <i>Capacidad</i>, <i>Contacto</i> '
+        + '(en algunos casos), <i>Salud y seguridad</i> y <i>Remisión</i>. Elegir <i>Salud y seguridad</i> '
+        + 'le enseñará el número del establecimiento en letra subrayada. Si selecciona ese número, '
+        + 'el navegador le llevará al sitio web de transparencia del CDSS, donde podrá revisar el historial '
+        + 'del establecimiento y todos los informes pertinentes.'
       }
     },
     {
@@ -87,7 +88,7 @@ export const Q_AND_A = {
         [en]: 'As a parent looking for care, I am interested in a child care program that is '
         + 'currently booked. Is there a waiting list?',
         [es]: 'Busco cuidado infantil para mi hijo. Me interesa un programa de cuidado infantil, '
-        + 'pero actualmente está lleno. ¿Hay una lista deespera?'
+        + 'pero actualmente está lleno. ¿Hay una lista de espera?'
       },
       A: {
         [en]: 'Once you find the facility that you are interested in, click on the listing. It will '
@@ -97,11 +98,11 @@ export const Q_AND_A = {
         + 'not available, click on the referral tab. These agencies have all the contact information available '
         + 'and will be able to assist you with your waitlist questions.',
         [es]: 'Una vez que encuentre un establecimiento que le interesa, selecciónelo. Esto '
-        + 'le llevará a una pantalla con varias opciones: Disponibilidad, Capacidad, Contacto '
-        + '(en algunos casos), Salud y seguridad y Remisión. Elija Contacto. Si la información '
-        + 'de contacto está disponible, podrá comunicarse directamente con el proveedor. Si esa '
-        + 'información no está disponible, seleccione Remisión. Las oficinas que figuran en esa '
-        + 'sección tendrán la información de contacto pertinente y podrán contestar sus preguntas '
+        + 'le llevará a una pantalla con varias opciones: <i>Disponibilidad</i>, <i>Capacidad</i>, <i>Contacto</i> '
+        + '(en algunos casos), <i>Salud y seguridad</i> y <i>Remisión</i>. Elija <i>Contacto</i>. Si la información '
+        + 'de <i>Contacto</i> está disponible, podrá comunicarse directamente con el proveedor. Si esa '
+        + 'información no está disponible, seleccione <i>Remisión</i>. Las oficinas que figuran en esa '
+        + 'sección tendrán la información de <i>Contacto</i> pertinente y podrán contestar sus preguntas '
         + 'sobre la lista de espera.'
       }
     },
@@ -194,8 +195,8 @@ export const Q_AND_A = {
       Q: {
         [en]: 'I am a child care provider and I need to know how I can change my status from Booked to Spots Open '
         + 'or my hours of availability?',
-        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi disponibilidad de Lleno a Plazas disponibles? '
-        + '¿Cómo cambio mi horario de operaciones?'
+        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio mi <i>Disponibilidad</i> de '
+        + '<i>Lleno</i> a <i>Plazas disponibles</i>? ¿Cómo cambio mi horario de operaciones?'
       },
       A: {
         [en]: 'As a child care provider, please contact your resource and referral agency for assistance.',
@@ -206,7 +207,8 @@ export const Q_AND_A = {
     {
       Q: {
         [en]: 'I am a child care provider and I need to know how I can change my status from Closed to Open?',
-        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio el estado de mi establecimiento de Cerrado a Abierto?'
+        [es]: 'Soy proveedor de cuidado infantil. ¿Cómo cambio el estado de mi establecimiento de <i>Cerrado</i> a '
+        + '<i>Abierto?</i>'
       },
       A: {
         [en]: 'As a child care provider, please contact your assigned Licensed Program Analyst (LPA) at your '
