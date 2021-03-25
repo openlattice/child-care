@@ -42,8 +42,8 @@ const getQAndAs = (getText) => Object.entries(FAQS).map(([key, value]) => (
       {
         Q_AND_A[key].map(({ Q, A }) => (
           <>
-            <Question variant="body2">{getText(Q)}</Question>
-            <Answer variant="body1">{getText(A)}</Answer>
+            <Question variant="body2" dangerouslySetInnerHTML={{ __html: getText(Q) }} />
+            <Answer variant="body1" dangerouslySetInnerHTML={{ __html: getText(A) }} />
           </>
         ))
       }
