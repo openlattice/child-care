@@ -24,7 +24,7 @@ export default class familyHomeRadius extends React.Component {
       return null;
     }
 
-    return shouldShowLocation(provider) && (
+    return !shouldShowLocation(provider) && (
       <Layer
           type="circle"
           id="familyHomeRadius"

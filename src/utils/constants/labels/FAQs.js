@@ -100,9 +100,9 @@ export const Q_AND_A = {
         [es]: 'Una vez que encuentre un establecimiento que le interesa, selecciónelo. Esto '
         + 'le llevará a una pantalla con varias opciones: <i>Disponibilidad</i>, <i>Capacidad</i>, <i>Contacto</i> '
         + '(en algunos casos), <i>Salud y seguridad</i> y <i>Remisión</i>. Elija <i>Contacto</i>. Si la información '
-        + 'de <i>Contacto</i> está disponible, podrá comunicarse directamente con el proveedor. Si esa '
+        + 'de contacto está disponible, podrá comunicarse directamente con el proveedor. Si esa '
         + 'información no está disponible, seleccione <i>Remisión</i>. Las oficinas que figuran en esa '
-        + 'sección tendrán la información de <i>Contacto</i> pertinente y podrán contestar sus preguntas '
+        + 'sección tendrán la información de contacto pertinente y podrán contestar sus preguntas '
         + 'sobre la lista de espera.'
       }
     },
