@@ -17,7 +17,7 @@ const VacancySection = () => {
   const getText = useSelector(getTextFnFromState);
   const provider = useSelector((store) => store.getIn([LOCATIONS, SELECTED_PROVIDER]));
 
-  return shouldShowLocation(provider) && (
+  return !shouldShowLocation(provider) && (
     <TitleRow>
       <InfoText>{getText(LABELS.CONTACT_RR_FOR_INFO)}</InfoText>
     </TitleRow>

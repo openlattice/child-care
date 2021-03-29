@@ -8,12 +8,17 @@ import { Typography } from 'lattice-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ContentOuterWrapper, ContentWrapper, TextLink } from '../../components/layout';
+import { FAQS_PATH } from '../../core/router/Routes';
+import { goToPath } from '../../core/router/RoutingActions';
 import { trackLinkClick } from '../../utils/AnalyticsUtils';
 import { getTextFnFromState } from '../../utils/AppUtils';
-import { goToPath } from '../../core/router/RoutingActions';
-import { FAQS_PATH } from '../../core/router/Routes';
-import { FAQS, LABELS, RESOURCES } from '../../utils/constants/labels';
 import { RESOURCES_CONTENT } from '../../utils/constants/ResourcesConstants';
+import {
+  CURRENT_LANGUAGE,
+  FAQS,
+  LABELS,
+  RESOURCES
+} from '../../utils/constants/labels';
 
 const Wrapper = styled(ContentWrapper)`
   padding: 30px !important;
@@ -46,13 +51,13 @@ const getResourcesContent = (getText) => Object.entries(RESOURCES).map(([key, va
         RESOURCES_CONTENT[key].URL && (
           <TextLink
               aria-label={`link to ${getText(value)}`}
-              href={RESOURCES_CONTENT[key].URL}
+              href={RESOURCES_CONTENT[key].URL[getText(CURRENT_LANGUAGE)]}
               onClick={() => trackClick(
-                RESOURCES_CONTENT[key].URL,
+                RESOURCES_CONTENT[key].URL[getText(CURRENT_LANGUAGE)],
                 getText(value)
               )}
               target="_blank">
-            {RESOURCES_CONTENT[key].URL}
+            {RESOURCES_CONTENT[key].URL[getText(CURRENT_LANGUAGE)]}
           </TextLink>
         )
       }
