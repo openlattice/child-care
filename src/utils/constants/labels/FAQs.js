@@ -35,7 +35,7 @@ export const FAQS :Object = {
     [en]: 'IF YOU SEE SOMETHING, LET US NO!\nTo file a complaint regarding a state '
     + 'licensed community care facility or child care facility, Contact Us:',
     [es]: '¡SI VE ALGO, HÁGANOS SABER!\nPara presentar una queja sobre un establecimiento '
-    + 'para el cuidado en la comunidad (community care facility) o establecimiento de '
+    + 'para el cuidado en la comunidad <i>(community care facility)</i> o establecimiento de '
     + 'cuidado infantil con licencia del Estado , comuníquese con nosotros:'
   },
   COMPLAINT_HOTLINE_CONTACT: {
@@ -74,7 +74,7 @@ export const FAQS :Object = {
       'If you believe there is physical or sexual abuse involved, you should also report it to local law enforcement.'
     ],
     [es]: [
-      'Primero, intente resolver las pequeñas inquietudes o diferencias con el proveedor',
+      'Primero, intente resolver las pequeñas inquietudes o diferencias con el proveedor.',
       'Si aún no se resuelven sus inquietudes y cree que el proveedor está infringiendo las leyes de '
       + 'licenciamiento, debería presentar una queja a través de cualquiera de los métodos de contacto '
       + 'mencionados anteriormente. Su nombre permanecerá anónimo a menos que nos dé permiso para usarlo.',
