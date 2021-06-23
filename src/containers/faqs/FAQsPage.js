@@ -76,7 +76,10 @@ const FAQsPage = () => {
         <Typography paragraph variant="h3">{getText(FAQS.FAQS_TITLE)}</Typography>
         <Typography paragraph color="textSecondary" variant="body1">{getText(FAQS.FAQS_SUBTITLE)}</Typography>
         <SubTitle paragraph variant="h5">{getText(FAQS.COMPLAINT_HOTLINE_TITLE)}</SubTitle>
-        <WhiteSpaceWrapper paragraph variant="body1">{getText(FAQS.COMPLAINT_HOTLINE_SUBTITLE)}</WhiteSpaceWrapper>
+        <WhiteSpaceWrapper
+            paragraph
+            variant="body1"
+            dangerouslySetInnerHTML={{ __html: getText(FAQS.COMPLAINT_HOTLINE_SUBTITLE) }} />
         <WhiteSpaceWrapper paragraph variant="subtitle1">{getText(FAQS.COMPLAINT_HOTLINE_CONTACT)}</WhiteSpaceWrapper>
         <Typography paragraph variant="body1">{getText(FAQS.COMPLAINT_HOTLINE_BLOCK_1)}</Typography>
         <Question variant="body2">{getText(FAQS.COMPLAINT_HOTLINE_QUESTION_1)}</Question>
