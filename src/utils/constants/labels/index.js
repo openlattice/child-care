@@ -7,7 +7,7 @@ import { AGES_SERVED_LABELS } from './AgesServed';
 import { CURRENT_LANGUAGE, LANGUAGES, OTHER_LANGUAGE } from './Languages';
 import { DAY_OF_WEEK_LABELS } from './DayOfWeek';
 import { FACILITY_TYPE_LABELS } from './FacilityType';
-import { FAQS, Q_AND_A } from './FAQs';
+import { FAQS, Q_AND_A, REGIONAL_OFFICE_CONTACTS_URL } from './FAQs';
 import { HEADER_LABELS } from './HeaderLabels';
 import { LABELS } from './General';
 import { NO_RESULTS } from './NoResults';
@@ -28,6 +28,7 @@ export {
   NO_RESULTS,
   OTHER_LANGUAGE,
   Q_AND_A,
+  REGIONAL_OFFICE_CONTACTS_URL,
   RESOURCES,
   UNSUPPORTED_BROWSER,
   WELCOME_SPLASH

@@ -4,6 +4,8 @@
 /* eslint-disable import/prefer-default-export */
 import { en, es } from './Languages';
 
+export const REGIONAL_OFFICE_CONTACTS_URL = 'https://www.cdss.ca.gov/Portals/9/CCLD/CCP%20Documents/CCLD_CCL_RO_Contacts.pdf';
+
 export const FAQS :Object = {
   FAQS_TITLE: {
     [en]: 'FAQs for Mychildcare.ca.gov',
@@ -24,7 +26,89 @@ export const FAQS :Object = {
   PROVIDERS: {
     [en]: 'Providers',
     [es]: 'Proveedores'
-  }
+  },
+  COMPLAINT_HOTLINE_TITLE: {
+    [en]: 'CCLD Complaint Hotline',
+    [es]: 'Línea directa de quejas de la CCLD'
+  },
+  COMPLAINT_HOTLINE_SUBTITLE: {
+    [en]: 'IF YOU SEE SOMETHING, LET US NO!\nTo file a complaint regarding a state '
+    + 'licensed community care facility or child care facility, Contact Us:',
+    [es]: '¡SI VE ALGO, HÁGANOS SABER!\nPara presentar una queja sobre un establecimiento '
+    + 'para el cuidado en la comunidad <i>(community care facility)</i> o establecimiento de '
+    + 'cuidado infantil con licencia del Estado , comuníquese con nosotros:'
+  },
+  COMPLAINT_HOTLINE_CONTACT: {
+    [en]: 'Community Care Licensing Division Complaint Hotline\nPhone: 1-844-LET-US-NO '
+    + '(1-844-538-8766)\nEmail: letusno@dss.ca.gov',
+    [es]: 'Línea directa de la División de Licenciamiento para Ofrecer Cuidado en la '
+    + '(Comunidad (Community Care Licensing Division Complaint Hotline)\nTeléfono: '
+    + '1-844-LET-US-NO (1-844-538-8766)\nCorreo electrónico: letusno@dss.ca.gov'
+  },
+  COMPLAINT_HOTLINE_BLOCK_1: {
+    [en]: 'Remember, when you report suspected violations, you not only protect individuals in care '
+    + 'facilities, but also perform a service to your community. ',
+    [es]: 'Recordatorio: cuando usted reporta sospechas de infracciones, no solamente protege a las '
+    + 'personas en los establecimientos de cuidado, sino que también brinda un servicio a su comunidad.'
+  },
+  COMPLAINT_HOTLINE_BLOCK_2: {
+    [en]: 'You may also call or write the appropriate regional office and explain your complaint. '
+    + 'Your name will remain anonymous unless you give us permission to use it.',
+    [es]: 'También puede llamar o escribir a la oficina regional pertinente y explicarle su queja. '
+    + 'Su nombre permanecerá anónimo a menos que nos dé permiso para usarlo.'
+  },
+  COMPLAINT_HOTLINE_QUESTION_1: {
+    [en]: 'Who do I contact for complaints against Community Care Facilities?',
+    [es]: '¿Con quién me comunico para reportar quejas sobre los centros para el cuidado en la comunidad?'
+  },
+  COMPLAINT_HOTLINE_QUESTION_2: {
+    [en]: 'How will my complaint be handled?',
+    [es]: '¿Cómo se manejará mi queja? '
+  },
+  COMPLAINT_HOTLINE_ANSWER_1: {
+    [en]: [
+      'First, try to resolve minor concerns or differences with the provider.',
+      'If your concerns are still not addressed and you believe that the provider is breaking licensing laws, '
+      + 'a complaint should be filed through any of the above contacts. Your name will remain anonymous '
+      + 'unless you give us permission to use it.',
+      'If you believe there is physical or sexual abuse involved, you should also report it to local law enforcement.'
+    ],
+    [es]: [
+      'Primero, intente resolver las pequeñas inquietudes o diferencias con el proveedor.',
+      'Si aún no se resuelven sus inquietudes y cree que el proveedor está infringiendo las leyes de '
+      + 'licenciamiento, debería presentar una queja a través de cualquiera de los métodos de contacto '
+      + 'mencionados anteriormente. Su nombre permanecerá anónimo a menos que nos dé permiso para usarlo.',
+      'Si su sospecha se trata del abuso físico o sexual, también debería reportarlo a la policía local.'
+    ]
+  },
+  COMPLAINT_HOTLINE_ANSWER_2: {
+    [en]: [
+      'It is the responsibility of the licensing agency, the parents or other responsible party, '
+      + 'and the provider to ensure that licensed Community Care Facilities are providing safe care. '
+      + 'Community Care Facilities are required by state law and regulation to follow basic '
+      + 'health and safety practices.',
+      'The licensing agency will make an unannounced visit to the facility to investigate the '
+      + 'complaint within 10 days of receipt of the complaint.',
+      'You will be informed of the results of the investigation.',
+      'In the interim, should you have any questions or concerns, you may contact the local regional office.'
+    ],
+    [es]: [
+      'Es la responsabilidad de la agencia de licenciamiento, los padres u otra parte '
+      + 'responsable y el proveedor asegurarse de que los establecimientos para el cuidado '
+      + 'en la comunidad con licencia proporcionen cuidado seguro. La ley y los reglamentos '
+      + 'estatales exigen que los establecimientos para el cuidado en la comunidad sigan '
+      + 'las prácticas básicas de salud y seguridad.',
+      'La agencia de licenciamiento realizará una visita al establecimiento sin previo '
+      + 'aviso para investigar la queja dentro de 10 días de recibir la queja.',
+      'Se le informará sobre los resultados de la investigación.',
+      'Mientras tanto, si tiene alguna pregunta o inquietud, puede comunicarse con la oficina regional local.'
+    ]
+  },
+  REGIONAL_OFFICE_CONTACTS: {
+    [en]: 'Regional Office Contacts: Child Care Regional Offices',
+    [es]: 'Información de contacto para oficinas regionales: Oficinas regionales de cuidado infantil '
+    + '(PDF solo disponible en inglés)'
+  },
 };
 
 export const Q_AND_A = {
