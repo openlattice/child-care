@@ -211,7 +211,7 @@ const LocationsContainer = () => {
   const onPageChange = ({ page: newPage }) => {
     dispatch(searchLocations({
       searchInputs: lastSearchInputs,
-      start: newPage
+      start: (newPage - 1)
     }));
   };
 
@@ -248,13 +248,13 @@ const LocationsContainer = () => {
                 { renderSearchResults() }
                 {
                   hasSearched
-                    && (
-                      <PaginationToolbar
-                          page={page + 1}
-                          count={totalHits}
-                          onPageChange={onPageChange}
-                          rowsPerPage={MAX_HITS} />
-                    )
+                  && (
+                    <PaginationToolbar
+                        page={page + 1}
+                        count={totalHits}
+                        onPageChange={onPageChange}
+                        rowsPerPage={MAX_HITS} />
+                  )
                 }
               </StyledContentWrapper>
             </>
