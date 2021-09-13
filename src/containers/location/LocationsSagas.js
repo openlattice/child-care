@@ -277,7 +277,12 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
-    const { searchInputs, maxHits = 20, page = 1, start = 0 } = value;
+    const {
+      searchInputs,
+      maxHits = 20,
+      page = 1,
+      start = 0
+    } = value;
 
     const locationState = yield select((state) => state.get(STATE.LOCATIONS));
     const getValue = (field) => searchInputs.get(field, locationState.get(field));
