@@ -83,7 +83,7 @@ const INITIAL_STATE :Map = fromJS({
   [FILTER_PAGE]: null,
   [HOSPITALS_BY_ID]: Map(),
   [IS_EDITING_FILTERS]: false,
-  [PAGE]: 0,
+  [PAGE]: 1,
   [PROVIDER_LOCATIONS]: Map(),
   [RADIUS]: 10,
   [REFERRAL_AGENCY_LOCATIONS]: Map(),

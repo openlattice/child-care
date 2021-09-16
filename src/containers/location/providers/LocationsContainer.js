@@ -141,7 +141,7 @@ const LocationsContainer = () => {
   const searchResults = useSelector((store) => store.getIn([LOCATIONS, HITS]));
   const totalHits = useSelector((store) => store.getIn([LOCATIONS, TOTAL_HITS], 0));
   const lastSearchInputs = useSelector((store) => store.getIn([LOCATIONS, SEARCH_INPUTS], Map()));
-  const page = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
+  const currentPage = useSelector((store) => store.getIn([LOCATIONS, PAGE]));
   const selectedOption = useSelector((store) => store.getIn([LOCATIONS, SELECTED_OPTION]));
   const currentPosition = useSelector((store) => store.getIn([LOCATIONS, CURRENT_POSITION]));
   const dispatch = useDispatch();
@@ -208,10 +208,11 @@ const LocationsContainer = () => {
     );
   };
 
-  const onPageChange = ({ page: newPage }) => {
+  const onPageChange = ({ page, start }) => {
     dispatch(searchLocations({
+      page,
       searchInputs: lastSearchInputs,
-      start: newPage
+      start
     }));
   };
 
@@ -248,13 +249,13 @@ const LocationsContainer = () => {
                 { renderSearchResults() }
                 {
                   hasSearched
-                    && (
-                      <PaginationToolbar
-                          page={page + 1}
-                          count={totalHits}
-                          onPageChange={onPageChange}
-                          rowsPerPage={MAX_HITS} />
-                    )
+                  && (
+                    <PaginationToolbar
+                        count={totalHits}
+                        page={currentPage}
+                        onPageChange={onPageChange}
+                        rowsPerPage={MAX_HITS} />
+                  )
                 }
               </StyledContentWrapper>
             </>

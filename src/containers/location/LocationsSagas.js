@@ -277,7 +277,12 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
 
     const { value } = action;
     if (!isPlainObject(value)) throw ERR_ACTION_VALUE_TYPE;
-    const { searchInputs, start = 0, maxHits = 20 } = value;
+    const {
+      searchInputs,
+      maxHits = 20,
+      page = 1,
+      start = 0
+    } = value;
 
     const locationState = yield select((state) => state.get(STATE.LOCATIONS));
     const getValue = (field) => searchInputs.get(field, locationState.get(field));
@@ -294,7 +299,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     const activeOnly = getValue(ACTIVE_ONLY);
 
     yield put(searchLocations.request(action.id, {
-      page: start,
+      page,
       searchInputs: searchInputs.set(SELECTED_OPTION, latLonObj)
     }));
 
@@ -447,7 +452,7 @@ function* searchLocationsWorker(action :SequenceAction) :Generator<any, any, any
     }
 
     const searchConstraints = {
-      start: start * PAGE_SIZE,
+      start,
       entitySetIds: [entitySetId],
       maxHits,
       constraints,
