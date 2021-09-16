@@ -37,7 +37,7 @@
   "dependencies": {
     "@babel/polyfill": "~7.12.1",
     "@babel/runtime": "~7.12.5",
-    "@date-io/luxon": "~2.10.6",
+    "@date-io/luxon": "~2.11.1",
     "@fortawesome/fontawesome-svg-core": "~1.2.35",
     "@fortawesome/pro-duotone-svg-icons": "~5.15.3",
     "@fortawesome/pro-light-svg-icons": "~5.15.3",
