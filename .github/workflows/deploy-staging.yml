@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: npm run build:prod
-        run: npm run build:prod -- --env.mapboxToken=${{ secrets.CHILD_CARE_MAPBOX_TOKEN }}
+        run: npm run build:prod -- --env.basePath=child-care --env.mapboxToken=${{ secrets.CHILD_CARE_STAGING_MAPBOX_TOKEN }}
 
       - name: aws credentials
         uses: aws-actions/configure-aws-credentials@v1
