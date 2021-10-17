@@ -45,7 +45,7 @@
     "@fortawesome/pro-solid-svg-icons": "~5.15.3",
     "@fortawesome/react-fontawesome": "~0.1.14",
     "@redux-saga/core": "~1.1.1",
-    "axios": "~0.21.0",
+    "axios": "~0.23.0",
     "connected-react-router": "~6.8.0",
     "history": "~4.10.0",
     "immutable": "4.0.0-rc.10",
